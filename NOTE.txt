@@ -34,3 +34,4 @@ npm install slick-carousel
 3. Sửa nav phần header
 4. Fix route
 ===//=== End note của hiển ===//===
+

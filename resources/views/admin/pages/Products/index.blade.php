@@ -18,7 +18,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{ Route('adminAddProduct') }}" class="btn btn-primary">Add Product</a>
+                            <a href="" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>

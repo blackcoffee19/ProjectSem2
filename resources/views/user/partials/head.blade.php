@@ -29,7 +29,7 @@
     </script>
 
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/assets/images/favicon/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon/favicon.ico') }}">
 
 
     <!-- Libs CSS -->

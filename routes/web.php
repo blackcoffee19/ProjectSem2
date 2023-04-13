@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\AdminProductController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -47,9 +47,10 @@ Route::get('/account-payment', function () {
 Route::get('/dashboard', function () {
     return view('admin.Dashboard');
 })->name('dashboard');
-Route::get('/product', function () {
-    return view('admin.pages.Products.index');
-})->name('adminProduct');
+// Route::get('/product', function () {
+//     return view('admin.pages.Products.index');
+// })->name('adminProduct');
+Route::get('/admin/products', [AdminProductController::class, 'index'])->name('adminProduct');
 Route::get('/add-product', function () {
     return view('admin.pages.Products.create');
 })->name('adminAddProduct');

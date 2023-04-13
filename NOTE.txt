@@ -1,0 +1,26 @@
+1 Tao database, tao bang
+php artisan migrate
+
+    //COPY THIS TO TERMINAL AND RUN 
+php artisan db:seed --class=insert_typeproduct && php artisan db:seed --class=insert_product && php artisan db:seed --class=insert_library && php artisan db:seed --class=insert_slide && php artisan db:seed --class=banner && php artisan db:seed --class=insert_cart && php artisan db:seed --class=insert_order && php artisan db:seed --class=insert_comment && php artisan db:seed --class=insert_coupon
+
+Or copy one by one commands below
+
+2. Insert Type Product
+php artisan db:seed --class=insert_typeproduct
+3. Insert Products
+php artisan db:seed --class=insert_product 
+4. Insert Library 
+php artisan db:seed --class=insert_library 
+5. Insert Slide
+php artisan db:seed --class=insert_slide 
+6. Insert Banner 
+php artisan db:seed --class=banner
+7. Insert Cart
+php artisan db:seed --class=insert_cart
+8. Insert Order
+php artisan db:seed --class=insert_order
+9. Insert Comment
+php artisan db:seed --class=insert_comment
+10. Insert Coupon
+php artisan db:seed --class=insert_coupon

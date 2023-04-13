@@ -109,7 +109,7 @@
                                                     <a href="#" class="text-inherit">
                                                         <div class="d-flex align-items-center">
                                                             <div>
-                                                                <img src="./assets/images/products/product-img-1.jpg"
+                                                                <img src="./images/products/product-img-1.jpg"
                                                                     alt="" class="icon-shape icon-lg">
                                                             </div>
                                                             <div class="ms-lg-4 mt-2 mt-lg-0">
@@ -130,7 +130,7 @@
                                                     <a href="#" class="text-inherit">
                                                         <div class="d-flex align-items-center">
                                                             <div>
-                                                                <img src="./assets/images/products/product-img-2.jpg"
+                                                                <img src="./images/products/product-img-2.jpg"
                                                                     alt="" class="icon-shape icon-lg">
                                                             </div>
                                                             <div class="ms-lg-4 mt-2 mt-lg-0">
@@ -151,7 +151,7 @@
                                                     <a href="#" class="text-inherit">
                                                         <div class="d-flex align-items-center">
                                                             <div>
-                                                                <img src="./assets/images/products/product-img-3.jpg"
+                                                                <img src="./images/products/product-img-3.jpg"
                                                                     alt="" class="icon-shape icon-lg">
                                                             </div>
                                                             <div class="ms-lg-4 mt-2 mt-lg-0">
@@ -172,7 +172,7 @@
                                                     <a href="#" class="text-inherit">
                                                         <div class="d-flex align-items-center">
                                                             <div>
-                                                                <img src="./assets/images/products/product-img-4.jpg"
+                                                                <img src="./images/products/product-img-4.jpg"
                                                                     alt="" class="icon-shape icon-lg">
                                                             </div>
                                                             <div class="ms-lg-4 mt-2 mt-lg-0">

@@ -12,39 +12,35 @@
                          <div class="product productModal" id="productModal">
                              <div class="zoom" onmousemove="zoom(event)"
                                  style="
-              background-image: url(../assets/images/products/product-single-img-1.jpg) ">
+              background-image: url(../images/products/product-single-img-1.jpg) ">
                                  <!-- img -->
-                                 <img src="{{ asset('/assets/images/products/product-single-img-1.jpg') }}"
-                                     alt="">
+                                 <img src="{{ asset('/images/products/product-single-img-1.jpg') }}" alt="">
                              </div>
                              <div>
                                  <div class="zoom" onmousemove="zoom(event)"
                                      style="
-                background-image: url({{ asset('/assets/images/products/product-single-img-2.jpg') }});
+                background-image: url({{ asset('/images/products/product-single-img-2.jpg') }});
               ">
                                      <!-- img -->
-                                     <img src="{{ asset('/assets/images/products/product-single-img-2.jpg') }}"
-                                         alt="">
+                                     <img src="{{ asset('/images/products/product-single-img-2.jpg') }}" alt="">
                                  </div>
                              </div>
                              <div>
                                  <div class="zoom" onmousemove="zoom(event)"
                                      style="
-                background-image: url({{ asset('/assets/images/products/product-single-img-3.jpg') }});
+                background-image: url({{ asset('/images/products/product-single-img-3.jpg') }});
               ">
                                      <!-- img -->
-                                     <img src="{{ asset('/assets/images/products/product-single-img-3.jpg') }}"
-                                         alt="">
+                                     <img src="{{ asset('/images/products/product-single-img-3.jpg') }}" alt="">
                                  </div>
                              </div>
                              <div>
                                  <div class="zoom" onmousemove="zoom(event)"
                                      style="
-                background-image: url({{ asset('/assets/images/products/product-single-img-4.jpg') }});
+                background-image: url({{ asset('/images/products/product-single-img-4.jpg') }});
               ">
                                      <!-- img -->
-                                     <img src="{{ asset('/assets/images/products/product-single-img-4.jpg') }}"
-                                         alt="">
+                                     <img src="{{ asset('/images/products/product-single-img-4.jpg') }}" alt="">
                                  </div>
                              </div>
                          </div>
@@ -54,28 +50,28 @@
                                  <div class="col-3" class="tns-nav-active">
                                      <div class="thumbnails-img">
                                          <!-- img -->
-                                         <img src="{{ asset('/assets/images/products/product-single-img-1.jpg') }}"
+                                         <img src="{{ asset('/images/products/product-single-img-1.jpg') }}"
                                              alt="">
                                      </div>
                                  </div>
                                  <div class="col-3">
                                      <div class="thumbnails-img">
                                          <!-- img -->
-                                         <img src="{{ asset('/assets/images/products/product-single-img-2.jpg') }}"
+                                         <img src="{{ asset('/images/products/product-single-img-2.jpg') }}"
                                              alt="">
                                      </div>
                                  </div>
                                  <div class="col-3">
                                      <div class="thumbnails-img">
                                          <!-- img -->
-                                         <img src="{{ asset('/assets/images/products/product-single-img-3.jpg') }}"
+                                         <img src="{{ asset('/images/products/product-single-img-3.jpg') }}"
                                              alt="">
                                      </div>
                                  </div>
                                  <div class="col-3">
                                      <div class="thumbnails-img">
                                          <!-- img -->
-                                         <img src="{{ asset('/assets/images/products/product-single-img-4.jpg') }}"
+                                         <img src="{{ asset('/images/products/product-single-img-4.jpg') }}"
                                              alt="">
                                      </div>
                                  </div>

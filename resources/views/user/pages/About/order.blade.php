@@ -47,7 +47,8 @@
                                         <!-- Table body -->
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-1.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-1.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
 
                                             </td>
@@ -85,7 +86,8 @@
                                         </tr>
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-2.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-2.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
 
                                             </td>
@@ -120,7 +122,8 @@
                                         </tr>
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-3.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-3.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
                                             </td>
                                             <td class="align-middle border-top-0">
@@ -155,7 +158,8 @@
                                         </tr>
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-4.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-4.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
 
                                             </td>
@@ -189,7 +193,8 @@
                                         </tr>
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-5.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-5.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
                                             </td>
                                             <td class="align-middle border-top-0">
@@ -222,7 +227,8 @@
                                         </tr>
                                         <tr>
                                             <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img src="./assets/images/products/product-img-6.jpg"
+                                                <a href="#"> <img
+                                                        src="{{ asset('images/products/product-img-6.jpg') }}"
                                                         alt="Ecommerce" class="icon-shape icon-xl"></a>
                                             </td>
                                             <td class="align-middle border-top-0">

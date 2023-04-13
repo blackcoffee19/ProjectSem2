@@ -85,8 +85,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/snacks.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/snacks.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Snack & Munchies</a></td>
                                             <td>12</td>
@@ -123,8 +123,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/bakery.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/bakery.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Bakery & Biscuits</a></td>
                                             <td>8</td>
@@ -161,8 +161,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/baby-food.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/baby-food.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Baby Care</a></td>
                                             <td>32</td>
@@ -199,8 +199,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/wine.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/wine.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Cold Drinks & Juices</a></td>
                                             <td>34</td>
@@ -237,7 +237,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/toiletries.svg"
+                                                <a href="#!"> <img src="./images/icons/toiletries.svg"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Toiletries</a></td>
@@ -275,8 +275,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/dairy.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/dairy.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Dairy, Bread & Eggs</a></td>
                                             <td>16</td>
@@ -313,8 +313,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/fish.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/fish.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Chicken, Meat & Fish</a></td>
                                             <td>14</td>
@@ -351,8 +351,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/fruit.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/fruit.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Fruits & Vegetables</a></td>
                                             <td>32</td>
@@ -389,8 +389,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/petfoods.svg"
-                                                        alt="" class="icon-shape icon-sm"></a>
+                                                <a href="#!"> <img src="./images/icons/petfoods.svg" alt=""
+                                                        class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Pet Food</a></td>
                                             <td>25</td>

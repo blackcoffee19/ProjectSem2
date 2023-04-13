@@ -84,7 +84,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-1.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-1.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1007</a></td>
@@ -126,7 +126,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-2.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-2.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1006</a></td>
@@ -168,7 +168,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-3.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-3.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1005</a></td>
@@ -210,7 +210,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-4.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-4.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1004</a></td>
@@ -252,7 +252,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-5.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-5.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1003</a></td>
@@ -294,7 +294,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-6.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-6.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1002</a></td>
@@ -336,7 +336,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/products/product-img-7.jpg"
+                                                <a href="#!"> <img src="./images/products/product-img-7.jpg"
                                                         alt="" class="icon-shape icon-md"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">FC#1001</a></td>

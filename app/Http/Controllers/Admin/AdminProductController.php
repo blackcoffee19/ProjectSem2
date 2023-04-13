@@ -30,7 +30,7 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.Products.create');
     }
 
     /**

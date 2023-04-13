@@ -1,18 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminCustomerController extends Controller
+class UserAccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.pages.Customers.index');
+        //
+    }
+    public function Orders()
+    {
+        return view('user.pages.About.order');
+    }
+    public function Settings()
+    {
+        return view('user.pages.About.setting');
+    }
+    public function Address()
+    {
+        return view('user.pages.About.address');
+    }
+    public function PaymentMethod()
+    {
+        return view('user.pages.About.payment');
     }
 
     /**

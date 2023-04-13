@@ -15,6 +15,16 @@ class AdminOrderController extends Controller
         //
     }
 
+    public function list()
+    {
+        return view('admin.pages.Order.list');
+    }
+
+    public function single()
+    {
+        return view('admin.pages.Order.single');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

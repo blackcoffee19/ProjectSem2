@@ -197,10 +197,10 @@
                                 Account <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ Route('accountOrders') }}">Orders</a></li>
-                                <li><a class="dropdown-item" href="{{ Route('accountSetting') }}">Settings</a></li>
-                                <li><a class="dropdown-item" href="{{ Route('accountAddress') }}">Address</a></li>
-                                <li><a class="dropdown-item" href="{{ Route('accountPayment') }}">Payment Method</a>
+                                <li><a class="dropdown-item" href="{{ route('accountorder') }}">Orders</a></li>
+                                <li><a class="dropdown-item" href="{{ route('setting') }}">Settings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('address') }}">Address</a></li>
+                                <li><a class="dropdown-item" href="{{ route('payment') }}">Payment Method</a>
                                 </li>
                             </ul>
                         </li>

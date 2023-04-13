@@ -74,7 +74,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-1.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-1.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Bonnie Howe</a>
@@ -119,7 +119,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-2.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-2.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Judy Nelson</a>
@@ -163,7 +163,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-3.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-3.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">John Mattox</a>
@@ -207,7 +207,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-4.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-4.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Wayne Rossman</a>
@@ -251,7 +251,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-5.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-5.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Rhonda Pinson</a>
@@ -295,7 +295,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-6.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-6.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">John Mattox</a>
@@ -339,7 +339,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-7.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-7.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Wayne Rossman</a>
@@ -383,7 +383,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-8.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Richard Shelton</a>
@@ -427,7 +427,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-9.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-9.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Stephanie Morales</a>
@@ -471,7 +471,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-10.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-10.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Stephanie Morales</a>
@@ -515,7 +515,7 @@
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="./images/avatar/avatar-11.jpg" alt=""
+                                                    <img src="{{ asset('images/avatar/avatar-11.jpg') }}" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#" class="text-inherit">Pasquale Kidd</a>

@@ -12,7 +12,7 @@ class AdminReviewController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.pages.Reviews.index');
     }
 
     /**

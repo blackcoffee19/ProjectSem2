@@ -1,4 +1,7 @@
 @extends('user.partials.master')
+@section('title', 'Fresh Shop Welcome')
+@section('topic', '')
+@section('page', '')
 @section('content')
     <main>
         <section class="mt-8">

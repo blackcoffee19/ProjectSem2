@@ -27,10 +27,10 @@ class insert_library extends Seeder
             ["id_product"=>11,'image'=>'product-img-11.jpg'],
             ["id_product"=>12,'image'=>'product-img-12.jpg'],
             ["id_product"=>13,'image'=>'product-img-16.jpg'],
-            ["id_product"=>14,'image'=>'product-sigle-img-1.jpg'],
-            ["id_product"=>15,'image'=>'product-sigle-img-2.jpg'],
-            ["id_product"=>16,'image'=>'product-sigle-img-3.jpg'],
-            ["id_product"=>17,'image'=>'product-sigle-img-4.jpg'],
+            ["id_product"=>14,'image'=>'product-single-img-1.jpg'],
+            ["id_product"=>15,'image'=>'product-single-img-2.jpg'],
+            ["id_product"=>16,'image'=>'product-single-img-3.jpg'],
+            ["id_product"=>17,'image'=>'product-single-img-4.jpg'],
         ];
         try {
             foreach($images as $img){

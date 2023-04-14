@@ -16,4 +16,7 @@ class Product extends Model
     public function Comment(){
         return $this->hasMany(Comment::class,'id_product','id_product');
     }
+    public function Library(){
+        return $this->hasMany(Library::class,'id_product','id_product');
+    }
 }

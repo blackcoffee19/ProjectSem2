@@ -9,8 +9,10 @@ class TypeProduct extends Model
 {
     use HasFactory;
     protected $table = 'typeproduct';
+    protected $fillable = ['type', 'image', 'status'];
     protected $primaryKey = 'id_type';
-    public function Product(){
-        return $this->hasMany(Product::class,'id_type','id_type');
+    public function Product()
+    {
+        return $this->hasMany(Product::class, 'id_type', 'id_type');
     }
 }

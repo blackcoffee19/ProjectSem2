@@ -32,9 +32,11 @@
                             <div class="row justify-content-between">
                                 <div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
                                     <!-- form -->
-                                    <form class="d-flex" role="search">
+                                    <form action="{{ Route('category.findByName') }}" class="d-flex" role="search">
                                         <input class="form-control" type="search" placeholder="Search Category"
-                                            aria-label="Search">
+                                            aria-label="Search" name="type">
+                                        <button class="btn btn-primary" value="Search"><i
+                                                class="fas fa-search"></i></button>
                                     </form>
                                 </div>
                                 <!-- select option -->
@@ -64,377 +66,125 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th>Icon</th>
-                                            <th> Name</th>
-                                            <th>Proudct</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Created_at</th>
                                             <th>Status</th>
 
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        @foreach ($cats as $item)
+                                            <tr>
 
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryOne">
-                                                    <label class="form-check-label" for="categoryOne">
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            id="categoryOne">
+                                                        <label class="form-check-label" for="categoryOne">
 
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/snacks.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Snack & Munchies</a></td>
-                                            <td>12</td>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#!"> <img
+                                                            src="{{ asset('images/category/' . $item->image) }}"
+                                                            alt="" class="icon-shape icon-sm"></a>
+                                                </td>
+                                                <td><a href="#" class="text-reset">{{ $item->type }}</a></td>
 
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
+                                                <td>{{ $item->created_at }}</td>
 
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                                <td>
+                                                    @if ($item->status == 'Active')
+                                                        <span
+                                                            class="badge bg-light-primary text-dark-primary">{{ $item->status }}</span>
+                                                    @else
+                                                        <span
+                                                            class="badge bg-light-danger text-dark-danger">{{ $item->status }}</span>
+                                                    @endif
+                                                </td>
 
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryTwo">
-                                                    <label class="form-check-label" for="categoryTwo">
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <a href="#" class="text-reset" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
 
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/bakery.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Bakery & Biscuits</a></td>
-                                            <td>8</td>
+                                                            {{-- <li>
+                                                                <a class="dropdown-item" href=""
+                                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                                    <i class="bi bi-eye me-3" data-bs-toggle="tooltip"
+                                                                        data-bs-html="true"></i>Detail</a>
+                                                            </li> --}}
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                    href="{{ Route('adminShowCategory', $item->id_type) }}">
+                                                                    <i class="bi bi-eye me-3"></i>Detail</a>
+                                                            </li>
 
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                    href="{{ Route('adminEditCategory', $item->id_type) }}">
+                                                                    <i class="bi bi-pencil-square me-3"></i>Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <form
+                                                                    action="{{ Route('adminDeleteCategory', $item->id_type) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bi bi-trash me-3"></i>Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
 
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryThree">
-                                                    <label class="form-check-label" for="categoryThree">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/baby-food.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Baby Care</a></td>
-                                            <td>32</td>
-
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryFour">
-                                                    <label class="form-check-label" for="categoryFour">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/wine.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Cold Drinks & Juices</a></td>
-                                            <td>34</td>
-
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryFive">
-                                                    <label class="form-check-label" for="categoryFive">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/toiletries.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Toiletries</a></td>
-                                            <td>23</td>
-
-                                            <td>
-                                                <span class="badge bg-light-danger text-dark-danger">Unpublished</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categorySeven">
-                                                    <label class="form-check-label" for="categorySeven">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/dairy.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Dairy, Bread & Eggs</a></td>
-                                            <td>16</td>
-
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryEight">
-                                                    <label class="form-check-label" for="categoryEight">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/fish.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Chicken, Meat & Fish</a></td>
-                                            <td>14</td>
-
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryNine">
-                                                    <label class="form-check-label" for="categoryNine">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/fruit.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Fruits & Vegetables</a></td>
-                                            <td>32</td>
-
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="categoryTen">
-                                                    <label class="form-check-label" for="categoryTen">
-
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="#!"> <img src="{{ asset('images/icons/petfoods.svg') }}"
-                                                        alt="" class="icon-shape icon-sm"></a>
-                                            </td>
-                                            <td><a href="#" class="text-reset">Pet Food</a></td>
-                                            <td>25</td>
-
-                                            <td>
-                                                <span class="badge bg-light-danger text-dark-danger">Unpublished</span>
-                                            </td>
-
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i
-                                                                    class="bi bi-pencil-square me-3 "></i>Edit</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
 
                             </div>
-                        </div>
-                        <div class="border-top d-md-flex justify-content-between align-items-center  px-6 py-6">
-                            <span>Showing 1 to 8 of 12 entries</span>
-                            <nav class="mt-2 mt-md-0">
-                                <ul class="pagination mb-0 ">
-                                    <li class="page-item disabled"><a class="page-link " href="#!">Previous</a></li>
-                                    <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">Next</a></li>
-                                </ul>
-                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true" style="z-index: 1200">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="shadow border-0 row">
+                    <div class="col">
+                        <div class="card-body p-6 ">
+                            <h4 class="form-label">Category Image</h4>
+                            <img src="" alt="Hình ảnh ở đây" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body p-6 ">
+                            <h4 class="form-label">Category Name</h4>
+                        </div>
+                        <div class="card-body p-6 ">
+                            <h4 class="form-label">Date</h4>
+                        </div>
+                        <div class="card-body p-6 ">
+                            <h4 class="form-label" id="productSKU">Status</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -47,10 +47,13 @@ Route::get('/account/payment', [UserAccountController::class, 'PaymentMethod'])-
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/admin/category', [AdminCategoryController::class, 'index'])->name('adminCategories');
+Route::get('/admin/category/find-by-name', [AdminCategoryController::class, 'findByName'])->name('category.findByName');
 Route::get('/admin/category/create', [AdminCategoryController::class, 'create'])->name('adminAddCategories');
-// Route::get('/admin/category/edit/{id}', [AdminCategoryController::class, 'edit'])->name('adminEditCategory');
-// Route::post('/admin/category/update', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
-// Route::post('/admin/category/delete', [AdminCategoryController::class, 'delete'])->name('adminDeleteCategory');
+Route::post('/admin/category/store', [AdminCategoryController::class, 'store'])->name('adminStoreCategories');
+Route::get('/admin/category/detail/{id_type}', [AdminCategoryController::class, 'show'])->name('adminShowCategory');
+Route::get('/admin/category/edit/{id_type}', [AdminCategoryController::class, 'edit'])->name('adminEditCategory');
+Route::put('/admin/category/update/{id_type}', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
+Route::delete('/admin/category/delete/{id_type}', [AdminCategoryController::class, 'delete'])->name('adminDeleteCategory');
 
 Route::get('/admin/products', [AdminProductController::class, 'index'])->name('adminProduct');
 Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('adminAddProduct');

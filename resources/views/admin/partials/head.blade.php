@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<<<<<<< HEAD
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -44,3 +43,5 @@
 </head>
 
 <body>
+=======
+>>>>>>> refs/remotes/origin/main

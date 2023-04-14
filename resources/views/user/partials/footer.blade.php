@@ -8,44 +8,9 @@
                     <div class="col-6">
                         <!-- list -->
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Vegetables &
-                                    Fruits</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Breakfast & instant
-                                    food</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Bakery &
-                                    Biscuits</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Atta, rice & dal</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Sauces & spreads</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Organic & gourmet</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Baby care</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Cleaning
-                                    essentials</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Personal care</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <!-- list -->
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Dairy, bread &
-                                    eggs</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Cold drinks &
-                                    juices</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Tea, coffee &
-                                    drinks</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Masala, oil &
-                                    more</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Chicken, meat &
-                                    fish</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Paan corner</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Pharma &
-                                    wellness</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Home & office</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Pet care</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Vegetable</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Fruit</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Meat</a></li>
                         </ul>
                     </div>
                 </div>
@@ -114,24 +79,21 @@
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item text-dark">Payment Partners</li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/amazonpay.svg') }}"
+                            <a href="#!"><img src="{{ asset('images/payment/amazonpay.svg') }}" alt=""></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!"><img src="{{ asset('images/payment/american-express.svg') }}"
                                     alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/american-express.svg') }}"
+                            <a href="#!"><img src="{{ asset('images/payment//mastercard.svg') }}"
                                     alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment//mastercard.svg') }}"
-                                    alt=""></a>
+                            <a href="#!"><img src="{{ asset('images/payment/paypal.svg') }}" alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/paypal.svg') }}"
-                                    alt=""></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/visa.svg') }}"
-                                    alt=""></a>
+                            <a href="#!"><img src="{{ asset('images/payment/visa.svg') }}" alt=""></a>
                         </li>
                     </ul>
                 </div>
@@ -139,11 +101,11 @@
                     <ul class="list-inline mb-0 text-lg-end text-center">
                         <li class="list-inline-item mb-2 mb-md-0 text-dark">Get deliveries with FreshCart</li>
                         <li class="list-inline-item ms-4">
-                            <a href="#!"> <img src="{{ asset('/assets/images/appbutton/appstore-btn.svg') }}"
+                            <a href="#!"> <img src="{{ asset('images/appbutton/appstore-btn.svg') }}"
                                     alt="" style="width: 140px;"></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"> <img src="{{ asset('/assets/images/appbutton/googleplay-btn.svg') }}"
+                            <a href="#!"> <img src="{{ asset('images/appbutton/googleplay-btn.svg') }}"
                                     alt="" style="width: 140px;"></a>
                         </li>
                     </ul>
@@ -153,9 +115,8 @@
         </div>
         <div class="border-top py-4">
             <div class="row align-items-center">
-                <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshCart eCommerce HTML
-                        Template. All rights reserved. Powered by <a
-                            href="https://codescandy.com/">Codescandy</a>.</span></div>
+                <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshShop eCommerce. All rights
+                        reserved. Powered by <a href="#">FreshShop</a>.</span></div>
                 <div class="col-md-6">
                     <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
                         <li class="list-inline-item text-muted">Follow us on</li>
@@ -192,7 +153,6 @@
 </footer>
 
 <!-- Javascript-->
-
 <!-- Libs JS -->
 <script src="./assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

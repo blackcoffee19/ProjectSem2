@@ -8,7 +8,7 @@
                     <!-- card -->
                     <div class="card bg-light border-0 rounded-4"
                         style="
-            background-image: url(../assets/images/slider/slider-image-1.jpg);
+            background-image: url({{ asset('images/slider/slider-image-1.jpg') }});
             background-repeat: no-repeat;
             background-size: cover;
             background-position: right;

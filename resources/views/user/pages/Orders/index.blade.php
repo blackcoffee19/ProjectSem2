@@ -1,26 +1,6 @@
 @extends('user.partials.master')
 @section('content')
     <main>
-        <!-- section-->
-        <div class="mt-4">
-            <div class="container">
-                <!-- row -->
-                <div class="row ">
-                    <!-- col -->
-                    <div class="col-12">
-                        <!-- breadcrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#!">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#!">Shop</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Shop Cart</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- section -->
         <section class="mb-lg-14 mb-8 mt-8">
             <div class="container">
                 <!-- row -->
@@ -50,7 +30,7 @@
                                     <!-- row -->
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
-                                            <!-- img --> <img src="./assets/images/products/product-img-1.jpg"
+                                            <!-- img --> <img src="{{ asset('images/products/product-img-1.jpg') }}"
                                                 alt="Ecommerce" class="img-fluid">
                                         </div>
                                         <div class="col-4 col-md-5">
@@ -105,7 +85,7 @@
                                     <!-- row -->
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
-                                            <!-- img --> <img src="./assets/images/products/product-img-2.jpg"
+                                            <!-- img --> <img src="{{ asset('images/products/product-img-2.jpg') }}"
                                                 alt="Ecommerce" class="img-fluid">
                                         </div>
                                         <div class="col-4 col-md-5">
@@ -159,7 +139,7 @@
                                     <!-- row -->
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
-                                            <!-- img --> <img src="./assets/images/products/product-img-3.jpg"
+                                            <!-- img --> <img src="{{ asset('images/products/product-img-3.jpg') }}"
                                                 alt="Ecommerce" class="img-fluid">
                                         </div>
                                         <div class="col-4 col-md-5">
@@ -213,7 +193,7 @@
                                     <!-- row -->
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
-                                            <!-- img --> <img src="./assets/images/products/product-img-4.jpg"
+                                            <!-- img --> <img src="{{ asset('images/products/product-img-4.jpg') }}"
                                                 alt="Ecommerce" class="img-fluid">
                                         </div>
                                         <div class="col-4 col-md-5">
@@ -267,7 +247,7 @@
                                     <!-- row -->
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md-2">
-                                            <!-- img --> <img src="./assets/images/products/product-img-5.jpg"
+                                            <!-- img --> <img src="{{ asset('images/products/product-img-5.jpg') }}"
                                                 alt="Ecommerce" class="img-fluid">
                                         </div>
                                         <div class="col-4 col-md-5">

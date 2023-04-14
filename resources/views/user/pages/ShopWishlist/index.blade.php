@@ -1,9 +1,6 @@
 @extends('user.partials.master')
 @section('content')
     <main>
-        <!-- section-->
-        @include('user.partials.breadcrumb')
-        <!-- section -->
         <section class="mt-8 mb-14">
             <div class="container">
                 <!-- row -->
@@ -53,7 +50,8 @@
 
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#"><img src="./assets/images/products/product-img-18.jpg"
+                                                <a href="#"><img
+                                                        src="{{ asset('images/products/product-img-18.jpg') }}"
                                                         class="icon-shape icon-xxl" alt=""></a>
 
                                             </td>
@@ -88,7 +86,8 @@
 
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#"><img src="./assets/images/products/product-img-17.jpg"
+                                                <a href="#"><img
+                                                        src="{{ asset('images/products/product-img-17.jpg') }}"
                                                         class="icon-shape icon-xxl" alt=""></a>
 
                                             </td>
@@ -123,7 +122,8 @@
 
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#"><img src="./assets/images/products/product-img-16.jpg"
+                                                <a href="#"><img
+                                                        src="{{ asset('images/products/product-img-16.jpg') }}"
                                                         class="icon-shape icon-xxl" alt=""></a>
 
                                             </td>
@@ -158,7 +158,8 @@
 
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#"><img src="./assets/images/products/product-img-19.jpg"
+                                                <a href="#"><img
+                                                        src="{{ asset('images/products/product-img-19.jpg') }}"
                                                         class="icon-shape icon-xxl" alt=""></a>
 
                                             </td>
@@ -193,7 +194,8 @@
 
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#"><img src="./assets/images/products/product-img-15.jpg"
+                                                <a href="#"><img
+                                                        src="{{ asset('images/products/product-img-15.jpg') }}"
                                                         class="icon-shape icon-xxl" alt=""></a>
 
                                             </td>

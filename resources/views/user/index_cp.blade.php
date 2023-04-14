@@ -51,7 +51,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-dairy-bread-eggs.jpg') }}"
+                                    <img src="{{ asset('images/category/category-dairy-bread-eggs.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                     <div class="text-truncate">Dairy, Bread & Eggs</div>
                                 </div>
@@ -60,7 +60,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-snack-munchies.jpg') }}"
+                                    <img src="{{ asset('images/category/category-snack-munchies.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Snack & Munchies</div>
                                 </div>
@@ -69,7 +69,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-bakery-biscuits.jpg') }}"
+                                    <img src="{{ asset('images/category/category-bakery-biscuits.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Bakery & Biscuits</div>
                                 </div>
@@ -78,7 +78,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-instant-food.jpg') }}"
+                                    <img src="{{ asset('images/category/category-instant-food.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Instant Food</div>
                                 </div>
@@ -87,7 +87,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-tea-coffee-drinks.jpg') }}"
+                                    <img src="{{ asset('images/category/category-tea-coffee-drinks.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Tea, Coffee & Drinks</div>
                                 </div>
@@ -96,7 +96,7 @@
                     <div class="item"><a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-atta-rice-dal.jpg') }}"
+                                    <img src="{{ asset('images/category/category-atta-rice-dal.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Atta, Rice & Dal</div>
                                 </div>
@@ -106,7 +106,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-baby-care.jpg') }}"
+                                    <img src="{{ asset('images/category/category-baby-care.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Baby Care</div>
                                 </div>
@@ -115,7 +115,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-chicken-meat-fish.jpg') }}"
+                                    <img src="{{ asset('images/category/category-chicken-meat-fish.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Chicken, Meat & Fish</div>
                                 </div>
@@ -124,7 +124,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-cleaning-essentials.jpg') }}"
+                                    <img src="{{ asset('images/category/category-cleaning-essentials.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Cleaning Essentials</div>
                                 </div>
@@ -133,7 +133,7 @@
                     <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
-                                    <img src="{{ asset('/assets/images/category/category-pet-care.jpg') }}"
+                                    <img src="{{ asset('images/category/category-pet-care.jpg') }}"
                                         alt="Grocery Ecommerce Template" class="mb-3">
                                     <div class="text-truncate">Pet Care</div>
                                 </div>
@@ -291,7 +291,7 @@
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
                             <div class=" pt-8 px-6 px-xl-8 rounded"
-                                style="background:url({{ asset('/assets/images/banner/banner-deal.jpg') }})no-repeat; background-size: cover; height: 470px;">
+                                style="background:url({{ asset('images/banner/banner-deal.jpg') }})no-repeat; background-size: cover; height: 470px;">
                                 <div>
                                     <h3 class="fw-bold " style="color:{{$banner[2]->title_color}}">
                                         {{$banner[2]->title}}
@@ -306,44 +306,60 @@
                         <div class="col">
                             <div class="card card-product">
                                 <div class="card-body">
-                                    <div class="text-center  position-relative "> <a
-                                            href="{{ route('products-details') }}"><img
-                                                src="{{ asset('/assets/images/products/'.$product->Library[0]->image) }}"
-                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-
+                                    <div class="text-center  position-relative "> 
+                                        <a href="{{ route('products-details') }}">
+                                        <img src="{{ asset('/assets/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
+                                        </a>
                                         <div class="card-product-action">
-                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"><i
+                                            <a href="#!" class="btn-action btn_modal" data-bs-toggle="modal"
+                                                data-bs-target="#quickViewModal" data-product="{{$product->id_product}}"><i class="bi bi-eye"
+                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
+                                            <a href="#!" class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
+                                            {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$product->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
+                                            <a href="#!" class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare" data-bs-product="{{$product->id_product}}"><i
                                                     class="bi bi-arrow-left-right"></i></a>
                                         </div>
                                     </div>
-                                    <div class="text-small mb-1"><a href="#!"
-                                            class="text-decoration-none text-muted"><small>{{$product->TypeProduct->name}}</small></a></div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                            class="text-inherit text-decoration-none">Roast
-                                            Ground Coffee</a></h2>
-
+                                    <div class="text-small mb-1">
+                                        <a href="#!" class="text-decoration-none text-muted">
+                                            <small>{{$product->TypeProduct->type}}</small>
+                                        </a>
+                                    </div>
+                                    <h2 class="fs-6"><a href="{{ route('products-details') }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
+                                    
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">${{$product->price}}</span> <span
-                                                class="text-decoration-line-through text-muted">$18</span>
+                                        <div>
+                                            @if ($product->sale >0)
+                                                <span class="text-danger">${{$product->price*(1-$product->sale/100)}}</span> 
+                                                <span class="text-decoration-line-through text-muted">${{$product->price}}</span>
+                                            @else
+                                            <span class="text-dark">${{$product->price}}</span> 
+                                            @endif
                                         </div>
                                         <div>
-                                            <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
-                                            </small>
-                                            <span><small>4.5</small></span>
+                                            @php
+                                                $rating = 0;
+                                                if (count($product->Comment->where('rating','!=',null)) >0) {
+                                                  foreach ($product->Comment->where('rating','!=',null) as $cmt) {
+                                                    $rating += $cmt->rating;
+                                                  }
+                                                  $rating /= count($product->Comment->where('rating','!=',null));
+                                                }
+                                            @endphp
+                                              @for ($i = 0; $i < floor($rating); $i++)
+                                              <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                              @endfor
+                                              @if (is_float($rating))
+                                              <i class="bi bi-star-half fs-4 text-warning"></i>
+                                              @endif
+                                              @for ($i = 0; $i < 5-ceil($rating); $i++)
+                                              <i class="bi bi-star fs-4 text-warning"></i>
+                                              @endfor
+                                              <span class="text-black-50 ms-3">({{$rating}})</span>
                                         </div>
                                     </div>
-                                    <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
+                                    <div class="d-grid mt-2"><button data-bs-id="{{$product->id_product}}" type="button" class="btn btn-primary btn addToCart">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -352,7 +368,7 @@
                                                 </line>
                                                 <line x1="5" y1="12" x2="19" y2="12">
                                                 </line>
-                                            </svg> Add to cart </a></div>
+                                            </svg> Add to cart </button></div>
                                     <div class="d-flex justify-content-start text-center mt-3">
                                         <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
                                         </div>

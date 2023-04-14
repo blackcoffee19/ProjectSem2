@@ -46,39 +46,49 @@ Route::get('/account/payment', [UserAccountController::class, 'PaymentMethod'])-
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/admin/category', [AdminCategoryController::class, 'index'])->name('adminCategories');
-Route::get('/admin/category/find-by-name', [AdminCategoryController::class, 'findByName'])->name('category.findByName');
-Route::get('/admin/category/create', [AdminCategoryController::class, 'create'])->name('adminAddCategories');
-Route::post('/admin/category/store', [AdminCategoryController::class, 'store'])->name('adminStoreCategories');
-Route::get('/admin/category/detail/{id_type}', [AdminCategoryController::class, 'show'])->name('adminShowCategory');
-Route::get('/admin/category/edit/{id_type}', [AdminCategoryController::class, 'edit'])->name('adminEditCategory');
-Route::put('/admin/category/update/{id_type}', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
-Route::delete('/admin/category/delete/{id_type}', [AdminCategoryController::class, 'delete'])->name('adminDeleteCategory');
+Route::prefix('/admin/category')->group(function () {
+    Route::get('/', [AdminCategoryController::class, 'index'])->name('adminCategories');
+    Route::get('/find-by-name', [AdminCategoryController::class, 'findByName'])->name('category.findByName');
+    Route::get('/create', [AdminCategoryController::class, 'create'])->name('adminAddCategories');
+    Route::post('/store', [AdminCategoryController::class, 'store'])->name('adminStoreCategories');
+    Route::get('/detail/{id_type}', [AdminCategoryController::class, 'show'])->name('adminShowCategory');
+    Route::get('/edit/{id_type}', [AdminCategoryController::class, 'edit'])->name('adminEditCategory');
+    Route::put('/update/{id_type}', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
+    Route::delete('/delete/{id_type}', [AdminCategoryController::class, 'delete'])->name('adminDeleteCategory');
+});
 
-Route::get('/admin/products', [AdminProductController::class, 'index'])->name('adminProduct');
-Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('adminAddProduct');
-// Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit'])->name('adminEditProduct');
-// Route::post('/admin/products/update', [AdminProductController::class, 'update'])->name('adminUpdateProduct');
-// Route::post('/admin/products/delete', [AdminProductController::class, 'delete'])->name('adminDeleteProduct');
+Route::prefix('/admin/products')->group(function () {
+    Route::get('/', [AdminProductController::class, 'index'])->name('adminProduct');
+    Route::get('/create', [AdminProductController::class, 'create'])->name('adminAddProduct');
+    // Route::get('/edit/{id}', [AdminProductController::class, 'edit'])->name('adminEditProduct');
+    // Route::post('/update', [AdminProductController::class, 'update'])->name('adminUpdateProduct');
+    // Route::post('/delete', [AdminProductController::class, 'delete'])->name('adminDeleteProduct');
+});
 
-Route::get('/admin/customer', [AdminCustomerController::class, 'index'])->name('adminCustomers');
-// Route::get('/admin/customer/create', [AdminCustomerController::class, 'create'])->name('adminAddCustomer');
-// Route::get('/admin/customer/edit/{id}', [AdminCustomerController::class, 'edit'])->name('adminEditCustomer');
-// Route::post('/admin/customer/update', [AdminCustomerController::class, 'update'])->name('adminUpdateCustomer');
-// Route::post('/admin/customer/delete', [AdminCustomerController::class, 'delete'])->name('adminDeleteCustomer');
+Route::prefix('/admin/customer')->group(function () {
+    Route::get('/', [AdminCustomerController::class, 'index'])->name('adminCustomers');
+    // Route::get('/create', [AdminCustomerController::class, 'create'])->name('adminAddCustomer');
+    // Route::get('/edit/{id}', [AdminCustomerController::class, 'edit'])->name('adminEditCustomer');
+    // Route::post('/update', [AdminCustomerController::class, 'update'])->name('adminUpdateCustomer');
+    // Route::post('/delete', [AdminCustomerController::class, 'delete'])->name('adminDeleteCustomer');
+});
 
-Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('adminOrder');
-Route::get('/admin/order/list', [AdminOrderController::class, 'list'])->name('adminOrderList');
-Route::get('/admin/order/single', [AdminOrderController::class, 'single'])->name('adminOrderSingle');
-// Route::get('/admin/order/create', [AdminOrderController::class, 'create'])->name('adminAddOrder');
-// Route::get('/admin/order/edit/{id}', [AdminOrderController::class, 'edit'])->name('adminEditOrder');
-// Route::post('/admin/order/update', [AdminOrderController::class, 'update'])->name('adminUpdateOrder');
-// Route::post('/admin/order/delete', [AdminOrderController::class, 'delete'])->name('adminDeleteOrder');
+Route::prefix('/admin/order')->group(function () {
+    Route::get('/', [AdminOrderController::class, 'index'])->name('adminOrder');
+    Route::get('/list', [AdminOrderController::class, 'list'])->name('adminOrderList');
+    Route::get('/single', [AdminOrderController::class, 'single'])->name('adminOrderSingle');
+    // Route::get('/create', [AdminOrderController::class, 'create'])->name('adminAddOrder');
+    // Route::get('/edit/{id}', [AdminOrderController::class, 'edit'])->name('adminEditOrder');
+    // Route::post('/update', [AdminOrderController::class, 'update'])->name('adminUpdateOrder');
+    // Route::post('/delete', [AdminOrderController::class, 'delete'])->name('adminDeleteOrder');
+});
 
-Route::get('/admin/review', [AdminReviewController::class, 'index'])->name('adminReviews');
-// Route::get('/admin/review/create', [AdminReviewController::class, 'create'])->name('adminAddReview');
-// Route::get('/admin/review/edit/{id}', [AdminReviewController::class, 'edit'])->name('adminEditReview');
-// Route::post('/admin/review/update', [AdminReviewController::class, 'update'])->name('adminUpdateReview');
-// Route::post('/admin/review/delete', [AdminReviewController::class, 'delete'])->name('adminDeleteReview');
+Route::prefix('/admin/review')->group(function () {
+    Route::get('/', [AdminReviewController::class, 'index'])->name('adminReviews');
+    // Route::get('/create', [AdminReviewController::class, 'create'])->name('adminAddReview');
+    // Route::get('/edit/{id}', [AdminReviewController::class, 'edit'])->name('adminEditReview');
+    // Route::post('/update', [AdminReviewController::class, 'update'])->name('adminUpdateReview');
+    // Route::post('/delete', [AdminReviewController::class, 'delete'])->name('adminDeleteReview');
+});
 
 // =============== END ROUTE ADMIN =============== //

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupon', function (Blueprint $table) {
-            $table->id('id_coupon');
-            $table->string('title',40);
-            $table->string('code',20)->unique();
-            $table->integer('discount');
-            $table->integer('max');
-            $table->boolean('status')->default(true);
+        Schema::create('address', function (Blueprint $table) {
+            $table->id('id_address');
+            $table->foreignId('id_user');
+            $table->string('receiver');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('email');
+            $table->boolean('default')->default(false);
             $table->timestamps();
-
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coupon');
+        Schema::dropIfExists('adddress');
     }
 };

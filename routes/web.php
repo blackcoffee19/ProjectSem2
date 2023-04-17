@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\MyController;
+use App\Http\Controllers\MyController;
 
 use App\Http\Controllers\User\IndexController;
 use App\Http\Controllers\User\UserProductController;
@@ -26,51 +26,64 @@ use App\Http\Controllers\Admin\AdminReviewController;
 
 // Route::get('/', [MyController::class,'home_page'])->name('index');
 // Route::get('/cate_pr', [MyController::class,'admin_cate'])->name('productList');
+// Route::get('/signin',[MyController::class,"get_signIn"])->name('signin');
+// Route::post('/signin',[MyController::class,"post_signIn"])->name('signin');
+// Route::get('/signup',[MyController::class,"get_signUp"])->name('signup');
+// Route::post('/signup',[MyController::class,"post_signUp"])->name('signup');
+// Route::get('/signout',[MyController::class,'signOut'])->name('signout');
+Route::get('/order',[MyController::class,'get_order'])->name('order');
 Route::get('/products', function () {
     return view('user.pages.Products.index');
 })->name('products');
-// Route::get('/products-details/{id}', [MyController::class,'product_detail'])->name('products-details');
-// Route::post('/products-details/{id?}', [MyController::class,'addToCart'])->name('products-details');
+Route::get('/products-details/{id}', [MyController::class,'product_detail'])->name('products-details');
+Route::post('/products-details/{id?}', [MyController::class,'addToCart'])->name('products-details');
 Route::get('/shop-wishlist', function () {
     return view('user.pages.ShopWishlist.index');
 })->name('wishlist');
 Route::get('/shop-cart', function () {
     return view('user.pages.Orders.index');
-})->name('order');
+});
 
 
 // ========== Dont need to know What is MyController now
 // ========== I didn't upload it for now
-// ========== Just know that Tuong finished Cart, Modal Product, Compare Product, Add Favourite 
+// ========== Just know that Tuong finished Cart, Modal Product, Compare Product, Add Favourite, Add Coupon, Finish Order
+// Route::get('/checkout',[MyController::class,'get_checkout'])->name('checkout');
+// Route::post('/checkout',[MyController::class,'post_checkout'])->name('checkout');
 // Route::get('/removeCart/{id}',[MyController::class,'removeCart'])->name("removeId");
 // Route::get('/ajax/modal/show-product/{id}',[MyController::class,'modal_product']);
 // Route::get('/ajax/cart/listcart',[MyController::class,'modalCart']);
 // Route::get('/ajax/cart/clearcart',[MyController::class,'clearCart']);
+// Route::post('/ajax/add_address',[MyController::class,'add_address'])->name('post_address');
+// Route::get('/ajax/remove_address/{id}',[MyController::class,'remove_address']);
 // Route::post('/addItemCart/{id}',[MyController::class,'cartadd_quan'])->name('cartadd');
 // Route::get('/minusItem/{id}',[MyController::class,'minusOne'])->name('minus');
 // Route::get('/addItem/{id}',[MyController::class,'addMore'])->name('addmore');
 // Route::get('/ajax/add-cart/{id}',[MyController::class,'addToCart2']);
 // Route::get('/ajax/add-favourite/{id}',[MyController::class,'add_favourite']);
 // Route::get('/ajax/add-compare/{id}',[MyController::class,'addCompare']);
+// Route::get('/ajax/add-coupon/{coupon}',[MyController::class,'addCoupon']);
 // Route::get('/ajax/compare/showcompare',[MyController::class,'showCompare']);
 // Route::get('/delcompare/{id}',[MyController::class,'delCompare'])->name('delCmp');
 // Route::get('/removeCmp',[MyController::class,'removeCompare'])->name('removeCmp');
+
+
 // ==========
 
-Route::get('/', [IndexController::class, 'index'])->name('index');
+// Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/category', [UserProductController::class, 'index'])->name('products');
+// Route::get('/category', [UserProductController::class, 'index'])->name('products');
 
-Route::get('/product-detail', [UserProductDetailController::class, 'index'])->name('products-details');
+// Route::get('/product-detail', [UserProductDetailController::class, 'index'])->name('products-details');
 
-Route::get('/wishlist', [UserWishlistController::class, 'index'])->name('wishlist');
+// Route::get('/wishlist', [UserWishlistController::class, 'index'])->name('wishlist');
 
-Route::get('/order', [UserOrderController::class, 'index'])->name('order');
+// Route::get('/order', [UserOrderController::class, 'index'])->name('order');
 
-Route::get('/account/accorder', [UserAccountController::class, 'Orders'])->name('accountorder');
-Route::get('/account/setting', [UserAccountController::class, 'Settings'])->name('setting');
-Route::get('/account/address', [UserAccountController::class, 'Address'])->name('address');
-Route::get('/account/payment', [UserAccountController::class, 'PaymentMethod'])->name('payment');
+// Route::get('/account/accorder', [UserAccountController::class, 'Orders'])->name('accountorder');
+// Route::get('/account/setting', [UserAccountController::class, 'Settings'])->name('setting');
+// Route::get('/account/address', [UserAccountController::class, 'Address'])->name('address');
+// Route::get('/account/payment', [UserAccountController::class, 'PaymentMethod'])->name('payment');
 
 
 

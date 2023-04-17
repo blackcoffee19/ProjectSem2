@@ -31,7 +31,13 @@
 
                             <div class="list-inline me-4">
                                 <div class="list-inline-item">
-
+                                    @if (Auth::check())
+                                        <a href="#!" class="text-muted" >
+                                            {{Auth::user()->name}}
+                                        </a>
+                                        <a href="{{route('signout')}}"><i class="bi bi-box-arrow-in-right"></i>
+                                        </a>
+                                    @else
                                     <a href="#!" class="text-muted" data-bs-toggle="modal"
                                         data-bs-target="#userModal">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -41,6 +47,7 @@
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                     </a>
+                                    @endif
                                 </div>
                                 <div class="list-inline-item">
 
@@ -85,11 +92,10 @@
 
                         </div>
                     </div>
-
                 </div>
                 <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
-
                     <form action="#">
+                        @csrf
                         <div class="input-group ">
                             <input class="form-control rounded" type="search" placeholder="Search for products">
                             <span class="input-group-append">
@@ -108,42 +114,41 @@
 
                     </form>
                 </div>
-                <div class="col-md-2 col-xxl-3 d-none d-lg-block">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
-                        data-bs-target="#locationModal">
-                        <i class="feather-icon icon-map-pin me-2"></i>Location
-                    </button>
-
-                </div>
-                <div class="col-md-2 col-xxl-1 text-end d-none d-lg-block">
-
-                    <div class="list-inline">
-                        <div class="list-inline-item">
-
-                            <a href="{{ route('wishlist') }}" class="text-muted position-relative">
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                                    <path
-                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                    </path>
-                                </svg>
+                <div class="col-md-3 col-xxl-2 mx-auto text-end d-none d-lg-block">
+                    <div class="d-flex flex-row justify-content-around">
+                        @if (Auth::check())
+                            <div >
+                                <a href="{{ route('wishlist') }}" class="text-muted position-relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div >
+                                <a href="#!" class="text-muted" >
+                                    {{Auth::user()->name}}
+                                </a>
+                            </div>
+                            <a href="{{route('signout')}}"><i class="bi bi-box-arrow-in-right"></i>
                             </a>
-                        </div>
-                        <div class="list-inline-item">
-
-                            <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="list-inline-item">
+                            @else
+                            <div>
+                                <a href="#!" class="text-muted" data-bs-toggle="modal"
+                                    data-bs-target="#userModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </a>
+                            </div>  
+                        @endif
+                        <div >
                             <a class="text-muted position-relative btn_showcart" href="#offcanvasExample" role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas" 
                                 aria-controls="offcanvasRight">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -218,11 +223,11 @@
                                 Account <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('accountorder') }}">Orders</a></li>
+                                {{-- <li><a class="dropdown-item" href="{{ route('accountorder') }}">Orders</a></li>
                                 <li><a class="dropdown-item" href="{{ route('setting') }}">Settings</a></li>
                                 <li><a class="dropdown-item" href="{{ route('address') }}">Address</a></li>
                                 <li><a class="dropdown-item" href="{{ route('payment') }}">Payment Method</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                     </ul>
@@ -236,37 +241,25 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-4">
             <div class="modal-header border-0">
-                <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">Sign Up</h5>
-
+                <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">Sign In</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{route('signin')}}" method="POST">
+                    @csrf
                     <div class="mb-3">
-                        <label for="fullName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Enter Your Name"
-                            required="">
+                        <label for="modal_email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" id="modal_email" placeholder="Enter Email address" required="">
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email address"
-                            required="">
-                    </div>
-
                     <div class="mb-5">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter Password"
-                            required="">
-                        <small class="form-text">By Signup, you agree to our <a href="#!">Terms of
-                                Service</a> & <a href="#!">Privacy Policy</a></small>
+                        <label for="modal_password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="modal_password" placeholder="Enter Password" required="">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
+                    <button type="submit" class="btn btn-primary" id="modal_signin" disabled>Sign In</button>
                 </form>
             </div>
-            <div class="modal-footer border-0 justify-content-center">
-
-                Already have an account? <a href="#">Sign in</a>
+            <div class="modal-footer border-0 justify-content-center">Don’t have an account? <a href="{{route('signup')}}"> Sign Up</a>
             </div>
         </div>
     </div>
@@ -295,7 +288,7 @@
             </ul>
             <!-- btn -->
             <div class="d-flex justify-content-between mt-4">
-                <a href="#!" class="btn btn-primary">Continue Shopping</a>
+                <a href="{{route('order')}}" class="btn btn-primary">Continue Shopping</a>
                 <a href="#!" class="btn btn-dark">Update Cart</a>
             </div>
 

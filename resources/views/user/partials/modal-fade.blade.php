@@ -100,9 +100,9 @@
   </div>
   <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
     <div role="alert"  id="toastAdd" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
-        <div class="toast-body" style="height: 100px; padding:30px 0">
+        <div class="toast-body" style=" padding:10px">
           <div class="row">
-            <div class="col-2 mb-3 mx-auto">
+            <div class="col-2 mb-2 mx-auto">
               <i class="bi bi-bag-check" style="color: #2ec27e; font-size: 2.3rem"></i>
             </div>
             <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;">Add to cart successully</h4>
@@ -112,9 +112,9 @@
   </div>
     <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
       <div role="alert"  id="toastCompare" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
-          <div class="toast-body" style="height: 100px; padding:30px 0">
+          <div class="toast-body" style="padding:10px">
             <div class="row">
-              <div class="col-2 mb-3 mx-auto">
+              <div class="col-2 mb-2 mx-auto">
                 <i class="bi bi-lightbulb " style="color: #f5c211; font-size: 1.3rem"></i>
               </div>
               <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" id="messCompare"></h4>
@@ -131,7 +131,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable ">
       <div class="modal-content">
         <div class="modal-header">
-          <a class="btn btn-outline-danger" href="">
+          <a class="btn btn-outline-danger" href="{{route('removeCmp')}}">
             <i class="bi bi-x-circle-fill text-danger"></i>
             Clean
           </a>

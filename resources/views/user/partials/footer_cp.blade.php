@@ -1,4 +1,4 @@
-<!-- footer -->
+
 <footer class="footer">
     <div class="container">
         <div class="row g-4 py-4">
@@ -8,44 +8,9 @@
                     <div class="col-6">
                         <!-- list -->
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Vegetables &
-                                    Fruits</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Breakfast & instant
-                                    food</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Bakery &
-                                    Biscuits</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Atta, rice & dal</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Sauces & spreads</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Organic & gourmet</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Baby care</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Cleaning
-                                    essentials</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Personal care</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <!-- list -->
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Dairy, bread &
-                                    eggs</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Cold drinks &
-                                    juices</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Tea, coffee &
-                                    drinks</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Masala, oil &
-                                    more</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Chicken, meat &
-                                    fish</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Paan corner</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link"> Pharma &
-                                    wellness</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Home & office</a>
-                            </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Pet care</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Vegetable</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Fruit</a></li>
+                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Meat</a></li>
                         </ul>
                     </div>
                 </div>
@@ -114,24 +79,21 @@
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item text-dark">Payment Partners</li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/amazonpay.svg') }}"
+                            <a href="#!"><img src="{{ asset('images/payment/amazonpay.svg') }}" alt=""></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!"><img src="{{ asset('images/payment/american-express.svg') }}"
                                     alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/american-express.svg') }}"
+                            <a href="#!"><img src="{{ asset('images/payment//mastercard.svg') }}"
                                     alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment//mastercard.svg') }}"
-                                    alt=""></a>
+                            <a href="#!"><img src="{{ asset('images/payment/paypal.svg') }}" alt=""></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/paypal.svg') }}"
-                                    alt=""></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('/assets/images/payment/visa.svg') }}"
-                                    alt=""></a>
+                            <a href="#!"><img src="{{ asset('images/payment/visa.svg') }}" alt=""></a>
                         </li>
                     </ul>
                 </div>
@@ -139,11 +101,11 @@
                     <ul class="list-inline mb-0 text-lg-end text-center">
                         <li class="list-inline-item mb-2 mb-md-0 text-dark">Get deliveries with FreshCart</li>
                         <li class="list-inline-item ms-4">
-                            <a href="#!"> <img src="{{ asset('/assets/images/appbutton/appstore-btn.svg') }}"
+                            <a href="#!"> <img src="{{ asset('images/appbutton/appstore-btn.svg') }}"
                                     alt="" style="width: 140px;"></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"> <img src="{{ asset('/assets/images/appbutton/googleplay-btn.svg') }}"
+                            <a href="#!"> <img src="{{ asset('images/appbutton/googleplay-btn.svg') }}"
                                     alt="" style="width: 140px;"></a>
                         </li>
                     </ul>
@@ -153,9 +115,8 @@
         </div>
         <div class="border-top py-4">
             <div class="row align-items-center">
-                <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshCart eCommerce HTML
-                        Template. All rights reserved. Powered by <a
-                            href="https://codescandy.com/">Codescandy</a>.</span></div>
+                <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshShop eCommerce. All rights
+                        reserved. Powered by <a href="#">FreshShop</a>.</span></div>
                 <div class="col-md-6">
                     <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
                         <li class="list-inline-item text-muted">Follow us on</li>
@@ -190,147 +151,3 @@
         </div>
     </div>
 </footer>
-
-<!-- Javascript-->
-
-<!-- Libs JS -->
-<script src="./assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="./assets/libs/simplebar/dist/simplebar.min.js"></script>
-
-<!-- Theme JS -->
-<script src="{{asset('/assets/js/theme.min.js')}}"></script>
-<script src="{{asset('assets/libs/jquery-countdown/dist/jquery.countdown.min.js')}}"></script>
-<script src="{{asset('assets/js/vendors/countdown.js')}}"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
-<script src="{{asset('assets/js/vendors/slick-slider.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
-{{-- <script src="{{asset('assets/js/vendors/tns-slider.js')}}"></script> --}}
-<script src="{{asset('assets/js/vendors/zoom.js')}}"></script>
-<script src="{{asset('assets/js/vendors/increment-value.js')}}"></script>
-<script>
-    $(document).ready(function(){
-        $('#clearCart').click(function(){
-          console.log(window.location.origin + "/index.php/ajax/cart/clearcart");
-            $.get(window.location.origin + "/index.php/ajax/cart/clearcart",function(data){
-                $('#listCart').html(data);
-            })
-        });
-        $('.btn_showcart').click(function(){
-            // console.log($(this).html());
-            $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
-                // console.log(data);
-                $('#listCart').html(data);
-                $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
-                
-            })
-        });
-        const valiquan_cart = (value)=>{
-            let validateNum =/^\d{1,10}$/;
-            let currentVl = $(this).val();
-            $(this).val(validateNum.test(currentVl)?currentVl:value);
-        }
-        $('.btn_modal').click(function(){
-            $.get(window.location.origin+"/public/index.php/ajax/modal/show-product/"+$(this).data('product'),function(data){
-              let dataProduct = jQuery.parseJSON(data); 
-            //   console.log(dataProduct);
-              $('#imgModal').css({'background-image':'url(assets/images/products/'+dataProduct['images'][0]+')','object-fit': 'contain','background-repeat': 'no-repeat'});
-              $('#imgModal').html(`<image src='assets/images/products/${dataProduct["images"][0]}' style="background-color: #ffffff">`);
-              let listImage = "";
-              dataProduct['images'].forEach(img => {
-                listImage += "<div class='col-3' class='tns-nav-active'><div class='thumbnails-img'><img src='assets/images/products/"+img+"'></div></div>";
-              });
-              $('#productModalThumbnails').html(listImage);
-              $('#productNameModal').html(dataProduct['name']);
-              $('input[name=max_quan]').val(dataProduct['quantity']);
-              let strStart ="";
-              for(let i =0; i<dataProduct['rating'];i++){
-                strStart+="<i class='bi bi-star-fill'></i>"
-              }
-              for(let j = 0; j < 5-dataProduct['rating'];j++){
-                strStart+="<i class='bi bi-star'></i>";
-              }
-              strStart += `<span class='ms-3 text-muted'>(${dataProduct["sold"]} solds)</span>`;
-              $('#modal_Fav').attr("data-bs-idproduct",dataProduct['id_product']);
-              if(dataProduct["favourite"]){
-                $('#modal_Fav').html("<i class='bi bi-heart-fill text-danger'></i>")
-              }else{
-                $('#modal_Fav').html("<i class='bi bi-heart'></i>")
-              }
-              $('#ratingModal').html(strStart);
-              $('#soldModal').html(`(${dataProduct["sold"]} sold)`);
-              if(parseInt(dataProduct["sale"])>0){
-                $('.hasSale').removeClass('d-none');
-                $('#priceModal').html(`$${dataProduct["price"]}`);
-                $('#saleModal').html(`${dataProduct["sale"]}% Off`);
-                $('#priceAFSModal').html(`$${(parseInt(dataProduct["price"])*(1-dataProduct["sale"]/100)).toFixed(2)}`)
-              }else{
-                $('.hasSale').addClass('d-none');
-                $('#priceAFSModal').html(`$${dataProduct["price"]}`);
-              };
-              $('#weigthModal').html("100g");
-              $('#quantityModal').html(dataProduct["quantity"]);
-              $('#idModal').html(dataProduct['id_product']);
-              $('input[name=id_pro]').val(dataProduct['id_product']);
-              $('.typeModal').html(dataProduct['type']);
-            });
-          });
-          $('.compare_product').click(function(){
-            if($('#btn-compare').hasClass('d-none')){
-              $('#btn-compare').removeClass('d-none');
-            }
-            $.get(window.location.origin+"/public/index.php/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
-              $('#messCompare').html(data);  
-            })
-            const toast = new bootstrap.Toast($('#toastCompare'))
-            toast.show();
-          });
-          $('#show_compare').click(function(){
-            $.get(window.location.origin+"/public/index.php/ajax/compare/showcompare",function(data){
-              $('#compare_detail').html(data);  
-            })
-          });
-          $('.addFav').click(function(){
-              $(this).children().toggleClass('bi-heart').toggleClass('bi-heart-fill text-danger');
-            $.get(window.location.origin+'/public/index.php/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
-              $('.countFav').html(data);
-            })
-          });
-          $('.addToCart').click(function(){
-            const toast = new bootstrap.Toast($('#toastAdd'))
-            toast.show();
-            $.get(window.location.origin+"/public/index.php/ajax/add-cart/"+$(this).data('bsId'),function(data){
-              $('.countCart').html(data);
-            });
-          });
-          $('#btn_minus').click(function(e){
-              e.preventDefault();
-              let current = parseInt($('input[name=quan]').val());
-              if(current >1){
-                current--;
-                $('input[name=quan]').val(current);
-              }
-          });
-          $('#btn_plus').click(function(e){
-              e.preventDefault();
-              let max = parseInt($('#quantityModal').text());
-              let current = parseInt($('input[name=quan]').val());
-              console.log(current );
-              if(max>current){
-                current++;
-                $('input[name=quan]').val(current);
-              }
-          });
-          $('input[name=quan]').on('focusout',function(e){
-              e.preventDefault();
-              let validateNum =/^\d{1,10}$/;
-              let currentVl = $(this).val();
-              $(this).val(validateNum.test(currentVl)?currentVl:100);
-          });
-    })
-</script>
-
-
-</body>
-
-</html>

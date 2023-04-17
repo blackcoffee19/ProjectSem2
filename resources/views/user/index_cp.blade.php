@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="hero-slider ">
                     <div
-                        style="background: url({{ asset('/assets/images/slider/slide-1.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+                        style="background: url({{ asset('/images/slider/slide-1.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
                             <span class="badge text-bg-warning">Opening Sale Discount 50%</span>
 
@@ -18,7 +18,7 @@
 
                     </div>
                     <div class=" "
-                        style="background: url({{ asset('/assets/images/slider/slider-2.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+                        style="background: url({{ asset('/images/slider/slider-2.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
                             <span class="badge text-bg-warning">Free Shipping - orders over $100</span>
                             <h2 class="text-dark display-5 fw-bold mt-4">Free Shipping on <br> orders over <span
@@ -31,11 +31,12 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </section>
-
+        @if (Session::has('order_mess'))
+            <div class="alert alert-success text-center">{{Session::get('order_mess')}}</div>
+        @endif
         <!-- Category Section Start-->
         <section class="mb-lg-10 mt-lg-14 my-8">
             <div class="container">
@@ -155,7 +156,7 @@
                     <div class="col-12 col-md-6 mb-3 mb-lg-0">
                         <div>
                             <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/assets/images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
+                                style="background:url({{ asset('/images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
                                 <div>
                                     <h3 class="fw-bold mb-1">Fruits & Vegetables
                                     </h3>
@@ -171,7 +172,7 @@
 
                         <div>
                             <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/assets/images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
+                                style="background:url({{ asset('/images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
                                 <div>
                                     <h3 class="fw-bold mb-1">Freshly Baked
                                         Buns
@@ -210,16 +211,16 @@
                                             @endif
                                         </div>
                                         <a href="#!"> <img
-                                                src="{{ asset('/assets/images/products/'.$pro->Library[0]->image) }}"
+                                                src="{{ asset('/images/products/'.$pro->Library[0]->image) }}"
                                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                         </a>
                                         <div class="card-product-action">
-                                            <a href="#!" class="btn-action btn_modal" data-bs-toggle="modal"
+                                            <a class="btn-action btn_modal" data-bs-toggle="modal"
                                                 data-bs-target="#quickViewModal" data-product="{{$pro->id_product}}"><i class="bi bi-eye"
                                                     data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
+                                            <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
                                             {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$pro->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
-                                            <a href="#!" class="btn-action compare_product" data-bs-toggle="tooltip"
+                                            <a class="btn-action compare_product" data-bs-toggle="tooltip" 
                                                 data-bs-html="true" title="Compare" data-bs-product="{{$pro->id_product}}"><i
                                                     class="bi bi-arrow-left-right"></i></a>
                                         </div>
@@ -297,7 +298,7 @@
                                         {{$banner[2]->title}}
                                     </h3>                                    
                                     <p style="color:{{$banner[2]->content_color}}">{{$banner[2]->content}}</p>
-                                    <a href="#!" class="btn " style="background-color: {{$banner[2]->btn_bg_color}};color:{{$banner[2]->btn_color}}">{{$banner[2]->btn_content}}<i
+                                    <a  class="btn " style="background-color: {{$banner[2]->btn_bg_color}};color:{{$banner[2]->btn_color}}">{{$banner[2]->btn_content}}<i
                                             class="feather-icon icon-arrow-right ms-1"></i></a>
                                 </div>
                             </div>
@@ -371,7 +372,7 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('/assets/images/icons/clock.svg') }}"
+                            <div class="mb-6"><img src="{{ asset('/images/icons/clock.svg') }}"
                                     alt=""></div>
                             <h3 class="h5 mb-3">
                                 10 minute grocery now
@@ -382,7 +383,7 @@
                     </div>
                     <div class="col-md-6  col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('/assets/images/icons/gift.svg') }}"
+                            <div class="mb-6"><img src="{{ asset('/images/icons/gift.svg') }}"
                                     alt=""></div>
                             <h3 class="h5 mb-3">Best Prices & Offers</h3>
                             <p>Cheaper prices than your local supermarket, great cashback offers to top it off. Get best
@@ -393,7 +394,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('/assets/images/icons/package.svg') }}"
+                            <div class="mb-6"><img src="{{ asset('/images/icons/package.svg') }}"
                                     alt=""></div>
                             <h3 class="h5 mb-3">Wide Assortment</h3>
                             <p>Choose from 5000+ products across food, personal care, household, bakery, veg and non-veg
@@ -403,13 +404,13 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('/assets/images/icons/refresh-cw.svg') }}"
+                            <div class="mb-6"><img src="{{ asset('/images/icons/refresh-cw.svg') }}"
                                     alt="">
                             </div>
                             <h3 class="h5 mb-3">Easy Returns</h3>
                             <p>Not satisfied with a product? Return it at the doorstep & get a refund within hours. No
                                 questions asked
-                                <a href="#!">policy</a>.
+                                <a >policy</a>.
                             </p>
                         </div>
                     </div>
@@ -418,3 +419,4 @@
         </section>
     </main>
 @endsection
+

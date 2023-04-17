@@ -23,10 +23,11 @@ use App\Http\Controllers\Admin\AdminReviewController;
 
 // =============== ROUTE USER =============== //
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/product/{id_product}', [UserProductDetailController::class, 'show'])->name('userShowProduct');
 
 Route::get('/category', [UserProductController::class, 'index'])->name('products');
 
-Route::get('/product-detail', [UserProductDetailController::class, 'index'])->name('products-details');
+// Route::get('/product-detail', [UserProductDetailController::class, 'index'])->name('products-details');
 
 Route::get('/wishlist', [UserWishlistController::class, 'index'])->name('wishlist');
 
@@ -60,9 +61,11 @@ Route::prefix('/admin/category')->group(function () {
 Route::prefix('/admin/products')->group(function () {
     Route::get('/', [AdminProductController::class, 'index'])->name('adminProduct');
     Route::get('/create', [AdminProductController::class, 'create'])->name('adminAddProduct');
-    // Route::get('/edit/{id}', [AdminProductController::class, 'edit'])->name('adminEditProduct');
-    // Route::post('/update', [AdminProductController::class, 'update'])->name('adminUpdateProduct');
-    // Route::post('/delete', [AdminProductController::class, 'delete'])->name('adminDeleteProduct');
+    Route::post('/store', [AdminProductController::class, 'store'])->name('admin.product.store');
+    Route::get('/detail/{id_product}', [AdminProductController::class, 'show'])->name('adminShowProduct');
+    Route::get('/edit/{id_product}', [AdminProductController::class, 'edit'])->name('adminEditProduct');
+    Route::put('/update/{id_product}', [AdminProductController::class, 'update'])->name('adminUpdateProduct');
+    Route::delete('/delete/{id_product}', [AdminProductController::class, 'delete'])->name('adminDeleteProduct');
 });
 
 Route::prefix('/admin/customer')->group(function () {

@@ -11,7 +11,13 @@ class Library extends Model
     use HasFactory;
     protected $table = 'library';
     protected $primaryKey = 'id_lib';
-    public function Product(){
-        return $this->belongsTo(Product::class,'id_product','id_product');
+    protected $fillable = [
+        'id_lib',
+        'id_product',
+        'image',
+    ];
+    public function Product()
+    {
+        return $this->belongsTo(Product::class, 'id_product', 'id_product');
     }
 }

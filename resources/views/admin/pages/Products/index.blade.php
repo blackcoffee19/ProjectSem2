@@ -18,7 +18,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="" class="btn btn-primary">Add Product</a>
+                            <a href="{{ Route('adminAddProduct') }}" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>
@@ -70,13 +70,15 @@
                                             <tr>
                                                 <td>{{ $item->id_product }}</td>
                                                 <td>
-                                                    @foreach ($item->libraries as $library)
-                                                        <img src="{{ asset('images/products/' . $library->image) }}"
-                                                            alt="" style="width:70px; height:auto;">
+                                                    @foreach (array_reverse($item->libraries->toArray()) as $library)
+                                                        <img src="{{ asset('images/products/' . $library['image']) }}"
+                                                            alt="" style="width:50px; height:auto;">
                                                     @endforeach
                                                 </td>
                                                 <td>{{ $item->name }}</td>
-                                                <td>{{ $item->id_type }}</td>
+                                                <td>
+                                                    {{ $item->typeproduct->type }}
+                                                </td>
                                                 <td>{{ $item->status }}</td>
                                                 <td>{{ $item->price }}</td>
                                                 <td>{{ $item->created_at }}</td>
@@ -88,11 +90,24 @@
                                                             <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#"><i
-                                                                        class="bi bi-trash me-3"></i>Delete</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ Route('adminShowProduct', $item->id_product) }}"><i
+                                                                        class="bi bi-eye me-3 "></i>Detail</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ Route('adminEditProduct', $item->id_product) }}"><i
                                                                         class="bi bi-pencil-square me-3 "></i>Edit</a>
                                                             </li>
+                                                            <li>
+                                                                <form
+                                                                    action="{{ Route('adminDeleteProduct', $item->id_product) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bi bi-trash me-3"></i>Delete
+                                                                    </button>
+                                                                </form>
                                                         </ul>
                                                     </div>
                                                 </td>

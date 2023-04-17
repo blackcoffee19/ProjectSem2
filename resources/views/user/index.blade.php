@@ -50,105 +50,21 @@
                     </div>
                 </div>
                 <div class="category-slider ">
-
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-baby-care.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
-                                    <div class="text-truncate">Dairy, Bread & Eggs</div>
+                    @foreach ($cats as $item)
+                        <div class="item">
+                            <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                                <div class="card card-product mb-lg-4">
+                                    <div class="card-body text-center py-8">
+                                        <img src="{{ asset('images/category/' . $item->image) }}"
+                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
+                                            style="width: 120px; height: 120px;">
+                                        <div class="text-truncate">{{ $item->type }}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-chicken-meat-fish.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Snack & Munchies</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-cleaning-essentials.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Bakery & Biscuits</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-dairy-bread-eggs.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Instant Food</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-instant-food.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Tea, Coffee & Drinks</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"><a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-pet-care.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Atta, Rice & Dal</div>
-                                </div>
-                            </div>
-                        </a></div>
-
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-snack-munchies.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Baby Care</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-tea-coffee-drinks.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Chicken, Meat & Fish</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/fruit.jpg') }}" alt="Grocery Ecommerce Template"
-                                        class="mb-3">
-                                    <div class="text-truncate">Cleaning Essentials</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/vegetable.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Pet Care</div>
-                                </div>
-                            </div>
-                        </a></div>
-
-
-
-
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
-
-
             </div>
         </section>
         <!-- Category Section End-->
@@ -201,529 +117,73 @@
                 </div>
 
                 <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
+                    @foreach ($prods as $item)
+                        <div class="col">
+                            <div class="card card-product">
+                                <div class="card-body">
+                                    <div class="text-center position-relative ">
+                                        <div class=" position-absolute top-0 start-0">
+                                            @if ($item->sale != 0)
+                                                <span class="badge bg-danger">Sale {{ $item->sale }}%</span>
+                                            @endif
+                                        </div>
+                                        <a href="#!">
+                                            @if ($item->libraries->last())
+                                                <img src="{{ asset('images/products/' . $item->libraries->last()->image) }}"
+                                                    alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
+                                                    style="width: 188px; height: 188px;" />
+                                            @endif
+                                        </a>
 
-                                <div class="text-center position-relative ">
-                                    <div class=" position-absolute top-0 start-0">
-                                        <span class="badge bg-danger">Sale</span>
+                                        <div class="card-product-action mb-1">
+                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
+                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
+                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
+                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
+                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare"><i
+                                                    class="bi bi-arrow-left-right"></i></a>
+                                        </div>
                                     </div>
-                                    <a href="#!"> <img src="{{ asset('images/products/product-img-1.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
+                                    <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted">
+                                            <small>{{ $item->typeproduct->type }}</small></a></div>
+                                    <h2 class="fs-6">
+                                        <a href="{{ route('userShowProduct', $item->id_product) }}"
+                                            class="text-inherit text-decoration-none">
+                                            {{ $item->name }}
+                                        </a>
+                                    </h2>
+                                    <div>
+                                        <small class="text-warning"> <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-half"></i></small> <span
+                                            class="text-muted small">4.5(149)</span>
                                     </div>
-
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Snack &
-                                            Munchies</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Haldiram's
-                                        Sev Bhujia</a></h2>
-                                <div>
-
-                                    <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span
-                                        class="text-muted small">4.5(149)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$18</span> <span
-                                            class="text-decoration-line-through text-muted">$24</span>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div><span class="text-dark">${{ $item->price }}</span> <span
+                                                class="text-decoration-line-through text-muted">{{ number_format((100 * $item->price) / (100 - $item->sale), 2) }}</span>
+                                        </div>
+                                        <div><a href="#!" class="btn btn-primary btn-sm">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-plus">
+                                                    <line x1="12" y1="5" x2="12" y2="19">
+                                                    </line>
+                                                    <line x1="5" y1="12" x2="19" y2="12">
+                                                    </line>
+                                                </svg> Add</a></div>
                                     </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative">
-                                    <div class=" position-absolute top-0 start-0">
-                                        <span class="badge bg-success">14%</span>
-                                    </div>
-                                    <a href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-2.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Bakery &
-                                            Biscuits</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">NutriChoice Digestive </a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                                        (25)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$24</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-3.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Bakery &
-                                            Biscuits</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Cadbury 5
-                                        Star Chocolate</a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i></small> <span class="text-muted small">5
-                                        (469)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$32</span> <span
-                                            class="text-decoration-line-through text-muted">$35</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-4.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                    <div class=" position-absolute top-0 start-0">
-                                        <span class="badge bg-danger">Hot</span>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Snack &
-                                            Munchies</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Onion
-                                        Flavour Potato</a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
-                                        <i class="bi bi-star"></i></small> <span class="text-muted small">3.5
-                                        (456)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$3</span> <span
-                                            class="text-decoration-line-through text-muted">$5</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-5.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Instant
-                                            Food</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Salted
-                                        Instant Popcorn </a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                                        (39)</span>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <div><span class="text-dark">$13</span> <span
-                                            class="text-decoration-line-through text-muted">$18</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-
-                                <div class="text-center position-relative ">
-                                    <div class=" position-absolute top-0 start-0">
-                                        <span class="badge bg-danger">Sale</span>
-                                    </div>
-                                    <a href="#!"> <img src="{{ asset('images/products/product-img-6.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Dairy, Bread &
-                                            Eggs</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Blueberry
-                                        Greek Yogurt</a></h2>
-                                <div>
-
-                                    <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                                        (189)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$18</span> <span
-                                            class="text-decoration-line-through text-muted">$24</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-7.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Dairy, Bread &
-                                            Eggs</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Britannia
-                                        Cheese Slices</a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i></small> <span class="text-muted small">5
-                                        (345)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$24</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-8.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Instant
-                                            Food</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Kellogg's
-                                        Original Cereals</a>
-                                </h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span class="text-muted small">4
-                                        (90)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$32</span> <span
-                                            class="text-decoration-line-through text-muted">$35</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-9.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Snack &
-                                            Munchies</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Slurrp
-                                        Millet Chocolate </a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5
-                                        (67)</span>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span class="text-dark">$3</span> <span
-                                            class="text-decoration-line-through text-muted">$5</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card card-product">
-                            <div class="card-body">
-                                <div class="text-center position-relative"> <a
-                                        href="{{ route('products-details') }}"><img
-                                            src="{{ asset('images/products/product-img-10.jpg') }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                    <div class="card-product-action">
-                                        <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                            data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                        <a href="{{ Route('wishlist') }}" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                        <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"><i
-                                                class="bi bi-arrow-left-right"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-small mb-1"><a href="#!"
-                                        class="text-decoration-none text-muted"><small>Dairy, Bread &
-                                            Eggs</small></a></div>
-                                <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                        class="text-inherit text-decoration-none">Amul
-                                        Butter - 500 g</a></h2>
-                                <div class="text-warning">
-
-                                    <small> <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
-                                        <i class="bi bi-star"></i></small> <span class="text-muted small">3.5
-                                        (89)</span>
-                                </div>
-                                <div class="d-flex justify-content-between mt-4">
-                                    <div><span class="text-dark">$13</span> <span
-                                            class="text-decoration-line-through text-muted">$18</span>
-                                    </div>
-                                    <div><a href="#!" class="btn btn-primary btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+                </div>
+                <div class="mt-2">
+                    {{ $prods->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </section>
@@ -753,8 +213,7 @@
                         <div class="col">
                             <div class="card card-product">
                                 <div class="card-body">
-                                    <div class="text-center  position-relative "> <a
-                                            href="{{ route('products-details') }}"><img
+                                    <div class="text-center  position-relative "> <a href=""><img
                                                 src="{{ asset('images/products/product-img-11.jpg') }}"
                                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
@@ -773,8 +232,7 @@
                                     <div class="text-small mb-1"><a href="#!"
                                             class="text-decoration-none text-muted"><small>Tea, Coffee &
                                                 Drinks</small></a></div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                            class="text-inherit text-decoration-none">Roast
+                                    <h2 class="fs-6"><a href="" class="text-inherit text-decoration-none">Roast
                                             Ground Coffee</a></h2>
 
                                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -811,8 +269,7 @@
                         <div class="col">
                             <div class="card card-product">
                                 <div class="card-body">
-                                    <div class="text-center  position-relative "> <a
-                                            href="{{ route('products-details') }}"><img
+                                    <div class="text-center  position-relative "> <a href=""><img
                                                 src="{{ asset('images/products/product-img-12.jpg') }}"
                                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                         <div class="card-product-action">
@@ -830,7 +287,7 @@
                                     <div class="text-small mb-1"><a href="#!"
                                             class="text-decoration-none text-muted"><small>Fruits &
                                                 Vegetables</small></a></div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}"
+                                    <h2 class="fs-6"><a href=""
                                             class="text-inherit text-decoration-none">Crushed
                                             Tomatoes</a></h2>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -867,8 +324,7 @@
                         <div class="col">
                             <div class="card card-product">
                                 <div class="card-body">
-                                    <div class="text-center  position-relative "> <a
-                                            href="{{ route('products-details') }}"><img
+                                    <div class="text-center  position-relative "> <a href=""><img
                                                 src="{{ asset('images/products/product-img-13.jpg') }}"
                                                 alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                         <div class="card-product-action">
@@ -886,8 +342,7 @@
                                     <div class="text-small mb-1"><a href="#!"
                                             class="text-decoration-none text-muted"><small>Fruits &
                                                 Vegetables</small></a></div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                            class="text-inherit text-decoration-none">Golden
+                                    <h2 class="fs-6"><a href="" class="text-inherit text-decoration-none">Golden
                                             Pineapple</a></h2>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <div><span class="text-dark">$13</span> <span

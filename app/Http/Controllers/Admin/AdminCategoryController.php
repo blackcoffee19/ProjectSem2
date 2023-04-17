@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class AdminCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $cats = TypeProduct::all();
@@ -29,9 +26,6 @@ class AdminCategoryController extends Controller
         return view('admin.pages.Categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $item = $request->all();
@@ -53,23 +47,11 @@ class AdminCategoryController extends Controller
         return redirect('admin/category');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(Request $request, $id_type)
-    // {
-    //     $cats = TypeProduct::findOrFail($id_type);
-    //     return view('admin.pages.Categories.detail', compact('cats'));
-    // }
     public function show(TypeProduct $id_type)
     {
         return view('admin.pages.Categories.detail', compact('id_type'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(TypeProduct $id_type)
     {
         return view('admin.pages.Categories.update', compact('id_type'));
@@ -81,20 +63,26 @@ class AdminCategoryController extends Controller
         $cats->type = $request->input('type');
         $cats->created_at = $request->input('created_at');
         $cats->status = $request->input('status');
+
         if ($request->hasFile('photo')) {
+            // Xóa hình ảnh hiện tại của sản phẩm
+            unlink(public_path('images/category/' . $cats->image));
+
+            // Lưu tệp tin mới vào thư mục lưu trữ hình ảnh
             $file = $request->file('photo');
             $extension = $file->getClientOriginalExtension();
             $filename = $file->getClientOriginalName();
             $file->move('images/category', $filename);
+
+            // Cập nhật tên tệp tin mới cho sản phẩm
             $cats->image = $filename;
         }
+
         $cats->save();
+
         return redirect()->route('adminCategories');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function delete($id_type)
     {
         TypeProduct::find($id_type)->delete();

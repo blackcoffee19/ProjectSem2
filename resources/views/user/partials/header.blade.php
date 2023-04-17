@@ -183,18 +183,18 @@
                     <ul class="navbar-nav align-items-center ">
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{ Route('index') }}">
-                                Home <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
+                                <i class="fa-solid fa-house"></i> Home
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{ Route('products') }}">
-                                Categories <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
+                                <i class="fa-solid fa-plus"></i> Categories
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                Account <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
+                                <i class="fa-solid fa-user"></i> Account
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('accountorder') }}">Orders</a></li>

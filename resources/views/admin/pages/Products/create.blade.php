@@ -33,153 +33,214 @@
             </div>
             <!-- row -->
             <div class="row">
-                <div class="col-lg-8 col-12">
+                <div class="col-12">
                     <!-- card -->
-                    <div class="card mb-6 card-lg">
-                        <!-- card body -->
-                        <div class="card-body p-6">
-                            <h4 class="mb-4 h5">Product Information</h4>
+                    <div class="card p-6 card-lg">
+                        {{-- //asd asd asd --}}
+
+                        <div class="container">
                             <div class="row">
-                                <!-- input -->
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">Title</label>
-                                    <input type="text" class="form-control" placeholder="Product Name" required />
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">Product Category</label>
-                                    <select class="form-select">
-                                        <option selected>Product Category</option>
-                                        <option value="Dairy, Bread & Eggs">
-                                            Dairy, Bread & Eggs
-                                        </option>
-                                        <option value="Snacks & Munchies">
-                                            Snacks & Munchies
-                                        </option>
-                                        <option value="Fruits & Vegetables">
-                                            Fruits & Vegetables
-                                        </option>
-                                    </select>
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">Weight</label>
-                                    <input type="text" class="form-control" placeholder="Weight" required />
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">Units</label>
-                                    <select class="form-select">
-                                        <option selected>Select Units</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <div class="mb-3 col-lg-12 mt-5">
-                                        <!-- heading -->
-                                        <h4 class="mb-3 h5">Product Images</h4>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h2>{{ __('Add New Product') }}</h2>
+                                        </div>
 
-                                        <!-- input -->
-                                        <form action="#" class="d-block dropzone border-dashed rounded-2">
-                                            <div class="fallback">
-                                                <input name="file" type="file" multiple />
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3 col-lg-12 mt-5">
-                                    <h4 class="mb-3 h5">Product Descriptions</h4>
-                                    <div class="py-8" id="editor"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <!-- card -->
-                    <div class="card mb-6 card-lg">
-                        <!-- card body -->
-                        <div class="card-body p-6">
-                            <!-- input -->
-                            <div class="form-check form-switch mb-4">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock"
-                                    checked />
-                                <label class="form-check-label" for="flexSwitchStock">In Stock</label>
-                            </div>
-                            <!-- input -->
-                            <div>
-                                <div class="mb-3">
-                                    <label class="form-label">Product Code</label>
-                                    <input type="text" class="form-control" placeholder="Enter Product Title" />
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3">
-                                    <label class="form-label">Product SKU</label>
-                                    <input type="text" class="form-control" placeholder="Enter Product Title" />
-                                </div>
-                                <!-- input -->
-                                <div class="mb-3">
-                                    <label class="form-label" id="productSKU">Status</label><br />
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                            id="inlineRadio1" value="option1" checked />
-                                        <label class="form-check-label" for="inlineRadio1">Active</label>
-                                    </div>
-                                    <!-- input -->
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                            id="inlineRadio2" value="option2" />
-                                        <label class="form-check-label" for="inlineRadio2">Disabled</label>
-                                    </div>
-                                    <!-- input -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card -->
-                    <div class="card mb-6 card-lg">
-                        <!-- card body -->
-                        <div class="card-body p-6">
-                            <h4 class="mb-4 h5">Product Price</h4>
-                            <!-- input -->
-                            <div class="mb-3">
-                                <label class="form-label">Regular Price</label>
-                                <input type="text" class="form-control" placeholder="$0.00" />
-                            </div>
-                            <!-- input -->
-                            <div class="mb-3">
-                                <label class="form-label">Sale Price</label>
-                                <input type="text" class="form-control" placeholder="$0.00" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card -->
-                    <div class="card mb-6 card-lg">
-                        <!-- card body -->
-                        <div class="card-body p-6">
-                            <h4 class="mb-4 h5">Meta Data</h4>
-                            <!-- input -->
-                            <div class="mb-3">
-                                <label class="form-label">Meta Title</label>
-                                <input type="text" class="form-control" placeholder="Title" />
-                            </div>
+                                        <div class="card-body">
+                                            <form method="POST" action="{{ route('admin.product.store') }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
 
-                            <!-- input -->
-                            <div class="mb-3">
-                                <label class="form-label">Meta Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Meta Description"></textarea>
+                                                <div class="form-group row mt-3">
+                                                    <label for="name"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="name" type="text"
+                                                            class="form-control @error('name') is-invalid @enderror"
+                                                            name="name" value="{{ old('name') }}" required
+                                                            autocomplete="name" autofocus>
+
+                                                        @error('name')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="id_type"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <select id="id_type" name="id_type"
+                                                            class="form-control @error('id_type') is-invalid @enderror"
+                                                            required>
+                                                            <option value="">-- Select Type --</option>
+                                                            @foreach ($types as $type)
+                                                                <option value="{{ $type->id_type }}"
+                                                                    @if (old('id_type') == $type->id_type) selected @endif>
+                                                                    {{ $type->type }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        @error('id_type')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="description"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
+
+                                                        @error('description')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="quantity"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="quantity" type="number"
+                                                            class="form-control @error('quantity') is-invalid @enderror"
+                                                            name="quantity" value="{{ old('quantity') }}" required>
+
+                                                        @error('quantity')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="original_price"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Original Price') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="original_price" type="number"
+                                                            class="form-control @error('original_price') is-invalid @enderror"
+                                                            name="original_price" value="{{ old('original_price') }}"
+                                                            required>
+
+                                                        @error('original_price')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="price"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="price" type="number"
+                                                            class="form-control @error('price') is-invalid @enderror"
+                                                            name="price" value="{{ old('price') }}" required>
+
+                                                        @error('price')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="sale"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Sale') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input id="sale" type="number"
+                                                            class="form-control @error('sale') is-invalid @enderror"
+                                                            name="sale" value="{{ old('sale') }}" required>
+
+                                                        @error('sale')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3">
+                                                    <label for="image"
+                                                        class="col-md-4 col-form-label text-md-right">{{ __('Images') }}</label>
+
+                                                    <div class="col-md-6">
+                                                        <input type="file" id="form5Example3" name="photos[]" multiple
+                                                            onchange="previewImages()">
+                                                        <div id="image-preview"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mt-3 mb-0">
+                                                    <div class="col-md-6 offset-md-4">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            {{ __('Save') }}
+                                                        </button>
+                                                        <a href="{{ route('adminProduct') }}"
+                                                            class="btn btn-secondary">{{ __('Cancel') }}</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <script>
+                            function previewImages() {
+                                var preview = $('#image-preview');
+                                preview.empty();
+                                var files = $('#form5Example3')[0].files;
+                                var promises = [];
+
+                                for (var i = 0; i < files.length; i++) {
+                                    var file = files[i];
+                                    var reader = new FileReader();
+                                    promises.push(new Promise(function(resolve, reject) {
+                                        reader.onload = function(event) {
+                                            var img = $('<img>').attr('src', event.target.result).attr('style',
+                                                'width:100px;');
+                                            preview.append(img);
+                                            resolve();
+                                        };
+                                        reader.onerror = function(event) {
+                                            reject(event.target.error);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }));
+                                }
+
+                                Promise.all(promises).then(function() {
+                                    console.log('All images loaded');
+                                }).catch(function(error) {
+                                    console.log(error);
+                                });
+                            }
+                        </script>
+
+
+
                     </div>
-                    <!-- button -->
-                    <div class="d-grid">
-                        <a href="#" class="btn btn-primary"> Create Product </a>
-                    </div>
+
                 </div>
             </div>
-        </div>
     </main>
 @endsection

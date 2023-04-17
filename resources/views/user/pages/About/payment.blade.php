@@ -37,7 +37,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex">
                                             <!-- img -->
-                                            <img src="../assets/images/svg-graphics/visa.svg" alt="">
+                                            <img src="{{ asset('/images/svg-graphics/visa.svg') }}" alt="">
                                             <!-- text -->
                                             <div class="ms-4">
                                                 <h5 class="mb-0 h6 h6">**** 1234</h5>
@@ -56,7 +56,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex">
                                             <!-- img -->
-                                            <img src="../assets/images/svg-graphics/mastercard.svg" alt=""
+                                            <img src="{{ asset('/images/svg-graphics/mastercard.svg') }}" alt=""
                                                 class="me-3">
                                             <div>
                                                 <h5 class="mb-0 h6">Mastercard ending in 1234</h5>
@@ -74,7 +74,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex">
                                             <!-- img -->
-                                            <img src="../assets/images/svg-graphics/discover.svg" alt=""
+                                            <img src="{{ asset('/images/svg-graphics/discover.svg') }}" alt=""
                                                 class="me-3">
                                             <div>
                                                 <!-- text -->
@@ -95,8 +95,8 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex">
                                             <!-- img -->
-                                            <img src="../assets/images/svg-graphics/americanexpress.svg" alt=""
-                                                class="me-3">
+                                            <img src="{{ asset('/images/svg-graphics/americanexpress.svg') }}"
+                                                alt="" class="me-3">
                                             <!-- text -->
                                             <div>
                                                 <h5 class="mb-0 h6">American Express ending in 1234</h5>
@@ -114,7 +114,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex">
                                             <!-- img -->
-                                            <img src="../assets/images/svg-graphics/paypal.svg" alt=""
+                                            <img src="{{ asset('/images/svg-graphics/paypal.svg') }}" alt=""
                                                 class="me-3">
                                             <div>
                                                 <!-- text -->

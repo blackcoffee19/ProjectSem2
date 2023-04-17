@@ -54,7 +54,7 @@
                                     <li class="list-group-item px-5 py-4 list-group-item-action active">
                                         <a href="#!" class="text-muted">
                                             <div class="d-flex">
-                                                <img src="./assets/images/avatar/avatar-8.jpg" alt=""
+                                                <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
                                                     class="avatar avatar-md rounded-circle" />
                                                 <div class="ms-4">
                                                     <p class="mb-1">
@@ -76,7 +76,7 @@
                                     <li class="list-group-item px-5 py-4 list-group-item-action">
                                         <a href="#!" class="text-muted">
                                             <div class="d-flex">
-                                                <img src="./assets/images/avatar/avatar-8.jpg" alt=""
+                                                <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
                                                     class="avatar avatar-md rounded-circle" />
                                                 <div class="ms-4">
                                                     <p class="mb-1">
@@ -98,7 +98,7 @@
                                     <li class="list-group-item px-5 py-4 list-group-item-action">
                                         <a href="#!" class="text-muted">
                                             <div class="d-flex">
-                                                <img src="./assets/images/avatar/avatar-8.jpg" alt=""
+                                                <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
                                                     class="avatar avatar-md rounded-circle" />
                                                 <div class="ms-4">
                                                     <p class="mb-1">
@@ -126,7 +126,7 @@
                     </li>
                     <li class="dropdown ms-4">
                         <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="./assets/images/avatar/avatar-8.jpg" alt=""
+                            <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
                                 class="avatar avatar-md rounded-circle" />
                         </a>
 

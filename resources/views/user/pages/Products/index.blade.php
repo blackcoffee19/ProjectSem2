@@ -1,10 +1,6 @@
 @extends('user.partials.master')
 @section('content')
     <main>
-        <!-- breadcrumb -->
-        @include('user.partials.breadcrumb')
-        <!-- end breadcrumb -->
-
         <!-- section -->
         <div class=" mt-8 mb-lg-14 mb-8">
             <!-- container -->
@@ -80,8 +76,9 @@
                         </div>
                         <!-- row -->
                         <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+                            {{-- <h1>HEKJSSVF</h1> --}}
+                            @foreach ($products as $pro)
 
-                            <!-- col -->
                             <div class="col">
                                 <!-- card -->
                                 <div class="card card-product">
@@ -93,8 +90,12 @@
                                                 <span class="badge bg-danger">Sale</span>
                                             </div>
                                             <a href="{{ route('products-details') }}">
+<<<<<<< HEAD
                                                 <!-- img --><img
-                                                    src="{{ asset('/assets/images/products/product-img-1.jpg') }}"
+                                                    src="{{ asset('/assets/images/products/'.$pro->Library->first()->image) }}"
+=======
+                                                <!-- img --><img src="{{ asset('images/products/product-img-1.jpg') }}"
+>>>>>>> refs/remotes/origin/main
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                             </a>
                                             <!-- action btn -->
@@ -146,6 +147,9 @@
                                     </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
+                            @endforeach
+=======
                             <!-- col -->
                             <div class="col">
                                 <!-- card -->
@@ -158,8 +162,7 @@
                                             </div>
 
                                             <a href="{{ route('products-details') }}">
-                                                <!-- img --><img
-                                                    src="{{ asset('/assets/images/products/product-img-2.jpg') }}"
+                                                <!-- img --><img src="{{ asset('images/products/product-img-2.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                             </a>
                                             <!-- action btn -->
@@ -218,7 +221,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-3.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-3.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -282,8 +285,7 @@
                                             </div>
 
                                             <a href="{{ route('products-details') }}">
-                                                <!-- img --><img
-                                                    src="{{ asset('/assets/images/products/product-img-4.jpg') }}"
+                                                <!-- img --><img src="{{ asset('images/products/product-img-4.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                             </a>
                                             <!-- action btn -->
@@ -343,7 +345,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-5.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-5.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -406,8 +408,7 @@
                                                 <span class="badge bg-danger">Sale</span>
                                             </div>
                                             <a href="{{ route('products-details') }}">
-                                                <!-- img --><img
-                                                    src="{{ asset('/assets/images/products/product-img-6.jpg') }}"
+                                                <!-- img --><img src="{{ asset('images/products/product-img-6.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
                                             </a>
                                             <!-- action btn -->
@@ -469,7 +470,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-7.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-7.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -528,7 +529,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-8.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-8.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -587,7 +588,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-9.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-9.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -646,7 +647,7 @@
                                         <!-- badge -->
                                         <div class="text-center position-relative"> <a
                                                 href="{{ route('products-details') }}"><img
-                                                    src="{{ asset('/assets/images/products/product-img-10.jpg') }}"
+                                                    src="{{ asset('images/products/product-img-10.jpg') }}"
                                                     alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
                                             <!-- action btn -->
                                             <div class="card-product-action">
@@ -697,6 +698,7 @@
                                     </div>
                                 </div>
                             </div>
+>>>>>>> refs/remotes/origin/main
                         </div>
                         <div class="row mt-8">
                             <div class="col">
@@ -748,38 +750,37 @@
                             <div class="product productModal" id="productModal">
                                 <div class="zoom" onmousemove="zoom(event)"
                                     style="
-                  background-image: url(../assets/images/products/product-single-img-1.jpg) ">
+                  background-image: url(..images/products/product-single-img-1.jpg) ">
                                     <!-- img -->
-                                    <img src="{{ asset('/assets/images/products/product-single-img-1.jpg') }}"
-                                        alt="">
+                                    <img src="{{ asset('images/products/product-single-img-1.jpg') }}" alt="">
                                 </div>
                                 <div>
                                     <div class="zoom" onmousemove="zoom(event)"
                                         style="
-                    background-image: url({{ asset('/assets/images/products/product-single-img-2.jpg') }});
+                    background-image: url({{ asset('images/products/product-single-img-2.jpg') }});
                   ">
                                         <!-- img -->
-                                        <img src="{{ asset('/assets/images/products/product-single-img-2.jpg') }}"
+                                        <img src="{{ asset('images/products/product-single-img-2.jpg') }}"
                                             alt="">
                                     </div>
                                 </div>
                                 <div>
                                     <div class="zoom" onmousemove="zoom(event)"
                                         style="
-                    background-image: url({{ asset('/assets/images/products/product-single-img-3.jpg') }});
+                    background-image: url({{ asset('images/products/product-single-img-3.jpg') }});
                   ">
                                         <!-- img -->
-                                        <img src="{{ asset('/assets/images/products/product-single-img-3.jpg') }}"
+                                        <img src="{{ asset('images/products/product-single-img-3.jpg') }}"
                                             alt="">
                                     </div>
                                 </div>
                                 <div>
                                     <div class="zoom" onmousemove="zoom(event)"
                                         style="
-                    background-image: url({{ asset('/assets/images/products/product-single-img-4.jpg') }});
+                    background-image: url({{ asset('images/products/product-single-img-4.jpg') }});
                   ">
                                         <!-- img -->
-                                        <img src="{{ asset('/assets/images/products/product-single-img-4.jpg') }}"
+                                        <img src="{{ asset('images/products/product-single-img-4.jpg') }}"
                                             alt="">
                                     </div>
                                 </div>
@@ -790,28 +791,28 @@
                                     <div class="col-3" class="tns-nav-active">
                                         <div class="thumbnails-img">
                                             <!-- img -->
-                                            <img src="{{ asset('/assets/images/products/product-single-img-1.jpg') }}"
+                                            <img src="{{ asset('images/products/product-single-img-1.jpg') }}"
                                                 alt="">
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="thumbnails-img">
                                             <!-- img -->
-                                            <img src="{{ asset('/assets/images/products/product-single-img-2.jpg') }}"
+                                            <img src="{{ asset('images/products/product-single-img-2.jpg') }}"
                                                 alt="">
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="thumbnails-img">
                                             <!-- img -->
-                                            <img src="{{ asset('/assets/images/products/product-single-img-3.jpg') }}"
+                                            <img src="{{ asset('images/products/product-single-img-3.jpg') }}"
                                                 alt="">
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="thumbnails-img">
                                             <!-- img -->
-                                            <img src="{{ asset('/assets/images/products/product-single-img-4.jpg') }}"
+                                            <img src="{{ asset('images/products/product-single-img-4.jpg') }}"
                                                 alt="">
                                         </div>
                                     </div>

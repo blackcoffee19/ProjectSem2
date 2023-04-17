@@ -73,6 +73,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($products as $item)
+                                            
                                         <tr>
 
                                             <td>
@@ -85,11 +87,15 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/snacks.svg"
+<<<<<<< HEAD
+                                                <a href="#!"> <img src="{{asset('assets/images/products/'.$item->Library[0]->image)}}"
+=======
+                                                <a href="#!"> <img src="{{ asset('images/icons/snacks.svg') }}"
+>>>>>>> refs/remotes/origin/main
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
-                                            <td><a href="#" class="text-reset">Snack & Munchies</a></td>
-                                            <td>12</td>
+                                            <td><a href="#" class="text-reset">{{$item->name}}</a></td>
+                                            <td>{{$item->quantity}}</td>
 
                                             <td>
                                                 <span class="badge bg-light-primary text-dark-primary">Published</span>
@@ -111,6 +117,10 @@
                                                 </div>
                                             </td>
                                         </tr>
+<<<<<<< HEAD
+                                        @endforeach
+                                        
+=======
                                         <tr>
 
                                             <td>
@@ -123,7 +133,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/bakery.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/bakery.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Bakery & Biscuits</a></td>
@@ -161,7 +171,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/baby-food.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/baby-food.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Baby Care</a></td>
@@ -199,7 +209,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/wine.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/wine.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Cold Drinks & Juices</a></td>
@@ -237,7 +247,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/toiletries.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/toiletries.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Toiletries</a></td>
@@ -275,7 +285,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/dairy.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/dairy.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Dairy, Bread & Eggs</a></td>
@@ -313,7 +323,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/fish.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/fish.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Chicken, Meat & Fish</a></td>
@@ -351,7 +361,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/fruit.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/fruit.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Fruits & Vegetables</a></td>
@@ -389,7 +399,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"> <img src="./assets/images/icons/petfoods.svg"
+                                                <a href="#!"> <img src="{{ asset('images/icons/petfoods.svg') }}"
                                                         alt="" class="icon-shape icon-sm"></a>
                                             </td>
                                             <td><a href="#" class="text-reset">Pet Food</a></td>
@@ -415,6 +425,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+>>>>>>> refs/remotes/origin/main
                                     </tbody>
                                 </table>
 

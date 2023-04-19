@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->decimal('original_price',8,2);
             $table->decimal('price',8,2);
-            $table->double('sale')->default(0);
+            $table->decimal('sale',8,2)->default(0);
             $table->timestamps();
         });
     }

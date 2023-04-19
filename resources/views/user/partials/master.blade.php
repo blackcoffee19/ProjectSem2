@@ -39,6 +39,11 @@
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}">
 
     <title>@yield('title')</title>
+    <style>
+        .user_dropdown::after{
+            content: none
+        }
+    </style>
 </head>
 
 <body>
@@ -60,8 +65,11 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/simplebar.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+
     <!-- Theme JS -->
-    <script src="{{ asset('js/theme.min.js') }}."></script>
+    <script src="{{ asset('js/theme.min.js') }}"></script>
     <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
     <script src="{{ asset('js/countdown.js') }}"></script>
     <script src="{{ asset('js/slick.min.js') }}"></script>

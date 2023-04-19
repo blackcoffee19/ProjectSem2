@@ -149,3 +149,133 @@
       </div>
     </div>
   </div>
+  <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
+    <div role="alert"  id="toastAdd" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
+        <div class="toast-body" style="height: 100px; padding:30px 0">
+          <div class="row">
+            <div class="col-2 mb-3 mx-auto">
+              <i class="fa-solid fa-cart-circle-check" style="color: #2ec27e; font-size: 2.3rem"></i>
+            </div>
+            <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" id="messCompare">Add pet to cart successully</h4>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+      <div class="modal-content" style="overflow: scroll">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Edit Order</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{route('user_editorder')}}" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 row mt-3">
+                        <input type="hidden" name="id_orderedit" id="id_orderedit">
+                        <div class="mb-3 row">
+                            <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusname">Reciver Name</label>
+                            <div class="col-lg-8 col-md-9">
+                                <input type="text" name="edit_cusname" id="edit_cusname" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusaddr">Address</label>
+                            <div class="col-lg-8 col-md-9">
+                                <input type="text" name="edit_cusaddr" id="edit_cusaddr" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusphone">Phone</label>
+                            <div class="col-lg-8 col-md-9">
+                                <input type="text" name="edit_cusphone" id="edit_cusphone" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusemail">Email</label>
+                            <div class="col-lg-8 col-md-9">
+                                <input type="email" name="edit_email" id="edit_cusemail" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="edit_coupon" class="col-form-label col-lg-4 col-md-3">Coupon</label>
+                            <div class="col-lg-8 col-md-9">
+                                <p id="name_coupon"></p>
+                                <input type="text" class="form-control" name="edit_coupon" id="edit_coupon" disabled >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="submit_order" class="btn btn-primary" disabled>Change</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- modal body -->
+      <div class="modal-body p-6">
+          <div class="d-flex justify-content-between mb-5">
+            <!-- heading -->
+            <div>
+              <h5 class="h6 mb-1" id="addAddressModalLabel">New Shipping Address</h5>
+              <p class="small mb-0">Add new shipping address for your order delivery.</p>
+            </div>
+            <div>
+              <!-- button -->
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+          <form action="{{route('post_address')}}" method="post">
+            @csrf
+            <div class="row g-3">
+              <input type="hidden" name="shipment_fee" id="shipment_fee" value="2">
+              <div class="col-12">
+                <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="">
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="">
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control" name="emailReciever" placeholder="Email">
+              </div>
+              <div class="col-12">
+                <input type="text" class="form-control" name="addressReciever" placeholder="Address">
+              </div>
+              <div class="col-12">
+                <select class="form-select" id="province" name="province">
+                </select>
+              </div>
+              <div class="col-12">
+                <select class="form-select" id="district" name="district" disabled>
+                </select>
+              </div>
+              <div class="col-12">
+                <select class="form-select" id="ward" name="ward" disabled>
+                </select>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="saveAddress" id="saveAddress"> 
+                  <label class="form-check-label" for="saveAddress">
+                    Set as Default
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 text-end">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit" id="sendAddress" disabled >Save Address</button>
+              </div>
+            </div>
+          </form>
+      </div>
+
+    </div>
+  </div>
+</div>

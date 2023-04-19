@@ -33,7 +33,7 @@
     <!-- Libs CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="{{}}">
     <!-- Theme CSS -->
     <link href="{{ asset('css/simplebar.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}">

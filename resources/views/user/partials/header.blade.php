@@ -27,16 +27,63 @@
 
                         </a>
 
-                        <div class="d-flex align-items-center lh-1">
-
+                        <div class="d-flex align-items-center dropdown dropdown-fullwidth lh-1">
                             <div class="list-inline me-4">
-                                <div class="list-inline-item">
-                                    @if (Auth::check())
-                                        <a href="#!" class="text-muted" >
+                                @if (Auth::check())
+                                <div class="list-inline-item me-3">
+                                    <a href="#!" class="text-muted dropdown-toggle user_dropdown position-relative" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+                                            <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/>
+                                        </svg>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                            <span class="fw-bold countFav" >
+                                                {{isset($news)?count($news):0}}
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class=" dropdown-menu shadow">
+                                        <div class="list-group">
+                                            @if (isset($news))
+                                            @foreach ($news as $new)
+                                            <a href="{{route($new->link,$new->attr)}}" class="list-group-item list-group-item-action">
+                                                {{$new->title}}
+                                            </a>
+                                            @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-inline-item me-3">
+                                    <a href="{{ route('wishlist') }}" class="text-muted position-relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                            <span class="fw-bold countFav" >
+                                                {{count(Auth::user()->Favourite)}}
+                                            </span>
+                                        </span>
+                                    </a>
+                                </div>
+                                @endif
+                                <div class="list-inline-item dropdown dropdown-fullwidth">
+                                    @if (Auth::check()) 
+                                        <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             {{Auth::user()->name}}
                                         </a>
-                                        <a href="{{route('signout')}}"><i class="bi bi-box-arrow-in-right"></i>
-                                        </a>
+                                        <div class=" dropdown-menu pb-0 ">
+                                            <div class="list-group">
+                                                <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
+                                                <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                                <a href="{{route('accountaddress')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-location-pin"></i>Address</a>
+                                                <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                                <a href="{{route('signout')}}" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-in-right" ></i> Sign out</a>
+                                            </div>
+                                        </div>
                                     @else
                                     <a href="#!" class="text-muted" data-bs-toggle="modal"
                                         data-bs-target="#userModal">
@@ -114,10 +161,33 @@
 
                     </form>
                 </div>
-                <div class="col-md-3 col-xxl-2 mx-auto text-end d-none d-lg-block">
-                    <div class="d-flex flex-row justify-content-around">
+                <div class="col-md-4 col-xxl-3 mx-auto text-end d-none d-lg-block dropdown dropdown-fullwidth">
+                    <div class="d-flex flex-row justify-content-around w-75">
                         @if (Auth::check())
-                            <div >
+                            <div class=" me-3">
+                                <a href="#!" class="text-muted dropdown-toggle user_dropdown position-relative" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+                                        <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/>
+                                    </svg>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        <span class="fw-bold countFav" >
+                                            {{isset($news)?count($news):0}}
+                                        </span>
+                                    </span>
+                                </a>
+                                <div class=" dropdown-menu shadow">
+                                    <div class="list-group">
+                                        @if (isset($news))
+                                            @foreach ($news as $new)
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                {{$new->title}}
+                                            </a>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="me-3">
                                 <a href="{{ route('wishlist') }}" class="text-muted position-relative">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -126,15 +196,28 @@
                                             d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                                         </path>
                                     </svg>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        <span class="fw-bold countFav" >
+                                            {{count(Auth::user()->Favourite)}}
+                                        </span>
+                                    </span>
                                 </a>
                             </div>
-                            <div >
-                                <a href="#!" class="text-muted" >
+                            
+                            <div class="list-inline-item ">
+                                <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
                                     {{Auth::user()->name}}
                                 </a>
+                                <div class=" dropdown-menu pb-0 ">
+                                    <div class="list-group">
+                                        <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
+                                        <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                        <a href="{{route('accountaddress')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-location-pin"></i>Address</a>
+                                        <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                        <a href="{{route('signout')}}" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-in-right" ></i> Sign out</a>
+                                    </div>
+                                </div>
                             </div>
-                            <a href="{{route('signout')}}"><i class="bi bi-box-arrow-in-right"></i>
-                            </a>
                             @else
                             <div>
                                 <a href="#!" class="text-muted" data-bs-toggle="modal"

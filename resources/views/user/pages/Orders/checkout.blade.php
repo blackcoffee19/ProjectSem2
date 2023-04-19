@@ -16,6 +16,9 @@
           </div>
         </div>
       </div>
+      @php
+          $shipment = 2;
+      @endphp
       <div>
         <div class="row">
           @if (isset($cart) && count($cart)>0)
@@ -23,7 +26,9 @@
               <form action="{{route('checkout')}}" method="post">
                 @csrf
                 <div class="accordion accordion-flush" id="accordionFlushExample">
+                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="2">
                   <div class="accordion-item py-4">
+                    
                     @if (Auth::check())
                       <input type="hidden" name="code_coupon" value="{{$coupon? $coupon->code:''}}">
                       <div class="d-flex justify-content-between align-items-center">
@@ -39,15 +44,12 @@
                       <div class="mt-5">
                         <div class="row" id="listAddress">
                           @if (count($address)>0)
-                          @php
-                              $def_add = "";
-                          @endphp
                             @foreach ($address as $add)
                             <div class="col-lg-6 col-12 mb-4">
                               <div class="card card-body p-6 " style="height: 240px">
                                     <div class="form-check mb-4">
-                                      <input class="form-check-input" type="radio" name="select_address" id="homeRadio" {{$add->default?'checked':''}} value="{{$add->id_address}}">
-                                      <label class="form-check-label text-dark" for="homeRadio">
+                                      <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default?'checked':''}} value="{{$add->id_address}}">
+                                      <label class="form-check-label text-dark" >
                                         Reciver : {{$add->receiver}}
                                       </label>
                                     </div>
@@ -56,7 +58,7 @@
                                       <abbr title="Phone">P: {{$add->phone}}</abbr></address>
                                     @if ($add->default)
                                     @php
-                                        $def_add = $add->address;
+                                        $shipment = $add->shipment_fee;
                                     @endphp
                                     <span class="text-danger">Default address </span>
                                     @endif
@@ -69,7 +71,6 @@
                         </div>
                       </div>
                     @else
-                    <input type="hidden" name="code_coupon" value="{{$coupon? $coupon->code:''}}">
 
                     <div class="d-flex justify-content-between align-items-center">
                       <a href="#" class="fs-5 text-inherit collapsed h4"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
@@ -282,17 +283,24 @@
                       </div>
 
                     </div>
-                    <div class="d-flex align-items-center justify-content-between  ">
+                    <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
                         Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
                           title="Shipment Fee"></i>
                       </div>
                       <div class="fw-bold" id="shippment_fee">
-                        $2.00
+                        ${{number_format($shipment,2,'.',' ')}}
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
+                      <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
+                      </div>
+                      <div class="fw-bold text-danger" >
+                        + $1
                       </div>
                     </div>
                     @if (Session::has('coupon'))
-                    <div class="d-flex align-items-center justify-content-between  ">
+                    <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
                         Coupon {{$coupon->title}}<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Coupon"></i>
                       </div>
@@ -320,7 +328,7 @@
                             $subtotal *=(1- $coupon->discount/100);
                           }
                       @endphp
-                      <div id="total">
+                      <div id="total" data-total="{{$subtotal}}">
                         ${{$subtotal }}
                       </div>
                     </div>
@@ -337,182 +345,65 @@
     </div>
   </section>
 </main>
-  <!-- Modal -->
-  <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <!-- modal body -->
-        <div class="modal-body p-6">
-            <div class="d-flex justify-content-between mb-5">
-              <!-- heading -->
-              <div>
-                <h5 class="h6 mb-1" id="addAddressModalLabel">New Shipping Address</h5>
-                <p class="small mb-0">Add new shipping address for your order delivery.</p>
-              </div>
-              <div>
-                <!-- button -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-            </div>
-            
-            <div class="row g-3">
-              <!-- col -->
-              <div class="col-12">
-                <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="">
-              </div>
-              <div class="col-6">
-                <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="">
-              </div>
-              <div class="col-6">
-                <input type="text" class="form-control" name="emailReciever" placeholder="Email">
-              </div>
-              <div class="col-12">
-                <input type="text" class="form-control" name="addressReciever" placeholder="Address">
-              </div>
-              <div class="col-12">
-                <select class="form-select" id="province">
-                </select>
-              </div>
-              <div class="col-12">
-                <select class="form-select" id="district" disabled>
-                </select>
-              </div>
-              <div class="col-12">
-                <select class="form-select" id="ward" disabled>
-                </select>
-              </div>
-              <div class="col-12 text-end">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="button" id="sendAddress" disabled >Save Address</button>
-              </div>
-            </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+  
 @endsection
 @section('script')
     <script>
       $(document).ready(function(){
-            const host = "https://vapi.vnappmob.com";
-            const getProvince = host+"/api/province/";
-            $.getJSON(getProvince,function(data){
-                $('#province').append("<option selected>--Choose 1 province--</option>");
-                $.each(data.results,function(key,value){
-                    $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
-                });
-            });
-            $('#province').change(function async(e){
-                e.preventDefault();
-                let getDistric = host+"/api/province/district/"+$(this).val();
-                $('#district').removeAttr('disabled');
-                let str = "<option selected>--Choose 1 district--</option>";
-                $.getJSON(getDistric,function(data){
-                    $.each(data.results,function(key,value){
-                        str+=`<option value=${value.district_id}>${value.district_name}</option>`;
-                    })
-                    $('#district').html(str);
-                });
-            });
-            $('#district').change(function(e){
-                e.preventDefault();
-                $('#ward').removeAttr('disabled');
-                $('#province option:selected').val($('#province option:selected').text());
-                let str = '<option selected>--Choose 1 ward--</option>';
-                let getWard = host+"/api/province/ward/"+$(this).val();
-                $.getJSON(getWard,function(data){
-                    $.each(data.results,function(key,value){
-                        str+=`<option value=${value.ward_id}>${value.ward_name}</option>`;
-                    });
-                    $('#ward').html(str);
-                });
-            });
-            $('#ward').change(function(e){
-                e.preventDefault();
-                $('#district option:selected').val($('#district option:selected').text());
-                $('#ward option:selected').val($('#ward option:selected').text());
-                if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val()){
-                      $('#submit_order').removeAttr('disabled');
-                }else{
-                    $("#submit_order").attr('disabled','disabled');
-                };
-            })
-            
-            let valiPhone = /^[0-9]{9,11}$/;
-            let valiEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
-            $('input[name=phoneReciever]').focusout(function(e){
-                e.preventDefault();
-                if(!valiPhone.test($(this).val())){
-                    $('#valiPhone').text("Invail Phone. Try again");
-                    $('#next').attr('disabled','disabled');      
-                    $(this).addClass('is-invalid');
-                }else{
-                    $(this).removeClass('is-invalid');
-                    $('#valiPhone').text('');
-                }
-            });
-            $("input[name='nameReciever']").focusout(function(e){
-                e.preventDefault();
-                if($(this).val().trim().length==0){
-                    $('#valiName').text("Please add name for order");
-                    $('#next').attr('disabled','disabled');      
-                    $(this).addClass('is-invalid');
-                }else{
-                    $(this).removeClass('is-invalid');
-                    $('#valiName').text('');
-                }
-            });
-            $('input[name=emailReciever]').focusout(function(e){
-                e.preventDefault();
-                if(!valiEmail.test($(this).val())){
-                    $('#valiEmail').text("Invaild Email. Try again");
-                    $('#next').attr('disabled','disabled');
-                    $(this).addClass('is-invalid');      
-                }else{
-                    $(this).removeClass('is-invalid');
-                    $('#valiEmail').text('');
-                };
-            });
-            $('input[name="nameReciever"],input[name="phoneReciever"],input[name="emailReciever"]').on('blur', function(e) {
-                e.preventDefault();
-                if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 ){
-                    $("#sendAddress").removeAttr('disabled');
-                    console.log($('#ward').val());
-                    if($('#ward').val()){
-                      $('#submit_order').removeAttr('disabled');
-                    }
-                }else{
-                    $("#sendAddress").attr('disabled','disabled');
-                    $("#submit_order").attr('disabled','disabled');
-                };
-            });
-            $('#sendAddress').click(function(){
-              $.ajax({
-                method: "POST",
-                headers: {'X-CSRF-TOKEN':  '{{csrf_token()}}' },
-                url: window.location.origin+'/public/index.php/ajax/add_address',
-                data: {
-                  'name':$('input[name=nameReciever]').val(),
-                  'email':$('input[name=emailReciever]').val(),
-                  'phone':$('input[name=phoneReciever]').val(),
-                  'address':$('input[name=addressReciever]').val()+ ", " + $('#ward option:selected').val()+', '+$('#district option:selected').val()+", "+$('#province option:selected').val(),
-                  // 'saveAddress': $('input[name=saveAddress]').val(),
-                },
-                success: function (data) {
-                  $("#listAddress").html(data);
-                  $('.remove_add').click(function(){
-                    $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
-                      $("#listAddress").html(data);
-                  });
-                  })
-                }
-              });
-            });
+            // $('#sendAddress').click(function(){
+            //   $.ajax({
+            //     method: "POST",
+            //     headers: {'X-CSRF-TOKEN':  '{{csrf_token()}}' },
+            //     url: window.location.origin+'/public/index.php/ajax/add_address',
+            //     data: {
+            //       'name':$('input[name=nameReciever]').val(),
+            //       'email':$('input[name=emailReciever]').val(),
+            //       'phone':$('input[name=phoneReciever]').val(),
+            //       'address':$('input[name=addressReciever]').val()+ ", " + $('#ward option:selected').val()+', '+$('#district option:selected').val()+", "+$('#province option:selected').val(),
+            //       'shipment_fee': $('#province option:selected').val() != "Thành phố Hồ Chí Minh" ? 3:2,
+            //     },
+            //     success: function (data) {
+            //       $("#listAddress").html(data);
+            //       $('.remove_add').click(function(){
+            //         $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
+            //           $("#listAddress").html(data);
+            //           $('input[name="select_address"]').change(function(){
+            //             console.log($('input[name="select_address"]:checked').data('shipment'));
+            //             console.log($('input[name="select_address"]:checked').val());
+            //           //   if(parseFloat($(this).data('shipment'))>2){
+            //           //     $('#extra_ship').removeClass('d-none');
+            //           //       $('#shipment_fee').val(3);
+            //           //       let totall = parseFloat($("#total").data('total'))+1;
+            //           //       $('#total').html("$"+totall);
+            //           //   }else{
+            //           //     if(!$('#extra_ship').hasClass('d-none')){
+            //           //       $('#extra_ship').addClass('d-none');
+            //           //     }
+            //           //       $('#shipment_fee').val(2);
+            //           //       $('#total').html('$'+$("#total").data('total'));
+            //           //   }
+            //           })
+            //       });
+            //       })
+            //     }
+            //   });
+            // });
             $('.remove_add').click(function(){
-              $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
-                $("#listAddress").html(data);
-              });
+              window.location.assign(window.location.origin+'/public/index.php/remove_address/'+$(this).data('idadd'));
+            });
+            $('input[name="select_address"]').change(function(){
+              if(parseFloat($('input[name="select_address"]:checked').data('shipment'))>2){
+                $('#extra_ship').removeClass('d-none');
+                  $('#shipment_fee').val(3);
+                  let totall = parseFloat($("#total").data('total'))+1;
+                  $('#total').html("$"+totall);
+              }else{
+                if(!$('#extra_ship').hasClass('d-none')){
+                  $('#extra_ship').addClass('d-none');
+                }
+                  $('#shipment_fee').val(2);
+                  $('#total').html('$'+$("#total").data('total'));
+              }
             })
         })
     </script>

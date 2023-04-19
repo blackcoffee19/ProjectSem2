@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('code_coupon')->nullable();
             $table->decimal('shipping_fee',8,1)->default(2);
             $table->enum('method',['cod','paypal']);
-            $table->string('image')->nullable();
             $table->enum('status',['finished','confirmed','delivery','unconfimred','cancel','transaction failed']);
             $table->timestamps();
         });

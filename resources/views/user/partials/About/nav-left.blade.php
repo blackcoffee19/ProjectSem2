@@ -9,17 +9,18 @@
             </li>
             <!-- nav item -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('setting') }}">
-                    <i class="fa-solid fa-gear me-5"></i>Settings</a>
+                <a class="nav-link" href="{{route('accountsetting')}}" >
+                    <i class="fa-solid fa-gear me-5"></i>Settings
+                </a>
             </li>
             <!-- nav item -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('address') }}">
+                <a class="nav-link" href="{{route('accountaddress')}}">
                     <i class="fa-solid fa-location-pin me-5"></i>Address</a>
             </li>
             <!-- nav item -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('payment') }}">
+                <a class="nav-link" href="{{route('accountpayment')}}" >
                     <i class="fa-regular fa-credit-card me-5"></i>Payment Method</a>
             </li>
             <!-- nav item -->
@@ -28,7 +29,7 @@
             </li>
             <!-- nav item -->
             <li class="nav-item">
-                <a class="nav-link " href="">
+                <a class="nav-link " href="{{route('signout')}}">
                     <i class="fa-solid fa-arrow-right-from-bracket me-5"></i>Log out
                 </a>
             </li>

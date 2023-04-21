@@ -94,10 +94,12 @@
                                             <li class="list-group-item py-3 py-lg-0 px-0 border-top">
                                                 <div class="row align-items-center">
                                                     <div class="col-3 col-md-2">
-                                                        <img src="{{ asset('images/products/'.$cart['image']) }}" alt="Ecommerce" class="img-fluid">
+                                                        <a href="{{ route('products-details',$cart->Product->id_product)}}">
+                                                            <img src="{{ asset('images/products/'.$cart['image']) }}" alt="Ecommerce" class="img-fluid">
+                                                        </a>
                                                     </div>
                                                     <div class="col-3 col-md-3">
-                                                        <a href="shop-single.html" class="text-inherit">
+                                                        <a href="{{ route('products-details',$cart->Product->id_product)}}" class="text-inherit">
                                                             <h6 class="mb-0">{{$cart['name']}}</h6>
                                                         </a>
                                                         <span><small class="text-muted">unit: gram</small></span>

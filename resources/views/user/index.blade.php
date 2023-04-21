@@ -34,9 +34,6 @@
                 </div>
             </div>
         </section>
-        @if (Session::has('order_mess'))
-            <div class="alert alert-success text-center">{{Session::get('order_mess')}}</div>
-        @endif
         <!-- Category Section Start-->
         <section class="mb-lg-10 mt-lg-14 my-8">
             <div class="container">
@@ -49,7 +46,8 @@
                 </div>
                 <div class="category-slider ">
 
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> 
+                        <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-dairy-bread-eggs.jpg') }}"
@@ -58,7 +56,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-snack-munchies.jpg') }}"
@@ -67,7 +65,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-bakery-biscuits.jpg') }}"
@@ -76,7 +74,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-instant-food.jpg') }}"
@@ -85,7 +83,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-tea-coffee-drinks.jpg') }}"
@@ -94,7 +92,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"><a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"><a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-atta-rice-dal.jpg') }}"
@@ -104,7 +102,7 @@
                             </div>
                         </a></div>
 
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-baby-care.jpg') }}"
@@ -113,7 +111,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-chicken-meat-fish.jpg') }}"
@@ -122,7 +120,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-cleaning-essentials.jpg') }}"
@@ -131,7 +129,7 @@
                                 </div>
                             </div>
                         </a></div>
-                    <div class="item"> <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body text-center py-8">
                                     <img src="{{ asset('images/category/category-pet-care.jpg') }}"
@@ -207,12 +205,11 @@
                                     <div class="text-center position-relative ">
                                         <div class=" position-absolute top-0 start-0">
                                             @if ($pro->sale !=0)
-                                                <span class="badge bg-danger">-{{$pro->sale}}%</span>
+                                                <span class="badge bg-danger">{{number_format($pro->sale,0)}}%</span>
                                             @endif
                                         </div>
-                                        <a href="#!"> <img
-                                                src="{{ asset('/images/products/'.$pro->Library[0]->image) }}"
-                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
+                                        <a href="{{route('products-details',$pro->id_product)}}"> 
+                                            <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"
@@ -228,8 +225,9 @@
                                     </div>
                                     <div class="text-small mb-1"><a href="#!"
                                             class="text-decoration-none text-muted"><small>{{$pro->TypeProduct->name}}</small></a></div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}"
-                                            class="text-inherit text-decoration-none">{{$pro->name}}</a></h2>
+                                    <h2 class="fs-6">
+                                        <a href="{{ route('products-details',$pro->id_product) }}" class="text-inherit text-decoration-none">{{$pro->name}}</a>
+                                    </h2>
                                     <div>
                                     <p>    
                                         @php
@@ -308,7 +306,7 @@
                             <div class="card card-product">
                                 <div class="card-body">
                                     <div class="text-center  position-relative "> 
-                                        <a href="{{ route('products-details') }}">
+                                        <a href="{{ route('products-details',$product->id_product) }}">
                                         <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
                                         </a>
                                         <div class="card-product-action">
@@ -327,7 +325,7 @@
                                             <small>{{$product->TypeProduct->type}}</small>
                                         </a>
                                     </div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details') }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
+                                    <h2 class="fs-6"><a href="{{ route('products-details',$product->id_product) }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
                                     
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <div>

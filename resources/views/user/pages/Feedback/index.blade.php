@@ -27,7 +27,7 @@
                 @else
                 <thead>
                     <tr>
-                        <th colspan="3" class="text-black-50">Order at: {{$order->created_at}}</th>
+                        <th colspan="3" class="text-black-50">Order at: {{date_format($order->created_at,"F j, Y, g:i a")}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,34 +36,34 @@
                     @foreach ($order->Cart as $cart)
                         <tr>
                             <td class="w-25">
-                                <img src="{{asset('assets/images/products/'.$cart->Product->Library[0]->image)}}" class="img-fluid" alt="{{$cart->Product->name}}" style="height: 200px; object-fit: contain">    
+                                <img src="{{asset('images/products/'.$cart->Product->Library[0]->image)}}" class="img-fluid" alt="{{$cart->Product->name}}" style="height: 200px; object-fit: contain">    
                             </td>
                             <td class="w-25">
-                                <p>Product: <b>{{$cart->Product->product_name}}</b></p>
-                                <p>Amount: {{$cart->amount}} unit</p>
+                                <p>Product: <b>{{$cart->Product->name}}</b></p>
+                                <p>Amount: {{$cart->amount}} grams</p>
                             </td>   
                             <td class="w-50">
                                 <div class="form-check form-check-inline mb-3">
                                     <input type="hidden" class="stop1">
                                     <input type="radio" name="rating_pro{{$cart->id_cart}}" class="btn-check" id="rating-{{$cart->id_cart}}-btn1" autocomplete="off" value="1" checked>
                                     <label class="btn-cus text-warning" for="rating-{{$cart->id_cart}}-btn1" >
-                                        <i class="fa-light fa-star" style="font-size:1.3rem;font-weight: 900"></i>
+                                        <i class="bi bi-star" style="font-size:1.3rem"></i>
                                     </label>
                                     <input type="radio" name="rating_pro{{$cart->id_cart}}" class="btn-check" id="rating-{{$cart->id_cart}}-btn2" autocomplete="off" value="2">
                                     <label class="btn-cus text-warning" for="rating-{{$cart->id_cart}}-btn2">
-                                        <i class="fa-light fa-star" style="font-size:1.3rem"></i>
+                                        <i class="bi bi-star" style="font-size:1.3rem"></i>
                                     </label>
                                     <input type="radio" name="rating_pro{{$cart->id_cart}}" class="btn-check" id="rating-{{$cart->id_cart}}-btn3" autocomplete="off" value="3">
                                     <label class="btn-cus text-warning" for="rating-{{$cart->id_cart}}-btn3">     
-                                        <i class="fa-light fa-star" style="font-size:1.3rem"></i>                                    
+                                        <i class="bi bi-star" style="font-size:1.3rem"></i>                                    
                                     </label>
                                     <input type="radio" name="rating_pro{{$cart->id_cart}}" class="btn-check" id="rating-{{$cart->id_cart}}-btn4" autocomplete="off" value="4">
                                     <label class="btn-cus text-warning" for="rating-{{$cart->id_cart}}-btn4">
-                                        <i class="fa-light fa-star" style="font-size:1.3rem"></i>
+                                        <i class="bi bi-star" style="font-size:1.3rem"></i>
                                     </label>
                                     <input type="radio" name="rating_pro{{$cart->id_cart}}" class="btn-check" id="rating-{{$cart->id_cart}}-btn5" autocomplete="off" value="5">
                                     <label class="btn-cus text-warning" for="rating-{{$cart->id_cart}}-btn5">
-                                        <i class="fa-light fa-star" style="font-size:1.3rem"></i>
+                                        <i class="bi bi-star" style="font-size:1.3rem"></i>
                                     </label>
                                     <input type="hidden" class="stop2">
                                 </div>
@@ -89,10 +89,12 @@
 @endsection
 @section('script')
 <script>
-    $("input[type='radio']").click(function(){
-        $(this).prevUntil("input.stop1").next().children().css('font-weight',900);
-        $(this).next().children().css('font-weight',900);
-        $(this).nextUntil("input.stop2").next().children().css('font-weight',300);
-    });
+    $(document).ready(function(){
+        $("input[type='radio']").click(function(){
+            $(this).prevUntil("input.stop1").next().children().removeClass('bi-star').addClass('bi-star-fill');
+            $(this).next().children().removeClass('bi-star').addClass('bi-star-fill');
+            $(this).nextUntil("input.stop2").next().children().removeClass('bi-star-fill').addClass('bi-star');
+        });
+    })
 </script>
 @endsection

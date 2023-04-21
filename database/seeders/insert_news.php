@@ -20,7 +20,7 @@ class insert_news extends Seeder
             ["order_code"=>'USR3_3','id_user'=>3,'send_admin'=>true,"title"=>"New Order","link"=>"USR3_3",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '17/04/2023 00:00:00')],
             ["order_code"=>'GUT_2','send_admin'=>true,"title"=>"New Order","link"=>"GUT_2",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '17/04/2023 00:00:00')],
 	    	["order_code"=>'GUT_0','send_admin'=>true,"title"=>"Order Cancel","link"=>"GUT_0",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '18/03/2023 00:00:00')],
-            ["title"=>"New Product",'link'=>"productdetail","attr"=>"17",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
+            ["title"=>"New Product",'link'=>"products-details","attr"=>"17",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
 
         ];
         try {

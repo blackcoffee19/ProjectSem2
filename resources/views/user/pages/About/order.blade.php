@@ -117,7 +117,7 @@
                                                             <tr>
                                                                 <td>{{$i+1}}</td>
                                                                 <td class="align-middle border-top-0 w-0">
-                                                                    <a href="#"> 
+                                                                    <a href="{{ route('products-details',$order->Cart[$i]->Product->id_product)}}"> 
                                                                         <img src="{{ asset('images/products/'.$order->Cart[$i]->Product->Library[0]->image) }}" alt="Ecommerce" class="icon-shape icon-xl">
                                                                     </a>
                                                                 </td>

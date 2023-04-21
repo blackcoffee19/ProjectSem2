@@ -44,11 +44,11 @@
                                                     </div>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <a href="#"> <img src="{{ asset('images/products/'.$fav->Product->Library[0]->image) }}" class="icon-shape icon-xxl" alt=""></a>
+                                                    <a href="{{route('products-details',$fav->Product->id_product)}}"> <img src="{{ asset('images/products/'.$fav->Product->Library[0]->image) }}" class="icon-shape icon-xxl" alt=""></a>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div>
-                                                        <h5 class="fs-6 mb-0"><a href="#" class="text-inherit">{{$fav->Product->name}}</a></h5>
+                                                        <h5 class="fs-6 mb-0"><a href="{{route('products-details',$fav->Product->id_product)}}" class="text-inherit">{{$fav->Product->name}}</a></h5>
                                                         <small>unit: gram</small>
                                                     </div>
                                                 </td>
@@ -63,7 +63,7 @@
                                                 </td>
                                                 <td class="align-middle ">
                                                     @if ($fav->Product->quantity>0)
-                                                        <div class="btn btn-primary btn-sm"><a  class="addToCart " style="color: #ffffff" data-iditem="{{$fav->id_product}}" >Add to Cart</a></div>
+                                                        <div class="btn btn-primary btn-sm"><a  class="addToCart " style="color: #ffffff" data-bs-id="{{$fav->id_product}}" >Add to Cart</a></div>
                                                     @else
                                                         <div class="btn btn-dark btn-sm"><a>Contact us</a></div>
                                                     @endif
@@ -91,17 +91,4 @@
             </div>
         </section>
     </main>
-@endsection
-@section('script')
-    <script>
-      $(document).ready(function(){
-          $('.addToCart').click(function(){
-            const toast = new bootstrap.Toast($('#toastAdd'))
-            toast.show();
-            $.get(window.location.origin+"/index.php/ajax/add-cart/"+$(this).data('iditem'),function(data){
-              $('.countCart').html(data);
-            });
-          });
-      })
-    </script>
 @endsection

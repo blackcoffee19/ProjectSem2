@@ -6,7 +6,8 @@
                         coupons</span>
                 </div>
                 <div class="col-6 text-end d-none d-md-block">
-                    <a href="{{ Route('dashboard') }}">
+                    <a href="">
+                        {{-- <a href="{{ Route('dashboard') }}"> --}}
                         {{-- <i class="fa-solid fa-exclamation"></i> --}}
                         <i class="fa-solid fa-heart"></i>
                 </div>
@@ -72,6 +73,11 @@
                                 @endif
                                 <div class="list-inline-item dropdown dropdown-fullwidth">
                                     @if (Auth::check()) 
+                                        @if (Auth::user()->avatar)
+                                        <img src="{{asset('images/avatar/'.Auth::user()->avatar)}}"  width="28" height="28" class="img-fluid rounded-circle" >
+                                        @else    
+                                        <img src="{{asset('images/avatar/user.png')}}" width="28" height="28"  class="img-fluid rounded-circle" >
+                                        @endif
                                         <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             {{Auth::user()->name}}
                                         </a>
@@ -179,7 +185,7 @@
                                     <div class="list-group">
                                         @if (isset($news))
                                             @foreach ($news as $new)
-                                            <a href="#" class="list-group-item list-group-item-action">
+                                            <a href="{{route($new->link,$new->attr)}}" class="list-group-item list-group-item-action">
                                                 {{$new->title}}
                                             </a>
                                             @endforeach
@@ -205,7 +211,12 @@
                             </div>
                             
                             <div class="list-inline-item ">
-                                <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                                @if (Auth::user()->avatar)
+                                <img src="{{asset('images/avatar/'.Auth::user()->avatar)}}"  width="28" height="28" class="img-fluid rounded-circle" >
+                                @else    
+                                <img src="{{asset('images/avatar/user.png')}}" width="28" height="28"  class="img-fluid rounded-circle" >
+                                @endif
+                                <a href="#!" class="text-muted dropdown-toggle user_dropdown ms-4" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
                                     {{Auth::user()->name}}
                                 </a>
                                 <div class=" dropdown-menu pb-0 ">
@@ -296,7 +307,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ Route('products') }}">
+                            <a class="nav-link" href="">
                                 Categories <i class="fa-solid fa-circle-chevron-down fa-xs"></i>
                             </a>
                         </li>

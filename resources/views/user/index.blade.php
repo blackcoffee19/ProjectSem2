@@ -248,7 +248,7 @@
                                         @for ($i = 0; $i < 5-ceil($rating); $i++)
                                         <i class="bi bi-star fs-4 text-warning"></i>
                                         @endfor
-                                        <span class="text-black-50 ms-3">({{$rating}})</span>
+                                        <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
                                     </p> 
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -355,7 +355,7 @@
                                               @for ($i = 0; $i < 5-ceil($rating); $i++)
                                               <i class="bi bi-star fs-4 text-warning"></i>
                                               @endfor
-                                              <span class="text-black-50 ms-3">({{$rating}})</span>
+                                              <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
                                         </div>
                                     </div>
                                     <div class="d-grid mt-2"><button data-bs-id="{{$product->id_product}}" type="button" class="btn btn-primary btn addToCart">

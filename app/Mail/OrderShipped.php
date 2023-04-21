@@ -38,13 +38,13 @@ class OrderShipped extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'admin.emails.order_bill',
             with: [
                 "customer_name"=> $this->order->receiver,
                 "customer_address"=>$this->order->address,
                 "customer_phone"=>$this->order->phone,
+                "shipment_fee"=>$this->order->shipping_fee,
                 'coupon'=>$this->order->Coupon,
-                'total'=>$this->order->total,
                 "status"=>$this->order->status,
                 "method"=>$this->order->method,
                 "cart"=>$this->order->Cart,

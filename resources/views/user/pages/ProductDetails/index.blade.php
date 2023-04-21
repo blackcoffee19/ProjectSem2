@@ -10,7 +10,7 @@
                             <div class="slider_product product" >
                                 @foreach ($product->Library as $lib)
                                 <div class="zoom slider_item" onmousemove="zoom(event)" style="background-image: url({{ asset('images/products/' . $lib->image) }}">
-                                    <img src="{{ asset('images/products/'.$lib->image) }}" alt="" class="img-fluid">
+                                    <img src="{{ asset('images/products/'.$lib->image) }}" class="img-fluid">
                                 </div>
                                 @endforeach
                             </div>
@@ -20,7 +20,7 @@
                                 @foreach ($product->Library as $lib)
                                     <div class="col-3">
                                         <div class="thumbnails-img">
-                                            <img src="{{ asset('images/products/' . $lib->image) }}" alt="">
+                                            <img src="{{ asset('images/products/' . $lib->image) }}" >
                                         </div>
                                     </div>
                                 @endforeach
@@ -624,6 +624,17 @@
 @endsection
 @section('script')
 <script>
+    let slider = tns({
+        container: '.slider_product',
+        items: 1,
+        speed: 500,
+        autoplay: true,
+        axis: "horizontal",
+        autoplayButtonOutput:0,
+        controls: 0,
+        navContainer: '.slider_nav',
+        navAsThumbnails:true
+    })
   $(document).ready(function(){
     $('#btn_minus').click(function(e){
           e.preventDefault();

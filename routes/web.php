@@ -41,36 +41,11 @@ Route::get('/delete_cmt/{id}',[TuongController::class,'deleteCmt'])->name('delet
 Route::post('/edit_cmt/{id}',[TuongController::class,'editCmt'])->name('edit_cmt');
 Route::get('/shop-wishlist',[TuongController::class,'get_wishlist'] )->name('wishlist');
 Route::post('/shop-wishlist',[TuongController::class,'post_wishlist'])->name('wishlist');
-Route::get('/shop-cart', function () {
-    return view('user.pages.Orders.index');
-});
 
 //Login Google
 Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
 
-//UserLogin to get profie User
-Route::group(['prefix'=>'account', 'middleware'=>'UserLogin'],function(){
-    Route::get('/order',[TuongController::class,'get_orderhistory'])->name('accountorder');
-    Route::get('/setting',[TuongController::class,'get_accountsetting'])->name('accountsetting');
-    Route::get('/list_address',[TuongController::class,'get_address'])->name('accountaddress');
-    Route::get('/remove_address/{id}',[TuongController::class,'remove_address'])->name('removeAdd');
-    Route::get('/default-address/{id}',[TuongController::class,'setdefault_address'])->name('setdefault_address');
-    Route::get('/payment',[TuongController::class,'get_payment'])->name('accountpayment');
-    Route::get('/feedback/{code}',[TuongController::class,'get_feedback'])->name('feedback');
-    Route::post('/feedback/{code}',[TuongController::class,'post_feedback'])->name('feedback');
-    Route::post('/edit-profie',[TuongController::class,'post_editprofie'])->name('edit_profie');
-    Route::post('/change-password',[TuongController::class,'post_changepassword'])->name('change_password');
-    Route::post('/edit-order',[TuongController::class,'post_urseditorder'])->name('user_editorder');
-    Route::get('/cancel-order/{id}',[TuongController::class,'cancel_order'])->name('cancelorder');
-    Route::get('/ajax/edit_order/{id}',[TuongController::class,'ajax_getOrder']);
-    Route::post('/ajax/check-password',[TuongController::class,'check_password']);
-
-});
-
-// ========== Dont need to know What is TuongController now
-// ========== I didn't upload it for now
-// ========== Just know that Tuong finished Cart, Modal Product, Compare Product, Add Favourite, Add Coupon, Finish Order
 Route::get('/checkout',[TuongController::class,'get_checkout'])->name('checkout');
 Route::post('/checkout',[TuongController::class,'post_checkout'])->name('checkout');
 Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
@@ -90,6 +65,24 @@ Route::get('/ajax/compare/showcompare',[TuongController::class,'showCompare']);
 Route::get('/ajax/check-email/{email}',[TuongController::class,'check_email']);
 Route::get('/delcompare/{id}',[TuongController::class,'delCompare'])->name('delCmp');
 Route::get('/removeCmp',[TuongController::class,'removeCompare'])->name('removeCmp');
+//UserLogin to get profie User
+Route::group(['prefix'=>'account', 'middleware'=>'UserLogin'],function(){
+    Route::get('/order',[TuongController::class,'get_orderhistory'])->name('accountorder');
+    Route::get('/setting',[TuongController::class,'get_accountsetting'])->name('accountsetting');
+    Route::get('/list_address',[TuongController::class,'get_address'])->name('accountaddress');
+    Route::get('/remove_address/{id}',[TuongController::class,'remove_address'])->name('removeAdd');
+    Route::get('/default-address/{id}',[TuongController::class,'setdefault_address'])->name('setdefault_address');
+    Route::get('/payment',[TuongController::class,'get_payment'])->name('accountpayment');
+    Route::get('/feedback/{code}',[TuongController::class,'get_feedback'])->name('feedback');
+    Route::post('/feedback/{code}',[TuongController::class,'post_feedback'])->name('feedback');
+    Route::post('/edit-profie',[TuongController::class,'post_editprofie'])->name('edit_profie');
+    Route::post('/change-password',[TuongController::class,'post_changepassword'])->name('change_password');
+    Route::post('/edit-order',[TuongController::class,'post_urseditorder'])->name('user_editorder');
+    Route::get('/cancel-order/{id}',[TuongController::class,'cancel_order'])->name('cancelorder');
+    Route::get('/ajax/edit_order/{id}',[TuongController::class,'ajax_getOrder']);
+    Route::post('/ajax/check-password',[TuongController::class,'check_password']);
+
+});
 
 
 // ==========

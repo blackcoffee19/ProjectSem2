@@ -3,3 +3,4 @@ php artisan db:seed
 
 NEED require socialite to get GoogleAuth
 composer require laravel/socialite
+npm install slick-carousel

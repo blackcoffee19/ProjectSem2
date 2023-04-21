@@ -7,12 +7,12 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <div class="product productModal" id="productModal">
-                <div class="zoom" onmousemove="zoom(event)" id="imgModal">
+              <div class="slide_wrapper">
+                <div class="slider_modalproduct product" id="productModal">
                 </div>
               </div>
               <div class="product-tools">
-                <div class="thumbnails row g-3" id="productModalThumbnails">                  
+                <div class="thumbnails slider_modalnav row g-3" id="productModalThumbnails">                  
                 </div>
               </div>
             </div>

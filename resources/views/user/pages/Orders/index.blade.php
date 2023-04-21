@@ -22,7 +22,6 @@
                             <div class="alert alert-danger">{{$errors->first('cart_quant')}}</div>
                         @endif
                         <div class="py-3">
-                            <!-- alert -->
                             <div class="alert alert-danger p-2" role="alert">
                                 You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
                             </div>

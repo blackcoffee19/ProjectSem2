@@ -17,7 +17,8 @@ use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderShipped;
 class TuongController extends Controller
 {
     public function home_page(){
@@ -281,6 +282,7 @@ class TuongController extends Controller
         $new_admin->created_at=Carbon::now()->format('Y-m-d H:i:s');
         $new_admin->save();
         Session::forget('coupon');
+        Mail::to($order->email)->send(new OrderShipped($order));
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
     }
     public function admin_cate(){
@@ -463,7 +465,7 @@ class TuongController extends Controller
                         <div class='col-3 col-md-2'>
                             <img src='images/products/".$cart->Product->Library[0]->image."' alt='".$cart->Product->name."' class='img-fluid' style='width: 200px'></div>
                         <div class='col-4 col-md-6 col-lg-5'>
-                            <a href='' class='text-inherit'>
+                            <a href='".route('products-details',$cart->Product->id_product)."' class='text-inherit'>
                             <h6 class='mb-0'>".$cart->Product->name."</h6>
                             </a>
                             <span><small class='text-muted'>".$cart->Product->TypeProduct->type."</small></span>
@@ -510,9 +512,10 @@ class TuongController extends Controller
                     $html_list.="<li class='list-group-item py-3 ps-0 border-top border-bottom'>
                     <div class='row align-items-center'>
                     <div class='col-3 col-md-2'>
-                    <img src='images/products/".$cart["image"]."' alt='".$cart["name"]."' class='img-fluid' style='width: 200px'></div>
+                    <img src='images/products/".$cart["image"]."' alt='".$cart["name"]."' class='img-fluid' style='width: 200px'>
+                    </div>
                         <div class='col-4 col-md-6 col-lg-5'>
-                        <a href='' class='text-inherit'>
+                        <a href='".route('products-details',$cart['id_product'])."' class='text-inherit'>
                         <h6 class='mb-0'>".$cart['name']."</h6>
                             </a>
                             <span><small class='text-muted'>".Product::find($cart["id_product"])->TypeProduct->type."</small></span>

@@ -73,7 +73,7 @@
                                                                     <i class="bi bi-dash-lg"></i>
                                                                 </a>
                                                                 <input type="text" value="{{$cart->amount}}" name="cart_quant" class="quantity-field form-control form-input ">
-                                                                <a href='{{route('addmore',[$cart->id_cart])}}."' class='text-decoration-none btn btn-sm' >
+                                                                <a href='{{route('addmore',[$cart->id_cart])}}' class='text-decoration-none btn btn-sm' >
                                                                     <i class='bi bi-plus-lg'></i>
                                                                 </a>
                                                             </div>
@@ -94,14 +94,26 @@
                                             <li class="list-group-item py-3 py-lg-0 px-0 border-top">
                                                 <div class="row align-items-center">
                                                     <div class="col-3 col-md-2">
-                                                        <a href="{{ route('products-details',$cart->Product->id_product)}}">
-                                                            <img src="{{ asset('images/products/'.$cart['image']) }}" alt="Ecommerce" class="img-fluid">
-                                                        </a>
+                                                        @if (isset($cart->Product))
+                                                            <a href="{{ route('products-details',$cart->Product->id_product)}}">
+                                                                <img src="{{ asset('images/products/'.$cart['image']) }}" alt="Ecommerce" class="img-fluid">
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('products-details',$cart['id_product'])}}">
+                                                                <img src="{{ asset('images/products/'.$cart['image']) }}" alt="Ecommerce" class="img-fluid">
+                                                            </a>
+                                                        @endif
                                                     </div>
                                                     <div class="col-3 col-md-3">
-                                                        <a href="{{ route('products-details',$cart->Product->id_product)}}" class="text-inherit">
-                                                            <h6 class="mb-0">{{$cart['name']}}</h6>
-                                                        </a>
+                                                        @if (isset($cart->Product))
+                                                            <a href="{{ route('products-details',$cart->Product->id_product)}}" class="text-inherit">
+                                                                <h6 class="mb-0">{{$cart['name']}}</h6>
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('products-details',$cart['id_product'])}}" class="text-inherit">
+                                                                <h6 class="mb-0">{{$cart['name']}}</h6>
+                                                            </a>
+                                                        @endif
                                                         <span><small class="text-muted">unit: gram</small></span>
                                                         <div class="mt-2 small lh-1"> 
                                                             <a href="{{route('removeId',$key)}}" class="text-decoration-none text-inherit"> 
@@ -129,11 +141,11 @@
                                                         <form method='POST' action="{{route('cartadd',$key)}}" >
                                                             @csrf
                                                             <div class="input-group input-spinner flex-nowrap w-100">
-                                                                <a href='{{route('minus',$key)}}' class='text-decoration-none btn btn-sm'>
+                                                                <a href="{{route('minus',$key)}}" class='text-decoration-none btn btn-sm'>
                                                                     <i class="bi bi-dash-lg"></i>
                                                                 </a>
                                                                 <input type="text" value="{{$cart['amount']}}" name="cart_quant" class="quantity-field form-control form-input ">
-                                                                <a href='{{route('addmore',$key)}}."' class='text-decoration-none btn btn-sm' >
+                                                                <a href="{{route('addmore',$key)}}" class='text-decoration-none btn btn-sm' >
                                                                     <i class='bi bi-plus-lg'></i>
                                                                 </a>
                                                             </div>

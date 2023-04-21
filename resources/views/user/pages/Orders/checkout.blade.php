@@ -53,6 +53,7 @@
                                         Reciver : {{$add->receiver}}
                                       </label>
                                     </div>
+                                    <p class="text-muted">{{$add->email}}</p>
                                     <address style="height: 90px">
                                       {{$add->address}}<br>
                                       <abbr title="Phone">P: {{$add->phone}}</abbr></address>

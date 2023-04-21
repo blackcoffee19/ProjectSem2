@@ -23,16 +23,13 @@
         $('.btn_modal').click(function(){
             $.get(window.location.origin+"/public/index.php/ajax/modal/show-product/"+$(this).data('product'),function(data){
               let dataProduct = jQuery.parseJSON(data);
-              console.log(data);
-              console.log(dataProduct); 
-              
-              
-              $('#imgModal').css({'background-image':'url(images/products/'+dataProduct['images'][0]+')','object-fit': 'contain','background-repeat': 'no-repeat'});
-              $('#imgModal').html(`<image src='images/products/${dataProduct["images"][0]}' style="background-color: #ffffff">`);
               let listImage = "";
+              let slider_product = "";
               dataProduct['images'].forEach(img => {
-                listImage += "<div class='col-3' class='tns-nav-active'><div class='thumbnails-img'><img src='images/products/"+img+"'></div></div>";
+                slider_product += `<div class="zoom slider_item" onmousemove="zoom(event)" style="background-image: url(images/products/${img};object-fit:contain;background-repeat: no-repeat"><image src='images/products/${img}' class='img-fluid'></div>`;
+                listImage += "<div class='col-3'><div class='thumbnails-img'><img src='images/products/"+img+"'></div></div>";
               });
+              $("#productModal").html(slider_product);
               $('#productModalThumbnails').html(listImage);
               $('#productNameModal').html(dataProduct['name']);
               $('input[name=max_quan]').val(dataProduct['quantity']);
@@ -66,6 +63,17 @@
               $('#idModal').html(dataProduct['id_product']);
               $('input[name=id_pro]').val(dataProduct['id_product']);
               $('.typeModal').html(dataProduct['type']);
+              let slider = tns({
+                  container: '.slider_modalproduct',
+                  items: 1,
+                  speed: 500,
+                  autoplay: true,
+                  axis: "horizontal",
+                  autoplayButtonOutput:0,
+                  controls: 0,
+                  navContainer: '.slider_modalnav',
+                  navAsThumbnails:true
+              })
             });
         });
         $('.compare_product').click(function(){

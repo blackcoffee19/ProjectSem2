@@ -51,6 +51,10 @@ Route::group(['prefix' => 'manager'], function () {
 });
 
 //Login Google
+Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
+Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
+
+//Login Google
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 

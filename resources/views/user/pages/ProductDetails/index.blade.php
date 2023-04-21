@@ -120,7 +120,7 @@
                             <hr class="my-6">
                             <div>
                                 <table class="table table-borderless mb-0">
-
+    
                                     <tbody>
                                         <tr>
                                             <td>Product Code:</td>
@@ -150,11 +150,11 @@
                                                     <span class="text-muted">( Free pickup today)</span></small>
                                             </td>
                                         </tr>
-
-
+    
+    
                                     </tbody>
                                 </table>
-
+    
                             </div>
                             <div class="mt-8">
                                 <!-- dropdown -->
@@ -163,7 +163,7 @@
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         Share <i class="fa-solid fa-chevron-right"></i>
                                     </a>
-
+    
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#"><i
                                                     class="bi bi-facebook me-2"></i>Facebook</a></li>

@@ -482,8 +482,90 @@
 
 
 
-<!-- Shop Cart -->
+@if (Auth::check() && Auth::user()->admin == '2')
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <div class="text-start">
+            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">New Orders</h5>
+        </div>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <ul class="list-group list-group-flush">
+                @if (isset($orders))
+                    @foreach ($orders as $order)
+                        <li class='list-group-item py-3 ps-0 border-top border-bottom'>
+                            <div class='row align-items-center'>
+                                <div class='col-1'>
+                                    @if ($order->id_user && $order->User->avatar)
+                                        <img src="{{asset('images/avatar/'.$order->User->avatar)}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
+                                    @else
+                                        <img src="{{asset('images/avatar/user.png')}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
+                                    @endif
+                                </div>
+                                <div class='col-2 '>
+                                    <span>#{{$order->order_code}}</span><br>
+                                    <small class="text-muted">{{date_format($order->created_at,"F j Y, g:i a")}}</small>
+                                </div>
+                                <div class='col-2'>Items: <p>{{count($order->Cart)}}</p>
+                                </div>
+                                <div class="col-2">
+                                    @php
+                                    $sum =0;
+                                    foreach ($order->Cart as $cart) {
+                                        if($cart->sale > 0){
+                                            $sum += $cart->price*(1 - $cart->sale/100)*($cart->amount/1000);
+                                        }else{
+                                            $sum += $cart->price*($cart->amount/1000);
+                                        };
+                                    };   
+                                    $sum += $order->shipping_fee;
+                                    if($order->code_coupon){
+                                        if($order->Coupon->discount >= 10){
+                                            $sum = $sum*(1 - $order->Coupon->discount/100);
+                                        }else{
+                                            $sum -= $order->Coupon->discount;
+                                        }
+                                    }
+                                    echo "Total: $".number_format($sum,2,'.',' ');
+                                    @endphp
+                                </div>
+                                <div class="col-2">
+                                    @switch($order->status)
+                                        @case('confirmed')
+                                            <h5 class="badge bg-warning text-capitalize">{{$order->status}}</h5>
+                                            @break
+                                        @case('unconfirmed')
+                                            <h5 class="badge bg-dark text-capitalize">{{$order->status}}</h5>
+                                            @break
+                                    @endswitch
+                                </div>
+                                <div class="col-3">
+                                    @switch($order->status)
+                                        @case('confirmed')
+                                            <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                Delivery          
+                                            </button>
+                                            @break
+                                        @case('unconfirmed')
+                                            <button type="button" class="btn btn-primary check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                Confirm  
+                                            </button>
+                                            @break
+                                        @default        
+                                    @endswitch
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+        </div>
+    </div>
+</div>
 
+@else
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
         <div class="text-start">
@@ -493,23 +575,20 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-
-        <div class="">
-            <!-- alert -->
+        <div>
             <div class="alert alert-danger p-2" role="alert">
                 You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
             </div>
             <ul class="list-group list-group-flush" id="listCart">
             </ul>
-            <!-- btn -->
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('order') }}" class="btn btn-primary">Continue Shopping</a>
                 <a href="#!" class="btn btn-dark">Update Cart</a>
             </div>
-
         </div>
     </div>
 </div>
+@endif
 
 {{-- <!-- Modal -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">

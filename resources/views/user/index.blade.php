@@ -255,9 +255,9 @@
                                         <div>
                                             @if ($pro->sale >0)
                                             <span class="text-dark">${{$pro->price*(1-$pro->sale/100)}}</span>
-                                            <span class="text-decoration-line-through text-muted">${{$pro->price}}</span>
+                                            <span class="text-decoration-line-through text-muted">${{$pro->price}}</span> <small>/kg</small>
                                             @else
-                                            <span class="text-dark">${{$pro->price}}</span>
+                                            <span class="text-dark">${{$pro->price}}</span> <small>/kg</small>
                                             @endif
                                         </div>
                                         <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
@@ -331,9 +331,9 @@
                                         <div>
                                             @if ($product->sale >0)
                                                 <span class="text-danger">${{$product->price*(1-$product->sale/100)}}</span> 
-                                                <span class="text-decoration-line-through text-muted">${{$product->price}}</span>
+                                                <span class="text-decoration-line-through text-muted">${{$product->price}}</span> 
                                             @else
-                                            <span class="text-dark">${{$product->price}}</span> 
+                                            <span class="text-dark">${{$product->price}}</span>
                                             @endif
                                         </div>
                                         <div>

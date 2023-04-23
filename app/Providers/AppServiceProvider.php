@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Groupmessage;
 use App\Models\Message;
 use App\Models\News;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
@@ -35,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
                                                                               ->orWhere('id_user', '=', null);
                                                                     })->get();
                 $view->with('news',$news);
+                if(Auth::user()->admin == '2'){
+                    $orders = Order::where('status','=','unconfirmed')->orWhere('status','=','confirmed')->orderBy('status','desc')->get();
+                    $view->with('orders',$orders);
+                }
             }
 	    });
     }

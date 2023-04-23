@@ -6,15 +6,22 @@
                 $('#listCart').html(data);
             })
         });
+        @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
             // console.log($(this).html());
             $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
-                // console.log(data);
                 $('#listCart').html(data);
                 $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
                 
             })
         });
+        @endif
+        @if (Session::has('order_mess'))
+          $('#order_message').html("{{Session::get('order_mess')}}");
+          let toastorder = new bootstrap.Toast($('#toastOrder'))
+          toastorder.show();
+        @endif
+        
         const valiquan_cart = (value)=>{
             let validateNum =/^\d{1,10}$/;
             let currentVl = $(this).val();
@@ -59,7 +66,7 @@
                 $('#priceAFSModal').html(`$${dataProduct["price"]}`);
               };
               $('#weigthModal').html("100g");
-              $('#quantityModal').html(dataProduct["quantity"]);
+              $('#quantityModal').html(Math.floor(dataProduct["quantity"]));
               $('#idModal').html(dataProduct['id_product']);
               $('input[name=id_pro]').val(dataProduct['id_product']);
               $('.typeModal').html(dataProduct['type']);
@@ -98,8 +105,13 @@
           })
         });
         $('.addToCart').click(function(){
+          @if(!Auth::check() || Auth::user()->admin != '2')
           const toast = new bootstrap.Toast($('#toastAdd'))
           toast.show();
+          @else
+          let toastorder = new bootstrap.Toast($('#toastWarning'))
+          toastorder.show();
+          @endif
           $.get(window.location.origin+"/public/index.php/ajax/add-cart/"+$(this).data('bsId'),function(data){
             $('.countCart').html(data);
           });
@@ -307,6 +319,46 @@
           }else{
             $('#register_submit').attr('disabled','disabled');
           }
+        });
+        $('.check_order').click(function(){
+          $.get(window.location.origin+"/public/index.php/manager/ajax/check-order/"+$(this).data('order'),function(data){
+            let dataJson = jQuery.parseJSON(data);
+            $('input[name=id_order]').val(dataJson['id_order']);
+            $("#receiver").html(dataJson['receiver']);
+            $("#address").html(dataJson['address']);
+            $('#instruction').html(dataJson['instruction']);
+            $("#phone").html(dataJson['phone']);
+            $('#email_order').html(dataJson['email']);
+            $("#payment_method").html(dataJson['method']);
+            if(dataJson['coupon']){
+              $("#coupon_title").html(dataJson['coupon_title']);
+              if(dataJson['discount'] >=10){
+                $('#discount').html("- "+dataJson['discount']+"%");
+              }else{
+                $('#discount').html("- $"+dataJson['discount']);
+              }
+            }
+            let list ="";
+            let total = 0;
+              for (let i = 0; i < dataJson['cart'].length; i++) {
+                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']}</td><td>${Math.floor(dataJson['cart'][i]['sale'])}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
+                total+=parseFloat(dataJson['cart'][i]['sale']) >0 ?(parseFloat(dataJson['cart'][i]['price'])*(1- parseFloat(dataJson['cart'][i]['sale'])/100))*(dataJson['cart'][i]['amount']/1000):parseFloat(dataJson['cart'][i]['price'])*(parseFloat(dataJson['cart'][i]['amount'])/1000);
+              };
+            $('#listCart').html(list);
+            $('#shipment_fee_modal').html("$"+dataJson['shipping_fee']);
+            total+=parseFloat(dataJson['shipping_fee']);
+            if(parseInt(dataJson['discount']) <10){
+                total-= parseFloat(dataJson['discount']);
+              }else{
+                total *=(1- parseFloat(dataJson['discount'])/100);
+              }
+            $('#total_order').html("$"+total.toFixed(2));
+            $("#status_order option[value="+dataJson['status']+"]").attr("selected", true);
+            $('#order_token').val($('meta[name="csrf-token"]').attr('content'));
+            $('#status_order').change(function(){
+              $('#save_order').removeAttr('disabled');
+            })
+          })
         })
     })  
 </script>

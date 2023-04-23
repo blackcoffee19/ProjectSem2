@@ -9,8 +9,11 @@ use App\Http\Controllers\User\UserProductDetailController;
 use App\Http\Controllers\User\UserWishlistController;
 use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\UserAccountController;
+
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
+use App\Http\Middleware\ManagerLogin;
+
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
@@ -32,7 +35,6 @@ Route::post('/signin',[TuongController::class,"post_signIn"])->name('signin');
 Route::get('/signup',[TuongController::class,"get_signUp"])->name('signup');
 Route::post('/signup',[TuongController::class,"post_signUp"])->name('signup');
 Route::get('/signout',[TuongController::class,'signOut'])->name('signout');
-Route::get('/order',[TuongController::class,'get_order'])->name('order');
 
 Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
 Route::post('/products-details/{id?}', [TuongController::class,'addToCart'])->name('products-details');
@@ -41,28 +43,35 @@ Route::get('/delete_cmt/{id}',[TuongController::class,'deleteCmt'])->name('delet
 Route::post('/edit_cmt/{id}',[TuongController::class,'editCmt'])->name('edit_cmt');
 Route::get('/shop-wishlist',[TuongController::class,'get_wishlist'] )->name('wishlist');
 Route::post('/shop-wishlist',[TuongController::class,'post_wishlist'])->name('wishlist');
-
+Route::get('/ajax/modal/show-product/{id}',[TuongController::class,'modal_product']);
+Route::group(['prefix'=>'manager'],function(){
+    Route::get('/ajax/check-order/{id}',[TuongController::class,'modal_order']);
+    Route::post('/confirm',[TuongController::class,'post_confirmorder'])->name('confirm_order');
+    Route::get('/list_order',[TuongController::class,'list_allorder'])->name('allorder');
+});
 //Login Google
 Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
 
-Route::get('/checkout',[TuongController::class,'get_checkout'])->name('checkout');
-Route::post('/checkout',[TuongController::class,'post_checkout'])->name('checkout');
-Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
-Route::get('/ajax/modal/show-product/{id}',[TuongController::class,'modal_product']);
-Route::get('/ajax/cart/listcart',[TuongController::class,'modalCart']);
-Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart']);
-Route::post('/add_address',[TuongController::class,'add_address'])->name('post_address');
-Route::get('/remove_address/{id}',[TuongController::class,'remove_address']);
-Route::post('/addItemCart/{id}',[TuongController::class,'cartadd_quan'])->name('cartadd');
-Route::get('/minusItem/{id}',[TuongController::class,'minusOne'])->name('minus');
-Route::get('/addItem/{id}',[TuongController::class,'addMore'])->name('addmore');
-Route::get('/ajax/add-cart/{id}',[TuongController::class,'addToCart2']);
+Route::group(['prefix'=>'/','middleware'=>'ManageLogin'],function(){
+    Route::get('/order',[TuongController::class,'get_order'])->name('order');
+    Route::get('/checkout',[TuongController::class,'get_checkout'])->name('checkout');
+    Route::post('/checkout',[TuongController::class,'post_checkout'])->name('checkout');
+    Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
+    Route::get('/ajax/cart/listcart',[TuongController::class,'modalCart']);
+    Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart']);
+    Route::post('/add_address',[TuongController::class,'add_address'])->name('post_address');
+    Route::get('/remove_address/{id}',[TuongController::class,'remove_address']);
+    Route::post('/addItemCart/{id}',[TuongController::class,'cartadd_quan'])->name('cartadd');
+    Route::get('/minusItem/{id}',[TuongController::class,'minusOne'])->name('minus');
+    Route::get('/addItem/{id}',[TuongController::class,'addMore'])->name('addmore');
+    Route::get('/ajax/add-cart/{id}',[TuongController::class,'addToCart2']);
+    Route::get('/ajax/add-coupon/{coupon}',[TuongController::class,'addCoupon']);
+});
+Route::get('/ajax/check-email/{email}',[TuongController::class,'check_email']);
 Route::get('/ajax/add-favourite/{id}',[TuongController::class,'add_favourite']);
 Route::get('/ajax/add-compare/{id}',[TuongController::class,'addCompare']);
-Route::get('/ajax/add-coupon/{coupon}',[TuongController::class,'addCoupon']);
 Route::get('/ajax/compare/showcompare',[TuongController::class,'showCompare']);
-Route::get('/ajax/check-email/{email}',[TuongController::class,'check_email']);
 Route::get('/delcompare/{id}',[TuongController::class,'delCompare'])->name('delCmp');
 Route::get('/removeCmp',[TuongController::class,'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User

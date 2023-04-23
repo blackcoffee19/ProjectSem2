@@ -10,7 +10,7 @@
                         <div class="card py-1 border-0 mb-8">
                             <div>
                                 <h1 class="fw-bold">Shop Cart</h1>
-                                {{-- <p class="mb-0">Shopping in 382480</p> --}}
+                                
                             </div>
                         </div>
                     </div>
@@ -194,12 +194,6 @@
                                             </div>
                                             <span>${{number_format($sum,2,',',' ')}}</span>
                                         </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                                            <div class="me-auto">
-                                                <div>Service Fee</div>
-                                            </div>
-                                            <span>$2.00</span>
-                                        </li>
                                         <li id="added_coupon" class="list-group-item d-flex justify-content-between align-items-start {{$coupon?'':'d-none'}}">
                                             <div class="me-2">
                                                 <div>Coupon</div>
@@ -213,12 +207,12 @@
                                             <div class="me-auto">
                                                 <div class="fw-bold">Total</div>
                                             </div>
-                                            <span class="fw-bold" id="total_items" data-total="{{$sum+2}}">${{$coupon == null? number_format($sum+2,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span>
+                                            <span class="fw-bold" id="total_items" data-total="{{$sum}}">${{$coupon == null? number_format($sum,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="d-grid mb-1 mt-4">
-                                    <a href="{{route('checkout')}}" class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go to Checkout <span class="fw-bold" id="total_cart">${{$coupon == null? number_format($sum+2,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span></a>
+                                    <a href="{{route('checkout')}}" class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go to Checkout <span class="fw-bold" id="total_cart">${{$coupon == null? number_format($sum,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span></a>
                                 </div>
                                 <p><small>By placing your order, you agree to be bound by the Freshcart <a
                                             href="#!">Terms of Service</a>

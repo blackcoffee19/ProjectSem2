@@ -117,6 +117,8 @@ class TuongController extends Controller
                     $addToUserCart->order_code = null;
                     $addToUserCart->id_user = $new_user->id_user;
                     $addToUserCart->id_product = $value["id_product"];
+                    $addToUserCart->price = $value["per_price"];
+                    $addToUserCart->sale = $value["sale"];
                     $addToUserCart->amount = $value["amount"];
                     $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                     $addToUserCart->save();
@@ -151,6 +153,8 @@ class TuongController extends Controller
                         $addToUserCart->order_code = null;
                         $addToUserCart->id_user = Auth::user()->id_user;
                         $addToUserCart->id_product = $value["id_product"];
+                        $addToUserCart->price = $value["per_price"];
+                        $addToUserCart->sale = $value["sale"];
                         $addToUserCart->amount = $value["amount"];
                         $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                         $addToUserCart->save();
@@ -231,6 +235,7 @@ class TuongController extends Controller
             $order->email = $address['email'];
             $order->address = $address['address'];
             $order->code_coupon = $req['code_coupon'];
+            $order->instruction = $req['delivery_instructions'];
             foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
                 $cart->Product->quantity-=$cart->amount;
                 $cart->Product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -270,7 +275,7 @@ class TuongController extends Controller
             $order->code_coupon = $req['code_coupon'];
         }
         $order->shipping_fee = $req['shipment_fee'];
-        $order->status = 'unconfimred';
+        $order->status = 'unconfirmed';
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
@@ -282,7 +287,7 @@ class TuongController extends Controller
         $new_admin->created_at=Carbon::now()->format('Y-m-d H:i:s');
         $new_admin->save();
         Session::forget('coupon');
-        Mail::to($order->email)->send(new OrderShipped($order));
+        
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
     }
     public function admin_cate(){
@@ -320,6 +325,8 @@ class TuongController extends Controller
                 $cart->id_user = Auth::user()->id_user;
                 $cart->order_code = null;
                 $cart->id_product = $req->id_pro;
+                $cart->price = $price;
+                $cart->sale =  $product->sale;
                 $cart->amount = $amount;
                 $cart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $cart->save();
@@ -366,6 +373,8 @@ class TuongController extends Controller
                 $cart = new Cart();
                 $cart->id_user = Auth::user()->id_user;
                 $cart->order_code = null;
+                $cart->price = $product->price;
+                $cart->sale = $product->sale;
                 $cart->id_product = $id;
                 $cart->amount = $product->quantity < 100 ? $product->quantity:100;
                 $cart->created_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -492,11 +501,11 @@ class TuongController extends Controller
                         $html_list.="<a class='disabled btn border-0'><i class='fa-solid fa-plus'></i></a>";
                     };
                     $html_list.="</div></form></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
-                    if($cart->Product->sale > 0 ){
-                        $sum += $cart->Product->price/100 *(1- ($cart->Product->sale /100)) * $cart->amount;
+                    if($cart->sale > 0 ){
+                        $sum += $cart->price *(1- ($cart->sale /100)) * $cart->amount/1000;
                         $html_list.= "<span class='fw-bold text-danger fs-5'>$". $cart->Product->price * (1-$cart->Product->sale/100)."</span><span class='text-decoration-line-through ms-1'>".$cart->Product->price ."</span></div></div></li>";
                     }else{
-                        $sum += $cart->Product->price/100 * $cart->amount;
+                        $sum += $cart->price * $cart->amount/1000;
                         $html_list.= "<span class='fw-bold'>$".$cart->Product->price."</span></div></div></li>"; 
                     }
                 };
@@ -778,6 +787,8 @@ class TuongController extends Controller
                     $new_cart->order_code = null;
                     $new_cart->id_user= Auth::user()->id_user;
                     $new_cart->id_product = $fav->id_product;
+                    $new_cart->price = Product::find(intval($fav->id_product))->price; 
+                    $new_cart->sale = Product::find(intval($fav->id_product))->sale; 
                     $new_cart->amount=Product::find(intval($fav->id_product))->quantity > 100 ? 100 : Product::find(intval($fav->id_product))->quantity;
                     $new_cart->created_at=Carbon::now()->format('Y-m-d H:i:s');
                     $new_cart->save();
@@ -788,7 +799,7 @@ class TuongController extends Controller
         return redirect()->back();
     }
     public function get_orderhistory(){
-        $orders = Order::where('id_user','=',Auth::user()->id_user)->orderBy('created_at','desc')->get();
+        $orders = Order::where('id_user','=',Auth::user()->id_user)->orderBy('created_at','desc')->paginate(6);
         foreach($orders as $order){
             $sum = 0;
             foreach($order->Cart as $cart){
@@ -931,5 +942,53 @@ class TuongController extends Controller
         $news = News::where('link','=','feedback')->where('attr','=',$code)->first();
         $news->delete();
         return redirect('/')->with('feedback_mess','Send feedback successfully');
+    }
+    public function modal_order($id){
+        if(Auth::check() && Auth::user()->admin != "2"){
+            echo "Wrong way bro";
+        }else{
+            $order = Order::find($id);
+            $name =[];
+            $images =[];
+            $order->cart = $order->Cart->toArray();
+            foreach($order->Cart as $cart){
+                array_push($images,$cart->Product->Library[0]->image);
+                array_push($name,$cart->Product->name);          
+            };
+            $order->image = $images;
+            $order->product = $name;
+            $order->discount = $order->code_coupon?$order->Coupon->discount: 0;
+            $order->coupon_title = $order->code_coupon?$order->Coupon->title: '';
+            echo $order;
+        }
+    }
+    public function post_confirmorder(Request $req){
+        $order = Order::find($req['id_order']);
+        $order->status = $req['status_order'];
+        $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+        $order->save();
+        if($req['status_order'] == 'delivery'){
+            Mail::to($order->email)->send(new OrderShipped($order));
+        }
+        return redirect()->back();
+    }
+    public function list_allorder(){
+        $orders = Order::orderBy('created_at','desc')->paginate(6);
+        foreach($orders as $order){
+            $sum = 0;
+            foreach($order->Cart as $cart){
+                $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
+            }
+            if($order->Coupon){
+                if($order->Coupon->discount >= 10){
+                    $sum *= (1-$order->Coupon->discount /100);
+                }else{
+                    $sum-=$order->Coupon->discount;
+                }
+            }
+            $sum += $order->shipping_fee;
+            $order->total = $sum;
+        }
+        return view('user.pages.About.order',compact('orders'));
     }
 }

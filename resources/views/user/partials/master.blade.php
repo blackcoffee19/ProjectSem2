@@ -30,6 +30,7 @@
     <!-- Libs CSS -->
     {{-- <link href="{{ asset('css/slick.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/slick-theme.css') }}" rel="stylesheet" /> --}}
+    <link rel="stylesheet" href="{{asset('../resources/css/pagination.css')}}">
     <link href="{{asset('../node_modules/slick-carousel/slick/slick.css')}}" rel="stylesheet" />
     <link href="{{asset('../node_modules/slick-carousel/slick/slick-theme.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">

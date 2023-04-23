@@ -26,7 +26,6 @@
                                         <tr>
                                             <th>View Cart</th>
                                             <th>View Detail</th>
-                                            <th>&nbsp;</th>
                                             <th>Date</th>
                                             <th>Promo</th>
                                             <th>Method</th>
@@ -68,14 +67,14 @@
                                                         @case('delivery')
                                                             <span class="badge bg-warning text-capitalize">{{$order->status}}</span>
                                                             @break
-                                                        @case('unconfimred')
+                                                        @case('unconfirmed')
                                                             <span class="badge bg-dark text-capitalize">{{$order->status}}</span>
                                                             @break
                                                         @case('cancel')
                                                             <span class="badge bg-danger text-capitalize">{{$order->status}}</span>
                                                             @break
                                                         @case('transaction failed')
-                                                            <span class="badge bg-danger text-capitalize">{{$order->status}}</span>
+                                                            <span class="badge bg-secondary text-capitalize">{{$order->status}}</span>
                                                             @break
                                                         @default
                                                             
@@ -84,13 +83,33 @@
                                                 <td class="align-middle border-top-0">
                                                     ${{number_format($order->total,2,'.',' ')}}
                                                 </td>
-                                                <td  class="align-middle border-top-0">
-                                                    @if ($order->status == 'unconfimred' || $order->status == 'confirmed')
-                                                    <a href="" data-bs-toggle='modal' class='user_editorder' data-bs-target='#editOrder' data-idorder='{{$order->id_order}}' style="font-size: 1.2rem"><i class="bi bi-pencil-square"></i></a>
-                                                    <a href="{{route('cancelorder',$order->id_order)}}" onclick="return confirm('You really want cancel this order?')" style="font-size: 1.2rem"><i class="bi bi-slash-circle text-danger"></i>
-                                                    </a>
-                                                    @endif
-                                                </td>
+                                                @if (Auth::user()->admin != "2")
+                                                    <td  class="align-middle border-top-0">
+                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
+                                                        <a href="" data-bs-toggle='modal' class='user_editorder' data-bs-target='#editOrder' data-idorder='{{$order->id_order}}' style="font-size: 1.2rem"><i class="bi bi-pencil-square"></i></a>
+                                                        <a href="{{route('cancelorder',$order->id_order)}}" onclick="return confirm('You really want cancel this order?')" style="font-size: 1.2rem"><i class="bi bi-slash-circle text-danger"></i>
+                                                        </a>
+                                                        @endif
+                                                    </td>
+                                                @else
+                                                    <td  class="align-middle border-top-0">
+                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
+                                                            @switch($order->status)
+                                                                @case('confirmed')
+                                                                    <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                                        Delivery          
+                                                                    </button>
+                                                                    @break
+                                                                @case('unconfirmed')
+                                                                    <button type="button" class="btn btn-primary check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                                        Confirm  
+                                                                    </button>
+                                                                    @break
+                                                                @default        
+                                                            @endswitch
+                                                        @endif
+                                                    </td>
+                                                @endif
                                             </tr>
                                             <tr class="collapse collapseDetail{{$order->id_order}}">
                                                 <td class="align-middle border-top-0" colspan="2">{{$order->receiver}}</td>
@@ -143,16 +162,19 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="row pb-5">
+                            <div class="col-auto mx-auto">
+                                {{$orders->links('user.pagination.cus_pagination')}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 @endsection
 @section('script')

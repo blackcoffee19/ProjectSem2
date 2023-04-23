@@ -83,10 +83,15 @@
                                         </a>
                                         <div class=" dropdown-menu pb-0 ">
                                             <div class="list-group">
-                                                <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
+                                                @if (Auth::user()->admin == "2")
+                                                <a href="{{route('allorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i>All Orders</a>
                                                 <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                                @else
+                                                <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
                                                 <a href="{{route('accountaddress')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-location-pin"></i>Address</a>
-                                                <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                                <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card me-1"></i>Payment Method</a>
+                                                <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                                @endif
                                                 <a href="{{route('signout')}}" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-in-right" ></i> Sign out</a>
                                             </div>
                                         </div>
@@ -221,10 +226,15 @@
                                 </a>
                                 <div class=" dropdown-menu pb-0 ">
                                     <div class="list-group">
-                                        <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
+                                        @if (Auth::user()->admin == "2")
+                                        <a href="{{route('allorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i>All Orders</a>
                                         <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                        @else
+                                        <a href="{{route('accountorder')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-truck"></i> Order</a>
                                         <a href="{{route('accountaddress')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-location-pin"></i>Address</a>
-                                        <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                        <a href="{{route('accountpayment')}}" class="list-group-item list-group-item-action"><i class="fa-regular fa-credit-card me-1"></i>Payment Method</a>
+                                        <a href="{{route('accountsetting')}}" class="list-group-item list-group-item-action"><i class="fa-solid fa-gear"></i> Setting</a>
+                                        @endif
                                         <a href="{{route('signout')}}" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-in-right" ></i> Sign out</a>
                                     </div>
                                 </div>
@@ -243,31 +253,44 @@
                             </div>  
                         @endif
                         <div >
-                            <a class="text-muted position-relative btn_showcart" href="#offcanvasExample" role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas" 
-                                aria-controls="offcanvasRight">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="feather feather-shopping-bag">
-                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            @if (!Auth::check() || Auth::user()->admin != "2")
+                                <a class="text-muted position-relative btn_showcart" href="#offcanvasExample" role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas" aria-controls="offcanvasRight">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-shopping-bag">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        @if (Auth::check())
+                                        <span class="fw-bold countCart" >
+                                            {{count(Auth::user()->Cart->where('order_code','=',null))}}
+                                        </span>
+                                        @endif
+                                        @if (Session::has("cart"))
+                                        <span class="fw-bold countCart" >{{count(Session::get('cart'))}}
+                                        </span>
+                                        @endif
+                                        @if (!Auth::check() && !Session::has("cart"))
+                                        <span class="fw-bold countCart" >0</span>
+                                        @endif
+                                    </span>
+                                </a>    
+                            @else
+                            <a class="text-muted position-relative btn_showcart" href="#offcanvasExample" role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas" aria-controls="offcanvasRight">
+                                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M27.5 15.6666L12.5 7.0166" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M35 26.6668V13.3335C34.9994 12.749 34.8451 12.1748 34.5526 11.6688C34.26 11.1627 33.8396 10.7424 33.3333 10.4502L21.6667 3.7835C21.1599 3.49093 20.5851 3.33691 20 3.33691C19.4149 3.33691 18.8401 3.49093 18.3333 3.7835L6.66667 10.4502C6.16044 10.7424 5.73997 11.1627 5.44744 11.6688C5.1549 12.1748 5.0006 12.749 5 13.3335V26.6668C5.0006 27.2514 5.1549 27.8255 5.44744 28.3316C5.73997 28.8376 6.16044 29.2579 6.66667 29.5502L18.3333 36.2168C18.8401 36.5094 19.4149 36.6634 20 36.6634C20.5851 36.6634 21.1599 36.5094 21.6667 36.2168L33.3333 29.5502C33.8396 29.2579 34.26 28.8376 34.5526 28.3316C34.8451 27.8255 34.9994 27.2514 35 26.6668Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.4502 11.6001L20.0002 20.0168L34.5502 11.6001" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20 36.8V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                    @if (Auth::check())
-                                    <span class="fw-bold countCart" >
-                                        {{count(Auth::user()->Cart->where('order_code','=',null))}}
-                                    </span>
-                                    @endif
-                                    @if (Session::has("cart"))
-                                      <span class="fw-bold countCart" >{{count(Session::get('cart'))}}
-                                      </span>
-                                    @endif
-                                    @if (!Auth::check() && !Session::has("cart"))
-                                    <span class="fw-bold countCart" >0</span>
-                                    @endif
+                                    {{count($orders)}}
                                 </span>
                             </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -361,8 +384,90 @@
 
 
 
-<!-- Shop Cart -->
+@if (Auth::check() && Auth::user()->admin == '2')
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <div class="text-start">
+            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">New Orders</h5>
+        </div>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <ul class="list-group list-group-flush">
+                @if (isset($orders))
+                    @foreach ($orders as $order)
+                        <li class='list-group-item py-3 ps-0 border-top border-bottom'>
+                            <div class='row align-items-center'>
+                                <div class='col-1'>
+                                    @if ($order->id_user && $order->User->avatar)
+                                        <img src="{{asset('images/avatar/'.$order->User->avatar)}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
+                                    @else
+                                        <img src="{{asset('images/avatar/user.png')}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
+                                    @endif
+                                </div>
+                                <div class='col-2 '>
+                                    <span>#{{$order->order_code}}</span><br>
+                                    <small class="text-muted">{{date_format($order->created_at,"F j Y, g:i a")}}</small>
+                                </div>
+                                <div class='col-2'>Items: <p>{{count($order->Cart)}}</p>
+                                </div>
+                                <div class="col-2">
+                                    @php
+                                    $sum =0;
+                                    foreach ($order->Cart as $cart) {
+                                        if($cart->sale > 0){
+                                            $sum += $cart->price*(1 - $cart->sale/100)*($cart->amount/1000);
+                                        }else{
+                                            $sum += $cart->price*($cart->amount/1000);
+                                        };
+                                    };   
+                                    $sum += $order->shipping_fee;
+                                    if($order->code_coupon){
+                                        if($order->Coupon->discount >= 10){
+                                            $sum = $sum*(1 - $order->Coupon->discount/100);
+                                        }else{
+                                            $sum -= $order->Coupon->discount;
+                                        }
+                                    }
+                                    echo "Total: $".number_format($sum,2,'.',' ');
+                                    @endphp
+                                </div>
+                                <div class="col-2">
+                                    @switch($order->status)
+                                        @case('confirmed')
+                                            <h5 class="badge bg-warning text-capitalize">{{$order->status}}</h5>
+                                            @break
+                                        @case('unconfirmed')
+                                            <h5 class="badge bg-dark text-capitalize">{{$order->status}}</h5>
+                                            @break
+                                    @endswitch
+                                </div>
+                                <div class="col-3">
+                                    @switch($order->status)
+                                        @case('confirmed')
+                                            <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                Delivery          
+                                            </button>
+                                            @break
+                                        @case('unconfirmed')
+                                            <button type="button" class="btn btn-primary check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                Confirm  
+                                            </button>
+                                            @break
+                                        @default        
+                                    @endswitch
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+        </div>
+    </div>
+</div>
 
+@else
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
         <div class="text-start">
@@ -372,23 +477,20 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-
-        <div class="">
-            <!-- alert -->
+        <div>
             <div class="alert alert-danger p-2" role="alert">
                 You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
             </div>
             <ul class="list-group list-group-flush" id="listCart">
             </ul>
-            <!-- btn -->
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{route('order')}}" class="btn btn-primary">Continue Shopping</a>
                 <a href="#!" class="btn btn-dark">Update Cart</a>
             </div>
-
         </div>
     </div>
 </div>
+@endif
 
 {{-- <!-- Modal -->
 <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">

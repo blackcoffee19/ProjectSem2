@@ -26,7 +26,7 @@
               <form action="{{route('checkout')}}" method="post">
                 @csrf
                 <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="2">
+                  
                   <div class="accordion-item py-4">
                     
                     @if (Auth::check())
@@ -111,6 +111,7 @@
                     </div>
                     @endif
                   </div>
+                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{$shipment}}">
                   <div class="accordion-item py-4">
                     <a href="#" class="text-inherit h5"  data-bs-toggle="collapse"
                       data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -121,7 +122,7 @@
 
                       <div class="mt-5">
                         <label for="DeliveryInstructions" class="form-label sr-only">Delivery instructions</label>
-                        <textarea class="form-control" id="DeliveryInstructions" rows="3"
+                        <textarea class="form-control" id="DeliveryInstructions" name="delivery_instructions" rows="3"
                           placeholder="Write delivery instructions "></textarea>
                         <p class="form-text">Add instructions for how you want your order shopped and/or delivered</p>
                         <div class="mt-5 d-flex justify-content-end">
@@ -289,7 +290,7 @@
                         Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
                           title="Shipment Fee"></i>
                       </div>
-                      <div class="fw-bold" id="shippment_fee">
+                      <div class="fw-bold" id="shippment_fee" data-ship="{{$shipment}}">
                         ${{number_format($shipment,2,'.',' ')}}
                       </div>
                     </div>
@@ -322,7 +323,7 @@
                         Total
                       </div>
                       @php
-                          $subtotal +=2;
+                          $subtotal +=$shipment;
                           if(Session::has('coupon') && $coupon->freeship){
                             $subtotal -= $coupon->discount;
                           }else if(Session::has('coupon')){
@@ -351,57 +352,23 @@
 @section('script')
     <script>
       $(document).ready(function(){
-            // $('#sendAddress').click(function(){
-            //   $.ajax({
-            //     method: "POST",
-            //     headers: {'X-CSRF-TOKEN':  '{{csrf_token()}}' },
-            //     url: window.location.origin+'/public/index.php/ajax/add_address',
-            //     data: {
-            //       'name':$('input[name=nameReciever]').val(),
-            //       'email':$('input[name=emailReciever]').val(),
-            //       'phone':$('input[name=phoneReciever]').val(),
-            //       'address':$('input[name=addressReciever]').val()+ ", " + $('#ward option:selected').val()+', '+$('#district option:selected').val()+", "+$('#province option:selected').val(),
-            //       'shipment_fee': $('#province option:selected').val() != "Thành phố Hồ Chí Minh" ? 3:2,
-            //     },
-            //     success: function (data) {
-            //       $("#listAddress").html(data);
-            //       $('.remove_add').click(function(){
-            //         $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
-            //           $("#listAddress").html(data);
-            //           $('input[name="select_address"]').change(function(){
-            //             console.log($('input[name="select_address"]:checked').data('shipment'));
-            //             console.log($('input[name="select_address"]:checked').val());
-            //           //   if(parseFloat($(this).data('shipment'))>2){
-            //           //     $('#extra_ship').removeClass('d-none');
-            //           //       $('#shipment_fee').val(3);
-            //           //       let totall = parseFloat($("#total").data('total'))+1;
-            //           //       $('#total').html("$"+totall);
-            //           //   }else{
-            //           //     if(!$('#extra_ship').hasClass('d-none')){
-            //           //       $('#extra_ship').addClass('d-none');
-            //           //     }
-            //           //       $('#shipment_fee').val(2);
-            //           //       $('#total').html('$'+$("#total").data('total'));
-            //           //   }
-            //           })
-            //       });
-            //       })
-            //     }
-            //   });
-            // });
             $('.remove_add').click(function(){
               window.location.assign(window.location.origin+'/public/index.php/remove_address/'+$(this).data('idadd'));
             });
             $('input[name="select_address"]').change(function(){
               if(parseFloat($('input[name="select_address"]:checked').data('shipment'))>2){
-                $('#extra_ship').removeClass('d-none');
+                if($("#shippment_fee").data('ship') != 3){
+                  $('#extra_ship').removeClass('d-none');
                   $('#shipment_fee').val(3);
                   let totall = parseFloat($("#total").data('total'))+1;
                   $('#total').html("$"+totall);
+                };
               }else{
                 if(!$('#extra_ship').hasClass('d-none')){
                   $('#extra_ship').addClass('d-none');
                 }
+                $("#shippment_fee").html('$2.00');
+                  $("#shippment_fee").data('ship',2);
                   $('#shipment_fee').val(2);
                   $('#total').html('$'+$("#total").data('total'));
               }

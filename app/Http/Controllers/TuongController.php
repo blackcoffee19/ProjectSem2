@@ -22,15 +22,16 @@ use App\Mail\OrderShipped;
 class TuongController extends Controller
 {
     public function home_page(){
-        // $news = News::where('send_admin', '=', false)->where(function (Builder $query) {
-        //     $query->where('id_user', '=', Auth::user()->id_user)
-        //           ->orWhere('id_user', '=', null);
-        // })->get();
-        // dd($news);
+        if(Auth::check() && Auth::user()->phone != null){
+            $check_orders = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
+        }else{
+            $check_orders = null;
+        }
         $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
         $banner = Banner::all();
-        return view('user.index',compact('products','product_hot','banner'));
+        // dd($check_orders);
+        return view('user.index',compact('products','product_hot','banner','check_orders'));
     }
     public function get_signUp(){
         $site= "Signup";
@@ -1057,5 +1058,39 @@ class TuongController extends Controller
             $order->total = $sum;
         }
         return view('user.pages.About.order',compact('orders'));
+    }
+    public function denied_order(Request $req){
+        $order = Order::find($req['id_order']);
+        $phone =$order->phone; 
+        $order->phone = "G_".$order->phone;
+        $order->save();
+        $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
+        $num = count($list_order);
+        echo $num;
+    }
+    public function accept_order(Request $req){
+        $order = Order::find($req['id_order']);
+        if($order->status == 'finished'){
+            foreach($order->Cart as $cart){
+                $cmt = Comment::where('id_product','=',$cart->id_product)->where('id_user','=',null)->where('phone','=',Auth::user()->phone)->first();
+                $cmt->name=null;
+                $cmt->id_user = Auth::user()->id_user;
+                $cmt->phone = null;
+                $cmt->save();
+            }
+        }
+        $num=count(Auth::user()->Order);
+        $cr_order_code = "USR".Auth::user()->id_user."_".$num;
+        foreach($order->Cart as $cart){
+            $cart->order_code = $cr_order_code;
+            $cart->id_user = Auth::user()->id_user;
+            $cart->save();
+        }
+        $order->order_code = $cr_order_code;
+        $order->id_user = Auth::user()->id_user;
+        $order->save();
+        $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
+        $num = count($list_order);
+        echo $num;
     }
 }

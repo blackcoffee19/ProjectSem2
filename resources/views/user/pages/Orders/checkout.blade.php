@@ -41,33 +41,33 @@
                       </div>
                       <div id="flush-collapseOne" class="accordion-collapse collapse show"
                       data-bs-parent="#accordionFlushExample">
-                      <div class="mt-5">
-                        <div class="row" id="listAddress">
-                          @if (count($address)>0)
-                            @foreach ($address as $add)
-                            <div class="col-lg-6 col-12 mb-4">
-                              <div class="card card-body p-6 " style="height: 240px">
-                                    <div class="form-check mb-4">
-                                      <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default?'checked':''}} value="{{$add->id_address}}">
-                                      <label class="form-check-label text-dark" >
-                                        Reciver : {{$add->receiver}}
-                                      </label>
+                        <div class="mt-5">
+                          <div class="row" id="listAddress">
+                            @if (count($address)>0)
+                              @foreach ($address as $add)
+                                  <div class="col-lg-6 col-12 mb-4">
+                                    <div class="card card-body p-6 " style="height: 240px">
+                                      <div class="form-check mb-4">
+                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default?'checked':''}} value="{{$add->id_address}}">
+                                        <label class="form-check-label text-dark" >
+                                          Reciver : {{$add->receiver}}
+                                        </label>
+                                      </div>
+                                      <p class="text-muted">{{$add->email}}</p>
+                                      <address style="height: 90px">
+                                        {{$add->address}}<br>
+                                        <abbr title="Phone">P: {{$add->phone}}</abbr></address>
+                                      @if ($add->default)
+                                      @php
+                                          $shipment = $add->shipment_fee;
+                                      @endphp
+                                      <span class="text-danger">Default address </span>
+                                      @endif
+                                      <a href="javascript:void(0);" class="text-muted remove_add text-end" data-idadd="{{$add->id_address}}">Remove Address</a>
                                     </div>
-                                    <p class="text-muted">{{$add->email}}</p>
-                                    <address style="height: 90px">
-                                      {{$add->address}}<br>
-                                      <abbr title="Phone">P: {{$add->phone}}</abbr></address>
-                                    @if ($add->default)
-                                    @php
-                                        $shipment = $add->shipment_fee;
-                                    @endphp
-                                    <span class="text-danger">Default address </span>
-                                    @endif
-                                    <a href="javascript:void(0);" class="text-muted remove_add text-end" data-idadd="{{$add->id_address}}">Remove Address</a>
                                   </div>
-                                </div>
-                                @endforeach
-                              @endif
+                              @endforeach
+                            @endif
                           </div>
                         </div>
                       </div>
@@ -186,10 +186,7 @@
                         </div>
                       </div>
                     </div>
-
                   </div>
-
-
                 </div>
               </form>
             </div>

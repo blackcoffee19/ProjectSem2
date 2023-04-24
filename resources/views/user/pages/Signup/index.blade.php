@@ -169,11 +169,18 @@
         }
         $('input[name=register_phone]').addClass('is-invalid');      
     }else if($('input[name=register_phone]').val().length >0){
-        if($('input[name=register_phone]').hasClass("is-invalid")){
-          $('input[name=register_phone]').removeClass('is-invalid');
-        }
-        $('input[name=register_phone]').addClass('is-valid');
-        $('#register_phone').text('');
+        $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
+          if(data == "existed"){
+            $('input[name=register_phone]').addClass('is-invalid');
+            $('#register_phone').text('This phone has used by another account.');
+          }else{
+            if($('input[name=register_phone]').hasClass('is-invalid')){
+              $('input[name=register_phone]').removeClass('is-invalid');
+            }
+            $('input[name=register_phone]').addClass('is-valid');
+            $('#register_phone').text('');
+          }
+        });
     };
     $('input[name=register_phone]').change(function(){
       $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){

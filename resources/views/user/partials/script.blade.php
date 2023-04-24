@@ -360,5 +360,31 @@
             })
           })
         })
+        $(".denied_order").click(function(){
+          $.ajax({
+            method: "POST",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: window.location.origin+'/public/index.php/ajax/denied-order',
+            data: {'id_order':$(this).data('order')},
+            success: function (data) {
+              if(data == 0){
+                $('#show_acceptorder').css('display','none')
+              }
+            }
+          });
+        })
+        $(".accept_order").click(function(){
+          $.ajax({
+            method: "POST",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: window.location.origin+'/public/index.php/ajax/accept-order',
+            data: {'id_order':$(this).data('order')},
+            success: function (data) {
+              if(data == 0){
+                $('#show_acceptorder').css('display','none')
+              }
+            }
+          });
+        });
     })  
 </script>

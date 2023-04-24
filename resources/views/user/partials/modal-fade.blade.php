@@ -384,3 +384,96 @@
   </div>
 </div>
 @endif
+@if (isset($check_orders)&&count($check_orders)>0)
+<div data-bs-toggle="tooltip"  title="Show Orders" class="position-sticky rounded-circle p-3 animate__animated animate__heartBeat animate__infinite bottom-0 start-0" id="show_acceptorder">
+  <button role="button" class="btn btn-warning shadow rounded" id="show_compare" data-bs-toggle="modal" data-bs-target="#checkOrder0" style="margin-left: 100px">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+  </button>
+</div>
+  @for ($i = 0; $i < count($check_orders); $i++)
+    <div class="modal fade " id="checkOrder{{$i}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="checkOrderLabel{{$i}}" aria-hidden="true">
+      <div class="modal-dialog modal-xl  modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="checkOrderLabel{{$i}}">Is this your orders?</h1>
+            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+          </div>
+          <div class="modal-body row px-5 pb-2">
+            <p>We found this order used your assign phone number to order. Tell us is that your order?</p>
+            <h5>Order date: {{date_format($check_orders[$i]->created_at,'F j, Y')}}</h5>
+            <table class="table col-12">
+              <thead>
+                <tr>
+                  <th rowspan="2"></th>
+                  <th colspan="2" class="text-center">Item</th>
+                  <th rowspan="2">Price</th>
+                  <th rowspan="2">Sale</th>
+                  <th rowspan="2">Amount</th>
+                </tr>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                @php
+                    $num = 1;
+                    $total = 0;
+                @endphp
+                @foreach ($check_orders[$i]->Cart as $cart)
+                    <tr>
+                      <td>{{$num}}</td>
+                      <td><img src="{{asset('images/products/'.$cart->Product->Library[0]->image)}}"  class='icon-shape icon-xl'  alt="{{$cart->Product->name}}"></td>
+                      <td>{{$cart->Product->name}}</td>
+                      <td>${{$cart->price}} /kg</td>
+                      <td>{{$cart->sale}}%</td>
+                      <td>{{$cart->amount}} grams</td>
+                    </tr>
+                    @php
+                        $num++;
+                        $total += $cart->price*(1 - $cart->sale/100)*($cart->amount/1000);
+                    @endphp
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">Shipment Fee</td>
+                  <td colspan="3">{{number_format($check_orders[$i]->shipping_fee,2,'.',' ')}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">Total</td>
+                  <td colspan="3">${{number_format($total,2,'.',' ')}}</td>
+                </tr>
+              </tfoot>
+            </table>
+            <div class="col-5 mx-auto">
+              <p>Reciever: {{$check_orders[$i]->receiver}}</p>
+              <p>Address: {{$check_orders[$i]->address}}</p>
+              <p>Phone: {{$check_orders[$i]->phone}}</p>
+              <p>Email: {{$check_orders[$i]->email}}</p>
+            </div>
+            <div class="col-5 mx-auto">
+              <p>Instruction: {{$check_orders[$i]->instruction}}</p>
+              <p>Payment Method: {{$check_orders[$i]->method}}</p>
+              <h4>Status: <span class="text-danger fs-4">{{$check_orders[$i]->status}}</span></h4>
+            </div>
+          </div>
+          <div class="modal-footer">
+            @if (count($check_orders)>1 && $i != count($check_orders)-1)
+            <button class="btn btn-outline-secondary denied_order"data-order={{$check_orders[$i]->id_order}} data-bs-target="#checkOrder{{$i+1}}" data-bs-toggle="modal" >Not mine and Next</button>
+            <button class="btn btn-primary accept_order" data-bs-target="#checkOrder{{$i+1}}" data-bs-toggle="modal" data-order={{$check_orders[$i]->id_order}}>Accept and Next</button>
+            @endif
+            @if (count($check_orders)>1 && $i == count($check_orders)-1)
+            <button class="btn btn-outline-secondary denied_order" data-order={{$check_orders[$i]->id_order}} data-bs-dismiss="modal">Not mine</button>
+            <button class="btn btn-primary accept_order" data-bs-dismiss="modal" data-order={{$check_orders[$i]->id_order}}>Accept</button>
+            @endif
+            @if (count($check_orders) == 1)
+            <button class="btn btn-outline-secondary denied_order" data-order={{$check_orders[$i]->id_order}} data-bs-dismiss="modal" >Not mine</button>
+            <button class="btn btn-primary accept_order" data-order={{$check_orders[$i]->id_order}} data-bs-dismiss="modal" >Accept</button>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+  @endfor
+@endif

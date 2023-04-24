@@ -67,6 +67,8 @@ Route::group(['prefix'=>'/','middleware'=>'ManageLogin'],function(){
     Route::get('/addItem/{id}',[TuongController::class,'addMore'])->name('addmore');
     Route::get('/ajax/add-cart/{id}',[TuongController::class,'addToCart2']);
     Route::get('/ajax/add-coupon/{coupon}',[TuongController::class,'addCoupon']);
+    Route::post('/ajax/denied-order',[TuongController::class,'denied_order']);
+    Route::post('/ajax/accept-order',[TuongController::class,'accept_order']);
 });
 Route::get('/ajax/check-email/{email}',[TuongController::class,'check_email']);
 Route::get('/ajax/check-phone/{phone}',[TuongController::class,'check_phone']);

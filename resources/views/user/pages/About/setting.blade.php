@@ -233,17 +233,34 @@
             });
             $('#new_phone').change(function(){
                 if(valiPhone.test($(this).val().trim())){
-                    if($(this).hasClass('is-invalid')){
-                        $(this).removeClass('is-invalid');
-                    }
-                    $('#invalidPhone').html('');
-                    $('#changeProfie').removeAttr('disabled');
+                    $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
+                        if(data == "existed"){
+                            if($(this).hasClass('is-valid')){
+                                $(this).removeClass('is-valid');
+                            }
+                            $(this).addClass('is-invalid');
+                            $('#invalidPhone').html('This phone has used by another account.');
+                            $('#changeProfie').attr('disabled','disabled');
+                        }else{
+                            if($(this).hasClass('is-invalid')){
+                                $(this).removeClass('is-invalid');
+                            }
+                            $(this).addClass('is-valid');
+                            $('#invalidPhone').html('');
+                            $('#changeProfie').removeAttr('disabled');
+                        }
+                    });
                 }else if($(this).val().trim().length ==0){
+                    @if(Auth::user()->phone!=null)
                     $(this).val("{{Auth::user()->phone}}");
+                    @endif
                     $('#changeProfie').attr('disabled','disabled');
                 }else{
-                    $('#invalidPhone').html('Invalid Phone number');
+                    if($(this).hasClass('is-valid')){
+                        $(this).removeClass('is-valid');
+                    }
                     $(this).addClass('is-invalid');
+                    $('#invalidPhone').html('Invalid Phone number');
                     $('#changeProfie').attr('disabled','disabled');
                 }
             });

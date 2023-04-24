@@ -1043,4 +1043,38 @@ class TuongController extends Controller
         }
         return view('user.pages.About.order', compact('orders'));
     }
+    public function denied_order(Request $req){
+        $order = Order::find($req['id_order']);
+        $phone =$order->phone; 
+        $order->phone = "G_".$order->phone;
+        $order->save();
+        $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
+        $num = count($list_order);
+        echo $num;
+    }
+    public function accept_order(Request $req){
+        $order = Order::find($req['id_order']);
+        if($order->status == 'finished'){
+            foreach($order->Cart as $cart){
+                $cmt = Comment::where('id_product','=',$cart->id_product)->where('id_user','=',null)->where('phone','=',Auth::user()->phone)->first();
+                $cmt->name=null;
+                $cmt->id_user = Auth::user()->id_user;
+                $cmt->phone = null;
+                $cmt->save();
+            }
+        }
+        $num=count(Auth::user()->Order);
+        $cr_order_code = "USR".Auth::user()->id_user."_".$num;
+        foreach($order->Cart as $cart){
+            $cart->order_code = $cr_order_code;
+            $cart->id_user = Auth::user()->id_user;
+            $cart->save();
+        }
+        $order->order_code = $cr_order_code;
+        $order->id_user = Auth::user()->id_user;
+        $order->save();
+        $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
+        $num = count($list_order);
+        echo $num;
+    }
 }

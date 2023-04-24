@@ -12,7 +12,7 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Categories</li>
                                 </ol>
                             </nav>
@@ -39,13 +39,14 @@
                                                 class="fas fa-search"></i></button>
                                     </form>
                                 </div>
-                                <!-- select option -->
                                 <div class="col-xl-2 col-md-4 col-12">
-                                    <select class="form-select">
-                                        <option selected>Status</option>
-                                        <option value="Published">Published</option>
-                                        <option value="Unpublished">Unpublished</option>
-                                    </select>
+                                    <form action="{{ Route('category.findByName') }}" class="d-flex" role="search">
+                                        <select class="form-select" name="status" onchange="this.form.submit()">
+                                            <option value="">Status</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Disabled">Disabled</option>
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -57,15 +58,7 @@
                                     class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="checkAll">
-                                                    <label class="form-check-label" for="checkAll">
-
-                                                    </label>
-                                                </div>
-                                            </th>
+                                            <th>No.</th>
                                             <th>Image</th>
                                             <th>Name</th>
                                             <th>Created_at</th>
@@ -74,18 +67,12 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="product-table">
                                         @foreach ($cats as $item)
                                             <tr>
 
                                                 <td>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="categoryOne">
-                                                        <label class="form-check-label" for="categoryOne">
-
-                                                        </label>
-                                                    </div>
+                                                    {{ $item->id_type }}
                                                 </td>
                                                 <td>
                                                     <a href="#!"> <img
@@ -99,10 +86,10 @@
                                                 <td>
                                                     @if ($item->status == 'Active')
                                                         <span
-                                                            class="badge bg-light-primary text-dark-primary">{{ $item->status }}</span>
+                                                            class="btn bg-light-primary text-dark-primary">{{ $item->status }}</span>
                                                     @else
                                                         <span
-                                                            class="badge bg-light-danger text-dark-danger">{{ $item->status }}</span>
+                                                            class="btn bg-light-danger text-dark-danger">{{ $item->status }}</span>
                                                     @endif
                                                 </td>
 

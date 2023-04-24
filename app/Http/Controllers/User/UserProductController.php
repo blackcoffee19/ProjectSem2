@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\TypeProduct;
+use App\Models\Product;
 
 class UserProductController extends Controller
 {
@@ -34,9 +36,12 @@ class UserProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id_type)
     {
-        //
+        $products = Product::where('id_type', $id_type)->get();
+        $type = TypeProduct::find($id_type);
+
+        return view('user.pages.Products.index', compact('products', 'type'));
     }
 
     /**

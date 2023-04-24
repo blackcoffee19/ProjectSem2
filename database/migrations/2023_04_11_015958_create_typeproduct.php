@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('typeproduct', function (Blueprint $table) {
             $table->id('id_type');
             $table->string('type');
+            $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

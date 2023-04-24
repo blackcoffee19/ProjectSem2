@@ -126,14 +126,19 @@
                     </li>
                     <li class="dropdown ms-4">
                         <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('images/avatar/avatar-8.jpg') }}" alt=""
-                                class="avatar avatar-md rounded-circle" />
+                            @if (Auth::user()->avatar)
+                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}" width="50"
+                                    class="img-fluid rounded-circle">
+                            @else
+                                <img src="{{ asset('images/avatar/user.png') }}" width="50"
+                                    class="img-fluid rounded-circle">
+                            @endif
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end p-0">
                             <div class="lh-1 px-5 py-4 border-bottom">
-                                <h5 class="mb-1 h6">FreshCart Admin</h5>
-                                <small>admindemo@email.com</small>
+                                <h5 class="mb-1 h6">{{ Auth::user()->name }}</h5>
+                                <small>{{ Auth::user()->email }}</small>
                             </div>
 
                             <ul class="list-unstyled px-2 py-3">
@@ -149,7 +154,7 @@
                                 </li>
                             </ul>
                             <div class="border-top px-5 py-3">
-                                <a href="#">Log Out</a>
+                                <a href="{{ route('signout') }}">Log Out</a>
                             </div>
                         </div>
                     </li>

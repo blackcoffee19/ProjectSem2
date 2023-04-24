@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('id_user')->nullable();
             $table->string('link');
             $table->string('attr')->nullable();
+            $table->boolean('send_admin')->default(false);
             $table->timestamps();
         });
     }

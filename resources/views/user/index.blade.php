@@ -1,14 +1,11 @@
 @extends('user.partials.master')
-@section('title', 'Fresh Shop Welcome')
-@section('topic', '')
-@section('page', '')
 @section('content')
     <main>
         <section class="mt-8">
             <div class="container">
                 <div class="hero-slider ">
                     <div
-                        style="background: url({{ asset('images/slider/slide-1.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+                        style="background: url({{ asset('/images/slider/slide-1.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
                             <span class="badge text-bg-warning">Opening Sale Discount 50%</span>
 
@@ -21,7 +18,7 @@
 
                     </div>
                     <div class=" "
-                        style="background: url({{ asset('images/slider/slider-2.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+                        style="background: url({{ asset('/images/slider/slider-2.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
                             <span class="badge text-bg-warning">Free Shipping - orders over $100</span>
                             <h2 class="text-dark display-5 fw-bold mt-4">Free Shipping on <br> orders over <span
@@ -34,11 +31,9 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </section>
-
         <!-- Category Section Start-->
         <section class="mb-lg-10 mt-lg-14 my-8">
             <div class="container">
@@ -50,15 +45,18 @@
                     </div>
                 </div>
                 <div class="category-slider ">
+
                     @foreach ($cats as $item)
                         <div class="item">
-                            <a href="{{ route('products') }}" class="text-decoration-none text-inherit">
+                            <a href="{{ route('userShowProductCatagory', $item->id_type) }}"
+                                class="text-decoration-none text-inherit">
                                 <div class="card card-product mb-lg-4">
                                     <div class="card-body text-center py-8">
                                         <img src="{{ asset('images/category/' . $item->image) }}"
                                             alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
                                             style="width: 120px; height: 120px;">
                                         <div class="text-truncate">{{ $item->type }}</div>
+                                        {{-- <div class="text-truncate">{{ $item->id_type }}</div> --}}
                                     </div>
                                 </div>
                             </a>
@@ -74,7 +72,7 @@
                     <div class="col-12 col-md-6 mb-3 mb-lg-0">
                         <div>
                             <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
+                                style="background:url({{ asset('/images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
                                 <div>
                                     <h3 class="fw-bold mb-1">Fruits & Vegetables
                                     </h3>
@@ -90,7 +88,7 @@
 
                         <div>
                             <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
+                                style="background:url({{ asset('/images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
                                 <div>
                                     <h3 class="fw-bold mb-1">Freshly Baked
                                         Buns
@@ -117,56 +115,81 @@
                 </div>
 
                 <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
-                    @foreach ($prods as $item)
+                    @foreach ($products as $pro)
                         <div class="col">
                             <div class="card card-product">
                                 <div class="card-body">
+
                                     <div class="text-center position-relative ">
                                         <div class=" position-absolute top-0 start-0">
-                                            @if ($item->sale != 0)
-                                                <span class="badge bg-danger">Sale {{ $item->sale }}%</span>
+                                            @if ($pro->sale != 0)
+                                                <span class="badge bg-danger">{{ number_format($pro->sale, 0) }}%</span>
                                             @endif
                                         </div>
-                                        <a href="#!">
-                                            @if ($item->libraries->last())
-                                                <img src="{{ asset('images/products/' . $item->libraries->last()->image) }}"
-                                                    alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
-                                                    style="width: 188px; height: 188px;" />
-                                            @endif
+                                        <a href="{{ route('products-details', $pro->id_product) }}">
+                                            <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
+                                                class="mb-3 img-fluid">
                                         </a>
-
-                                        <div class="card-product-action mb-1">
-                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"><i
+                                        <div class="card-product-action">
+                                            <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}"><i
+                                                    class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
+                                                    title="Quick View"></i></a>
+                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                data-bs-toggle="tooltip"
+                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}><i
+                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare"
+                                                data-bs-product="{{ $pro->id_product }}"><i
                                                     class="bi bi-arrow-left-right"></i></a>
                                         </div>
+
                                     </div>
-                                    <div class="text-small mb-1"><a href="#!" class="text-decoration-none text-muted">
-                                            <small>{{ $item->typeproduct->type }}</small></a></div>
+                                    <div class="text-small mb-1"><a href="#!"
+                                            class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->name }}</small></a>
+                                    </div>
                                     <h2 class="fs-6">
-                                        <a href="{{ route('userShowProduct', $item->id_product) }}"
-                                            class="text-inherit text-decoration-none">
-                                            {{ $item->name }}
-                                        </a>
+                                        <a href="{{ route('products-details', $pro->id_product) }}"
+                                            class="text-inherit text-decoration-none">{{ $pro->name }}</a>
                                     </h2>
                                     <div>
-                                        <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-half"></i></small> <span
-                                            class="text-muted small">4.5(149)</span>
+                                        <p>
+                                            @php
+                                                $rating = 0;
+                                                if (count($pro->Comment->where('rating', '!=', null)) > 0) {
+                                                    foreach ($pro->Comment->where('rating', '!=', null) as $cmt) {
+                                                        $rating += $cmt->rating;
+                                                    }
+                                                    $rating /= count($pro->Comment->where('rating', '!=', null));
+                                                }
+                                            @endphp
+                                            @for ($i = 0; $i < floor($rating); $i++)
+                                                <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                            @endfor
+                                            @if (is_float($rating))
+                                                <i class="bi bi-star-half fs-4 text-warning"></i>
+                                            @endif
+                                            @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                <i class="bi bi-star fs-4 text-warning"></i>
+                                            @endfor
+                                            <span
+                                                class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
+                                        </p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">${{ $item->price }}</span> <span
-                                                class="text-decoration-line-through text-muted">{{ number_format((100 * $item->price) / (100 - $item->sale), 2) }}</span>
+                                        <div>
+                                            @if ($pro->sale > 0)
+                                                <span class="text-dark">$
+                                                    {{ number_format($pro->price * (1 - $pro->sale / 100), 0) }}</span>
+                                                <span class="text-decoration-line-through text-muted">$
+                                                    {{ number_format($pro->price, 0) }}</span>
+                                            @else
+                                                <span class="text-dark">$ {{ number_format($pro->price, 0) }}</span>
+                                            @endif
                                         </div>
-                                        <div><a href="#!" class="btn btn-primary btn-sm">
+                                        <div><button data-bs-id="{{ $pro->id_product }}" type="button"
+                                                class="btn btn-primary btn addToCart">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -175,15 +198,12 @@
                                                     </line>
                                                     <line x1="5" y1="12" x2="19" y2="12">
                                                     </line>
-                                                </svg> Add</a></div>
+                                                </svg> Add</button></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                </div>
-                <div class="mt-2">
-                    {{ $prods->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </section>
@@ -201,179 +221,105 @@
                             <div class=" pt-8 px-6 px-xl-8 rounded"
                                 style="background:url({{ asset('images/banner/banner-deal.jpg') }})no-repeat; background-size: cover; height: 470px;">
                                 <div>
-                                    <h3 class="fw-bold text-white">100% Organic
-                                        Coffee Beans.
+                                    <h3 class="fw-bold " style="color:{{ $banner[2]->title_color }}">
+                                        {{ $banner[2]->title }}
                                     </h3>
-                                    <p class="text-white">Get the best deal before close.</p>
-                                    <a href="#!" class="btn btn-primary">Shop Now <i
+                                    <p style="color:{{ $banner[2]->content_color }}">{{ $banner[2]->content }}</p>
+                                    <a class="btn "
+                                        style="background-color: {{ $banner[2]->btn_bg_color }};color:{{ $banner[2]->btn_color }}">{{ $banner[2]->btn_content }}<i
                                             class="feather-icon icon-arrow-right ms-1"></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card card-product">
-                                <div class="card-body">
-                                    <div class="text-center  position-relative "> <a href=""><img
-                                                src="{{ asset('images/products/product-img-11.jpg') }}"
-                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
+                        @foreach ($product_hot as $product)
+                            <div class="col">
+                                <div class="card card-product">
+                                    <div class="card-body">
+                                        <div class="text-center  position-relative ">
+                                            <a href="{{ route('products-details', $product->id_product) }}">
+                                                <img src="{{ asset('/images/products/' . $product->Library[0]->image) }}"
+                                                    class="mb-3 img-fluid">
+                                            </a>
+                                            <div class="card-product-action">
+                                                <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                    data-bs-target="#quickViewModal"
+                                                    data-product="{{ $product->id_product }}"><i class="bi bi-eye"
+                                                        data-bs-toggle="tooltip" data-bs-html="true"
+                                                        title="Quick View"></i></a>
+                                                <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                    data-bs-toggle="tooltip"
+                                                    {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product" }}><i
+                                                        class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                                <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                    data-bs-html="true" title="Compare"
+                                                    data-bs-product="{{ $product->id_product }}"><i
+                                                        class="bi bi-arrow-left-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="text-small mb-1">
+                                            <a class="text-decoration-none text-muted">
+                                                <small>{{ $product->TypeProduct->type }}</small>
+                                            </a>
+                                        </div>
+                                        <h2 class="fs-6"><a
+                                                href="{{ route('products-details', $product->id_product) }}"
+                                                class="text-inherit text-decoration-none">{{ $product->name }}</a></h2>
 
-                                        <div class="card-product-action">
-                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div>
+                                                @if ($product->sale > 0)
+                                                    <span class="text-danger">$
+                                                        {{ number_format($pro->price * (1 - $pro->sale / 100), 0) }}</span><br>
+                                                    <span class="text-decoration-line-through text-muted">$
+                                                        {{ number_format($product->price, 0) }}</span>
+                                                @else
+                                                    <span class="text-dark">$
+                                                        {{ number_format($product->price, 0) }}</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                @php
+                                                    $rating = 0;
+                                                    if (count($product->Comment->where('rating', '!=', null)) > 0) {
+                                                        foreach ($product->Comment->where('rating', '!=', null) as $cmt) {
+                                                            $rating += $cmt->rating;
+                                                        }
+                                                        $rating /= count($product->Comment->where('rating', '!=', null));
+                                                    }
+                                                @endphp
+                                                @for ($i = 0; $i < floor($rating); $i++)
+                                                    <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                                @endfor
+                                                @if (is_float($rating))
+                                                    <i class="bi bi-star-half fs-4 text-warning"></i>
+                                                @endif
+                                                @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                    <i class="bi bi-star fs-4 text-warning"></i>
+                                                @endfor
+                                                <span
+                                                    class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-grid mt-2"><button data-bs-id="{{ $product->id_product }}"
+                                                type="button" class="btn btn-primary btn addToCart">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-plus">
+                                                    <line x1="12" y1="5" x2="12" y2="19">
+                                                    </line>
+                                                    <line x1="5" y1="12" x2="19" y2="12">
+                                                    </line>
+                                                </svg> Add to cart </button></div>
+                                        <div class="d-flex justify-content-start text-center mt-3">
+                                            <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="text-small mb-1"><a href="#!"
-                                            class="text-decoration-none text-muted"><small>Tea, Coffee &
-                                                Drinks</small></a></div>
-                                    <h2 class="fs-6"><a href="" class="text-inherit text-decoration-none">Roast
-                                            Ground Coffee</a></h2>
+                                </div>
+                            </div>
+                        @endforeach
 
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">$13</span> <span
-                                                class="text-decoration-line-through text-muted">$18</span>
-                                        </div>
-                                        <div>
-                                            <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
-                                            </small>
-                                            <span><small>4.5</small></span>
-                                        </div>
-                                    </div>
-                                    <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add to cart </a></div>
-                                    <div class="d-flex justify-content-start text-center mt-3">
-                                        <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card card-product">
-                                <div class="card-body">
-                                    <div class="text-center  position-relative "> <a href=""><img
-                                                src="{{ asset('images/products/product-img-12.jpg') }}"
-                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                        <div class="card-product-action">
-                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="text-small mb-1"><a href="#!"
-                                            class="text-decoration-none text-muted"><small>Fruits &
-                                                Vegetables</small></a></div>
-                                    <h2 class="fs-6"><a href=""
-                                            class="text-inherit text-decoration-none">Crushed
-                                            Tomatoes</a></h2>
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">$13</span> <span
-                                                class="text-decoration-line-through text-muted">$18</span>
-                                        </div>
-                                        <div>
-                                            <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
-                                            </small>
-                                            <span><small>4.5</small></span>
-                                        </div>
-                                    </div>
-                                    <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add to cart </a></div>
-                                    <div class="d-flex justify-content-start text-center mt-3 w-100">
-                                        <div class="deals-countdown w-100" data-countdown="2028/12/9 00:00:00">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card card-product">
-                                <div class="card-body">
-                                    <div class="text-center  position-relative "> <a href=""><img
-                                                src="{{ asset('images/products/product-img-13.jpg') }}"
-                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-                                        <div class="card-product-action">
-                                            <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>
-                                            <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="text-small mb-1"><a href="#!"
-                                            class="text-decoration-none text-muted"><small>Fruits &
-                                                Vegetables</small></a></div>
-                                    <h2 class="fs-6"><a href="" class="text-inherit text-decoration-none">Golden
-                                            Pineapple</a></h2>
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">$13</span> <span
-                                                class="text-decoration-line-through text-muted">$18</span>
-                                        </div>
-                                        <div>
-                                            <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i></small>
-                                            <span><small>4.5</small></span>
-                                        </div>
-                                    </div>
-                                    <div class="d-grid mt-2"><a href="#!" class="btn btn-primary ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add to cart </a></div>
-                                    <div class="d-flex justify-content-start text-center mt-3">
-                                        <div class="deals-countdown w-100" data-countdown="2028/11/11 00:00:00">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -383,8 +329,7 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('images/icons/clock.svg') }}" alt="">
-                            </div>
+                            <div class="mb-6"><img src="{{ asset('/images/icons/clock.svg') }}" alt=""></div>
                             <h3 class="h5 mb-3">
                                 10 minute grocery now
                             </h3>
@@ -394,7 +339,7 @@
                     </div>
                     <div class="col-md-6  col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('images/icons/gift.svg') }}" alt=""></div>
+                            <div class="mb-6"><img src="{{ asset('/images/icons/gift.svg') }}" alt=""></div>
                             <h3 class="h5 mb-3">Best Prices & Offers</h3>
                             <p>Cheaper prices than your local supermarket, great cashback offers to top it off. Get best
                                 pricess &
@@ -404,7 +349,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('images/icons/package.svg') }}" alt="">
+                            <div class="mb-6"><img src="{{ asset('/images/icons/package.svg') }}" alt="">
                             </div>
                             <h3 class="h5 mb-3">Wide Assortment</h3>
                             <p>Choose from 5000+ products across food, personal care, household, bakery, veg and non-veg
@@ -414,12 +359,12 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-                            <div class="mb-6"><img src="{{ asset('images/icons/refresh-cw.svg') }}" alt="">
+                            <div class="mb-6"><img src="{{ asset('/images/icons/refresh-cw.svg') }}" alt="">
                             </div>
                             <h3 class="h5 mb-3">Easy Returns</h3>
                             <p>Not satisfied with a product? Return it at the doorstep & get a refund within hours. No
                                 questions asked
-                                <a href="#!">policy</a>.
+                                <a>policy</a>.
                             </p>
                         </div>
                     </div>

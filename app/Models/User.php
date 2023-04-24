@@ -58,4 +58,7 @@ class User extends Authenticatable
     public function News(){
     	return $this->hasMany(News::class,'id_user','id_user');
     }
+    public function Address(){
+    	return $this->hasMany(Address::class,'id_user','id_user'); 
+    }
 }

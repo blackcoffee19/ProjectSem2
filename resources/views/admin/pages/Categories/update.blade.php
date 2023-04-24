@@ -48,8 +48,7 @@
                     <div class="col">
                         <div class="card-body p-6 ">
                             <h4 class="form-label">Category Name</h4>
-                            <input type="text" name="type" class="form-control" placeholder="{{ $id_type->type }}"
-                                required>
+                            <input type="text" name="type" class="form-control" value="{{ $id_type->type }}" required>
                         </div>
                         <div class="card-body p-6 ">
                             <h4 class="form-label">Date</h4>

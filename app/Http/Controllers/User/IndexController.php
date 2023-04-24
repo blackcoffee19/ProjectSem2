@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Library;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
-use GuzzleHttp\Handler\Proxy;
+// use Database\Seeders\banner;
 
 class IndexController extends Controller
 {
@@ -17,8 +17,8 @@ class IndexController extends Controller
     public function index()
     {
         $cats = TypeProduct::all();
-        $prods = Product::with('libraries')->paginate(15);
-        return view('user.index', compact('cats', 'prods'));
+        $products  = Product::with('libraries')->paginate(15);
+        return view('user.index', compact('cats', 'products'));
     }
 
     /**
@@ -40,15 +40,9 @@ class IndexController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $id_product)
+    public function show(string $id)
     {
-        // Truy vấn dữ liệu các sản phẩm cùng loại
-        // $related_products = Product::where('id_type', $id_product->typeproduct->id_type)
-        //     ->where('id_product', '<>', $id_product->id_product)
-        //     ->take(5) // chỉ hiện 5 sản phẩm
-        //     ->get();
-
-        // return view('user.pages.ProductDetails.index', compact('id_product', 'related_products'));
+        //
     }
 
     /**

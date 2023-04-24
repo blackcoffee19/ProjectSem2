@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('order_code')->nullable();
             $table->foreignId('id_user')->nullable();
             $table->foreignId('id_product');
+            $table->decimal('price',8,2)->nullable();
+            $table->decimal('sale',8,2)->nullable();
             $table->integer('amount');
             $table->timestamps();
         });

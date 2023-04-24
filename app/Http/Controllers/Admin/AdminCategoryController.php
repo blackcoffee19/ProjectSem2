@@ -14,12 +14,25 @@ class AdminCategoryController extends Controller
         return view('admin.pages.Categories.index', compact('cats'));
     }
 
+    // public function findByName(Request $request)
+    // {
+    //     $type = $request->type;
+    //     $cats = TypeProduct::where('type', 'like', '%' . $type . '%')->get();
+    //     return view('admin.pages.Categories.index', compact('cats'));
+    // }
     public function findByName(Request $request)
     {
         $type = $request->type;
-        $cats = TypeProduct::where('type', 'like', '%' . $type . '%')->get();
+        $status = $request->status;
+        $cats = TypeProduct::where('type', 'like', '%' . $type . '%')
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->get();
         return view('admin.pages.Categories.index', compact('cats'));
     }
+
+
 
     public function create()
     {

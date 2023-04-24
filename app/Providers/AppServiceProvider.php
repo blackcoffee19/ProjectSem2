@@ -42,5 +42,11 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 	    });
+        view()->composer('user.partials.modal-fade',function($view){
+            if(Auth::check()){
+                $setting_mess = News::where('link','=','accountsetting')->where('id_user','=',Auth::user()->id_user)->first();
+                $view->with('warning_setting',$setting_mess);
+            };
+        });
     }
 }

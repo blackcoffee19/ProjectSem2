@@ -160,6 +160,8 @@ class TuongController extends Controller
                         } else {
                             $foundPro->amount += $value["amount"];
                         };
+                        $foundPro->price = $value["per_price"];
+                        $foundPro->sale = $value["sale"];
                         $foundPro->save();
                     } else {
                         $addToUserCart = new Cart();
@@ -275,6 +277,14 @@ class TuongController extends Controller
                 $product->quantity -= $value["amount"];
                 $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $product->save();
+                $comment  = new Comment();
+                $comment->id_product = $value["id_product"];
+                $comment->name="Guest";
+                $comment->verified = true;
+                $comment->rating = 5;
+                $comment->phone = $req['phoneReciever'];
+                $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $comment->save();
             }
             Session::remove("cart");
             $order->order_code = $order_code;

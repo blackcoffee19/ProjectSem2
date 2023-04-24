@@ -50,6 +50,8 @@ class insert_cart extends Seeder
             ["order_code"=>"GUT_2","id_product"=>12,'price'=>33,'sale'=>10,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
             ["order_code"=>"GUT_2","id_product"=>11,'price'=>12,'sale'=>10,'amount'=>340,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
             ["order_code"=>"GUT_2","id_product"=>13,'price'=>21,'sale'=>10,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
+            ["order_code"=>"GUT_3","id_product"=>15,'price'=>19.4,'sale'=>20,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','18/04/2023 00:00:00')],
+            ["order_code"=>"GUT_3","id_product"=>13,'price'=>19.4,'sale'=>20,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','18/04/2023 00:00:00')],
         ];
         try {
             foreach ($carts as $cart) {

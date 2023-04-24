@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\News;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
 
@@ -17,7 +18,7 @@ class GoogleAuthController extends Controller
     }
     public function callbackGoogle(){
         try{
-            $google_user = Socialite::driver('google')->user();
+            $google_user = Socialite::driver('google')->stateless()->user();
             $user = User::where('google_id','=',$google_user->getId())->orWhere('email','=',$google_user->getEmail())->first();
             if(!$user){
                 $new_user = new User();
@@ -40,11 +41,19 @@ class GoogleAuthController extends Controller
                         $addToUserCart->id_user = $user->id_user;
                         $addToUserCart->id_product = $value["id_product"];
                         $addToUserCart->amount = $value["amount"];
+                        $addToUserCart->price = $value['per_price'];
+                        $addToUserCart->sale = $value['sale'];
                         $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                         $addToUserCart->save();
                     }
                     Session::forget("cart");
                 };
+                $news = new News();
+                $news->title = "Please take the last step to activate account";
+                $news->link = "accountsetting";
+                $news->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $news->id_user = $new_user->id_user;
+                $news->save();
                 Auth::login($new_user);
                 return redirect('/');
             }else{
@@ -58,12 +67,16 @@ class GoogleAuthController extends Controller
                             }else{
                                 $foundPro->amountt += $value["amount"];
                             };
+                            $foundPro->price = $value['per_price'];
+                            $foundPro->sale = $value['sale'];
                             $foundPro->save();
                         }else{
                             $addToUserCart = new Cart();
                             $addToUserCart->id_user = $user->id_user;
                             $addToUserCart->id_product = $value["id_product"];
                             $addToUserCart->amount = $value["amount"];
+                            $addToUserCart->price = $value['per_price'];
+                            $addToUserCart->sale = $value['sale'];
                             $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                             $addToUserCart->save();
                         }

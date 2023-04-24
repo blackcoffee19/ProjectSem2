@@ -73,24 +73,28 @@
                                 <form action="{{route('change_password')}}" class=" row " method="POST">
                                     @csrf
                                     <div class="mb-3 col-12">
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" name="changePass" id="changePass">
+                                        @if (!Auth::user()->password)
+                                        <span class="text-danger">Please create password for your account</span>
+                                        @endif
+                                        <div class="form-check">
+                                            <input type="checkbox" name="changePass" id="changePass" {{!Auth::user()->password ? 'checked':''}}>
                                             <label for="changePass">Change Password</label>
                                         </div>
                                     </div>
                                     <div class="mb-3 col-5 mx-auto">
                                         <label class="form-label" for="new_password">New Password</label>
-                                        <input type="password" class="form-control" name="new_password" id="new_password" placeholder="**********" disabled>
+                                        <input type="password" class="form-control" name="new_password" id="new_password" placeholder="**********" {{!Auth::user()->password ?"": 'disabled'}}>
                                         <span id="invalidPass"></span>
                                     </div>
                                     <div class="mb-3 col-5 mx-auto">
                                         <label class="form-label" for="current_password">Current Password</label>
-                                        <input type="password" class="form-control" name="current_password" id="current_password" placeholder="**********" disabled>
+                                        <input type="password" class="form-control" name="current_password" id="current_password" placeholder="**********" {{!Auth::user()->password ?"": 'disabled'}}>
                                         <span id="checkPass"></span>
                                     </div>
                                     <div class="col-12">
-                                        <p class="mb-4">
-                                            Can’t remember your current password?<a href="#"> Reset yourpassword.</a></p>
+                                        @if (Auth::user()->password)
+                                        <p class="mb-4">Can’t remember your current password?<a href="#"> Reset yourpassword.</a></p>
+                                        @endif
                                         <button type="submit" class="btn btn-primary" id="changePassword" disabled>Save Password</a>
                                     </div>
                                 </form>
@@ -114,7 +118,14 @@
 @section('script')
     <script>
         $(document).ready(function(){
-            let valPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if($('#warning_setting').hasClass('show')){
+                $('#warning_setting').removeClass('show');
+            }
+            if($('#new_phone').val().length == 0){
+                $('#new_phone').addClass('is-invalid');
+                $('#invalidPhone').html('Please Add your numberphone for your accout');
+            }
+            let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
             let valiEmail = /^[a-zA-Z0-9]{4,}@gmail\.com$/;
             let valiPhone = /^[0-9]{9,11}$/;
             if($('input[name=changePass]').is(':checked')){
@@ -133,6 +144,7 @@
                     $('input[name=current_password]').attr('disabled','disabled');
                 }
             });
+            @if(Auth::user()->password)
             $('input[name="current_password"]').change(function(){
                 $.ajax({
                     method: "POST",
@@ -165,6 +177,23 @@
                     }
                 });
             })
+            @else
+            $('input[name="current_password"]').change(function(){
+                if($(this).val()!=$('input[name=new_password]').val()){
+                    if($(this).hasClass('is-valid')){
+                        $(this).removeClass('is-valid');
+                    }
+                    $(this).addClass('is-invalid');
+                    $('#checkPass').addClass('text-danger').html('Password not match');
+                }else{
+                    if($(this).hasClass('is-invalid')){
+                        $(this).removeClass('is-invalid');
+                    }
+                    $(this).addClass('is-valid');
+                    $('#checkPass').html('');
+                }
+            })
+            @endif
             $('input[name=new_password]').change(function(){
                 if(valPass.test($(this).val().trim())){
                     if($(this).hasClass('is-invalid')){
@@ -174,7 +203,7 @@
                     $('#changePassword').removeAttr('disabled');
                 }else{
                     $(this).addClass('is-invalid');
-                    $('#invalidPass').html('Password must contains at least 1 capital letter, 1 number and min length 8 characters').addClass('text-danger');
+                    $('#invalidPass').html('Password must contains at least 1 number, 1 normal character and min length 8 characters').addClass('text-danger');
                     $('#changePassword').attr('disabled','disabled');
                 };
             });

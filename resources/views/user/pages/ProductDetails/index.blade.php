@@ -426,7 +426,7 @@
                                                 @else
                                                     @foreach ($comments as $cmt)
                                                         <div class="row border-bottom pb-6 mb-6">
-                                                            @if ($cmt->User->avatar)
+                                                            @if ($cmt->id_user && $cmt->User->avatar )
                                                             <img src="{{ asset('images/avatar/'.$cmt->User->avatar)}}"  class="rounded-circle avatar-lg col-2 p-0">
                                                             @else
                                                             <img src="{{ asset('images/avatar/user.png')}}"  class="rounded-circle avatar-lg col-2 p-0">

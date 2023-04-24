@@ -133,7 +133,7 @@
         $('input[name=register_email]').removeClass('is-valid');
       }
       $('input[name=register_email]').addClass('is-invalid');      
-    }else{
+    }else if($('input[name=register_email]').val().length > 0){
       $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
         if(data == "existed"){
           $('input[name=register_email]').addClass('is-invalid');
@@ -147,6 +147,20 @@
         }
       });
     };
+    $('input[name=register_email]').change(function(){
+      $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+        if(data == "existed"){
+          $(this).addClass('is-invalid');
+          $('#register_email').text('This email has signed.');
+        }else{
+          if($(this).hasClass('is-invalid')){
+            $(this).removeClass('is-invalid');
+          }
+          $(this).addClass('is-valid');
+          $('#register_email').text('');
+        }
+      });
+    });
     if($('input[name=register_phone]').val().length > 0 && !valiPhone.test($('input[name=register_phone]').val())){
         $('#register_phone').text("Invaild Phone. Try again");
         $('#register_submit').attr('disabled','disabled');
@@ -154,13 +168,27 @@
           $('input[name=register_phone]').removeClass('is-valid');
         }
         $('input[name=register_phone]').addClass('is-invalid');      
-    }else{
+    }else if($('input[name=register_phone]').val().length >0){
         if($('input[name=register_phone]').hasClass("is-invalid")){
           $('input[name=register_phone]').removeClass('is-invalid');
         }
         $('input[name=register_phone]').addClass('is-valid');
         $('#register_phone').text('');
     };
+    $('input[name=register_phone]').change(function(){
+      $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
+        if(data == "existed"){
+          $(this).addClass('is-invalid');
+          $('#register_phone').text('This phone has used by another account.');
+        }else{
+          if($(this).hasClass('is-invalid')){
+            $(this).removeClass('is-invalid');
+          }
+          $(this).addClass('is-valid');
+          $('#register_phone').text('');
+        }
+      });
+    })
     if($('input[name=register_password]').val().length > 0 && !valPass.test($('input[name=register_password]').val())){
         $('#register_password').text("Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
         $('#register_submit').attr('disabled','disabled');

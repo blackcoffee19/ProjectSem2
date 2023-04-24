@@ -375,3 +375,12 @@
     </div>
   </div>
 </div>
+@if (isset($warning_setting))
+<div class="toast align-items-center border-0 start-50 translate-middle-x position-sticky show" role="alert" aria-live="assertive" aria-atomic="true" style="bottom: 15px;width: fit-content;" id="warning_setting">
+  <div class="d-flex">
+    <div class="toast-body alert alert-warning m-0">
+      <a href="{{route($warning_setting->link)}}" class="h5 mx-4"><i class="bi bi-exclamation-triangle fs-4 me-4"></i>{{$warning_setting->title}}</a>
+    </div>
+  </div>
+</div>
+@endif

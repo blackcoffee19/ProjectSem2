@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('comment', function (Blueprint $table) {
             $table->id('id_comment');
             $table->foreignId('id_product');
-            $table->foreignId('id_user');
+            $table->foreignId('id_user')->nullable();
+            $table->string('phone')->nullable();
             $table->boolean('verified')->default(false);
             $table->string('name',20)->nullable();
             $table->text('context')->nullable();

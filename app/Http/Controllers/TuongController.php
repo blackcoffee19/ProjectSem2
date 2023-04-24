@@ -82,6 +82,14 @@ class TuongController extends Controller
         }
         echo $msg;
     }
+    public function check_phone($phone){
+        $checkPhone = User::where('phone','=',$phone)->get();
+        $msg = "";
+        if(count($checkPhone)>0){
+            $msg = "existed";
+        }
+        echo $msg;
+    }
     public function post_signUp(Request $req){
         $new_user = new User();
         $new_user->name = $req["register_name"];
@@ -108,6 +116,27 @@ class TuongController extends Controller
         };
         $new_user->created_at= Carbon::now()->format('Y-m-d H:i:s');
         $new_user->save();
+        $orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
+        $num=0;
+        foreach($orders as $order){
+            $cr_order_code = "USR".$new_user->id_user."_".$num;
+            foreach($order->Cart as $cart){
+                $cart->order_code = $cr_order_code;
+                $cart->id_user = $new_user->id_user;
+                $cart->save();
+            }
+            $order->order_code = $cr_order_code;
+            $order->id_user = $new_user->id_user;
+            $order->save();
+            $num++;
+        }
+        $comment = Comment::where('phone','=',$req["register_phone"])->where('name','=','Guest')->get();
+        foreach($comment as $cmt){
+            $cmt->name=null;
+            $cmt->id_user = $new_user->id_user;
+            $cmt->phone = null;
+            $cmt->save();
+        }
         $vali = ["email"=>$new_user->email,"password"=>$req["register_password"]];
         if(Auth::attempt($vali)){
             if(Session::has("cart")){
@@ -147,6 +176,8 @@ class TuongController extends Controller
                         }else{
                             $foundPro->amount += $value["amount"];
                         };
+                        $foundPro->price = $value["per_price"];
+                        $foundPro->sale = $value["sale"];
                         $foundPro->save();
                     }else{
                         $addToUserCart = new Cart();
@@ -249,6 +280,10 @@ class TuongController extends Controller
         }else{
             $nnum = count(Order::where('order_code','LIKE','%GUT%')->get());
             $order_code = "GUT_".$nnum;
+            while(Order::where('order_code','=',$order_code)->first()){
+                $nnum++;
+                $order_code ="GUT_".$nnum;
+            }
             $current_guest_cart = Session::get('cart');
             foreach($current_guest_cart as $key => $value){
                 $guest_cart = new Cart();
@@ -264,6 +299,14 @@ class TuongController extends Controller
                 $product->quantity -=$value["amount"];
                 $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $product->save();
+                $comment  = new Comment();
+                $comment->id_product = $value["id_product"];
+                $comment->name="Guest";
+                $comment->verified = true;
+                $comment->rating = 5;
+                $comment->phone = $req['phoneReciever'];
+                $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $comment->save();
             }
             Session::remove("cart");
             $order->order_code = $order_code;
@@ -279,13 +322,6 @@ class TuongController extends Controller
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
-        $new_admin = new News();
-        $new_admin->order_code = $order->order_code;
-        $new_admin->title = "New Order!! Let confirm the order";
-        $new_admin->link = $order->order_code;
-        $new_admin->send_admin = true;
-        $new_admin->created_at=Carbon::now()->format('Y-m-d H:i:s');
-        $new_admin->save();
         Session::forget('coupon');
         
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
@@ -869,7 +905,30 @@ class TuongController extends Controller
             return redirect()->back()->with('error','Error: Email has signed by another account');
         }
         $checkPhone = User::where('phone','=',$req['new_phone'])->where('id_user','!=',Auth::user()->id_user)->get();
-        if(count($checkPhone) == 0){
+        if(count($checkPhone) == 0 && !$user->phone){
+            $user->phone = $req['new_phone'];
+            $comment = Comment::where('name','=','Guest')->where('phone','=',$req['new_phone'])->get();
+            foreach($comment as $cmt){
+                $cmt->name=null;
+                $cmt->id_user = $user->id_user;
+                $cmt->phone = null;
+                $cmt->save();
+            }
+            $orders = Order::where('id_user','=',null)->where('phone','=',$req['new_phone'])->get();
+            $num=0;
+            foreach($orders as $order){
+                $cr_order_code = "USR".$user->id_user."_".$num;
+                foreach($order->Cart as $cart){
+                    $cart->order_code = $cr_order_code;
+                    $cart->id_user = $user->id_user;
+                    $cart->save();
+                }
+                $order->order_code = $cr_order_code;
+                $order->id_user = $user->id_user;
+                $order->save();
+                $num++;
+            }
+        }else if(count($checkPhone) == 0){
             $user->phone = $req['new_phone'];
         }else{
             return redirect()->back()->with('error','Error: Email has signed by another account');
@@ -891,6 +950,10 @@ class TuongController extends Controller
             $user->avatar=$hinh;
         }
         $user->save();
+        $news = News::where('link','=','accountsetting')->where('id_user','=',Auth::user()->id_user)->first();
+        if($user->password && $user->phone && $news){
+            $news->delete();
+        };
         return redirect()->back()->with('message','Change profie successfully');
     }
     public function check_password(Request $req){
@@ -905,6 +968,10 @@ class TuongController extends Controller
         $user = User::find(Auth::user()->id_user);
         $user->password = bcrypt($req['new_password']);
         $user->save();
+        $news = News::where('link','=','accountsetting')->where('id_user','=',Auth::user()->id_user)->first();
+        if($user->password && $user->phone && $news){
+            $news->delete();
+        };
         return redirect()->back()->with('message','Change Password successfully');
     }
     public function get_address(){

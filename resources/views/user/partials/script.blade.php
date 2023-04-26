@@ -1,18 +1,36 @@
 <script>
     $(document).ready(function(){
-        $('#clearCart').click(function(){
-          console.log(window.location.origin + "/index.php/ajax/cart/clearcart");
-            $.get(window.location.origin + "/index.php/ajax/cart/clearcart",function(data){
-                $('#listCart').html(data);
-            })
-        });
+        // $('#clearCart').click(function(){
+        //     $.get(window.location.origin + "/public/index.php/ajax/cart/clearcart",function(data){
+        //         $('#listCartmodal').html(data);
+        //     })
+        // });
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
             // console.log($(this).html());
             $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
-                $('#listCart').html(data);
+                $('#listCartmodal').html(data);
                 $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
-                
+                $('.btn_minus').click(function(e){
+                    e.preventDefault();
+                    let current = parseInt($(this).next().val());
+                    if(current >1){
+                      current--;
+                      $(this).next().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');
+                });
+                $('.btn_plus').click(function(e){
+                    e.preventDefault();
+                    let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
+                    console.log(max);
+                    let current = parseInt($(this).prev().val());
+                    if(max>current){
+                      current++;
+                      $(this).prev().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');
+                });
             })
         });
         @endif
@@ -65,11 +83,11 @@
                 $('.hasSale').addClass('d-none');
                 $('#priceAFSModal').html(`$${dataProduct["price"]}`);
               };
-              $('#weigthModal').html("100g");
               $('#quantityModal').html(Math.floor(dataProduct["quantity"]));
               $('#idModal').html(dataProduct['id_product']);
               $('input[name=id_pro]').val(dataProduct['id_product']);
               $('.typeModal').html(dataProduct['type']);
+              $('.compare_product').data('bsProduct',dataProduct['id_product'])
               let slider = tns({
                   container: '.slider_modalproduct',
                   items: 1,
@@ -116,24 +134,25 @@
             $('.countCart').html(data);
           });
         });
-        $('#btn_minus').click(function(e){
+        $('.btn_minus').click(function(e){
             e.preventDefault();
-            let current = parseInt($('input[name=quan]').val());
+            let current = parseInt($(this).next().val());
             if(current >1){
               current--;
-              $('input[name=quan]').val(current);
+              $(this).next().val(current);
             }
         });
-        $('#btn_plus').click(function(e){
+        $('.btn_plus').click(function(e){
             e.preventDefault();
-            let max = parseInt($('#quantityModal').text());
-            let current = parseInt($('input[name=quan]').val());
-            console.log(current );
+            let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
+            console.log(max);
+            let current = parseInt($(this).prev().val());
             if(max>current){
               current++;
-              $('input[name=quan]').val(current);
+              $(this).prev().val(current);
             }
         });
+        
         $('input[name=quan]').on('focusout',function(e){
             e.preventDefault();
             let validateNum =/^\d{1,10}$/;
@@ -160,29 +179,39 @@
         })
         const host = "https://vapi.vnappmob.com";
         const getProvince = host+"/api/province/";
+        @if (!Session::has('province'))
         $.getJSON(getProvince,function(data){
             $('#province').append("<option selected>--Choose 1 province--</option>");
             $.each(data.results,function(key,value){
                 $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
             });
         });
+        @endif
+        $('#province').click(function(){
+          $.getJSON(getProvince,function(data){
+            $.each(data.results,function(key,value){
+              $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
+            });
+          });
+        })
         $('#province').change(function async(e){
-            e.preventDefault();
+          e.preventDefault();
+          
             if($(this).val() != 79){
               $('#shipment_fee').val(3);
               @if (!Auth::check())
-              $('#extra_ship').removeClass('d-none');
-              let totall = parseFloat($("#total").data('total'))+1;
-              $('#total').html("$"+totall);
+                $('#extra_ship').removeClass('d-none');
+                let totall = parseFloat($("#total").data('total'))+3;
+                $('#total').html("$"+totall);
+                $("#paypal_btn").text("Pay $"+totall);
               @endif
             }else{
               @if (!Auth::check())
-              if(!$('#extra_ship').hasClass('d-none')){
                 $('#extra_ship').addClass('d-none');
-              }
-              $('#total').html('$'+$("#total").data('total'))
+                $('#total').html('$'+(parseFloat($("#total").data('total'))+2));
+                $("#paypal_btn").text("Pay $"+(parseFloat($("#total").data('total'))+2));
               @endif
-              $('#shipment_fee').val(2);
+                $('#shipment_fee').val(2);
             }
             let getDistric = host+"/api/province/district/"+$(this).val();
             $('#district').removeAttr('disabled');
@@ -209,9 +238,10 @@
         });
         $('#ward').change(function(e){
             e.preventDefault();
+            $('#province option:selected').val($('#province option:selected').text());
             $('#district option:selected').val($('#district option:selected').text());
             $('#ward option:selected').val($('#ward option:selected').text());
-            if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val()){
+            if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
                   $('#submit_order').removeAttr('disabled');
             }else{
                 $("#submit_order").attr('disabled','disabled');
@@ -255,9 +285,8 @@
         });
         $('input[name="nameReciever"],input[name="phoneReciever"],input[name="emailReciever"]').on('blur', function(e) {
             e.preventDefault();
-            if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 ){
+            if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0){
                 $("#sendAddress").removeAttr('disabled');
-                console.log($('#ward').val());
                 if($('#ward').val()){
                   $('#submit_order').removeAttr('disabled');
                 }
@@ -266,6 +295,18 @@
                 $("#submit_order").attr('disabled','disabled');
             };
         });
+        $('#sendAddress').click(function(){
+            $('#province option:selected').val($('#province option:selected').text());
+            $('#district option:selected').val($('#district option:selected').text());
+            $('#ward option:selected').val($('#ward option:selected').text());
+        })
+        $("input[name=order_method]").change(function(){
+          if((($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0) || ($('input[name=select_address]:checked').val())) && (($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
+                $('#submit_order').removeAttr('disabled');
+            }else{
+                $("#submit_order").attr('disabled','disabled');
+            };
+        })
         $('input[name=register_email]').change(function(){
           if(!valiEmail.test($(this).val())){
             $('#register_email').text("Invaild Email. Try again");

@@ -41,14 +41,15 @@
     <link href="{{ asset('css/simplebar.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}">
+    <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}"></script>
     
     {{-- <link rel="stylesheet" href="{{ asset('css/feather-icons.css') }}"> --}}
     <title>@yield('title')</title>
     <style>
-        .user_dropdown::after{
-            content: none
-        }
-        
+    .user_dropdown::after{
+        content: none
+    }
+    
     </style>
 </head>
 

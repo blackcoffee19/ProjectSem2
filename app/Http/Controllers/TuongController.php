@@ -22,6 +22,20 @@ use App\Mail\OrderShipped;
 class TuongController extends Controller
 {
     public function home_page(){
+        Session::forget('coupon');
+        Session::forget("paypal_success");
+        Session::forget("select_add");
+        Session::forget('success_paypal');
+        Session::forget('select_add');
+        Session::forget('name');
+        Session::forget('phone');
+        Session::forget('email');
+        Session::forget('province');
+        Session::forget('district');
+        Session::forget('address');
+        Session::forget('instructions');
+        Session::forget('ward');
+        Session::forget('shipfee');
         if(Auth::check() && Auth::user()->phone != null){
             $check_orders = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
         }else{
@@ -253,6 +267,7 @@ class TuongController extends Controller
             $cart = Session::get('cart');
             $address = null;
         }
+        // dd(Session::get('select_add'));
         return view('user.pages.Orders.checkout',compact('cart','address','coupon'));
     }
     public function post_checkout(Request $req){
@@ -267,6 +282,7 @@ class TuongController extends Controller
             $order->email = $address['email'];
             $order->address = $address['address'];
             $order->code_coupon = $req['code_coupon'];
+            $order->method = $req['order_method'];
             $order->instruction = $req['delivery_instructions'];
             foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
                 $cart->Product->quantity-=$cart->amount;
@@ -278,6 +294,7 @@ class TuongController extends Controller
                 $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $cart->save();
             }
+            Session::forget('select_add');
         }else{
             $nnum = count(Order::where('order_code','LIKE','%GUT%')->get());
             $order_code = "GUT_".$nnum;
@@ -310,6 +327,14 @@ class TuongController extends Controller
                 $comment->save();
             }
             Session::remove("cart");
+            Session::forget('name');
+            Session::forget('phone');
+            Session::forget('email');
+            Session::forget('province');
+            Session::forget('district');
+            Session::forget('address');
+            Session::forget('ward');
+            Session::forget('shipfee');
             $order->order_code = $order_code;
             $order->receiver = $req['nameReciever'];
             $order->phone = $req['phoneReciever'];
@@ -324,7 +349,10 @@ class TuongController extends Controller
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
         Session::forget('coupon');
-        
+        Session::forget("paypal_success");
+        Session::forget("select_add");
+        Session::forget('success_paypal');
+        Session::forget('instructions');
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
     }
     public function admin_cate(){
@@ -510,7 +538,7 @@ class TuongController extends Controller
                         <div class='row align-items-center'>
                         <div class='col-3 col-md-2'>
                             <img src='images/products/".$cart->Product->Library[0]->image."' alt='".$cart->Product->name."' class='img-fluid' style='width: 200px'></div>
-                        <div class='col-4 col-md-6 col-lg-5'>
+                        <div class='col-3 col-md-3'>
                             <a href='".route('products-details',$cart->Product->id_product)."' class='text-inherit'>
                             <h6 class='mb-0'>".$cart->Product->name."</h6>
                             </a>
@@ -521,23 +549,21 @@ class TuongController extends Controller
                                 </a>
                             </div>
                         </div>
-                        <div class='col-3 col-md-3 col-lg-3 '>
-                        <form method='POST' action='".route('cartadd',$cart->id_cart)."' class='d-flex flex-column'>
-                        <input type='hidden' name='_token' value=''>
+                        <div class='col-4 col-md-4 col-lg-5 '>
+                        <form method='POST' action='".route('cartadd',$cart->id_cart)."'>
+                        <input type='hidden' name='_token' >
+                        <input type='hidden' name='max_quan' value='".$cart->Product->quantity."'>
+                            <div class='col-6 d-flex flex-column justify-content-center align-items-center'>
                             <div class='input-group input-spinner input-group-sm'>
-                                <a href='".route('minus',[$cart->id_cart])."' class='text-decoration-none btn'>
+                            <button type='button' class='btn btn_minus' style='border-radius: 10px 0 0 10px;'  data-field='quantity'>
                                 <i class='bi bi-dash-lg'></i>
-                                </a>
-                                <input type='text' value='$cart->amount' name='cart_quant'  class='form-control form-input'  >";
-                    if ($cart->amount < $cart->Product->quantity){
-                        $html_list.="<a href='".route('addmore',[$cart->id_cart])."' class='text-decoration-none btn' >
-                        <i class='bi bi-plus-lg'></i>
-                        </a>";
-        
-                    }else{
-                        $html_list.="<a class='disabled btn border-0'><i class='fa-solid fa-plus'></i></a>";
-                    };
-                    $html_list.="</div></form></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
+                            </button>
+                            <input type='text' value='".number_format($cart->amount,0,'','')."' name='quan'  class='form-control form-input'>
+                            <button type='button' class='btn btn_plus' style='border-radius: 0 10px 10px 0;'><i class='bi bi-plus-lg'></i></button>
+                            </div>
+                            <input type='submit'class='text-primary text-center border-0 bg-white d-none' value='Save'>
+                            </div>
+                            </form></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
                     if($cart->sale > 0 ){
                         $sum += $cart->price *(1- ($cart->sale /100)) * $cart->amount/1000;
                         $html_list.= "<span class='fw-bold text-danger fs-5'>$". $cart->Product->price * (1-$cart->Product->sale/100)."</span><span class='text-decoration-line-through ms-1'>".$cart->Product->price ."</span></div></div></li>";
@@ -560,7 +586,7 @@ class TuongController extends Controller
                     <div class='col-3 col-md-2'>
                     <img src='images/products/".$cart["image"]."' alt='".$cart["name"]."' class='img-fluid' style='width: 200px'>
                     </div>
-                        <div class='col-4 col-md-6 col-lg-5'>
+                        <div class='col-3 col-md-3'>
                         <a href='".route('products-details',$cart['id_product'])."' class='text-inherit'>
                         <h6 class='mb-0'>".$cart['name']."</h6>
                             </a>
@@ -571,22 +597,23 @@ class TuongController extends Controller
                                </a>
                             </div>
                             </div>
-                        <div class='col-3 col-md-2 col-lg-3'>
-                            <div class='input-group input-spinner input-group-sm'>
-                            <a href='".route('minus',[$key])."' class='text-decoration-none btn'>
-                            <i class='fa-solid fa-minus text-danger'></i>
-                            </a>
-                            <input type='text' value='".$cart["amount"]."' name='quantity' class='form-control form-input' readonly>
-                            ";
-                            if ($cart["amount"] < $cart['max']){
-                        $html_list.="<a href='".route('addmore',[$key])."' class='text-decoration-none btn' >
-                        <i class='fa-solid fa-plus text-danger'></i>
-                        </a>";
-                        
-                    }else{
-                        $html_list.="<a class='disabled btn border-0'><i class='fa-solid fa-plus'></i></a>";
-                    };
-                    $html_list.="</div></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
+                        <div class='col-4 col-md-4 col-lg-5'>
+                        <form method='POST' action='".route('cartadd',$key)."'>
+                            <input type='hidden' name='_token' >
+                            <input type='hidden' name='max_quan' value='".$cart['max']."'>
+                            <div class='col-6 d-flex flex-column justify-content-center align-items-center'>
+                                <div class='input-group input-spinner input-group-sm'>
+                                    <button type='button' class='btn btn_minus' style='border-radius: 10px 0 0 10px;'  data-field='quantity'>
+                                        <i class='bi bi-dash-lg'></i>
+                                    </button>
+                                    <input type='text' value='".$cart["amount"]."' name='quan' class='form-control form-input'>
+                                    <button type='button' class='btn btn_plus' style='border-radius: 0 10px 10px 0;'><i class='bi bi-plus-lg'></i></button>
+                                </div>
+                            <input type='submit'class='text-primary text-center border-0 bg-white d-none' value='Save'>
+                            </div>
+                        </form>
+                        </div>";
+                    $html_list.="<div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
                     if(Product::find($cart["id_product"])->sale> 0 ){
                         $sum += intval($cart["per_price"])*(1-$cart["sale"]/100) * intval($cart["amount"])/1000;
                         $html_list.= "<span class='fw-bold text-danger fs-5'>$". intval($cart['per_price'])*(1- ($cart["sale"]/100))." /1kg</span></div></div></li>";
@@ -629,28 +656,35 @@ class TuongController extends Controller
         }else if(Session::has('cart')){
             Session::forget("cart");
         }
-        $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
-        echo $html_list;
+        return redirect()->back();
+        // $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
+        // echo $html_list;
     }
     public function cartadd_quan(Request $req, $id){
         $req->validate([
-            'cart_quant' =>"required|numeric"
-        ],[]);
+            'quan' =>"required|numeric|min:0"
+        ],[
+            'quan.required'=>"",
+            'quan.numeric'=>"",
+            'quan.min'=>""
+        ]);
         if(Auth::check()){
             $cart = Cart::find($id);
-            if(intval($req['cart_quant']) == 0){
+            if(intval($req['quan']) == 0){
                 $cart->delete();
             }else{
-                $cart->amount = $req['cart_quant'] > $cart->Product->quantity?$cart->Product->quantity:$req['cart_quant'] ;
+                $cart->amount = $req['quan'] > $cart->Product->quantity?$cart->Product->quantity:$req['quan'] ;
                 $cart->save();
             }
         }else{
             $arr_cart = Session::get("cart");
             $arr_new = [];
             foreach($arr_cart as $key => $value){
-                if($key == $id){
-                    $addQuan = $req['cart_quant'] > intval($value['max']) ? intval($value['max']) : $req['cart_quant'];
+                if($key == $id && intval($req['quan'])!=0){
+                    $addQuan = intval($req['quan']) > intval($value['max']) ? intval($value['max']) : intval($req['quan']);
                     array_push($arr_new,["id_product" => $value["id_product"],"amount"=>$addQuan,"per_price"=>$value["per_price"],"name"=>$value["name"],"max"=>$value["max"],"image"=>$value['image'],'sale'=>$value['sale']]);
+                } else if($key == $id && intval($req['quan'])==0){
+                    continue;
                 }else{
                     array_push($arr_new,$value);
                 }

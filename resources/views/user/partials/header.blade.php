@@ -478,7 +478,6 @@
     <div class="offcanvas-header border-bottom">
         <div class="text-start">
             <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Shop Cart</h5>
-            <small>Location in 382480</small>
         </div>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -487,11 +486,11 @@
             <div class="alert alert-danger p-2" role="alert">
                 You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
             </div>
-            <ul class="list-group list-group-flush" id="listCart">
+            <ul class="list-group list-group-flush" id="listCartmodal">
             </ul>
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{route('order')}}" class="btn btn-primary">Continue Shopping</a>
-                <a href="#!" class="btn btn-dark">Update Cart</a>
+                <a href="{{route('clear_cart')}}" class="btn btn-outline-secondary">Clear Cart</a>
             </div>
         </div>
     </div>

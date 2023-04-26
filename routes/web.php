@@ -9,6 +9,7 @@ use App\Http\Controllers\User\UserProductDetailController;
 use App\Http\Controllers\User\UserWishlistController;
 use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\UserAccountController;
+use App\Http\Controllers\PayPalController;
 
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
@@ -25,7 +26,10 @@ use App\Http\Controllers\Admin\AdminReviewController;
 //     return view('welcome');
 // });
 
-
+Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
 
 Route::get('/', [TuongController::class,'home_page'])->name('index');
@@ -60,6 +64,7 @@ Route::group(['prefix'=>'/','middleware'=>'ManageLogin'],function(){
     Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
     Route::get('/ajax/cart/listcart',[TuongController::class,'modalCart']);
     Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart']);
+    Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart'])->name('clear_cart');
     Route::post('/add_address',[TuongController::class,'add_address'])->name('post_address');
     Route::get('/remove_address/{id}',[TuongController::class,'remove_address']);
     Route::post('/addItemCart/{id}',[TuongController::class,'cartadd_quan'])->name('cartadd');

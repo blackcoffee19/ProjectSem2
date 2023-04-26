@@ -30,8 +30,8 @@
               </div>
               <hr class="my-6">
               <div class="mb-4">
-                <h5>Left: <span id="quantityModal"></span>grams</h5>
-                <button type="button" class="btn btn-outline-secondary" id="weigthModal">
+                <button type="button" class="btn btn-outline-secondary">
+                  Left: <span id="quantityModal"></span>grams
                 </button> 
               </div>
               <form action="{{route('products-details')}}" method="post" class="row">
@@ -40,11 +40,11 @@
                 <input type="hidden" name="max_quan" >
               <div>
                 <div class="input-group input-spinner ">
-                  <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px 0 0 10px;"  data-field="quantity" id="btn_minus">
+                  <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
                     <i class="bi bi-dash-lg"></i>
                   </button>
                   <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="100"/>
-                  <button type="button" class="btn btn-outline-secondary" style="border-radius: 0 10px 10px 0;" id="btn_plus" >
+                  <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;" >
                     <i class="bi bi-plus-lg"></i>
                   </button>
                   <p class="ms-5 fw-bold align-self-end mb-1">g</p>
@@ -58,7 +58,7 @@
                   </button>
                 </div>
                 <div class="col-md-4 col-5">
-                  <a class="btn btn-light" href="#" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare">
+                  <a class="btn btn-light compare_product" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare"  data-bs-product="">
                     <i class="bi bi-arrow-left-right"></i>
                   </a>
                   <a class="btn btn-light {{Auth::check()? 'addFav':''}}" id="modal_Fav"

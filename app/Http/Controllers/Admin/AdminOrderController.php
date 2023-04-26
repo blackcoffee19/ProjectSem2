@@ -13,7 +13,7 @@ class AdminOrderController extends Controller
 {
     public function index()
     {
-        $orthers = Order::with('library.product')->paginate(50);
+        $orthers = Order::with('library.product')->paginate(50); //paginate(5)
         $products = Product::all();
         $status = Order::all();
         return view('admin.pages.Order.index', compact('orthers', 'products', 'status'));

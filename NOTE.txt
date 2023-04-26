@@ -27,4 +27,10 @@ npm install slick-carousel
 1. thêm $table->string('instruction')->nullable(); trong bảng order
 2. thêm $table->boolean('status')->default(true); trong bảng user
 3. download và để file sql trong dự án
+
+>> 26/4
+1. Làm phần seeders product, Categories, library
+2. Thêm hình vào folder product (30 sản phẩm)
+3. Sửa nav phần header
+4. Fix route
 ===//=== End note của hiển ===//===

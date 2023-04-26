@@ -47,20 +47,22 @@
                 <div class="category-slider ">
 
                     @foreach ($cats as $item)
-                        <div class="item">
-                            <a href="{{ route('userShowProductCatagory', $item->id_type) }}"
-                                class="text-decoration-none text-inherit">
-                                <div class="card card-product mb-lg-4">
-                                    <div class="card-body text-center py-8">
-                                        <img src="{{ asset('images/category/' . $item->image) }}"
-                                            alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
-                                            style="width: 120px; height: 120px;">
-                                        <div class="text-truncate">{{ $item->type }}</div>
-                                        {{-- <div class="text-truncate">{{ $item->id_type }}</div> --}}
+                        @if ($item->status == 'Active')
+                            <div class="item">
+                                <a href="{{ route('userShowProductCatagory', $item->id_type) }}"
+                                    class="text-decoration-none text-inherit">
+                                    <div class="card card-product mb-lg-4">
+                                        <div class="card-body text-center py-8">
+                                            <img src="{{ asset('images/category/' . $item->image) }}"
+                                                alt="Grocery Ecommerce Template" class="mb-3 img-fluid"
+                                                style="width: 120px; height: 120px;">
+                                            <div class="text-truncate">{{ $item->type }}</div>
+                                            {{-- <div class="text-truncate">{{ $item->id_type }}</div> --}}
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

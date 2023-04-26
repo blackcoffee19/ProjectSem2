@@ -189,15 +189,6 @@ class TuongController extends Controller
         Auth::logout();
         return redirect('/');
     }
-    public function product_detail($id)
-    {
-        $product = Product::find($id);
-        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
-            ->take(5)
-            ->get();
-        $comments = Comment::where('id_product', '=', $id)->get();
-        return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
-    }
     public function post_comment(Request $req)
     {
         $comment = new Comment();

@@ -94,23 +94,14 @@ Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
 });
 
 
-// ==========
+// =============== START ROUTE USER =============== //
 
-// Route::get('/', [IndexController::class, 'index'])->name('index');
-
-Route::get('/category/{type}', [UserProductController::class, 'show'])->name('userShowProductCatagory');
-
-
-// Route::get('/product-detail', [UserProductDetailController::class, 'index'])->name('products-details');
-
-// Route::get('/wishlist', [UserWishlistController::class, 'index'])->name('wishlist');
-
-// Route::get('/order', [UserOrderController::class, 'index'])->name('order');
-
-// Route::get('/account/accorder', [UserAccountController::class, 'Orders'])->name('accountorder');
-// Route::get('/account/setting', [UserAccountController::class, 'Settings'])->name('setting');
-// Route::get('/account/address', [UserAccountController::class, 'Address'])->name('address');
-// Route::get('/account/payment', [UserAccountController::class, 'PaymentMethod'])->name('payment');
+Route::controller(IndexController::class)->group(function () {
+    Route::get('/Category',                     'allProduct')->name('allProduct');
+    Route::get('/products-details/{id}',        'product_detail')->name('products-details');
+    Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
+    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
+});
 
 
 

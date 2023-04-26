@@ -44,7 +44,9 @@
                                         <select class="form-select" name="status" onchange="this.form.submit()">
                                             <option value="">Type</option>
                                             @foreach ($types as $type)
-                                                <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                @if ($type->status == 'Active')
+                                                    <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </form>
@@ -125,6 +127,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="p-5">
                                 {{-- {{ $prods->links('pagination::bootstrap-5') }} --}}
                             </div>
                         </div>

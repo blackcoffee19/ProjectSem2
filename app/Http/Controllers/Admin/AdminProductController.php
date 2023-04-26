@@ -21,7 +21,7 @@ class AdminProductController extends Controller
         // return view('admin.pages.Products.index')->with($array);
 
         // $prods = Product::all();
-        $prods = Product::paginate(10);
+        $prods = Product::all(); // paginate(10)
         $types = TypeProduct::all();
         return view('admin.pages.Products.index', compact('prods', 'types'));
     }

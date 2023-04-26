@@ -10,7 +10,7 @@ class AdminCategoryController extends Controller
 {
     public function index()
     {
-        $cats = TypeProduct::all();
+        $cats = TypeProduct::all(); //paginate(10)
         return view('admin.pages.Categories.index', compact('cats'));
     }
 

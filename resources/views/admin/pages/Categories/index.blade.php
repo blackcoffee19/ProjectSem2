@@ -138,7 +138,9 @@
 
                                     </tbody>
                                 </table>
-
+                            </div>
+                            <div class="p-5">
+                                {{-- {{ $cats->links('pagination::bootstrap-5') }} --}}
                             </div>
                         </div>
                     </div>

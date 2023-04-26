@@ -7,6 +7,8 @@ use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
+use App\Models\Comment;
+
 // use Database\Seeders\banner;
 
 class IndexController extends Controller
@@ -21,51 +23,33 @@ class IndexController extends Controller
         return view('user.index', compact('cats', 'products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function allProduct()
     {
-        //
+        $products = Product::all();
+        return view('user.pages.Products.index', compact('products'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function categoryById($id_type)
     {
-        //
+        $products = Product::where('id_type', $id_type)->get();
+        $type = TypeProduct::find($id_type);
+
+        return view('user.pages.Products.index', compact('products', 'type'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function product_detail($id)
     {
-        //
+        $product = Product::find($id);
+        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
+            ->take(5)
+            ->get();
+        $comments = Comment::where('id_product', '=', $id)->get();
+        return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function privacy()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('user.pages.privacypolicy.index');
     }
 }

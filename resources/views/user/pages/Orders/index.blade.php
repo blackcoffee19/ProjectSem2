@@ -18,9 +18,7 @@
                 <!-- row -->
                 <div class="row">
                     <div class="col-lg-8 col-md-7">
-                        @if ($errors->has('cart_quant'))
-                            <div class="alert alert-danger">{{$errors->first('cart_quant')}}</div>
-                        @endif
+                        
                         <div class="py-3">
                             <div class="alert alert-danger p-2" role="alert">
                                 You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
@@ -37,44 +35,46 @@
                                                     <div class="col-3 col-md-2">
                                                         <img src="{{ asset('images/products/'.$cart->Product->Library[0]->image) }}" alt="Ecommerce" class="img-fluid">
                                                     </div>
-                                                    <div class="col-3 col-md-3">
-                                                        <a href="shop-single.html" class="text-inherit">
+                                                    <div class="col-3 col-md-2">
+                                                        <a href="{{route('products-details',$cart->id_product)}}" class="text-inherit">
                                                             <h6 class="mb-0">{{$cart->Product->name}}</h6>
                                                         </a>
                                                         <span><small class="text-muted">unit: gram</small></span>
                                                         <div class="mt-2 small lh-1"> 
                                                             <a href="{{route('removeId',$cart->id_cart)}}" class="text-decoration-none text-inherit"> 
                                                                 <span class="me-1 align-text-bottom">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                                        height="14" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        class="feather feather-trash-2 text-success">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 text-success">
                                                                         <polyline points="3 6 5 6 21 6"></polyline>
-                                                                        <path
-                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                                                         </path>
-                                                                        <line x1="10" y1="11" x2="10"
-                                                                            y2="17"></line>
-                                                                        <line x1="14" y1="11" x2="14"
-                                                                            y2="17"></line>
+                                                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                        <line x1="14" y1="11" x2="14" y2="17"></line>
                                                                     </svg>
                                                                 </span>
                                                                 <span class="text-muted">Remove</span>
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="col-4 col-md-3 col-lg-2 mx-auto">
-                                                        <form method='POST' action="{{route('cartadd',$cart->id_cart)}}" >
+                                                    <div class="col-4 col-md-6 mx-auto ">
+                                                        <form method='POST' action="{{route('cartadd',$cart->id_cart)}}" class="row">
                                                             @csrf
-                                                            <div class="input-group input-spinner flex-nowrap w-100">
-                                                                <a href='{{route('minus',[$cart->id_cart])}}' class='text-decoration-none btn btn-sm'>
-                                                                    <i class="bi bi-dash-lg"></i>
-                                                                </a>
-                                                                <input type="text" value="{{$cart->amount}}" name="cart_quant" class="quantity-field form-control form-input ">
-                                                                <a href='{{route('addmore',[$cart->id_cart])}}' class='text-decoration-none btn btn-sm' >
-                                                                    <i class='bi bi-plus-lg'></i>
-                                                                </a>
+                                                            <input type="hidden" name="max_quan" value="{{$cart->Product->quantity}}">
+                                                            <div class=" col-6">
+                                                                <div class="input-group input-spinner ">
+                                                                    <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
+                                                                        <i class="bi bi-dash-lg"></i>
+                                                                    </button>
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart->amount,0,'','')}}"/>
+                                                                    <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;" >
+                                                                        <i class="bi bi-plus-lg"></i>
+                                                                    </button>
+                                                                    <p class="ms-5 fw-bold align-self-end mb-1">g</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 mx-auto">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <i class="feather-icon icon-shopping-bag "></i>Save
+                                                                </button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -103,7 +103,7 @@
                                                             </a>
                                                         @endif
                                                     </div>
-                                                    <div class="col-3 col-md-3">
+                                                    <div class="col-2 col-md-2">
                                                         @if (isset($cart->Product))
                                                             <a href="{{ route('products-details',$cart->Product->id_product)}}" class="text-inherit">
                                                                 <h6 class="mb-0">{{$cart['name']}}</h6>
@@ -136,17 +136,29 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="col-4 col-md-3 col-lg-2 mx-auto">
-                                                        <form method='POST' action="{{route('cartadd',$key)}}" >
+                                                    <div class="col-4 col-md-6 mx-auto">
+                                                        <form method='POST' action="{{route('cartadd',$key)}}" class="row"  >
                                                             @csrf
-                                                            <div class="input-group input-spinner flex-nowrap w-100">
-                                                                <a href="{{route('minus',$key)}}" class='text-decoration-none btn btn-sm'>
-                                                                    <i class="bi bi-dash-lg"></i>
-                                                                </a>
-                                                                <input type="text" value="{{$cart['amount']}}" name="cart_quant" class="quantity-field form-control form-input ">
-                                                                <a href="{{route('addmore',$key)}}" class='text-decoration-none btn btn-sm' >
-                                                                    <i class='bi bi-plus-lg'></i>
-                                                                </a>
+                                                            <input type="hidden" name="max_quan" value="{{$cart['max']}}">
+                                                            <div class=" col-6">
+                                                                <div class="input-group input-spinner ">
+                                                                    <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
+                                                                        <i class="bi bi-dash-lg"></i>
+                                                                    </button>
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart['amount'],0,'','')}}"/>
+                                                                    <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;"  >
+                                                                        <i class="bi bi-plus-lg"></i>
+                                                                    </button>
+                                                                    <p class="ms-5 fw-bold align-self-end mb-1">g</p>
+                                                                </div>
+                                                                @if ($errors->has('quan'))
+                                                                    <span class="text-danger">{{$errors->first('cart_quant')}}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="col-3 mx-auto">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <i class="feather-icon icon-shopping-bag "></i>Save
+                                                                </button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -272,6 +284,7 @@
                     })
                 }
             })
+            \
         })
     </script>
 @endsection

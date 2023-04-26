@@ -16,6 +16,13 @@
           </div>
         </div>
       </div>
+      @if(\Session::has('paypal_error'))
+          <div class="alert alert-danger">{{ \Session::get('paypal_error') }}</div>
+          {{ \Session::forget('paypal_error') }}
+      @endif
+      @if(\Session::has('success_paypal'))
+          <div class="alert alert-success">{{ \Session::get('paypal_success'). " Make sure you sign all delivery Infomation" }}</div>
+      @endif
       @php
           $shipment = 2;
       @endphp
@@ -26,9 +33,7 @@
               <form action="{{route('checkout')}}" method="post">
                 @csrf
                 <div class="accordion accordion-flush" id="accordionFlushExample">
-                  
                   <div class="accordion-item py-4">
-                    
                     @if (Auth::check())
                       <input type="hidden" name="code_coupon" value="{{$coupon? $coupon->code:''}}">
                       <div class="d-flex justify-content-between align-items-center">
@@ -48,7 +53,11 @@
                                   <div class="col-lg-6 col-12 mb-4">
                                     <div class="card card-body p-6 " style="height: 240px">
                                       <div class="form-check mb-4">
-                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default?'checked':''}} value="{{$add->id_address}}">
+                                        @if (Session::has('select_add'))
+                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{Session::get('select_add') == $add->id_address?'checked':''}} value="{{$add->id_address}}">
+                                        @else
+                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
+                                        @endif
                                         <label class="form-check-label text-dark" >
                                           Reciver : {{$add->receiver}}
                                         </label>
@@ -57,10 +66,10 @@
                                       <address style="height: 90px">
                                         {{$add->address}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
+                                        @php
+                                            $shipment = !Session::has('select_add') ? ($add->default?$add->shipment_fee:2):$add->shipment_fee;
+                                        @endphp
                                       @if ($add->default)
-                                      @php
-                                          $shipment = $add->shipment_fee;
-                                      @endphp
                                       <span class="text-danger">Default address </span>
                                       @endif
                                       <a href="javascript:void(0);" class="text-muted remove_add text-end" data-idadd="{{$add->id_address}}">Remove Address</a>
@@ -72,6 +81,9 @@
                         </div>
                       </div>
                     @else
+                      @php
+                          $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):2;
+                      @endphp
 
                     <div class="d-flex justify-content-between align-items-center">
                       <a href="#" class="fs-5 text-inherit collapsed h4"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
@@ -83,27 +95,36 @@
                         <div class="row g-3">
                           <!-- col -->
                           <div class="col-12">
-                            <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="">
+                            <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
                           </div>
                           <div class="col-6">
-                            <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="">
+                            <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" value="{{Session::has('phone')?Session::get('phone'):''}}">
                           </div>
                           <div class="col-6">
-                            <input type="text" class="form-control" name="emailReciever" placeholder="Email">
+                            <input type="text" class="form-control" name="emailReciever" placeholder="Email" value="{{Session::has('email')?Session::get('email'):''}}">
                           </div>
                           <div class="col-12">
-                            <input type="text" class="form-control" name="addressReciever" placeholder="Address">
+                            <input type="text" class="form-control" name="addressReciever" placeholder="Address" value="{{Session::has('address')?Session::get('address'):''}}">
                           </div>
                           <div class="col-12">
                             <select class="form-select" name="province" id="province">
+                              @if (Session::has('province'))
+                                  <option value="{{Session::get('province')}}">{{Session::get('province')}}</option>
+                              @endif
                             </select>
                           </div>
                           <div class="col-12">
                             <select class="form-select" name="district" id="district" disabled>
+                              @if (Session::has('district'))
+                                <option value="{{Session::get('district')}}">{{Session::get('district')}}</option>
+                              @endif
                             </select>
                           </div>
                           <div class="col-12">
                             <select class="form-select" name="ward" id="ward" disabled>
+                              @if (Session::has('ward'))
+                                <option value="{{Session::get('ward')}}">{{Session::get('ward')}}</option>
+                              @endif
                             </select>
                           </div>
                         </div>
@@ -111,7 +132,7 @@
                     </div>
                     @endif
                   </div>
-                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{$shipment}}">
+                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{Session::has('shipfee')?Session::get('shipfee'):$shipment}}">
                   <div class="accordion-item py-4">
                     <a href="#" class="text-inherit h5"  data-bs-toggle="collapse"
                       data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -123,7 +144,7 @@
                       <div class="mt-5">
                         <label for="DeliveryInstructions" class="form-label sr-only">Delivery instructions</label>
                         <textarea class="form-control" id="DeliveryInstructions" name="delivery_instructions" rows="3"
-                          placeholder="Write delivery instructions "></textarea>
+                          placeholder="Write delivery instructions ">{{Session::has('instructions')?Session::get('instructions'):''}}</textarea>
                         <p class="form-text">Add instructions for how you want your order shopped and/or delivered</p>
                         <div class="mt-5 d-flex justify-content-end">
                           <a href="#" class="btn btn-outline-gray-400 text-muted"
@@ -147,27 +168,29 @@
                       <div class="mt-5">
                         <div>
                           <div class="card card-bordered shadow-none mb-2">
-                            <div class="card-body p-6">
+                            <div class="card-body p-6 {{Session::has('success_paypal')?'alert alert-primary':''}}">
                               <div class="d-flex">
                                 <div class="form-check">
                                   <input class="form-check-input" type="radio" name="order_method" value="paypal" id="paypal" checked>
                                     <label class="form-check-label ms-2" for="paypal">
                                     </label>
                                 </div>
-                                <div>
+                                <div >
                                   <h5 class="mb-1 h6"> Payment with Paypal</h5>
-                                  <p class="mb-0 small">You will be redirected to PayPal website to complete your purchase
-                                    securely.</p>
+                                  <p class="mb-0 small">{{Session::has('paypal_success')?Session::get('paypal_success'):'You will be redirected to PayPal website to complete your purchase
+                                    securely.'}}</p>
+                                    <a class="btn btn-primary m-3"  id="paypal_btn" data-success="{{Session::has('paypal_success')? 'success': 'none'}}">Pay </a>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          @if (!Session::has('success_paypal'))
                           <div class="card card-bordered shadow-none">
                             <div class="card-body p-6">
                               <div class="d-flex">
                                 <div class="form-check">
                                   <input class="form-check-input" type="radio" name="order_method" value="cod" id="cashonDelivery">
-                                  <label class="form-check-label ms-2" for="cashonDelivery">
+                                    <label class="form-check-label ms-2" for="cashonDelivery">
                                   </label>
                                 </div>
                                 <div>
@@ -177,11 +200,13 @@
                               </div>
                             </div>
                           </div>
+                              
+                          @endif
                           <div class="mt-5 d-flex justify-content-end">
                             <a href="#" class="btn btn-outline-gray-400 text-muted"
                               data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                               aria-controls="flush-collapseThree">Prev</a>
-                            <button type="submit" class="btn btn-primary ms-2" id="submit_order" {{!Auth::check()?"disabled":''}}>Finish Order</button>
+                            <button type="submit" class="btn btn-primary ms-2" id="submit_order" {{!Auth::check()?(!Session::has('paypal_success')?"disabled":''):''}}>Finish Order</button>
                           </div>
                         </div>
                       </div>
@@ -291,7 +316,7 @@
                         ${{number_format($shipment,2,'.',' ')}}
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
+                    <div class="d-flex align-items-center justify-content-between {{Session::has('shipfee') && intval(Session::get('shipfee'))>2?'':'d-none'}} mb-2 " id="extra_ship">
                       <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
                       </div>
                       <div class="fw-bold text-danger" >
@@ -320,14 +345,14 @@
                         Total
                       </div>
                       @php
-                          $subtotal +=$shipment;
+                          $subtotal +=Session::has('shipfee')?intval(Session::get('shipfee')):$shipment;
                           if(Session::has('coupon') && $coupon->freeship){
                             $subtotal -= $coupon->discount;
                           }else if(Session::has('coupon')){
                             $subtotal *=(1- $coupon->discount/100);
                           }
                       @endphp
-                      <div id="total" data-total="{{$subtotal}}">
+                      <div id="total" data-total="{{$subtotal-$shipment}}">
                         ${{$subtotal }}
                       </div>
                     </div>
@@ -357,8 +382,9 @@
                 if($("#shippment_fee").data('ship') != 3){
                   $('#extra_ship').removeClass('d-none');
                   $('#shipment_fee').val(3);
-                  let totall = parseFloat($("#total").data('total'))+1;
+                  let totall = parseFloat($("#total").data('total'))+3;
                   $('#total').html("$"+totall);
+                  $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+3));
                 };
               }else{
                 if(!$('#extra_ship').hasClass('d-none')){
@@ -367,8 +393,32 @@
                 $("#shippment_fee").html('$2.00');
                   $("#shippment_fee").data('ship',2);
                   $('#shipment_fee').val(2);
-                  $('#total').html('$'+$("#total").data('total'));
+                  $('#total').html('$'+$("#total").data('total')+2)
+                  $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+2));;
               }
+            })
+            @if(Session::has('success_paypal'))
+            $("#paypal_btn").text("Paied");
+            @else
+            $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+parseFloat($('#shipment_fee').val())));
+            @endif
+            $("input[name=order_method]").change(function(){
+              if(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked')){
+                $('#submit_order').removeAttr('disabled');
+              }else{
+                $('#submit_order').attr('disabled','disabled');
+              }
+            });
+            $("#paypal_btn").click(function(){
+              @if(!Session::has('paypal_success'))
+                @if(Auth::check())
+                  window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('#shipment_fee').val()+"&coupon="+$('input[name=code_coupon]').val());
+                @else
+                  window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('#shipment_fee').val());
+                @endif
+              @else
+                alert("You has paied. Now Sign all delivery information then submit");
+              @endif
             })
         })
     </script>

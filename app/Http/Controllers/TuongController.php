@@ -248,6 +248,7 @@ class TuongController extends Controller
             $order->email = $address['email'];
             $order->address = $address['address'];
             $order->code_coupon = $req['code_coupon'];
+            $order->method = $req['order_method'];
             $order->instruction = $req['delivery_instructions'];
             foreach (Cart::where('order_code', '=', null)->where('id_user', '=', Auth::user()->id_user)->get() as $cart) {
                 $cart->Product->quantity -= $cart->amount;
@@ -287,6 +288,14 @@ class TuongController extends Controller
                 $comment->save();
             }
             Session::remove("cart");
+            Session::forget('name');
+            Session::forget('phone');
+            Session::forget('email');
+            Session::forget('province');
+            Session::forget('district');
+            Session::forget('address');
+            Session::forget('ward');
+            Session::forget('shipfee');
             $order->order_code = $order_code;
             $order->receiver = $req['nameReciever'];
             $order->phone = $req['phoneReciever'];
@@ -618,8 +627,9 @@ class TuongController extends Controller
         } else if (Session::has('cart')) {
             Session::forget("cart");
         }
-        $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
-        echo $html_list;
+        return redirect()->back();
+        // $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
+        // echo $html_list;
     }
     public function cartadd_quan(Request $req, $id)
     {

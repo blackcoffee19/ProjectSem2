@@ -9,6 +9,7 @@ use App\Http\Controllers\User\UserProductDetailController;
 use App\Http\Controllers\User\UserWishlistController;
 use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\UserAccountController;
+use App\Http\Controllers\PayPalController;
 
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
@@ -25,7 +26,10 @@ use App\Http\Controllers\Admin\AdminReviewController;
 //     return view('welcome');
 // });
 
-
+Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
 
 Route::get('/', [TuongController::class, 'home_page'])->name('index');

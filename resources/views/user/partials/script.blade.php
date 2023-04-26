@@ -215,6 +215,7 @@
         });
         $('#ward').change(function(e) {
             e.preventDefault();
+            $('#province option:selected').val($('#province option:selected').text());
             $('#district option:selected').val($('#district option:selected').text());
             $('#ward option:selected').val($('#ward option:selected').text());
             if ($('input[name="nameReciever"]').val().trim().length > 0 && $(

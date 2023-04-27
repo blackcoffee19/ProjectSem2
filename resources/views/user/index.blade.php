@@ -7,35 +7,6 @@
         <section class="mt-8">
             <div class="container">
                 <div class="hero-slider ">
-<<<<<<< HEAD
-                    <div
-                        style="background: url({{ asset('/images/slider/slide-1.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
-                        <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-                            <span class="badge text-bg-warning">Opening Sale Discount 50%</span>
-
-                            <h2 class="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery </h2>
-                            <p class="lead">Introduced a new model for online grocery shopping
-                                and convenient home delivery.</p>
-                            <a href="#!" class="btn btn-dark mt-3">Shop Now <i
-                                    class="feather-icon icon-arrow-right ms-1"></i></a>
-                        </div>
-
-                    </div>
-                    <div class=" "
-                        style="background: url({{ asset('/images/slider/slider-2.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
-                        <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-                            <span class="badge text-bg-warning">Free Shipping - orders over $100</span>
-                            <h2 class="text-dark display-5 fw-bold mt-4">Free Shipping on <br> orders over <span
-                                    class="text-primary">$100</span></h2>
-                            <p class="lead">Free Shipping to First-Time Customers Only, After promotions and
-                                discounts are applied.
-                            </p>
-                            <a href="#!" class="btn btn-dark mt-3">Shop Now <i
-                                    class="feather-icon icon-arrow-right ms-1"></i></a>
-                        </div>
-
-                    </div>
-=======
                     @foreach ($sliders as $slide)
                         <div style="background: url({{ asset('/images/slider/'.$slide->image) }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
@@ -48,7 +19,6 @@
                             </div>
                         </div>
                     @endforeach
->>>>>>> blackcoffee19-Tuong
                 </div>
             </div>
         </section>
@@ -64,104 +34,6 @@
                 </div>
                 <div class="category-slider ">
 
-<<<<<<< HEAD
-                    <div class="item"> 
-                        <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-dairy-bread-eggs.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
-                                    <div class="text-truncate">Dairy, Bread & Eggs</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-snack-munchies.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Snack & Munchies</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-bakery-biscuits.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Bakery & Biscuits</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-instant-food.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Instant Food</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-tea-coffee-drinks.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Tea, Coffee & Drinks</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"><a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-atta-rice-dal.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Atta, Rice & Dal</div>
-                                </div>
-                            </div>
-                        </a></div>
-
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-baby-care.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Baby Care</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-chicken-meat-fish.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Chicken, Meat & Fish</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-cleaning-essentials.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Cleaning Essentials</div>
-                                </div>
-                            </div>
-                        </a></div>
-                    <div class="item"> <a href="" class="text-decoration-none text-inherit">
-                            <div class="card card-product mb-lg-4">
-                                <div class="card-body text-center py-8">
-                                    <img src="{{ asset('images/category/category-pet-care.jpg') }}"
-                                        alt="Grocery Ecommerce Template" class="mb-3">
-                                    <div class="text-truncate">Pet Care</div>
-                                </div>
-                            </div>
-                        </a></div>
-
-
-
-
-=======
                     @foreach ($cats as $item)
                         @if ($item->status == 'Active')
                             <div class="item">
@@ -180,7 +52,6 @@
                             </div>
                         @endif
                     @endforeach
->>>>>>> blackcoffee19-Tuong
                 </div>
             </div>
         </section>
@@ -190,12 +61,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6 mb-3 mb-lg-0">
                         <div>
-<<<<<<< HEAD
-                            <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
-=======
                             <div class="py-10 px-8 rounded" style="background:url({{ asset('/images/banner/'.$banner[0]->image) }})no-repeat; background-size: cover; background-position: center;">
->>>>>>> blackcoffee19-Tuong
                                 <div>
                                     <h3 class="fw-bold mb-1" style="color: {{$banner[0]->title_color}}">{{$banner[0]->title}}
                                     </h3>
@@ -211,11 +77,7 @@
 
                         <div>
                             <div class="py-10 px-8 rounded"
-<<<<<<< HEAD
-                                style="background:url({{ asset('/images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
-=======
                                 style="background:url({{ asset('/images/banner/'.$banner[1]->image) }})no-repeat; background-size: cover; background-position: center;">
->>>>>>> blackcoffee19-Tuong
                                 <div>
                                     <h3 class="fw-bold mb-1"style="color: {{$banner[1]->title_color}}">{{$banner[1]->title}}
                                     </h3>
@@ -298,24 +160,6 @@
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <div>
                                             @if ($pro->sale >0)
-<<<<<<< HEAD
-                                            <span class="text-dark">${{$pro->price*(1-$pro->sale/100)}}</span>
-                                            <span class="text-decoration-line-through text-muted">${{$pro->price}}</span> <small>/kg</small>
-                                            @else
-                                            <span class="text-dark">${{$pro->price}}</span> <small>/kg</small>
-                                            @endif
-                                        </div>
-                                        <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-plus">
-                                                    <line x1="12" y1="5" x2="12" y2="19">
-                                                    </line>
-                                                    <line x1="5" y1="12" x2="19" y2="12">
-                                                    </line>
-                                                </svg> Add</button></div>
-=======
                                             <span class="text-dark fs-5">{{number_format($pro->price*(1-$pro->sale/100),0,'',' ')}}</span>
                                             <span class="text-decoration-line-through text-muted">{{number_format($pro->price,0,'',' ')}}</span> <small> đ/kg</small>
                                             @else
@@ -324,7 +168,6 @@
                                         </div>
                                         <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
                                             <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
->>>>>>> blackcoffee19-Tuong
                                     </div>
                                 </div>
                             </div>
@@ -345,11 +188,7 @@
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
                             <div class=" pt-8 px-6 px-xl-8 rounded"
-<<<<<<< HEAD
-                                style="background:url({{ asset('images/banner/banner-deal.jpg') }})no-repeat; background-size: cover; height: 470px;">
-=======
                                 style="background:url({{ asset('images/banner/'.$banner[2]->image) }})no-repeat; background-size: cover; height: 470px;">
->>>>>>> blackcoffee19-Tuong
                                 <div>
                                     <h3 class="fw-bold " style="color:{{$banner[2]->title_color}}">
                                         {{$banner[2]->title}}
@@ -365,14 +204,11 @@
                             <div class="card card-product">
                                 <div class="card-body">
                                     <div class="text-center  position-relative "> 
-<<<<<<< HEAD
-=======
                                         <div class=" position-absolute top-0 start-0">
                                             @if ($product->sale !=0)
                                                 <span class="badge bg-danger">{{number_format($product->sale,0)}}%</span>
                                             @endif
                                         </div>
->>>>>>> blackcoffee19-Tuong
                                         <a href="{{ route('products-details',$product->id_product) }}">
                                         <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
                                         </a>
@@ -394,22 +230,12 @@
                                     </div>
                                     <h2 class="fs-6"><a href="{{ route('products-details',$product->id_product) }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
                                     
-<<<<<<< HEAD
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div>
-                                            @if ($product->sale >0)
-                                                <span class="text-danger">${{$product->price*(1-$product->sale/100)}}</span> 
-                                                <span class="text-decoration-line-through text-muted">${{$product->price}}</span> 
-                                            @else
-                                            <span class="text-dark">${{$product->price}}</span>
-=======
                                     <div class="d-flex justify-content-between align-items-center mt-3 flex-nowrap">
                                         <div>
                                             @if ($product->sale >0)
                                                 <span class="text-danger fs-4">{{number_format($product->price*(1-$product->sale/100),0,'',' ')}}</span><small> đ/kg</small>
                                             @else
                                             <span class="text-dark fs-4">{{number_format($product->price,0,'',' ')}} đ/kg</span>
->>>>>>> blackcoffee19-Tuong
                                             @endif
                                         </div>
                                         <div>
@@ -462,12 +288,7 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-<<<<<<< HEAD
-                            <div class="mb-6"><img src="{{ asset('/images/icons/clock.svg') }}"
-                                    alt=""></div>
-=======
                             <div class="mb-6"><img src="{{ asset('/images/icons/clock.svg') }}" alt=""></div>
->>>>>>> blackcoffee19-Tuong
                             <h3 class="h5 mb-3">
                                 10 minute grocery now
                             </h3>
@@ -477,12 +298,7 @@
                     </div>
                     <div class="col-md-6  col-lg-3">
                         <div class="mb-8 mb-xl-0">
-<<<<<<< HEAD
-                            <div class="mb-6"><img src="{{ asset('/images/icons/gift.svg') }}"
-                                    alt=""></div>
-=======
                             <div class="mb-6"><img src="{{ asset('/images/icons/gift.svg') }}" alt=""></div>
->>>>>>> blackcoffee19-Tuong
                             <h3 class="h5 mb-3">Best Prices & Offers</h3>
                             <p>Cheaper prices than your local supermarket, great cashback offers to top it off. Get best
                                 pricess &
@@ -492,13 +308,8 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-<<<<<<< HEAD
-                            <div class="mb-6"><img src="{{ asset('/images/icons/package.svg') }}"
-                                    alt=""></div>
-=======
                             <div class="mb-6"><img src="{{ asset('/images/icons/package.svg') }}" alt="">
                             </div>
->>>>>>> blackcoffee19-Tuong
                             <h3 class="h5 mb-3">Wide Assortment</h3>
                             <p>Choose from 5000+ products across food, personal care, household, bakery, veg and non-veg
                                 & other
@@ -507,21 +318,12 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="mb-8 mb-xl-0">
-<<<<<<< HEAD
-                            <div class="mb-6"><img src="{{ asset('/images/icons/refresh-cw.svg') }}"
-                                    alt="">
-=======
                             <div class="mb-6"><img src="{{ asset('/images/icons/refresh-cw.svg') }}" alt="">
->>>>>>> blackcoffee19-Tuong
                             </div>
                             <h3 class="h5 mb-3">Easy Returns</h3>
                             <p>Not satisfied with a product? Return it at the doorstep & get a refund within hours. No
                                 questions asked
-<<<<<<< HEAD
-                                <a >policy</a>.
-=======
                                 <a>policy</a>.
->>>>>>> blackcoffee19-Tuong
                             </p>
                         </div>
                     </div>

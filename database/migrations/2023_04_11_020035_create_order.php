@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('email');
             $table->string('code_coupon')->nullable();
-            $table->decimal('shipping_fee',8,1)->default(2);
+            $table->bigInteger('shipping_fee')->default(20000);
             $table->enum('method',['cod','paypal']);
             $table->enum('status',['finished','confirmed','delivery','unconfirmed','cancel','transaction failed']);
             $table->string('instruction')->nullable();

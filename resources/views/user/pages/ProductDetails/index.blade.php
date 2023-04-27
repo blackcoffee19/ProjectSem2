@@ -32,7 +32,7 @@
                     <div class="col-6 mx-auto">
                         <div class="ps-lg-10 mt-6 mt-md-0">
                             <a href="#!" class="mb-4 d-block">{{ $product->TypeProduct->type }}</a>
-                            <h1 class="mb-1">{{ $product->name }}</h1>
+                            <h1 class="mb-1 text-capitalize">{{ $product->name }}</h1>
                             <div class="mb-4">
                                 <small class="text-warning">
                                     @php
@@ -61,37 +61,39 @@
                             <div class="fs-4">
                                 @if ($product->sale > 0)
                                     <span
-                                        class="fw-bold text-dark">${{ number_format($product->price * (1 - $product->sale / 100), 0, '.', ' ') }}</span>
+                                        class="fw-bold text-dark fs-5">{{ number_format($product->price * (1 - $product->sale / 100), 0, '.', ' ') }} </span>
                                     <span
-                                        class="text-decoration-line-through text-muted">${{ number_format($product->price, 0) }}</span>
+                                        class="text-decoration-line-through text-muted">${{ number_format($product->price, 0) }}</span><small> đ/kg</small>
                                     <span>
                                         <small class="fs-6 ms-2 text-danger">{{ number_format($product->sale, 0) }}%
                                             Off</small>
                                     </span>
                                 @else
                                     <span
-                                        class="fw-bold text-dark">${{ number_format($product->price, 0, '.', ' ') }}</span>
+                                        class="fw-bold text-dark fs-5">{{ number_format($product->price, 0, '.', ' ') }} đ/kg</span>
                                 @endif
                             </div>
                             <hr class="my-6">
-                            <div class="mb-5"><button type="button" class="btn btn-outline-secondary">100g</button>
+                            <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left: {{number_format($product->quantity,0,'',' ')}} grams</button>
                             </div>
                             <form action="{{ route('products-details', [$product->id_product]) }}" method="post">
                                 @csrf
-                                <div class="d-flex flex-row  ">
-                                    <input type="hidden" name="max_quan" value="{{ $product->quantity }}">
-                                    <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        style="border-radius: 10px 0 0 10px;" id="btn_minus">
-                                        <i class="bi bi-dash-lg"></i>
-                                    </button>
-                                    <input type="text" name="quan"
-                                        class="border border-secondary text-center pt-1 fs-4 text-secondary"
-                                        style="width: 50px;" value="100" />
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        style="border-radius: 0 10px 10px 0;" id="btn_plus">
-                                        <i class="bi bi-plus-lg"></i>
-                                    </button>
+                                <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
+                                <input type="hidden" name="max_quan" value="{{ $product->quantity }}">
+                                <div>
+                                    <div class="d-flex flex-row  ">
+                                        <button type="button" class="btn btn-outline-secondary btn_minus"
+                                            style="border-radius: 10px 0 0 10px;">
+                                            <i class="bi bi-dash-lg"></i>
+                                        </button>
+                                        <input type="text" name="quan"
+                                            class="border border-secondary text-center pt-1 fs-4 text-secondary"
+                                            style="width: 50px;" value="100" />
+                                        <button type="button" class="btn btn-outline-secondary btn_plus"
+                                            style="border-radius: 0 10px 10px 0;">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="mt-3 row justify-content-start g-2 align-items-center ">
                                     <div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid ">
@@ -131,9 +133,9 @@
                                             <td>Availability:</td>
                                             <td>
                                                 @if ($product->quantity > 0)
-                                                    {{ number_format($product->quantity, 0) }}
+                                                    {{ number_format($product->quantity, 0) }} grams
                                                 @else
-                                                    Disabled
+                                                    <span class="fs-5 text-danger fw-bold">Sold out</span>
                                                 @endif
 
                                             </td>
@@ -141,7 +143,7 @@
                                         </tr>
                                         <tr>
                                             <td>Type:</td>
-                                            <td>{{ $product->typeproduct->type }}</td>
+                                            <td class="text-capitalize">{{ $product->typeproduct->type }}</td>
 
                                         </tr>
                                         <tr>
@@ -482,7 +484,7 @@
                                                                     value="{{ $product->id_product }}">
                                                                 <div id="printf"></div>
                                                                 <div class="mb-3">
-                                                                    <textarea name="comment" id="input_comment"rows="2" class="form-control">Add Comment</textarea>
+                                                                    <textarea name="comment" id="input_comment"rows="2" class="form-control" placeholder="What do you think about this product?"></textarea>
                                                                 </div>
                                                                 <div class="d-flex flex-row justify-content-between">
                                                                     <span class="text-black-50 count-word"></span>
@@ -501,7 +503,7 @@
                                                 @else
                                                     @foreach ($comments as $cmt)
                                                         <div class="row border-bottom pb-6 mb-6">
-                                                            @if ($cmt->User->avatar)
+                                                            @if ($cmt->id_user &&$cmt->User->avatar)
                                                                 <img src="{{ asset('images/avatar/' . $cmt->User->avatar) }}"
                                                                     class="rounded-circle avatar-lg col-2 p-0">
                                                             @else
@@ -534,15 +536,7 @@
                                                                     </div>
                                                                 @endif
                                                                 <p class="current_cmt">{{ $cmt->context }}</p>
-                                                                @if (Auth::check() && $cmt->id_user != Auth::user()->id_user)
-                                                                    <div class="d-flex justify-content-end mt-4">
-                                                                        <a href="#" class="text-muted">
-                                                                            <i
-                                                                                class="bi bi-hand-thumbs-up me-2"></i>Like</a>
-                                                                        <a href="#" class="text-muted ms-4">
-                                                                            <i class="bi bi-flag me-2"></i>Report abuse</a>
-                                                                    </div>
-                                                                @endif
+                                                                
                                                                 <div class="collapse"
                                                                     id="collapseEdit{{ $cmt->id_comment }}">
                                                                     <form
@@ -645,6 +639,15 @@
                                                                     </ul>
                                                                 @endif
                                                             </div>
+                                                            @if (Auth::check() && $cmt->id_user != Auth::user()->id_user)
+                                                                <div class="d-flex justify-content-end  mt-4 col-12">
+                                                                    <a href="#" class="text-muted">
+                                                                        <i
+                                                                            class="bi bi-hand-thumbs-up me-2"></i>Like</a>
+                                                                    <a href="#" class="text-muted ms-4">
+                                                                        <i class="bi bi-flag me-2"></i>Report abuse</a>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     @endforeach
                                                 @endif
@@ -706,7 +709,7 @@
                                     </div>
                                     <h2 class="fs-6">
                                         <a href="{{ route('products-details', $re_product->id_product) }}"
-                                            class="text-inherit text-decoration-none">{{ $re_product->name }}</a>
+                                            class="text-inherit text-decoration-none text-capitalize">{{ $re_product->name }}</a>
                                     </h2>
                                     <div>
                                         <small class="text-warning">
@@ -737,26 +740,18 @@
                                         <div>
                                             @if ($re_product->sale > 0)
                                                 <span
-                                                    class="text-dark">${{ number_format($re_product->price * (1 - $re_product->sale / 100), 0, '.', ' ') }}</span>
+                                                    class="text-dark">{{ number_format($re_product->price * (1 - $re_product->sale / 100), 0, '.', ' ') }}</span>
                                                 <span
-                                                    class="text-decoration-line-through text-muted">${{ number_format($re_product->price, 0, '.', ' ') }}</span>
+                                                    class="text-decoration-line-through text-muted">{{ number_format($re_product->price, 0, '.', ' ') }}</span> <small> đ/kg</small>
                                             @else
                                                 <span
-                                                    class="text-dark">${{ number_format($re_product->price, 2, '.', ' ') }}</span>
+                                                    class="text-dark">${{ number_format($re_product->price, 2, '.', ' ') }} đ/kg</span>
                                             @endif
                                         </div>
                                         <div>
                                             <button data-bs-id="{{ $re_product->id_product }}" type="button"
                                                 class="btn btn-primary btn addToCart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-plus">
-                                                    <line x1="12" y1="5" x2="12" y2="19">
-                                                    </line>
-                                                    <line x1="5" y1="12" x2="19" y2="12">
-                                                    </line>
-                                                </svg> Add
+                                                <i class="fa-solid fa-cart-shopping fa-xl"></i>
                                             </button>
                                         </div>
                                     </div>

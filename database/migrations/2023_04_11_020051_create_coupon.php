@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_coupon');
             $table->string('title',40);
             $table->string('code',20)->unique();
-            $table->integer('discount');
+            $table->bigInteger('discount');
             $table->integer('max');
             $table->boolean('status')->default(true);
             $table->timestamps();

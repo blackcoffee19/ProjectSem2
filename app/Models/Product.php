@@ -42,10 +42,4 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class, 'id_product', 'id_product');
     }
-    public function Library(){
-        return $this->hasMany(Library::class,'id_product','id_product');
-    }
-    public function Cart(){
-        return $this->hasMany(Cart::class,'id_product','id_product');
-    }
 }

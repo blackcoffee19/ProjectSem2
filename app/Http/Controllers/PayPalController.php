@@ -34,6 +34,7 @@ class PayPalController extends Controller
         if(Str::length($req['instruction'])>0){
             Session::put('instructions',$req['instruction']);
         };
+        Session::put('shipfee',$req['shipfee']);
         if(Auth::check()){
             Session::put('select_add',intval($req['select_address']));
             $total = 0;
@@ -41,10 +42,12 @@ class PayPalController extends Controller
                 $total += $cart->sale > 0 ? $cart->price*(1-$cart->sale/100)*($cart->amount/1000) :$cart->price *($cart->amount/1000); 
             }
             $total += intval($req['shipfee']);
+            
             if(Str::length($req['coupon'])>0){
                 $coupon = Coupon::where('code','=',$req['coupon'])->first();
-                $total = $coupon->discount >=10 ? $total*(1-$coupon->discount/100) : $total-$coupon->discount;
+                $total = $coupon->discount <=100 ? $total*(1-$coupon->discount/100) : $total-$coupon->discount;
             }
+            $total*=0.000043;
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
@@ -55,7 +58,7 @@ class PayPalController extends Controller
                     0 => [
                         "amount" => [
                             "currency_code" => "USD",
-                            "value" => $total,
+                            "value" => round($total,2),
                         ]
                     ]
                 ]
@@ -68,14 +71,14 @@ class PayPalController extends Controller
             Session::put('district',$req['district']);
             Session::put('address',$req['address']);
             Session::put('ward',$req['ward']);
-            Session::put('shipfee',$req['shipfee']);
+            
             $value = 0;
             foreach(Session::get('cart') as $key=> $cart){
                 $value += $cart['sale']>0?$cart['per_price']*(1-$cart['sale']/100)*($cart['amount']/1000):$cart['per_price']*($cart['amount']/1000);
             
             }
             $value+=intval($req['shipfee']);
-            $value = number_format($value,2);
+            $value*=0.000043;
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
@@ -86,7 +89,7 @@ class PayPalController extends Controller
                     0 => [
                         "amount" => [
                             "currency_code" => "USD",
-                            "value" => $value
+                            "value" => round($value,2)
                         ]
                     ]
                 ]

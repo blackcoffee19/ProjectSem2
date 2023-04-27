@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="slide_wrapper">
-              <div class="slider_modalproduct product" id="productModal">
+              <div class="slider_modalproduct product" id="productModal" style="height: 500px">
               </div>
             </div>
             <div class="product-tools">
@@ -19,7 +19,9 @@
           <div class="col-lg-6">
             <div class="ps-lg-8 mt-6 mt-lg-0">
               <p class="mb-4 d-block text-primary text-uppercase typeModal"></p>
-              <h2 class="mb-1 h1 text-capitalize" id="productNameModal"></h2>
+              <a id="moveProductDetail">
+                <h2 class="mb-1 h1 text-capitalize" id="productNameModal"></h2>
+              </a>
               <div class="mb-4 text-warning" id="ratingModal">
                 <a href="#" class="ms-2" id="soldModal"></a>
               </div>
@@ -110,6 +112,7 @@
       </div>
   </div>
 </div>
+
   <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
     <div role="alert"  id="toastCompare" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
         <div class="toast-body" style="padding:10px">
@@ -149,7 +152,7 @@
     </div>
   </div>
 </div>
-<div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
+{{-- <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastAdd" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
       <div class="toast-body" style="height: 100px; padding:30px 0">
         <div class="row">
@@ -157,6 +160,18 @@
             <i class="fa-solid fa-cart-circle-check" style="color: #2ec27e; font-size: 2.3rem"></i>
           </div>
           <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" >Add pet to cart successully</h4>
+        </div>
+      </div>
+  </div>
+</div> --}}
+<div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
+  <div role="alert"  id="toastFeedback" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
+      <div class="toast-body" style=" padding:10px">
+        <div class="row">
+          <div class="col-2 mb-2 mx-auto">
+            <i class="fa-regular fa-ballot-check" style="color: #2ec27e; font-size: 2.3rem"></i>
+          </div>
+          <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;">{{Session::has('feedback_mess')?Session::get('feedback_mess'):''}}</h4>
         </div>
       </div>
   </div>
@@ -425,7 +440,7 @@
                       <td>{{$num}}</td>
                       <td><img src="{{asset('images/products/'.$cart->Product->Library[0]->image)}}"  class='icon-shape icon-xl'  alt="{{$cart->Product->name}}"></td>
                       <td>{{$cart->Product->name}}</td>
-                      <td>${{$cart->price}} /kg</td>
+                      <td>{{number_format($cart->price,0,'',' ')}} VND/kg</td>
                       <td>{{$cart->sale}}%</td>
                       <td>{{$cart->amount}} grams</td>
                     </tr>
@@ -438,11 +453,11 @@
               <tfoot>
                 <tr>
                   <td colspan="2">Shipment Fee</td>
-                  <td colspan="3">{{number_format($check_orders[$i]->shipping_fee,2,'.',' ')}}</td>
+                  <td colspan="3">{{number_format($check_orders[$i]->shipping_fee,0,'',' ')}} VND</td>
                 </tr>
                 <tr>
                   <td colspan="2">Total</td>
-                  <td colspan="3">${{number_format($total,2,'.',' ')}}</td>
+                  <td colspan="3">{{number_format($total,0,'',' ')}}VND</td>
                 </tr>
               </tfoot>
             </table>

@@ -11,7 +11,7 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Products</li>
                                 </ol>
                             </nav>
@@ -32,9 +32,23 @@
                             <div class="row justify-content-between">
                                 <!-- form -->
                                 <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="Search Products"
-                                            aria-label="Search">
+                                    <form action="{{ Route('product.findByName') }}" class="d-flex" role="search">
+                                        <input class="form-control" type="search" placeholder="Search Product"
+                                            aria-label="Search" name="name">
+                                        <button class="btn btn-primary" value="Search"><i
+                                                class="fas fa-search"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col-xl-2 col-md-4 col-12">
+                                    <form action="{{ route('product.findByName') }}" class="d-flex">
+                                        <select class="form-select" name="status" onchange="this.form.submit()">
+                                            <option value="">Type</option>
+                                            @foreach ($types as $type)
+                                                @if ($type->status == 'Active')
+                                                    <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </form>
                                 </div>
                             </div>
@@ -47,15 +61,7 @@
                                     class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="checkAll">
-                                                    <label class="form-check-label" for="checkAll">
-
-                                                    </label>
-                                                </div>
-                                            </th>
+                                            <th>No.</th>
                                             <th>Image</th>
                                             <th>Proudct Name</th>
                                             <th>Category</th>
@@ -70,15 +76,23 @@
                                             <tr>
                                                 <td>{{ $item->id_product }}</td>
                                                 <td>
-                                                    @foreach ($item->libraries as $library)
-                                                        <img src="{{ asset('images/products/' . $library->image) }}"
-                                                            alt="" style="width:70px; height:auto;">
+                                                    @foreach (array_reverse($item->libraries->toArray()) as $library)
+                                                        <img src="{{ asset('images/products/' . $library['image']) }}"
+                                                            alt="" style="width:50px; height:auto;">
                                                     @endforeach
                                                 </td>
                                                 <td>{{ $item->name }}</td>
-                                                <td>{{ $item->id_type }}</td>
-                                                <td>{{ $item->status }}</td>
-                                                <td>{{ $item->price }}</td>
+                                                <td>
+                                                    {{ $item->typeproduct->type }}
+                                                </td>
+                                                <td>
+                                                    @if ($item->status == '1')
+                                                        <span class="btn bg-light-primary text-dark-primary">Active</span>
+                                                    @else
+                                                        <span class="btn bg-light-danger text-dark-danger">Desable</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ number_format($item->price, 0) }}</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     <div class="dropdown">
@@ -88,11 +102,24 @@
                                                             <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#"><i
-                                                                        class="bi bi-trash me-3"></i>Delete</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ Route('adminShowProduct', $item->id_product) }}"><i
+                                                                        class="bi bi-eye me-3 "></i>Detail</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ Route('adminEditProduct', $item->id_product) }}"><i
                                                                         class="bi bi-pencil-square me-3 "></i>Edit</a>
                                                             </li>
+                                                            <li>
+                                                                <form
+                                                                    action="{{ Route('adminDeleteProduct', $item->id_product) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bi bi-trash me-3"></i>Delete
+                                                                    </button>
+                                                                </form>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -100,7 +127,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $prods->links('pagination::bootstrap-5') }}
+                            </div>
+                            <div class="p-5">
+                                {{-- {{ $prods->links('pagination::bootstrap-5') }} --}}
                             </div>
                         </div>
                     </div>

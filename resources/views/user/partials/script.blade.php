@@ -7,7 +7,6 @@
         // });
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
-            // console.log($(this).html());
             $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
                 $('#listCartmodal').html(data);
                 $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
@@ -39,7 +38,10 @@
           let toastorder = new bootstrap.Toast($('#toastOrder'))
           toastorder.show();
         @endif
-        
+        @if (Session::has('feedback_mess'))
+          let toastfeedback = new bootstrap.Toast($('#toastFeedback'))
+          toastfeedback.show();
+        @endif
         const valiquan_cart = (value)=>{
             let validateNum =/^\d{1,10}$/;
             let currentVl = $(this).val();
@@ -51,18 +53,23 @@
               let listImage = "";
               let slider_product = "";
               dataProduct['images'].forEach(img => {
-                slider_product += `<div class="zoom slider_item" onmousemove="zoom(event)" style="background-image: url(images/products/${img};object-fit:contain;background-repeat: no-repeat"><image src='images/products/${img}' class='img-fluid'></div>`;
+                slider_product += `<div class="zoom slider_item" onmousemove="zoom(event)" style="background-image: url('images/products/${img}');object-fit:contain;background-repeat: no-repeat"><image src='images/products/${img}' class='img-fluid'></div>`;
                 listImage += "<div class='col-3'><div class='thumbnails-img'><img src='images/products/"+img+"'></div></div>";
               });
+              $('#moveProductDetail').attr('href',dataProduct['link']);
               $("#productModal").html(slider_product);
               $('#productModalThumbnails').html(listImage);
               $('#productNameModal').html(dataProduct['name']);
               $('input[name=max_quan]').val(dataProduct['quantity']);
               let strStart ="";
-              for(let i =0; i<dataProduct['rating'];i++){
+              for(let i =0; i<Math.floor(dataProduct['rating']);i++){
                 strStart+="<i class='bi bi-star-fill'></i>"
               }
-              for(let j = 0; j < 5-dataProduct['rating'];j++){
+              
+              if(parseInt(dataProduct['rating'])%1 !==0){
+                strStart+="<i class='bi bi-star-half'></i>";
+              }
+              for(let j = 0; j < 5-Math.ceil(dataProduct['rating']);j++){
                 strStart+="<i class='bi bi-star'></i>";
               }
               strStart += `<span class='ms-3 text-muted'>(${dataProduct["sold"]} solds)</span>`;
@@ -73,15 +80,15 @@
                 $('#modal_Fav').html("<i class='bi bi-heart'></i>")
               }
               $('#ratingModal').html(strStart);
-              $('#soldModal').html(`(${dataProduct["sold"]} sold)`);
+              $('#soldModal').html(`(${dataProduct["sold"]} solds)`);
               if(parseInt(dataProduct["sale"])>0){
                 $('.hasSale').removeClass('d-none');
-                $('#priceModal').html(`$${dataProduct["price"]}`);
+                $('#priceModal').html(`${dataProduct["price"]} đ/kg`);
                 $('#saleModal').html(`${dataProduct["sale"]}% Off`);
-                $('#priceAFSModal').html(`$${(parseInt(dataProduct["price"])*(1-dataProduct["sale"]/100)).toFixed(2)}`)
+                $('#priceAFSModal').html(`${(parseInt(dataProduct["price"])*(1-dataProduct["sale"]/100))} đ/kg`)
               }else{
                 $('.hasSale').addClass('d-none');
-                $('#priceAFSModal').html(`$${dataProduct["price"]}`);
+                $('#priceAFSModal').html(`${dataProduct["price"]} đ/kg`);
               };
               $('#quantityModal').html(Math.floor(dataProduct["quantity"]));
               $('#idModal').html(dataProduct['id_product']);
@@ -198,20 +205,20 @@
           e.preventDefault();
           
             if($(this).val() != 79){
-              $('#shipment_fee').val(3);
+              $('#shipment_fee').val(30000);
               @if (!Auth::check())
                 $('#extra_ship').removeClass('d-none');
-                let totall = parseFloat($("#total").data('total'))+3;
+                let totall = parseInt($("#total").data('total'))+30000;
                 $('#total').html("$"+totall);
-                $("#paypal_btn").text("Pay $"+totall);
+                $("#paypal_btn").text("Pay $"+(totall*0.000043).toFixed(2));
               @endif
             }else{
               @if (!Auth::check())
                 $('#extra_ship').addClass('d-none');
-                $('#total').html('$'+(parseFloat($("#total").data('total'))+2));
-                $("#paypal_btn").text("Pay $"+(parseFloat($("#total").data('total'))+2));
+                $('#total').html('$'+(parseInt($("#total").data('total'))+20000));
+                $("#paypal_btn").text("Pay $"+((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2));
               @endif
-                $('#shipment_fee').val(2);
+                $('#shipment_fee').val(20000);
             }
             let getDistric = host+"/api/province/district/"+$(this).val();
             $('#district').removeAttr('disabled');
@@ -376,7 +383,7 @@
               if(dataJson['discount'] >=10){
                 $('#discount').html("- "+dataJson['discount']+"%");
               }else{
-                $('#discount').html("- $"+dataJson['discount']);
+                $('#discount').html("- "+dataJson['discount']+"d");
               }
             }
             let list ="";

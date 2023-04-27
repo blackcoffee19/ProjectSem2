@@ -19,7 +19,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{ Route('adminOrderList') }}" class="btn btn-primary">Back to all orders</a>
+                            <a href="{{ Route('adminOrder') }}" class="btn btn-primary">Back to all orders</a>
                         </div>
 
                     </div>
@@ -33,19 +33,42 @@
                         <div class="card-body p-6">
                             <div class="d-md-flex justify-content-between">
                                 <div class="d-flex align-items-center mb-2 mb-md-0">
-                                    <h2 class="mb-0">Order ID: #FC001</h2>
-                                    <span class="badge bg-light-warning text-dark-warning ms-2">Pending</span>
+                                    <h2 class="mb-0">Order ID: #{{ $id_order->id_order }} </h2>
+                                    {{-- <span class="badge bg-light-warning text-dark-warning ms-2">Pending</span> --}}
+                                    @switch($id_order->status)
+                                        @case($id_order->status == 'finished')
+                                            <span class="badge ms-2 bg-light-primary text-dark-primary">
+                                                {{ $id_order->status }}</span>
+                                        @break
+
+                                        @case($id_order->status == 'delivery')
+                                            <span class="badge ms-2 bg-light-warning text-dark-warning">
+                                                {{ $id_order->status }}</span>
+                                        @break
+
+                                        @case($id_order->status == 'transaction failed')
+                                            <span class="badge ms-2 bg-light-danger text-dark-danger">
+                                                {{ $id_order->status }}</span>
+                                        @break
+
+                                        @case($id_order->status == 'cancel')
+                                            <span class="badge ms-2 bg-light-danger text-dark-danger">
+                                                {{ $id_order->status }}</span>
+                                        @break
+
+                                        @case($id_order->status == 'unconfimred')
+                                            <span class="badge ms-2 text-bg-dark"> {{ $id_order->status }}</span>
+                                        @break
+
+                                        @case($id_order->status == 'confirmed')
+                                            <span class="text-primary"> {{ $id_order->status }}</span>
+                                        @break
+
+                                        @default
+                                    @endswitch
                                 </div>
                                 <!-- select option -->
                                 <div class="d-md-flex">
-                                    <div class="mb-2 mb-md-0">
-                                        <select class="form-select">
-                                            <option selected>Status</option>
-                                            <option value="Success">Success</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Cancel">Cancel</option>
-                                        </select>
-                                    </div>
                                     <!-- button -->
                                     <div class="ms-md-3">
                                         <a href="#" class="btn btn-primary">Save</a>
@@ -59,9 +82,9 @@
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="mb-6">
                                             <h6>Customer Details</h6>
-                                            <p class="mb-1 lh-lg">John Alex<br>
-                                                anderalex@example.com<br>
-                                                +998 99 22123456</p>
+                                            <p class="mb-1 lh-lg">{{ $id_order->receiver }}<br>
+                                                {{ $id_order->email }}<br>
+                                                {{ $id_order->phone }}</p>
                                             <a href="#">View Profile</a>
                                         </div>
                                     </div>
@@ -69,10 +92,7 @@
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="mb-6">
                                             <h6>Shipping Address</h6>
-                                            <p class="mb-1 lh-lg">Gerg Harvell<br>
-                                                568, Suite Ave.<br>
-                                                Austrlia, 235153 <br>
-                                                Contact No. +91 99999 12345</p>
+                                            <p class="mb-1 lh-lg">{{ $id_order->address }}
 
                                         </div>
                                     </div>
@@ -80,9 +100,19 @@
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="mb-6">
                                             <h6>Order Details</h6>
-                                            <p class="mb-1 lh-lg">Order ID: <span class="text-dark">FC001</span><br>
-                                                Order Date: <span class="text-dark">October 22, 2023</span><br>
-                                                Order Total: <span class="text-dark">$734.28</span></p>
+                                            <p class="mb-1 lh-lg">Order ID: <span
+                                                    class="text-dark">{{ $id_order->id_order }}</span><br>
+                                                Order Date: <span class="text-dark">{{ $id_order->created_at }}</span><br>
+                                                Shipping Fee: <span class="text-dark">$
+                                                    {{ $id_order->shipping_fee }}</span><br>
+                                                Coupon: <span class="text-dark">
+                                                    @if ($id_order->code_coupon != null)
+                                                        {{ $id_order->code_coupon }}
+                                                    @else
+                                                        No Coupon
+                                                    @endif
+                                                </span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -104,90 +134,21 @@
                                         </thead>
                                         <!-- tbody -->
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a href="#" class="text-inherit">
-                                                        <div class="d-flex align-items-center">
-                                                            <div>
-                                                                <img src="{{ asset('images/products/product-img-1.jpg') }}"
-                                                                    alt="" class="icon-shape icon-lg">
-                                                            </div>
-                                                            <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                <h5 class="mb-0 h6">
-                                                                    Haldiram's Sev Bhujia
-                                                                </h5>
+                                            <span style="color:white">{{ $total = 0 }}</span>
+                                            @foreach ($cartItems as $item)
+                                                <tr>
+                                                    <td>
+                                                        <img src="{{ asset('images/products/' . $item->image) }}"
+                                                            alt="{{ $item->name }}" style="width: 50px;">
+                                                    </td>
+                                                    <td><span class="text-body">${{ $item->price }}</span></td>
+                                                    <td>{{ $item->amount }}</td>
+                                                    <td>$ {{ $item->price * $item->amount }}</td>
+                                                </tr>
+                                                <span
+                                                    style="color:white">{{ $total += $item->price * $item->amount }}</span>
+                                            @endforeach
 
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td><span class="text-body">$18.0</span></td>
-                                                <td>1</td>
-                                                <td>$18.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="#" class="text-inherit">
-                                                        <div class="d-flex align-items-center">
-                                                            <div>
-                                                                <img src="{{ asset('images/products/product-img-2.jpg') }}"
-                                                                    alt="" class="icon-shape icon-lg">
-                                                            </div>
-                                                            <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                <h5 class="mb-0 h6">
-                                                                    NutriChoice Digestive
-                                                                </h5>
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td><span class="text-body">$24.0</span></td>
-                                                <td>1</td>
-                                                <td>$24.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="#" class="text-inherit">
-                                                        <div class="d-flex align-items-center">
-                                                            <div>
-                                                                <img src="{{ asset('images/products/product-img-3.jpg') }}"
-                                                                    alt="" class="icon-shape icon-lg">
-                                                            </div>
-                                                            <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                <h5 class="mb-0 h6">
-                                                                    Cadbury 5 Star Chocolate
-                                                                </h5>
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td><span class="text-body">$32.0</span></td>
-                                                <td>1</td>
-                                                <td>$32.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="#" class="text-inherit">
-                                                        <div class="d-flex align-items-center">
-                                                            <div>
-                                                                <img src="{{ asset('images/products/product-img-4.jpg') }}"
-                                                                    alt="" class="icon-shape icon-lg">
-                                                            </div>
-                                                            <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                <h5 class="mb-0 h6">
-                                                                    Onion Flavour Potato
-                                                                </h5>
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td><span class="text-body">$3.0</span></td>
-                                                <td>2</td>
-                                                <td>$6.0</td>
-                                            </tr>
                                             <tr>
                                                 <td class="border-bottom-0 pb-0"></td>
                                                 <td class="border-bottom-0 pb-0"></td>
@@ -197,7 +158,7 @@
                                                 </td>
                                                 <td class="fw-medium text-dark ">
                                                     <!-- text -->
-                                                    $80.00
+                                                    <strong class="text-primary">$ {{ $total }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -209,7 +170,26 @@
                                                 </td>
                                                 <td class="fw-medium text-dark  ">
                                                     <!-- text -->
-                                                    $10.00
+                                                    <strong class="text-primary">$ {{ $id_order->shipping_fee }}</strong>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td colspan="1" class="fw-medium text-dark ">
+                                                    <!-- text -->
+                                                    Coupon
+                                                </td>
+                                                <td class="fw-medium text-dark  ">
+                                                    <!-- text -->
+                                                    <strong class="text-danger">
+                                                        @if ($id_order->code_coupon != null)
+                                                            $ -{{ $id_order->coupon->discount }}
+                                                        @else
+                                                            $ 0
+                                                        @endif
+                                                    </strong>
                                                 </td>
                                             </tr>
 
@@ -222,7 +202,15 @@
                                                 </td>
                                                 <td class="fw-semi-bold text-dark ">
                                                     <!-- text -->
-                                                    $90.00
+                                                    <h5 class="text-info">
+                                                        @if ($id_order->code_coupon != null)
+                                                            $
+                                                            {{ $total + $id_order->shipping_fee - $id_order->coupon->discount }}
+                                                        @else
+                                                            $ {{ $total + $id_order->shipping_fee }}
+                                                        @endif
+
+                                                    </h5>
                                                 </td>
                                             </tr>
 
@@ -235,13 +223,13 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4 mb-lg-0">
                                     <h6>Payment Info</h6>
-                                    <span>Cash on Delivery</span>
+                                    <span>{{ $id_order->method }}</span>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <h5>Notes</h5>
                                     <textarea class="form-control mb-3" rows="3" placeholder="Write note for order"></textarea>
                                     <a href="#" class="btn btn-primary">Save Notes</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

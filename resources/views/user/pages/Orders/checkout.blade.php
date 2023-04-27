@@ -27,11 +27,11 @@
           $shipment = 2;
       @endphp
       <div>
+        <form action="{{route('checkout')}}" method="post">
+          @csrf
         <div class="row">
           @if (isset($cart) && count($cart)>0)
             <div class="col-lg-7 col-md-12">
-              <form action="{{route('checkout')}}" method="post">
-                @csrf
                 <div class="accordion accordion-flush" id="accordionFlushExample">
                   <div class="accordion-item py-4">
                     @if (Auth::check())
@@ -67,7 +67,13 @@
                                         {{$add->address}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
                                         @php
-                                            $shipment = !Session::has('select_add') ? ($add->default?$add->shipment_fee:2):$add->shipment_fee;
+                                          if(!Session::has('select_add')){
+                                            if($add->default){
+                                              $shipment_fee = $add->shipment_fee;
+                                            }
+                                          }else{
+                                            $shipment_fee = intval(Session::get('shipfee'));
+                                          }
                                         @endphp
                                       @if ($add->default)
                                       <span class="text-danger">Default address </span>
@@ -76,63 +82,66 @@
                                     </div>
                                   </div>
                               @endforeach
+                            @else
+                            @php
+                                $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):20000;
+                            @endphp
                             @endif
                           </div>
                         </div>
                       </div>
                     @else
                       @php
-                          $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):2;
+                          $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):20000;
                       @endphp
-
-                    <div class="d-flex justify-content-between align-items-center">
-                      <a href="#" class="fs-5 text-inherit collapsed h4"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
-                        <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
-                      </a>
-                    </div>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
-                      <div class="mt-5">
-                        <div class="row g-3">
-                          <!-- col -->
-                          <div class="col-12">
-                            <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
-                          </div>
-                          <div class="col-6">
-                            <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" value="{{Session::has('phone')?Session::get('phone'):''}}">
-                          </div>
-                          <div class="col-6">
-                            <input type="text" class="form-control" name="emailReciever" placeholder="Email" value="{{Session::has('email')?Session::get('email'):''}}">
-                          </div>
-                          <div class="col-12">
-                            <input type="text" class="form-control" name="addressReciever" placeholder="Address" value="{{Session::has('address')?Session::get('address'):''}}">
-                          </div>
-                          <div class="col-12">
-                            <select class="form-select" name="province" id="province">
-                              @if (Session::has('province'))
-                                  <option value="{{Session::get('province')}}">{{Session::get('province')}}</option>
-                              @endif
-                            </select>
-                          </div>
-                          <div class="col-12">
-                            <select class="form-select" name="district" id="district" disabled>
-                              @if (Session::has('district'))
-                                <option value="{{Session::get('district')}}">{{Session::get('district')}}</option>
-                              @endif
-                            </select>
-                          </div>
-                          <div class="col-12">
-                            <select class="form-select" name="ward" id="ward" disabled>
-                              @if (Session::has('ward'))
-                                <option value="{{Session::get('ward')}}">{{Session::get('ward')}}</option>
-                              @endif
-                            </select>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="fs-5 text-inherit collapsed h4"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+                          <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
+                        </a>
+                      </div>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
+                        <div class="mt-5">
+                          <div class="row g-3">
+                            <!-- col -->
+                            <div class="col-12">
+                              <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
+                            </div>
+                            <div class="col-6">
+                              <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" value="{{Session::has('phone')?Session::get('phone'):''}}">
+                            </div>
+                            <div class="col-6">
+                              <input type="text" class="form-control" name="emailReciever" placeholder="Email" value="{{Session::has('email')?Session::get('email'):''}}">
+                            </div>
+                            <div class="col-12">
+                              <input type="text" class="form-control" name="addressReciever" placeholder="Address" value="{{Session::has('address')?Session::get('address'):''}}">
+                            </div>
+                            <div class="col-12">
+                              <select class="form-select" name="province" id="province">
+                                @if (Session::has('province'))
+                                    <option value="{{Session::get('province')}}">{{Session::get('province')}}</option>
+                                @endif
+                              </select>
+                            </div>
+                            <div class="col-12">
+                              <select class="form-select" name="district" id="district" disabled>
+                                @if (Session::has('district'))
+                                  <option value="{{Session::get('district')}}">{{Session::get('district')}}</option>
+                                @endif
+                              </select>
+                            </div>
+                            <div class="col-12">
+                              <select class="form-select" name="ward" id="ward" disabled>
+                                @if (Session::has('ward'))
+                                  <option value="{{Session::get('ward')}}">{{Session::get('ward')}}</option>
+                                @endif
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
                     @endif
                   </div>
-                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{Session::has('shipfee')?Session::get('shipfee'):$shipment}}">
+                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{Session::has('shipfee')?intval(Session::get('shipfee')):$shipment_fee}}">
                   <div class="accordion-item py-4">
                     <a href="#" class="text-inherit h5"  data-bs-toggle="collapse"
                       data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -171,7 +180,7 @@
                             <div class="card-body p-6 {{Session::has('success_paypal')?'alert alert-primary':''}}">
                               <div class="d-flex">
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="order_method" value="paypal" id="paypal" checked>
+                                  <input class="form-check-input" type="radio" name="order_method" value="paypal" id="paypal" {{Session::has('success_paypal')?'checked':''}}>
                                     <label class="form-check-label ms-2" for="paypal">
                                     </label>
                                 </div>
@@ -179,7 +188,7 @@
                                   <h5 class="mb-1 h6"> Payment with Paypal</h5>
                                   <p class="mb-0 small">{{Session::has('paypal_success')?Session::get('paypal_success'):'You will be redirected to PayPal website to complete your purchase
                                     securely.'}}</p>
-                                    <a class="btn btn-primary m-3"  id="paypal_btn" data-success="{{Session::has('paypal_success')? 'success': 'none'}}">Pay </a>
+                                    <a class="btn btn-primary m-3 px-2 h5"  id="paypal_btn" data-success="{{Session::has('paypal_success')? 'success': 'none'}}">Pay </a>
                                 </div>
                               </div>
                             </div>
@@ -189,7 +198,7 @@
                             <div class="card-body p-6">
                               <div class="d-flex">
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="order_method" value="cod" id="cashonDelivery">
+                                  <input class="form-check-input" type="radio" name="order_method" value="cod" id="cashonDelivery" checked>
                                     <label class="form-check-label ms-2" for="cashonDelivery">
                                   </label>
                                 </div>
@@ -206,14 +215,13 @@
                             <a href="#" class="btn btn-outline-gray-400 text-muted"
                               data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                               aria-controls="flush-collapseThree">Prev</a>
-                            <button type="submit" class="btn btn-primary ms-2" id="submit_order" {{!Auth::check()?(!Session::has('paypal_success')?"disabled":''):''}}>Finish Order</button>
+                            
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
             </div>
           @else
           <div class="col-lg-7 col-md-12">
@@ -244,20 +252,20 @@
                             <h6 class="mb-0">{{$item->Product->name}}</h6>
                           </div>
                           <div class="col-2 col-md-2 text-center text-muted">
-                            <span>{{$item->amount}}g</span>
+                            <span>{{$item->amount}} g</span>
                           </div>
                           <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                            @if ($item->Product->sale>0)
-                            @php
-                              $subtotal += ($item->Product->price * (1-$item->Product->sale/100))*($item->amount/1000);
-                            @endphp
-                                <span class="fw-bold">${{$item->Product->price * (1-$item->Product->sale/100)}}/kg</span>
-                                <span class="text-decoration-line-through ms-2">{{$item->Product->price}}</span>
+                            @if ($item->sale>0)
+                              @php
+                                $subtotal += ($item->price * (1-$item->sale/100))*($item->amount/1000);
+                              @endphp
+                                <span class="fw-bold me-1">{{number_format($item->price * (1-$item->sale/100),0,'',' ')}}</span>
+                                <span class="text-decoration-line-through ms-2">{{$item->price}}</span><small> đ/kg</small>
                             @else
                             @php
-                              $subtotal += $item->Product->price*($item->amount/1000);
+                              $subtotal += $item->price*($item->amount/1000);
                             @endphp
-                                <span class="fw-bold">${{$item->Product->price}}/1kg</span>
+                                <span class="fw-bold">{{number_format($item->price,0,'',' ')}} đ/kg</span>
                             @endif
                           </div>
                         </div>
@@ -274,16 +282,16 @@
                           </div>
                           <div class="col-3 text-lg-end text-start text-md-end col-md-3">
                             @if ($item['sale']>0)
-                            @php
-                              $subtotal += ($item['per_price'] * (1-$item['sale']/100))*($item['amount']/1000);
-                            @endphp
-                                <span class="fw-bold">${{$item['per_price'] * (1-$item['sale']/100)}}/kg</span>
-                                <span class="text-decoration-line-through ms-2">{{$item['per_price']}}</span>
+                              @php
+                                $subtotal += ($item['per_price'] * (1-$item['sale']/100))*($item['amount']/1000);
+                              @endphp
+                                <span class="fw-bold">{{number_format($item['per_price'] * (1-$item['sale']/100),0,'',' ')}}</span>
+                                <span class="text-decoration-line-through ms-2">{{$item['per_price']}}</span> <small> đ/kg</small>
                             @else
-                            @php
-                              $subtotal += $item['per_price']*($item['amount']/1000);
-                            @endphp
-                                <span class="fw-bold">${{$item['per_price']}}/kg</span>
+                              @php
+                                $subtotal += $item['per_price']*($item['amount']/1000);
+                              @endphp
+                                <span class="fw-bold">{{number_format($item['per_price'],0,'',' ')}} đ/kg</span>
                             @endif
                           </div>
                         </div>
@@ -303,7 +311,7 @@
                         Item Subtotal
                       </div>
                       <div class="fw-bold">
-                        ${{$subtotal}}
+                        {{number_format($subtotal,0,'',' ')}} đ
                       </div>
 
                     </div>
@@ -312,15 +320,15 @@
                         Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
                           title="Shipment Fee"></i>
                       </div>
-                      <div class="fw-bold" id="shippment_fee" data-ship="{{$shipment}}">
-                        ${{number_format($shipment,2,'.',' ')}}
+                      <div class="fw-bold" id="shippment_fee" data-ship="{{$shipment_fee}}">
+                        {{number_format($shipment_fee,0,'',' ')}} đ
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between {{Session::has('shipfee') && intval(Session::get('shipfee'))>2?'':'d-none'}} mb-2 " id="extra_ship">
+                    <div class="d-flex align-items-center justify-content-between {{Session::has('shipfee') && intval(Session::get('shipfee'))<$shipment_fee?'':'d-none'}} mb-2 " id="extra_ship">
                       <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
                       </div>
                       <div class="fw-bold text-danger" >
-                        + $1
+                        + 10000đ
                       </div>
                     </div>
                     @if (Session::has('coupon'))
@@ -330,7 +338,7 @@
                       </div>
                       <div class="fw-bold" >
                         @if ($coupon->freeship)
-                        <span class="text-danger"> - ${{number_format($coupon->discount,2,'.',' ')}}</span>
+                        <span class="text-danger"> - {{number_format($coupon->discount,0,'',' ')}} đ</span>
                         @else    
                         <span class="text-danger"> -{{$coupon->discount}}%</span>
                         @endif
@@ -345,26 +353,29 @@
                         Total
                       </div>
                       @php
-                          $subtotal +=Session::has('shipfee')?intval(Session::get('shipfee')):$shipment;
+                          $subtotal +=Session::has('shipfee')?intval(Session::get('shipfee')):$shipment_fee;
                           if(Session::has('coupon') && $coupon->freeship){
                             $subtotal -= $coupon->discount;
                           }else if(Session::has('coupon')){
                             $subtotal *=(1- $coupon->discount/100);
                           }
                       @endphp
-                      <div id="total" data-total="{{$subtotal-$shipment}}">
-                        ${{$subtotal }}
+                      <div id="total" data-total="{{$subtotal-$shipment_fee}}">
+                        {{number_format($subtotal,0,'',' ') }} đ
                       </div>
                     </div>
                   </li>
                 </ul>
 
               </div>
-
+              <div class="mt-4 row">
+                <button type="submit" class="btn btn-primary ms-2 col-3" id="submit_order" {{!Auth::check()?(!Session::has('paypal_success')?"disabled":''):''}}>Finish Order</button>
+              </div>
 
             </div>
           </div>
         </div>
+        </form>
       </div>
     </div>
   </section>
@@ -378,29 +389,29 @@
               window.location.assign(window.location.origin+'/public/index.php/remove_address/'+$(this).data('idadd'));
             });
             $('input[name="select_address"]').change(function(){
-              if(parseFloat($('input[name="select_address"]:checked').data('shipment'))>2){
-                if($("#shippment_fee").data('ship') != 3){
+              if(parseInt($('input[name="select_address"]:checked').data('shipment'))>20000){
+                if($("#shippment_fee").data('ship') != 30000){
                   $('#extra_ship').removeClass('d-none');
-                  $('#shipment_fee').val(3);
-                  let totall = parseFloat($("#total").data('total'))+3;
-                  $('#total').html("$"+totall);
-                  $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+3));
+                  $('#shipment_fee').val(30000);
+                  let totall = parseInt($("#total").data('total'))+30000;
+                  $('#total').html(totall+' VND');
+                  $("#paypal_btn").text("Pay $"+Math.floor((parseInt($('#total').data('total'))+30000)*0,000043));
                 };
               }else{
                 if(!$('#extra_ship').hasClass('d-none')){
                   $('#extra_ship').addClass('d-none');
                 }
-                $("#shippment_fee").html('$2.00');
-                  $("#shippment_fee").data('ship',2);
-                  $('#shipment_fee').val(2);
-                  $('#total').html('$'+$("#total").data('total')+2)
-                  $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+2));;
+                $("#shippment_fee").html('20000 VND');
+                  $("#shippment_fee").data('ship',20000);
+                  $('#shipment_fee').val(20000);
+                  $('#total').html('$'+parseInt($("#total").data('total'))+20000)
+                  $("#paypal_btn").text("Pay $"+((parseInt($('#total').data('total'))+30000)*0.000043).toFixed(2));
               }
             })
             @if(Session::has('success_paypal'))
             $("#paypal_btn").text("Paied");
             @else
-            $("#paypal_btn").text("Pay $"+(parseFloat($('#total').data('total'))+parseFloat($('#shipment_fee').val())));
+            $("#paypal_btn").text("Pay $"+((parseInt($('#total').data('total'))+parseInt($('#shipment_fee').val()))*0.000043).toFixed(2));
             @endif
             $("input[name=order_method]").change(function(){
               if(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked')){

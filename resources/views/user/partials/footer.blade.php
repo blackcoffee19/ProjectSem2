@@ -1,4 +1,3 @@
-
 <footer class="footer">
     <div class="container">
         <div class="row g-4 py-4">
@@ -73,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="border-top py-4">
+        {{-- <div class="border-top py-4">
             <div class="row align-items-center">
                 <div class="col-lg-5 text-lg-start text-center mb-2 mb-lg-0">
                     <ul class="list-inline mb-0">
@@ -112,7 +111,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> --}}
         <div class="border-top py-4">
             <div class="row align-items-center">
                 <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshShop eCommerce. All rights

@@ -64,7 +64,7 @@
                                                                     <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
                                                                         <i class="bi bi-dash-lg"></i>
                                                                     </button>
-                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart->amount,0,'','')}}"/>
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{$cart->amount}}"/>
                                                                     <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;" >
                                                                         <i class="bi bi-plus-lg"></i>
                                                                     </button>
@@ -79,7 +79,7 @@
                                                         </form>
                                                     </div>
                                                     <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                                                        <span class="fw-bold">${{$cart->Product->sale>0 ? $cart->Product->price *(1-$cart->Product->sale/100):$cart->Product->price}} /kg</span>
+                                                        <span class="fw-bold">{{number_format($cart->Product->sale>0 ? $cart->Product->price *(1-$cart->Product->sale/100):$cart->Product->price,0,'',' ')}} đ/kg</span>
                                                     </div>
                                                 </div>
                                                 @php
@@ -145,7 +145,7 @@
                                                                     <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
                                                                         <i class="bi bi-dash-lg"></i>
                                                                     </button>
-                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart['amount'],0,'','')}}"/>
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart['amount'],0)}}"/>
                                                                     <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;"  >
                                                                         <i class="bi bi-plus-lg"></i>
                                                                     </button>
@@ -164,7 +164,7 @@
                                                     </div>
                                                     <!-- price -->
                                                     <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                                                        <span class="fw-bold">${{$cart['sale']>0?$cart['per_price'] *(1- $cart['sale']/100): $cart['per_price']}} /kg</span>
+                                                        <span class="fw-bold">{{number_format($cart['sale']>0?$cart['per_price'] *(1- $cart['sale']/100): $cart['per_price'],0,'',' ')}} đ/kg</span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -204,27 +204,34 @@
                                             <div class="me-auto">
                                                 <div>Item Subtotal</div>
                                             </div>
-                                            <span>${{number_format($sum,2,',',' ')}}</span>
+                                            <span id="item_subtotal" data-subtotal="{{$sum}}">{{number_format($sum,0,'','')}} đ</span>
                                         </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="me-auto">
+                                                <div>Service Fee</div>
+                                            </div>
+                                            <span>20 000 đ</span>
+                                        </li>
+                                        
                                         <li id="added_coupon" class="list-group-item d-flex justify-content-between align-items-start {{$coupon?'':'d-none'}}">
                                             <div class="me-2">
                                                 <div>Coupon</div>
                                             </div>
                                             <div id="coupon_title">{{$coupon?$coupon->title:''}}</div>
                                             <div class="ms-auto text-danger" >
-                                                <span id="discount">{{$coupon?($coupon->freeship? '- $'.number_format($coupon->discount,2,'.',' '): '- '.$coupon->discount."%"):""}}</span>
+                                                <span id="discount">{{$coupon?($coupon->freeship? '- '.number_format($coupon->discount,0,'','')." đ": '- '.$coupon->discount."%"):""}}</span>
                                             </div>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="me-auto">
                                                 <div class="fw-bold">Total</div>
                                             </div>
-                                            <span class="fw-bold" id="total_items" data-total="{{$sum}}">${{$coupon == null? number_format($sum,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span>
+                                            <span class="fw-bold" id="total_items" data-total="{{$sum+20000}}">{{$coupon == null? number_format($sum+20000,0,'','') : ($coupon->freeship? number_format($sum-$coupon->discount +20000,0,'',''): number_format(($sum+20000)*(1-$coupon->discount/100),0,'',''))}} đ</span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="d-grid mb-1 mt-4">
-                                    <a href="{{route('checkout')}}" class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go to Checkout <span class="fw-bold" id="total_cart">${{$coupon == null? number_format($sum,2,',',' ') : ($coupon->freeship? number_format($sum-$coupon->discount,2,'.',' '): number_format($sum*(1-$coupon->discount/100),2,'.',' '))}}</span></a>
+                                    <a href="{{route('checkout')}}" class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go to Checkout <span class="fw-bold" id="total_cart">{{$coupon == null? number_format($sum+20000,0,'','') : ($coupon->freeship? number_format($sum-$coupon->discount+20000,0,'',''): number_format(($sum+20000)*(1-$coupon->discount/100),0,'',''))}} đ</span></a>
                                 </div>
                                 <p><small>By placing your order, you agree to be bound by the Freshcart <a
                                             href="#!">Terms of Service</a>
@@ -235,10 +242,10 @@
                                     <div class="mb-1">
                                         <input type="text" class="form-control" id="giftcard" placeholder="{{Auth::check()?'Promo or Gift Card':'Sign In to Add Promo'}}" value="{{$coupon?$coupon->code:''}}" {{Auth::check()?'':'disabled'}}>
                                     </div>
-                                    <div class='d-none text-danger text-center' id="wrong_code"></div>
                                     <div class="d-grid mt-2">
                                         <button type="button" id="checkCoupon" class="btn btn-outline-dark mb-1" {{Auth::check()?"":"disabled"}}>Redeem</button>
                                     </div>
+                                    <div class='d-none text-danger' id="wrong_code"></div>
                                     <p class="text-muted mb-0"> <small>Terms &amp; Conditions apply</small></p>
                                 </div>
                             </div>
@@ -255,36 +262,46 @@
             $('#checkCoupon').click(function(){
                 if($('#giftcard').val().length>0){
                     $.get(window.location.origin+"/public/index.php/ajax/add-coupon/"+$('#giftcard').val(),function(data){
-                        // console.log(data);
-                        let dataJson = jQuery.parseJSON(data);
-                        let total = parseFloat($('#total_items').data('total')); 
-                        if(!dataJson['error']){
+                        let total = parseInt($('#total_items').data('total')); 
+                        let subtotal = parseInt($('#item_subtotal').data('subtotal'));
+                        if(data){
+                            let dataJson = jQuery.parseJSON(data);
+                            if(!dataJson['error']){
                             $('#added_coupon').removeClass('d-none');
                             $('#wrong_code').addClass('d-none');
                             $('#giftcard').removeClass('is-invalid')
                             $('#giftcard').addClass('is-valid');
                             $('#coupon_title').html(dataJson['title']);
                             if(dataJson['code'].includes('FREESHIP')){
-                                $('#discount').html('- $'+dataJson['discount'].toFixed(2));
+                                $('#discount').html('- '+dataJson['discount']+' đ');
                                 total -= parseFloat(dataJson['discount']);
                             }else{
                                 $('#discount').html('- '+dataJson['discount']+'%');
                                 total *=(1-parseFloat(dataJson['discount'])/100); 
                             };
-                            $('#total_items').html('$'+total.toFixed(2));
-                            $('#total_cart').html('$'+total.toFixed(2));
-                        }else{
-                            $('#total_items').html('$'+total.toFixed(2));
+                            $('#total_items').html(Math.floor(total)+' đ');
+                            $('#total_cart').html(Math.floor(total)+' đ');
+                            }else{
+                                $('#total_items').html(Math.floor(total)+' đ');
+                                $('#total_cart').html(Math.floor(total)+' đ');
+                                $('#added_coupon').addClass('d-none');
+                                $('#giftcard').removeClass('is-valid');
+                                $('#giftcard').addClass('is-invalid');
+                                $('#wrong_code').removeClass('d-none').html(dataJson['error']);
+                            }
+                        } else{
+                            $('#total_items').html(Math.floor(total)+' đ');
+                            $('#total_cart').html(Math.floor(total)+' đ');
                             $('#added_coupon').addClass('d-none');
                             $('#giftcard').removeClass('is-valid');
                             $('#giftcard').addClass('is-invalid');
-                            $('#wrong_code').removeClass('d-none').html(dataJson['error']);
+                            $('#wrong_code').removeClass('d-none').html("This code is not exited");
                         }
                         
                     })
                 }
             })
-            \
+            
         })
     </script>
 @endsection

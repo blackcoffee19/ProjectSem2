@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Library;
 use App\Models\Banner;
+use App\Models\Slide;
 use App\Models\Order;
 use App\Models\Favourite;
 use App\Models\Coupon;
+use App\Models\TypeProduct;
 use App\Models\Cart;
 use App\Models\News;
 use App\Models\User;
@@ -41,11 +43,13 @@ class TuongController extends Controller
         }else{
             $check_orders = null;
         }
+        $cats = TypeProduct::all();
         $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
         $banner = Banner::all();
+        $sliders = Slide::all();
         // dd($check_orders);
-        return view('user.index',compact('products','product_hot','banner','check_orders'));
+        return view('user.index',compact('products','product_hot','banner','check_orders','cats','sliders'));
     }
     public function get_signUp(){
         $site= "Signup";
@@ -208,7 +212,7 @@ class TuongController extends Controller
                 }
                 Session::forget("cart");
             };
-            
+
             return redirect('/');
         }else{
             return redirect()->back()->with(["error"=>"Sign in failue. Password or username incorrect"]);
@@ -533,13 +537,13 @@ class TuongController extends Controller
             $list_cart = Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get();
             if(count($list_cart)>0){
                 foreach($list_cart as $key => $cart){
-                    
+
                     $html_list.="<li class='list-group-item py-3 ps-0 border-top border-bottom'>
                         <div class='row align-items-center'>
                         <div class='col-3 col-md-2'>
                             <img src='images/products/".$cart->Product->Library[0]->image."' alt='".$cart->Product->name."' class='img-fluid' style='width: 200px'></div>
                         <div class='col-3 col-md-3'>
-                            <a href='".route('products-details',$cart->Product->id_product)."' class='text-inherit'>
+                            <a href='".route('products-details',$cart->id_product)."' class='text-inherit'>
                             <h6 class='mb-0'>".$cart->Product->name."</h6>
                             </a>
                             <span><small class='text-muted'>".$cart->Product->TypeProduct->type."</small></span>
@@ -558,7 +562,7 @@ class TuongController extends Controller
                             <button type='button' class='btn btn_minus' style='border-radius: 10px 0 0 10px;'  data-field='quantity'>
                                 <i class='bi bi-dash-lg'></i>
                             </button>
-                            <input type='text' value='".number_format($cart->amount,0,'','')."' name='quan'  class='form-control form-input'>
+                            <input type='text' value='".number_format($cart->amount,0)."' name='quan'  class='form-control form-input'>
                             <button type='button' class='btn btn_plus' style='border-radius: 0 10px 10px 0;'><i class='bi bi-plus-lg'></i></button>
                             </div>
                             <input type='submit'class='text-primary text-center border-0 bg-white d-none' value='Save'>
@@ -566,13 +570,13 @@ class TuongController extends Controller
                             </form></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
                     if($cart->sale > 0 ){
                         $sum += $cart->price *(1- ($cart->sale /100)) * $cart->amount/1000;
-                        $html_list.= "<span class='fw-bold text-danger fs-5'>$". $cart->Product->price * (1-$cart->Product->sale/100)."</span><span class='text-decoration-line-through ms-1'>".$cart->Product->price ."</span></div></div></li>";
+                        $html_list.= "<span class='fw-bold text-danger fs-5'>". number_format($cart->price * (1-$cart->sale/100),0,'',' ')." đ/kg</span></div></div></li>";
                     }else{
                         $sum += $cart->price * $cart->amount/1000;
-                        $html_list.= "<span class='fw-bold'>$".$cart->Product->price."</span></div></div></li>"; 
+                        $html_list.= "<span class='fw-bold'>".$cart->price." đ</span></div></div></li>"; 
                     }
                 };
-                $html_list .="<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-end'><h4>Total: <span class='h4 text-danger'>$".$sum."</span></h4></div></li>";
+                $html_list .="<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-end'><h4>Total: <span class='h4 text-danger'>".number_format($sum,0,'',' ')." đ</span></h4></div></li>";
             }else{
                 $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
             };
@@ -580,7 +584,7 @@ class TuongController extends Controller
             $list_cart = Session::get('cart');
             if(count($list_cart)>0){
                 foreach($list_cart as $key => $cart){
-                    
+
                     $html_list.="<li class='list-group-item py-3 ps-0 border-top border-bottom'>
                     <div class='row align-items-center'>
                     <div class='col-3 col-md-2'>
@@ -614,15 +618,15 @@ class TuongController extends Controller
                         </form>
                         </div>";
                     $html_list.="<div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
-                    if(Product::find($cart["id_product"])->sale> 0 ){
-                        $sum += intval($cart["per_price"])*(1-$cart["sale"]/100) * intval($cart["amount"])/1000;
-                        $html_list.= "<span class='fw-bold text-danger fs-5'>$". intval($cart['per_price'])*(1- ($cart["sale"]/100))." /1kg</span></div></div></li>";
+                    if($cart["sale"]> 0 ){
+                        $sum += intval($cart["per_price"])*(1-intval($cart["sale"])/100) * intval($cart["amount"])/1000;
+                        $html_list.= "<span class='fw-bold text-danger fs-5'>". number_format(intval($cart['per_price'])*(1- (intval($cart["sale"])/100)),0,'',' ')." đ/kg</span></div></div></li>";
                     }else{
                         $sum += intval($cart["per_price"]) * intval($cart["amount"])/1000;
-                        $html_list.= "<span class='fw-bold'>$".$cart['per_price']." /1kg</span></div></div></li>"; 
+                        $html_list.= "<span class='fw-bold'>$".number_format($cart['per_price'],0,'',' ')." đ/kg</span></div></div></li>"; 
                     }
                 };
-                $html_list .="<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-end'><h4>Total: <span class='h4 text-danger'>$".$sum."</span></h4></div></li>";
+                $html_list .="<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-end'><h4>Total: <span class='h4 text-danger'>".number_format($sum,0,'',' ')." đ</span></h4></div></li>";
             }else{
                 $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
             };
@@ -712,6 +716,7 @@ class TuongController extends Controller
         }
         $product->rating = $rating;
         $product->sold = count($commt);
+        $product->link = route('products-details',$id);
         echo $product;
     }
     public function add_favourite($id){
@@ -764,11 +769,11 @@ class TuongController extends Controller
                         $cmp.="<td><img src='images/products/$product->image' width='160' class='img-fluid' style='object-fit:cover'/></td>";
                         break;
                     case 1:
-                        $cmp.="<td class='text-dark'>$product->name</td>";
+                        $cmp.="<td class='text-dark text-capitalize'>$product->name</td>";
                         break;
                     case 2: 
                         $prod = Product::find($product['id_product']);
-                        $cmp.="<td class='text-dark'>".$prod->TypeProduct->type."</td>";
+                        $cmp.="<td class='text-dark text-capitalize'>".$prod->TypeProduct->type."</td>";
                         break;
                     case 3:
                         $cmp .= "<td class='text-dark'>".number_format($product->quantity,2,',',' ')."g</td>";
@@ -782,10 +787,13 @@ class TuongController extends Controller
                         break;
                     case 6:
                         $cmp.="<td>";
-                        for($j =0; $j<$product->rating;$j++){
+                        for($j =0; $j<floor($product->rating);$j++){
                             $cmp.="<i class='bi bi-star-fill text-warning fs-5'></i>";
-                        }
-                        for($j = 0; $j < 5-$product->rating;$j++){
+                        };
+                        if (is_float($product->rating)){
+                            $cmp.="<i class='bi bi-star-half text-warning fs-5'></i>";
+                        };
+                        for($j = 0; $j < 5-ceil($product->rating);$j++){
                             $cmp.="<i class='bi bi-star text-warning fs-5'></i>";
                         };
                         $cmp.="</td>";
@@ -795,10 +803,10 @@ class TuongController extends Controller
                         break;
                     case 8:
                         if($product->sale>0){
-                            $cmp .= "<td><span class='fs-4 text-danger'>$".($product->price * (1-$product->sale/100))."</span>";
+                            $cmp .= "<td><span class='fs-4 text-danger'>".($product->price * (1-$product->sale/100))." đ/kg</span>";
                             $cmp.="<span class='text-muted ms-1'>(Off ".$product->sale."%)</span></td>";
                         }else{
-                            $cmp.="<td><span class='fs-4 text-black'>$".$product->price."</span></td>";
+                            $cmp.="<td><span class='fs-4 text-black'>".$product->price." đ/kg</span></td>";
                         };
                         break;
                     default:
@@ -822,15 +830,16 @@ class TuongController extends Controller
     }
     public function addCoupon($coupon){
         $coupon2 = Coupon::where('code','=',$coupon)->where('status','=',true)->first();
-        $checkAuth = count(Order::where('code_coupon','=',$coupon)->where('id_user','=',Auth::user()->id_user)->where('status','!=','cancel')->get()) >= $coupon2->max;
-        if(!$coupon2 ||$checkAuth){
-            $coupon2= ['error'=>!$coupon2?"Promo code is not Invalid":"You have reached the maximum use of this promo code"];
-            $coupon2 = json_encode($coupon2);
-            Session::forget('coupon');
-        }else{
-            Session::put('coupon',$coupon2->id_coupon);
+        if($coupon2){
+            $checkAuth = count(Order::where('code_coupon','=',$coupon)->where('id_user','=',Auth::user()->id_user)->where('status','!=','cancel')->get()) >= $coupon2->max;
+            if(!$coupon2 ||$checkAuth){
+                $coupon2= ['error'=>!$coupon2?"Promo code is not Invalid":"You have reached the maximum use of this promo code"];
+                $coupon2 = json_encode($coupon2);
+                Session::forget('coupon');
+            }else{
+                Session::put('coupon',$coupon2->id_coupon);
+            }
         }
-
         echo $coupon2;
     }
 
@@ -852,15 +861,18 @@ class TuongController extends Controller
                 $item = Auth::user()->Cart->where('order_code','=',null)->where('id_product','=',intval($fav->id_product))->first();
                 if($item ){
                     $item->amount = $item->Product->quantity >($item->amount +100)?$item->amount +100 : ($item->Product->quantity > $item->amount?$item->Product->quantity: $item->amount);
+                    $item->price = $fav->Product->price;
+                    $item->sale = $fav->Product->sale;
+                    $item->updated_at= Carbon::now()->format('Y-m-d H:i:s');
                     $item->save();
                 }else{
                     $new_cart = new Cart();
                     $new_cart->order_code = null;
                     $new_cart->id_user= Auth::user()->id_user;
                     $new_cart->id_product = $fav->id_product;
-                    $new_cart->price = Product::find(intval($fav->id_product))->price; 
-                    $new_cart->sale = Product::find(intval($fav->id_product))->sale; 
-                    $new_cart->amount=Product::find(intval($fav->id_product))->quantity > 100 ? 100 : Product::find(intval($fav->id_product))->quantity;
+                    $new_cart->price = $fav->Product->price; 
+                    $new_cart->sale =  $fav->Product->sale; 
+                    $new_cart->amount= $fav->Product->quantity > 100 ? 100 : $fav->Product->quantity;
                     $new_cart->created_at=Carbon::now()->format('Y-m-d H:i:s');
                     $new_cart->save();
                 }
@@ -877,7 +889,7 @@ class TuongController extends Controller
                 $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
             }
             if($order->Coupon){
-                if($order->Coupon->discount >= 10){
+                if($order->Coupon->discount <= 100){
                     $sum *= (1-$order->Coupon->discount /100);
                 }else{
                     $sum-=$order->Coupon->discount;
@@ -966,7 +978,7 @@ class TuongController extends Controller
         }else if(count($checkPhone) == 0){
             $user->phone = $req['new_phone'];
         }else{
-            return redirect()->back()->with('error','Error: Email has signed by another account');
+            return redirect()->back()->with('error','Error: This phone number has signed by another account');
         }
         if(isset($req['changeImg']) && $req->hasFile('profie_image')){
             $file = $req->file('profie_image');
@@ -1082,7 +1094,7 @@ class TuongController extends Controller
                 $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
             }
             if($order->Coupon){
-                if($order->Coupon->discount >= 10){
+                if($order->Coupon->discount <= 100){
                     $sum *= (1-$order->Coupon->discount /100);
                 }else{
                     $sum-=$order->Coupon->discount;

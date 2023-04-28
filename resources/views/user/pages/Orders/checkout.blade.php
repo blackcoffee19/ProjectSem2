@@ -89,7 +89,7 @@
                           <div class="row g-3">
                             <!-- col -->
                             <div class="col-12">
-                              <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
+                              <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" >
                               
                             </div>
                             <div class="col-6">

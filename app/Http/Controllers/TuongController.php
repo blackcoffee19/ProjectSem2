@@ -324,6 +324,7 @@ class TuongController extends Controller
             }
             
             $order->order_code = $order_code;
+            $order->instruction = $req['delivery_instructions'];
             $order->receiver = $req['nameReciever'];
             $order->phone = $req['phoneReciever'];
             $order->email = $req['emailReciever'];

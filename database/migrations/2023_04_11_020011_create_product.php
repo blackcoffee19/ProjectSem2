@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('id_type');
             $table->boolean('status')->default(true);
-            $table->decimal('quantity',8,2);
+            $table->bigInteger('quantity');
             $table->longText('description')->nullable();
-            $table->decimal('original_price',8,2);
-            $table->decimal('price',8,2);
+            $table->bigInteger('original_price');
+            $table->bigInteger('price');
             $table->double('sale')->default(0);
             $table->timestamps();
         });

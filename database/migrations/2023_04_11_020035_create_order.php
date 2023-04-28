@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id('id_order');
             $table->string('order_code');
             $table->foreignId('id_user')->nullable();
-            $table->string('order_name');
-            $table->string('order_address');
-            $table->string('order_phone');
-            $table->string('order_email');
+            $table->string('receiver');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('email');
             $table->string('code_coupon')->nullable();
-            $table->decimal('shipping_fee',8,1)->default(2);
-            $table->enum('method',['online','cod']);
-            $table->string('image')->nullable();
-            $table->enum('status',['finished','confirmed','delivery','unconfimred','cancel','transaction failed']);
+            $table->bigInteger('shipping_fee')->default(20000);
+            $table->enum('method',['cod','paypal']);
+            $table->enum('status',['finished','confirmed','delivery','unconfirmed','cancel','transaction failed']);
+            $table->string('instruction')->nullable();
             $table->timestamps();
         });
     }

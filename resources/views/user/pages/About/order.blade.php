@@ -1,272 +1,205 @@
 @extends('user.partials.master')
 @section('content')
     <main>
-        <!-- section -->
         <section>
             <div class="container">
-                <!-- row -->
                 <div class="row">
-                    <!-- col -->
                     <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center d-md-none py-4">
-                            <!-- heading -->
                             <h3 class="fs-5 mb-0">Account Order</h3>
-                            <!-- button -->
                             <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
                                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
                                 <i class="bi bi-text-indent-left fs-3"></i>
                             </button>
                         </div>
                     </div>
-                    <!-- col -->
                     @include('user.partials.About.nav-left')
-                    <!-- col -->
                     <div class="col-lg-9 col-md-8 col-12">
                         <div class="py-6 p-md-6 p-lg-10">
-                            <!-- heading -->
+                            @if (Session::has('message'))
+                                <div class="alert alert-success">{{Session::get('message')}}</div>
+                            @endif
                             <h2 class="mb-6">Your Orders</h2>
-
-                            <div class="table-responsive-xxl border-0">
-                                <!-- Table -->
-                                <table class="table mb-0 text-nowrap table-centered ">
-                                    <!-- Table Head -->
+                            <div class="table-responsive border-0">
+                                <table class="table mb-0 table-centered ">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th>&nbsp;</th>
-                                            <th>Product</th>
-                                            <th>Order</th>
+                                            <th>View Cart</th>
+                                            <th>View Detail</th>
                                             <th>Date</th>
-                                            <th>Items</th>
+                                            <th>Promo</th>
+                                            <th>Method</th>
                                             <th>Status</th>
-                                            <th>Amount</th>
-
+                                            <th>Total</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Table body -->
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-1.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-
-                                                <a href="#" class="fw-semi-bold text-inherit">
-                                                    <h6 class="mb-0">Haldiram's Nagpur Aloo Bhujia</h6>
-                                                </a>
-                                                <span><small class="text-muted">400g</small></span>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#14899</a>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                March 5, 2023
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                1
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-warning">Processing</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $15.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-2.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="fw-semi-bold text-inherit">
-                                                    <h6 class="mb-0">Nutri Choise Biscuit</h6>
-                                                </a>
-                                                <span><small class="text-muted">2 Pkt</small></span>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#14658
-                                                </a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                July 9, 2023
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                2
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-success">Completed</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $45.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-3.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">
-                                                    <h6 class="mb-0">Cadbury Dairy Milk 5 Star Bites </h6>
-                                                    <span><small class="text-muted">202 g</small></span>
-                                                </a>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#13778
-                                                </a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                Oct 03, 2023
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                4
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-success">Completed</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $99.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-4.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="fw-semi-bold text-inherit">
-                                                    <h6 class="mb-0">Onion Flavour Potato </h6>
-                                                </a>
-                                                <span><small class="text-muted">100 g</small></span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#13746
-                                                </a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                March 5, 2023
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                1
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-success">Completed</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $12.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-5.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="fw-semi-bold text-inherit">
-                                                    <h6 class="mb-0">Salted Instant Popcorn </h6>
-                                                </a>
-                                                <span><small class="text-muted">500 g</small></span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#13566
-                                                </a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                July 9, 2023
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                2
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-danger">Cancel</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $6.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle border-top-0 w-0">
-                                                <a href="#"> <img
-                                                        src="{{ asset('images/products/product-img-6.jpg') }}"
-                                                        alt="Ecommerce" class="icon-shape icon-xl"></a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="fw-semi-bold text-inherit">
-                                                    <h6 class="mb-0">Blueberry Greek Yogurt </h6>
-                                                </a>
-                                                <span><small class="text-muted">500 g</small></span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <a href="#" class="text-inherit">#12094
-                                                </a>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                Oct 03, 2023
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                4
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                <span class="badge bg-success">Completed</span>
-                                            </td>
-                                            <td class="align-middle border-top-0">
-                                                $18.00
-                                            </td>
-                                            <td class="text-muted align-middle border-top-0">
-                                                <a href="#" class="text-inherit" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="View"><i
-                                                        class="feather-icon icon-eye"></i></a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($orders as $order)
+                                            <tr >
+                                                <td class="align-middle border-top-0 w-0">
+                                                    <a data-bs-toggle="collapse" href=".collapseOrder{{$order->id_order}}" role="button" aria-expanded="false" aria-controls="collapseOrder{{$order->id_order}}">
+                                                        <i class="bi bi-eye"></i> Cart
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle border-top-0 w-0">
+                                                    <a data-bs-toggle="collapse" href=".collapseDetail{{$order->id_order}}" role="button" aria-expanded="false" aria-controls="collapseDetail{{$order->id_order}}">
+                                                        <i class="bi bi-eye"></i> Detail
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    {{date_format($order->created_at,"F j, Y")}}
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    {{$order->Coupon? ($order->Coupon->discount <= 100?$order->Coupon->code." : -".$order->Coupon->discount."%" : $order->Coupon->code." : - ".number_format($order->Coupon->discount,0,'',' ')." đ"):''}}
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    {{$order->method}}
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    @switch($order->status)
+                                                        @case('finished')
+                                                            <span class="badge bg-success text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @case('confirmed')
+                                                            <span class="badge bg-warning text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @case('delivery')
+                                                            <span class="badge bg-warning text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @case('unconfirmed')
+                                                            <span class="badge bg-dark text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @case('cancel')
+                                                            <span class="badge bg-danger text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @case('transaction failed')
+                                                            <span class="badge bg-secondary text-capitalize">{{$order->status}}</span>
+                                                            @break
+                                                        @default
+                                                            
+                                                    @endswitch
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    {{number_format($order->total,0,'',' ')}} đ
+                                                </td>
+                                                @if (Auth::user()->admin != "2")
+                                                    <td  class="align-middle border-top-0">
+                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
+                                                        <a href="" data-bs-toggle='modal' class='user_editorder' data-bs-target='#editOrder' data-idorder='{{$order->id_order}}' style="font-size: 1.2rem"><i class="bi bi-pencil-square"></i></a>
+                                                        <a href="{{route('cancelorder',$order->id_order)}}" onclick="return confirm('You really want cancel this order?')" style="font-size: 1.2rem"><i class="bi bi-slash-circle text-danger"></i>
+                                                        </a>
+                                                        @endif
+                                                    </td>
+                                                @else
+                                                    <td  class="align-middle border-top-0">
+                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
+                                                            @switch($order->status)
+                                                                @case('confirmed')
+                                                                    <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                                        Delivery          
+                                                                    </button>
+                                                                    @break
+                                                                @case('unconfirmed')
+                                                                    <button type="button" class="btn btn-primary check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                                        Confirm  
+                                                                    </button>
+                                                                    @break
+                                                                @default        
+                                                            @endswitch
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                            <tr class="collapse collapseDetail{{$order->id_order}}">
+                                                <td class="align-middle border-top-0" colspan="2">{{$order->receiver}}</td>
+                                                <td  class=" border-top-0" colspan="3">{{$order->address}}</td>
+                                                <td  class="align-middle border-top-0" colspan="1">{{$order->phone}}</td>
+                                                <td  class="align-middle border-top-0" colspan="1">{{$order->email}}</td>
+                                                <td  class="align-middle border-top-0" colspan="1">{{$order->shipping_fee}} đ</td>
+                                            </tr>
+                                            <tr class="collapse collapseOrder{{$order->id_order}}">
+                                                <td colspan="9">
+                                                    <table class="table mb-0 text-nowrap table-centered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>&nbsp;</th>
+                                                                <th>Price</th>
+                                                                <th>Sale</th>
+                                                                <th>Name</th>
+                                                                <th>Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @for ($i = 0; $i < count($order->Cart); $i++)
+                                                            <tr>
+                                                                <td>{{$i+1}}</td>
+                                                                <td class="align-middle border-top-0 w-0">
+                                                                    <a href="{{ route('products-details',$order->Cart[$i]->Product->id_product)}}"> 
+                                                                        <img src="{{ asset('images/products/'.$order->Cart[$i]->Product->Library[0]->image) }}" alt="Ecommerce" class="icon-shape icon-xl">
+                                                                    </a>
+                                                                </td>
+                                                                <td class="align-middle border-top-0" >
+                                                                    {{number_format($order->Cart[$i]->price,0,'',' ')}} đ/kg
+                                                                </td>
+                                                                <td class="align-middle border-top-0">
+                                                                    @if ($order->Cart[$i]->sale >0)
+                                                                    <span class="text-danger">{{$order->Cart[$i]->sale}}%</span>
+                                                                    @endif
+                                                                </td>
+                                                                <td class="align-middle border-top-0" >
+                                                                    <a href="#" class="fw-semi-bold text-inherit">
+                                                                        <h6 class="mb-0">{{$order->Cart[$i]->Product->name}}</h6>
+                                                                    </a>
+                                                                </td>
+                                                                <td>{{$order->Cart[$i]->amount}} grams
+                                                                </td>
+                                                            </tr>
+                                                            @endfor
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="row pb-5">
+                            <div class="col-auto mx-auto">
+                                {{$orders->links('user.pagination.cus_pagination')}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+            $('.user_editorder').click(function(){
+                $.get(window.location.origin+"/public/index.php/account/ajax/edit_order/"+$(this).data('idorder'),function(data){
+                    let data_order = jQuery.parseJSON(data);
+                    console.log(data_order);
+                    $('#id_orderedit').val(data_order['id_order']);
+                    $('#edit_cusname').val(data_order['receiver']);
+                    $('#edit_cusaddr').val(data_order['address']);
+                    $('#edit_cusphone').val(data_order['phone']);
+                    $('#edit_cusemail').val(data_order['email']);
+                    $('#edit_coupon').val(data_order['code_coupon']);
+                    $('#name_coupon').html(data_order['name_coupon']);
+                    $('#edit_cusname, #edit_cusaddr,#edit_cusphone,#edit_cusemail').change(function(){
+                        if($('#edit_cusname').val().length >0 && $('#edit_cusaddr').val().length>0 && $('#edit_cusphone').val().length>0 && $('#edit_cusemail').val().length>0){
+                            $('#submit_order').removeAttr('disabled');
+                        }else{
+                            $('#submit_order').attr('disabled','disabled');
+                        }
+                    });
+                })
+            });
+        })
+    </script>
 @endsection

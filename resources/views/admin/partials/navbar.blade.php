@@ -37,6 +37,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ Route('adminOrder') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="bi bi-bag"></i></span>
+                            <span class="nav-link-text">Orders</span>
+                        </div>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#navCategoriesOrders" aria-expanded="false" aria-controls="navCategoriesOrders">
                         <div class="d-flex align-items-center">
@@ -47,7 +55,7 @@
                     <div id="navCategoriesOrders" class="collapse" data-bs-parent="#sideNavbar">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ Route('adminOrderList') }}">
+                                <a class="nav-link" href="{{  }}">
                                     List
                                 </a>
                             </li>
@@ -59,7 +67,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="./dashboard/vendor-grid.html">
@@ -87,7 +95,7 @@
                     </a>
                 </li>
                 <!-- Nav item -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#navMenuLevelFirst" aria-expanded="false" aria-controls="navMenuLevelFirst">
                         <span class="nav-link-icon"><i class="bi bi-arrow-90deg-down"></i></span>
@@ -145,7 +153,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
@@ -191,8 +199,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#navOrders"
+                        aria-expanded="false" aria-controls="navOrders">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-bag"></i></span>
                             <span class="nav-link-text">Orders</span>

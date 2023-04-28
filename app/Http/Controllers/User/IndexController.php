@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Library;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
-use GuzzleHttp\Handler\Proxy;
+use App\Models\Comment;
+
+// use Database\Seeders\banner;
 
 class IndexController extends Controller
 {
@@ -17,61 +19,38 @@ class IndexController extends Controller
     public function index()
     {
         $cats = TypeProduct::all();
-        $prods = Product::with('libraries')->paginate(15);
-        return view('user.index', compact('cats', 'prods'));
+        $products  = Product::with('libraries')->paginate(15);
+        return view('user.index', compact('cats', 'products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function allProduct()
     {
-        //
+        $products = Product::all();
+        return view('user.pages.Products.index', compact('products'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function categoryById($id_type)
     {
-        //
+        $prods = Product::where('id_type', $id_type)->get();
+        $rate = Comment::all(); 
+        $type = TypeProduct::find($id_type);
+
+        return view('user.pages.Products.index', compact( 'type','prods','rate'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $id_product)
+    public function product_detail($id)
     {
-        // Truy vấn dữ liệu các sản phẩm cùng loại
-        // $related_products = Product::where('id_type', $id_product->typeproduct->id_type)
-        //     ->where('id_product', '<>', $id_product->id_product)
-        //     ->take(5) // chỉ hiện 5 sản phẩm
-        //     ->get();
-
-        // return view('user.pages.ProductDetails.index', compact('id_product', 'related_products'));
+        $product = Product::find($id);
+        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
+            ->take(5)
+            ->get();
+        $comments = Comment::where('id_product', '=', $id)->get();
+        return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function privacy()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('user.pages.privacypolicy.index');
     }
 }

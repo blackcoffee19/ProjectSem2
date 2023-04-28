@@ -13,14 +13,25 @@ class insert_comment extends Seeder
     public function run(): void
     {
         $comments = [
-            ["id_product"=>1,'id_user'=>2,'verified'=>true,'context'=>"So so good",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
-            ["id_product"=>3,'id_user'=>2,'verified'=>true,'context'=>"So so delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
-            ["id_product"=>4,'id_user'=>2,'verified'=>true,'context'=>"So so good",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
-            ["id_product"=>10,'id_user'=>2,'verified'=>true,'context'=>"So so good",'rating'=>3,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            ["id_product"=>10,'id_user'=>2,'verified'=>true,'context'=>"So so good",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            ["id_product"=>4,'id_user'=>2,'verified'=>true,'context'=>"So so delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            ["id_product"=>1,'id_user'=>2,'verified'=>true,'context'=>"So so delicious",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            ["id_product"=>3,'id_user'=>2,'verified'=>true,'context'=>"It is the best",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            
             ["id_product"=>2,'id_user'=>2,'context'=>"Just a commment",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','02/04/2023 00:00:00')],
             ["id_product"=>5,'id_user'=>1,'context'=>"Just a good",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','03/04/2023 00:00:00')],
             ["id_product"=>8,'id_user'=>2,'context'=>"Just a some comment",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','02/03/2023 00:00:00')],
             ["id_product"=>1,'id_user'=>1,'context'=>"Change this comment",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/04/2023 00:00:00')],
+            
+            ["id_product"=>9,'id_user'=>3,'verified'=>true,'context'=>"So so good",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/04/2023 00:00:00')],
+            ["id_product"=>10,'id_user'=>3,'verified'=>true,'context'=>"So so good",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/04/2023 00:00:00')],
+            ["id_product"=>8,'id_user'=>3,'verified'=>true,'context'=>"So so good",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/04/2023 00:00:00')],
+            ["id_product"=>27,'id_user'=>3,'verified'=>true,'context'=>"So so good",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/04/2023 00:00:00')],
+            
+            ["id_product"=>15,'phone'=>'09199121293','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','22/04/2023 00:00:00')],
+            ["id_product"=>13,'phone'=>'09199121293','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','22/04/2023 00:00:00')],
+            ["id_product"=>12,'phone'=>'01243234666','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','23/04/2023 00:00:00')],
+            ["id_product"=>11,'phone'=>'01243234666','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','23/04/2023 00:00:00')],
         ];
         try {
             foreach($comments as $cmt){

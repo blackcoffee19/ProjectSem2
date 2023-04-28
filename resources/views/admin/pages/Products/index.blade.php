@@ -11,14 +11,14 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Products</li>
                                 </ol>
                             </nav>
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{ Route('adminAddProduct') }}" class="btn btn-primary">Add Product</a>
+                            <a href="" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>
@@ -32,9 +32,23 @@
                             <div class="row justify-content-between">
                                 <!-- form -->
                                 <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="Search Products"
-                                            aria-label="Search">
+                                    <form action="{{ Route('product.findByName') }}" class="d-flex" role="search">
+                                        <input class="form-control" type="search" placeholder="Search Product"
+                                            aria-label="Search" name="name">
+                                        <button class="btn btn-primary" value="Search"><i
+                                                class="fas fa-search"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col-xl-2 col-md-4 col-12">
+                                    <form action="{{ route('product.findByName') }}" class="d-flex">
+                                        <select class="form-select" name="status" onchange="this.form.submit()">
+                                            <option value="">Type</option>
+                                            @foreach ($types as $type)
+                                                @if ($type->status == 'Active')
+                                                    <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </form>
                                 </div>
                             </div>
@@ -47,15 +61,7 @@
                                     class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="checkAll">
-                                                    <label class="form-check-label" for="checkAll">
-
-                                                    </label>
-                                                </div>
-                                            </th>
+                                            <th>No.</th>
                                             <th>Image</th>
                                             <th>Proudct Name</th>
                                             <th>Category</th>
@@ -79,8 +85,14 @@
                                                 <td>
                                                     {{ $item->typeproduct->type }}
                                                 </td>
-                                                <td>{{ $item->status }}</td>
-                                                <td>{{ $item->price }}</td>
+                                                <td>
+                                                    @if ($item->status == '1')
+                                                        <span class="btn bg-light-primary text-dark-primary">Active</span>
+                                                    @else
+                                                        <span class="btn bg-light-danger text-dark-danger">Desable</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ number_format($item->price, 0) }}</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     <div class="dropdown">
@@ -115,7 +127,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $prods->links('pagination::bootstrap-5') }}
+                            </div>
+                            <div class="p-5">
+                                {{-- {{ $prods->links('pagination::bootstrap-5') }} --}}
                             </div>
                         </div>
                     </div>

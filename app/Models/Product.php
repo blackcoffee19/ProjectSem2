@@ -21,9 +21,10 @@ class Product extends Model
         'price',
         'sale',
     ];
+
     public function libraries()
     {
-        return $this->hasMany(Library::class, 'id_product');
+        return $this->hasMany(Library::class, 'id_product', 'id_product');
     }
     public function TypeProduct()
     {
@@ -32,5 +33,13 @@ class Product extends Model
     public function Comment()
     {
         return $this->hasMany(Comment::class, 'id_product', 'id_product');
+    }
+    public function Library()
+    {
+        return $this->hasMany(Library::class, 'id_product', 'id_product');
+    }
+    public function Cart()
+    {
+        return $this->hasMany(Cart::class, 'id_product', 'id_product');
     }
 }

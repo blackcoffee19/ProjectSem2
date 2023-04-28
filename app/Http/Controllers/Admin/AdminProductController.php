@@ -21,9 +21,22 @@ class AdminProductController extends Controller
         // return view('admin.pages.Products.index')->with($array);
 
         // $prods = Product::all();
-        $prods = Product::paginate(10);
+        $prods = Product::all(); // paginate(10)
+        $types = TypeProduct::all();
+        return view('admin.pages.Products.index', compact('prods', 'types'));
+    }
 
-        return view('admin.pages.Products.index', compact('prods'));
+    public function findByNameP(Request $request)
+    {
+        $name = $request->name;
+        $status = $request->status;
+        $prods = Product::where('name', 'like', '%' . $name . '%')
+            ->when($status, function ($query, $status) {
+                return $query->where('id_type', $status);
+            })->get();
+
+        $types = TypeProduct::all();
+        return view('admin.pages.Products.index', compact('prods', 'types'));
     }
 
     public function create()

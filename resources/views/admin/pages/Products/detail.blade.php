@@ -131,7 +131,8 @@
                                                     </label>
 
                                                     <div class="col col-form-label text-md-right">
-                                                        <h5 class="text-danger">{{ $id_product->sale }}%</h5>
+                                                        <h5 class="text-danger">{{ number_format($id_product->sale), 0 }} %
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </div>

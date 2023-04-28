@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id('id_news');
             $table->string('order_code')->nullable();
-            $table->string('title',40);
+            $table->string('title',70);
             $table->foreignId('id_user')->nullable();
             $table->string('link');
             $table->string('attr')->nullable();
+            $table->boolean('send_admin')->default(false);
             $table->timestamps();
         });
     }

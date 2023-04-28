@@ -60,7 +60,7 @@ class TuongController extends Controller
         $newAdd->id_user =Auth::user()->id_user;
         $newAdd->receiver = $req['nameReciever'];
         $newAdd->address = $req['addressReciever'].", ". $req['ward'].', '.$req['district'].", ".$req['province'];
-        $newAdd->shipment_fee = $req['province'] != "Thành phố Hồ Chí Minh" ? 3:2;
+        $newAdd->shipment_fee = $req['province'] != "Thành phố Hồ Chí Minh" ? 30000:20000;
         $newAdd->phone = $req['phoneReciever'];
         $newAdd->email = $req['emailReciever'];
         if(isset($req['saveAddress'])){
@@ -77,7 +77,14 @@ class TuongController extends Controller
     public function remove_address($id){
         $add = Address::where('id_address','=',$id)->first();
         $add->delete();
+        $address = Address::where('id_user','=',Auth::user()->id_user)->first();
+        $address->default = true;
+        $address->save();
         return redirect()->back()->with('message','Delete Address successfully');
+    }
+    public function get_addressdetail($id){
+        $address = Address::find($id);
+        echo $address;
     }
     public function check_email($email){
         $checkEmail = User::where('email','=',$email)->get();
@@ -922,7 +929,15 @@ class TuongController extends Controller
     public function cancel_order($id){
         $order = Order::find($id);
         $order->status = 'cancel';
+        $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
+        foreach($order->Cart as $cart){
+            $product = $cart->Product;
+            $product->quantity += $cart->amount;
+            $product->save();
+            $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+            $cart->save();
+        }
         $new = new News();
         $new->order_code =$order->order_code;
         $new->link = $order->order_code;

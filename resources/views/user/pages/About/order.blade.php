@@ -112,11 +112,11 @@
                                                 @endif
                                             </tr>
                                             <tr class="collapse collapseDetail{{$order->id_order}}">
-                                                <td class="align-middle border-top-0" colspan="2">{{$order->receiver}}</td>
+                                                <td class="align-middle border-top-0" colspan="1">{{$order->receiver}}</td>
                                                 <td  class=" border-top-0" colspan="3">{{$order->address}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->phone}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->email}}</td>
-                                                <td  class="align-middle border-top-0" colspan="1">{{$order->shipping_fee}} đ</td>
+                                                <td  class="align-middle border-top-0" colspan="2">{{number_format($order->shipping_fee,0,'',' ')}}đ</td>
                                             </tr>
                                             <tr class="collapse collapseOrder{{$order->id_order}}">
                                                 <td colspan="9">

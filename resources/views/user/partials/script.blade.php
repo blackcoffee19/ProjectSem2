@@ -5,12 +5,6 @@
         //         $('#listCartmodal').html(data);
         //     })
         // });
-        @if(Route::currentRouteName() == 'checkout' && Session::has('success_paypal'))
-          $('a').attr({onclick:"return alert('Cannot leave after paid order');",href:'javascript:void();'});
-        @endif
-        @if(Route::currentRouteName() != 'checkout')
-          {{Session::forget(['name','phone','email','province','district','address','ward','shipfee','coupon','paypal_success','success_paypal','select_add']);}}
-        @endif
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
             $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
@@ -39,8 +33,8 @@
             })
         });
         @endif
-        @if (Session::has('order_mess'))
-          $('#order_message').html("{{Session::get('order_mess')}}");
+        @if (Session::has('order_mess') || Session::has('paypal_success'))
+          $('#order_message').html("Order successful! We will delivery your order soon.");
           let toastorder = new bootstrap.Toast($('#toastOrder'))
           toastorder.show();
         @endif
@@ -192,14 +186,12 @@
         })
         const host = "https://vapi.vnappmob.com";
         const getProvince = host+"/api/province/";
-        @if (!Session::has('province'))
         $.getJSON(getProvince,function(data){
             $('#province').append("<option selected>--Choose 1 province--</option>");
             $.each(data.results,function(key,value){
                 $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
             });
         });
-        @endif
         $('#province').click(function(){
           $.getJSON(getProvince,function(data){
             $.each(data.results,function(key,value){
@@ -215,16 +207,19 @@
               @if (!Auth::check())
                 $('#extra_ship').removeClass('d-none');
                 let totall = parseInt($("#total").data('total'))+30000;
-                $('#total').html("$"+totall);
-                $("#paypal_btn").text("Pay $"+(totall*0.000043).toFixed(2));
+                $("input[name=shipment_fee]").val(30000);
+                $('#total').html(totall+ ' đ');
+                $(".totalPay").text((totall*0.000043).toFixed(2));
               @endif
             }else{
               @if (!Auth::check())
                 $('#extra_ship').addClass('d-none');
-                $('#total').html('$'+(parseInt($("#total").data('total'))+20000));
-                $("#paypal_btn").text("Pay $"+((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2));
+                $('#total').html((parseInt($("#total").data('total'))+20000) +" đ");
+                $(".totalPay").text(
+                  ((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2)
+                );
+                $("input[name=shipment_fee]").val(20000);
               @endif
-                $('#shipment_fee').val(20000);
             }
             let getDistric = host+"/api/province/district/"+$(this).val();
             $('#district').removeAttr('disabled');

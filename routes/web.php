@@ -14,6 +14,7 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
 use App\Http\Middleware\ManagerLogin;
+use App\Http\Middleware\PaiedOrder;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -55,9 +56,9 @@ Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('googl
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
 
 Route::group(['prefix'=>'/','middleware'=>'ManageLogin'],function(){
-    Route::get('/order',[TuongController::class,'get_order'])->name('order');
     Route::get('/checkout',[TuongController::class,'get_checkout'])->name('checkout');
     Route::post('/checkout',[TuongController::class,'post_checkout'])->name('checkout');
+    Route::get('/order',[TuongController::class,'get_order'])->name('order');
     Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
     Route::get('/ajax/cart/listcart',[TuongController::class,'modalCart']);
     Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart']);

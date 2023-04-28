@@ -16,6 +16,7 @@
           </div>
         </div>
       </div>
+      {{-- <h1>{{Session::has('success_paypal') && Route::currentRouteName() == 'checkout'? "OKE":'NO'}}</h1> --}}
       @if(\Session::has('paypal_error'))
           <div class="alert alert-danger">{{ \Session::get('paypal_error') }}</div>
           {{ \Session::forget('paypal_error') }}
@@ -105,34 +106,41 @@
                             <!-- col -->
                             <div class="col-12">
                               <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
+                              
                             </div>
                             <div class="col-6">
                               <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" value="{{Session::has('phone')?Session::get('phone'):''}}">
+                              
                             </div>
                             <div class="col-6">
                               <input type="text" class="form-control" name="emailReciever" placeholder="Email" value="{{Session::has('email')?Session::get('email'):''}}">
+                            
                             </div>
                             <div class="col-12">
                               <input type="text" class="form-control" name="addressReciever" placeholder="Address" value="{{Session::has('address')?Session::get('address'):''}}">
+                              
                             </div>
                             <div class="col-12">
                               <select class="form-select" name="province" id="province">
                                 @if (Session::has('province'))
-                                    <option value="{{Session::get('province')}}">{{Session::get('province')}}</option>
+                                    <option value="{{Session::get('province')}}" checked>{{Session::get('province')}}</option>
+                                    
                                 @endif
                               </select>
                             </div>
                             <div class="col-12">
-                              <select class="form-select" name="district" id="district" disabled>
+                              <select class="form-select" name="district" id="district" {{Session::has('district')?'':"disabled"}}>
                                 @if (Session::has('district'))
-                                  <option value="{{Session::get('district')}}">{{Session::get('district')}}</option>
+                                  <option value="{{Session::get('district')}}" checked>{{Session::get('district')}}</option>
+                                  
                                 @endif
                               </select>
                             </div>
                             <div class="col-12">
-                              <select class="form-select" name="ward" id="ward" disabled>
+                              <select class="form-select" name="ward" id="ward" {{Session::has('ward')?'':"disabled"}}>
                                 @if (Session::has('ward'))
-                                  <option value="{{Session::get('ward')}}">{{Session::get('ward')}}</option>
+                                  <option value="{{Session::get('ward')}}" checked>{{Session::get('ward')}}</option>
+                                  
                                 @endif
                               </select>
                             </div>
@@ -154,6 +162,7 @@
                         <label for="DeliveryInstructions" class="form-label sr-only">Delivery instructions</label>
                         <textarea class="form-control" id="DeliveryInstructions" name="delivery_instructions" rows="3"
                           placeholder="Write delivery instructions ">{{Session::has('instructions')?Session::get('instructions'):''}}</textarea>
+                          
                         <p class="form-text">Add instructions for how you want your order shopped and/or delivered</p>
                         <div class="mt-5 d-flex justify-content-end">
                           <a href="#" class="btn btn-outline-gray-400 text-muted"
@@ -188,7 +197,7 @@
                                   <h5 class="mb-1 h6"> Payment with Paypal</h5>
                                   <p class="mb-0 small">{{Session::has('paypal_success')?Session::get('paypal_success'):'You will be redirected to PayPal website to complete your purchase
                                     securely.'}}</p>
-                                    <a class="btn btn-primary m-3 px-2 h5"  id="paypal_btn" data-success="{{Session::has('paypal_success')? 'success': 'none'}}">Pay </a>
+                                    <a class="btn btn-primary m-3 px-2 h5"  id="paypal_btn" data-success="{{Session::has('success_paypal')? 'success': 'none'}}">Pay </a>
                                 </div>
                               </div>
                             </div>
@@ -369,7 +378,7 @@
 
               </div>
               <div class="mt-4 row">
-                <button type="submit" class="btn btn-primary ms-2 col-3" id="submit_order" {{!Auth::check()?(!Session::has('paypal_success')?"disabled":''):''}}>Finish Order</button>
+                <button type="submit" class="btn btn-primary ms-2 col-3" id="submit_order" {{!Auth::check()?(!Session::has('success_paypal')?"disabled":''):''}}>Finish Order</button>
               </div>
 
             </div>
@@ -421,7 +430,7 @@
               }
             });
             $("#paypal_btn").click(function(){
-              @if(!Session::has('paypal_success'))
+              @if(!Session::has('success_paypal'))
                 @if(Auth::check())
                   window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('#shipment_fee').val()+"&coupon="+$('input[name=code_coupon]').val());
                 @else

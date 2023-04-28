@@ -145,7 +145,7 @@
                                                                     <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;"  data-field="quantity" >
                                                                         <i class="bi bi-dash-lg"></i>
                                                                     </button>
-                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{number_format($cart['amount'],0)}}"/>
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{$cart['amount']}}"/>
                                                                     <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;"  >
                                                                         <i class="bi bi-plus-lg"></i>
                                                                     </button>

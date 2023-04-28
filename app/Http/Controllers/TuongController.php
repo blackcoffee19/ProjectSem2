@@ -24,20 +24,6 @@ use App\Mail\OrderShipped;
 class TuongController extends Controller
 {
     public function home_page(){
-        Session::forget('coupon');
-        Session::forget("paypal_success");
-        Session::forget("select_add");
-        Session::forget('success_paypal');
-        Session::forget('select_add');
-        Session::forget('name');
-        Session::forget('phone');
-        Session::forget('email');
-        Session::forget('province');
-        Session::forget('district');
-        Session::forget('address');
-        Session::forget('instructions');
-        Session::forget('ward');
-        Session::forget('shipfee');
         if(Auth::check() && Auth::user()->phone != null){
             $check_orders = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
         }else{
@@ -298,7 +284,6 @@ class TuongController extends Controller
                 $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $cart->save();
             }
-            Session::forget('select_add');
         }else{
             $nnum = count(Order::where('order_code','LIKE','%GUT%')->get());
             $order_code = "GUT_".$nnum;
@@ -330,15 +315,7 @@ class TuongController extends Controller
                 $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $comment->save();
             }
-            Session::remove("cart");
-            Session::forget('name');
-            Session::forget('phone');
-            Session::forget('email');
-            Session::forget('province');
-            Session::forget('district');
-            Session::forget('address');
-            Session::forget('ward');
-            Session::forget('shipfee');
+            
             $order->order_code = $order_code;
             $order->receiver = $req['nameReciever'];
             $order->phone = $req['phoneReciever'];
@@ -351,12 +328,9 @@ class TuongController extends Controller
         $order->status = 'unconfirmed';
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+        // dd($order);
         $order->save();
-        Session::forget('coupon');
-        Session::forget("paypal_success");
-        Session::forget("select_add");
-        Session::forget('success_paypal');
-        Session::forget('instructions');
+        Session::forget("cart");
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
     }
     public function admin_cate(){
@@ -882,21 +856,40 @@ class TuongController extends Controller
         return redirect()->back();
     }
     public function get_orderhistory(){
-        $orders = Order::where('id_user','=',Auth::user()->id_user)->orderBy('created_at','desc')->paginate(6);
-        foreach($orders as $order){
-            $sum = 0;
-            foreach($order->Cart as $cart){
-                $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
-            }
-            if($order->Coupon){
-                if($order->Coupon->discount <= 100){
-                    $sum *= (1-$order->Coupon->discount /100);
-                }else{
-                    $sum-=$order->Coupon->discount;
+        if(Auth::user()->admin != '2'){
+            $orders = Order::where('id_user','=',Auth::user()->id_user)->orderBy('created_at','desc')->paginate(6);
+            foreach($orders as $order){
+                $sum = 0;
+                foreach($order->Cart as $cart){
+                    $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
                 }
+                if($order->Coupon){
+                    if($order->Coupon->discount <= 100){
+                        $sum *= (1-$order->Coupon->discount /100);
+                    }else{
+                        $sum-=$order->Coupon->discount;
+                    }
+                }
+                $sum += $order->shipping_fee;
+                $order->total = $sum;
             }
-            $sum += $order->shipping_fee;
-            $order->total = $sum;
+        }else{
+            $orders = Order::orderBy('created_at','desc')->paginate(6);
+            foreach($orders as $order){
+                $sum = 0;
+                foreach($order->Cart as $cart){
+                    $sum += $cart->sale > 0? $cart->price*(1 - $cart->sale/100)*($cart->amount/1000): $cart->price*($cart->amount/1000);
+                }
+                if($order->Coupon){
+                    if($order->Coupon->discount <= 100){
+                        $sum *= (1-$order->Coupon->discount /100);
+                    }else{
+                        $sum-=$order->Coupon->discount;
+                    }
+                }
+                $sum += $order->shipping_fee;
+                $order->total = $sum;
+            }
         }
         // dd($orders);
         return view('user.pages.About.order',compact('orders'));

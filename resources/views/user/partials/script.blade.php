@@ -5,6 +5,12 @@
         //         $('#listCartmodal').html(data);
         //     })
         // });
+        @if(Route::currentRouteName() == 'checkout' && Session::has('success_paypal'))
+          $('a').attr({onclick:"return alert('Cannot leave after paid order');",href:'javascript:void();'});
+        @endif
+        @if(Route::currentRouteName() != 'checkout')
+          {{Session::forget(['name','phone','email','province','district','address','ward','shipfee','coupon','paypal_success','success_paypal','select_add']);}}
+        @endif
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
             $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){

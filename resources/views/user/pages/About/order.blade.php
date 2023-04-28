@@ -51,7 +51,7 @@
                                                     {{date_format($order->created_at,"F j, Y")}}
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    {{$order->Coupon? ($order->Coupon->discount >= 10?$order->Coupon->code." : -".$order->Coupon->discount."%" : $order->Coupon->code." : -$".$order->Coupon->discount):''}}
+                                                    {{$order->Coupon? ($order->Coupon->discount <= 100?$order->Coupon->code." : -".$order->Coupon->discount."%" : $order->Coupon->code." : - ".number_format($order->Coupon->discount,0,'',' ')." đ"):''}}
                                                 </td>
                                                 <td class="align-middle border-top-0">
                                                     {{$order->method}}
@@ -81,7 +81,7 @@
                                                     @endswitch
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    ${{number_format($order->total,2,'.',' ')}}
+                                                    {{number_format($order->total,0,'',' ')}} đ
                                                 </td>
                                                 @if (Auth::user()->admin != "2")
                                                     <td  class="align-middle border-top-0">
@@ -116,7 +116,7 @@
                                                 <td  class=" border-top-0" colspan="3">{{$order->address}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->phone}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->email}}</td>
-                                                <td  class="align-middle border-top-0" colspan="1">${{$order->shipping_fee}}</td>
+                                                <td  class="align-middle border-top-0" colspan="1">{{$order->shipping_fee}} đ</td>
                                             </tr>
                                             <tr class="collapse collapseOrder{{$order->id_order}}">
                                                 <td colspan="9">
@@ -141,7 +141,7 @@
                                                                     </a>
                                                                 </td>
                                                                 <td class="align-middle border-top-0" >
-                                                                    {{$order->Cart[$i]->price}}/kg
+                                                                    {{number_format($order->Cart[$i]->price,0,'',' ')}} đ/kg
                                                                 </td>
                                                                 <td class="align-middle border-top-0">
                                                                     @if ($order->Cart[$i]->sale >0)
@@ -153,7 +153,7 @@
                                                                         <h6 class="mb-0">{{$order->Cart[$i]->Product->name}}</h6>
                                                                     </a>
                                                                 </td>
-                                                                <td>{{$order->Cart[$i]->amount}}g
+                                                                <td>{{$order->Cart[$i]->amount}} grams
                                                                 </td>
                                                             </tr>
                                                             @endfor

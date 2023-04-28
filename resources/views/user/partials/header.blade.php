@@ -570,7 +570,6 @@
         </div>
     </div>
 </div>
-@endif
 
 @else
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">

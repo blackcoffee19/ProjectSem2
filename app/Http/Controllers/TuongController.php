@@ -32,10 +32,10 @@ class TuongController extends Controller
         $cats = TypeProduct::all();
         $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
-        $banner = Banner::all();
+        $banners = Banner::all();
         $sliders = Slide::all();
         // dd($check_orders);
-        return view('user.index',compact('products','product_hot','banner','check_orders','cats','sliders'));
+        return view('user.index',compact('products','product_hot','banners','check_orders','cats','sliders'));
     }
     public function get_signUp(){
         $site= "Signup";

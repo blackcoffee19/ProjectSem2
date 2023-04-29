@@ -29,12 +29,16 @@
                         </a>
 
                         <div class="d-flex align-items-center dropdown dropdown-fullwidth lh-1">
+                            <li class="dropdown">
+                                <div class="dropdown-menu dropdown-menu-end  ">
+                                    
+                                </div>
+                            </li>
+
                             <div class="list-inline me-4">
                                 @if (Auth::check())
                                     <div class="list-inline-item me-3">
-                                        <a href="#!"
-                                            class="text-muted dropdown-toggle user_dropdown position-relative"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a href="#!" class=" text-muted dropdown-toggle user_dropdown position-relative" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20"
                                                 height="20" fill="currentColor">
                                                 <path
@@ -47,16 +51,156 @@
                                                 </span>
                                             </span>
                                         </a>
-                                        <div class=" dropdown-menu shadow">
-                                            <div class="list-group">
-                                                @if (isset($news))
-                                                    @foreach ($news as $new)
-                                                        <a href="{{ route($new->link, $new->attr) }}"
-                                                            class="list-group-item list-group-item-action">
-                                                            {{ $new->title }}
-                                                        </a>
-                                                    @endforeach
-                                                @endif
+                                        <div class=" dropdown-menu dropdown-menu-end dropdown-menu-lg shadow p-0 border-0">
+                                            <div class="border-bottom p-5 d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h5 class="mb-1">Notifications</h5>
+                                                    <p class="mb-0 small">You have {{isset($news)? count($news):0}} unread notificates</p>
+                                                </div>
+                                                <a href="#!" class="text-muted">
+                                                    <a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        data-bs-title="Mark all as read">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                            fill="currentColor" class="bi bi-check2-all text-success"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+                                                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+                                                        </svg>
+                                                    </a>
+                                                </a>
+                                            </div>
+                                            <div data-simplebar style="height: 250px">
+                                                <!-- List group -->
+                                                <ul class="list-group list-group-flush notification-list-scroll fs-6">
+                                                    <!-- List group item -->
+                                                    @if (isset($news))
+                                                        @foreach ($news as $new)
+                                                            <li class="list-group-item px-5 py-4 list-group-item-action">
+                                                                @if (Auth::check() && Auth::user()->admin == "0")
+                                                                <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
+                                                                    <div class="d-flex">
+                                                                        <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                        <div class="ms-4">
+                                                                            <p class="mb-1 text-dark">
+                                                                                {{$new->title}}
+                                                                            </p>
+                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                    height="12" fill="currentColor"
+                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                    <path
+                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                </svg><small class="ms-2">
+                                                                                @php
+                                                                                    $date_new = $new->created_at;
+                                                                                    $date_cur =  date('Y-m-d H:i:s');
+                                                                                    $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                    $days= $difference/(60*60*24);
+                                                                                    if($days>30){
+                                                                                        if(($days /30)%12 >1){
+                                                                                            echo floor(($days /30)%12 )." years";
+                                                                                        }else{
+                                                                                            echo floor($days /30) .' months';
+                                                                                        }
+                                                                                    }else if($days >1){
+                                                                                        echo floor($days). " days";
+                                                                                    }else{
+                                                                                        echo floor($difference/(60*60)). " hours";
+                                                                                    }
+                                                                                    // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                                @endphp    
+                                                                                </small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                @else
+                                                                <a href="javascript:void(0)" class="text-muted manager_notificate" data-bs-toggle="modal" data-bs-target="#viewModalOrder2" data-order="{{$new->id_news}}">
+                                                                    <div class="d-flex">
+                                                                        <img src="{{ asset('images/avatar/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                        <div class="ms-4">
+                                                                            <p class="mb-1 text-dark">
+                                                                                {{$new->title}}
+                                                                            </p>
+                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                    height="12" fill="currentColor"
+                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                    <path
+                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                </svg><small class="ms-2">
+                                                                                @php
+                                                                                    $date_new = $new->created_at;
+                                                                                    $date_cur =  date('Y-m-d H:i:s');
+                                                                                    $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                    $days= $difference/(60*60*24);
+                                                                                    if($days>30){
+                                                                                        if(($days /30)%12 >1){
+                                                                                            echo floor(($days /30)%12 )." years";
+                                                                                        }else{
+                                                                                            echo floor($days /30) .' months';
+                                                                                        }
+                                                                                    }else if($days >1){
+                                                                                        echo floor($days). " days";
+                                                                                    }else{
+                                                                                        echo floor($difference/(60*60)). " hours";
+                                                                                    }
+                                                                                @endphp    
+                                                                                </small>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>                                                           
+                                                                @endif
+                                                                {{-- <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
+                                                                    <div class="d-flex">
+                                                                        <div class=" rounded-circle border">
+                                                                            @switch($new->link)
+                                                                                @case('feedback')
+                                                                                    <i class="fa-solid fa-hand-holding-box fa-2xl" style="color: #26a269;"></i>
+                                                                                    @break
+                                                                                @case("products-details")
+                                                                                <i class="fa-regular fa-crate-apple fa-2xl" style="color: #e66100;"></i>
+                                                                                    @break
+                                                                                @default
+                                                                            @endswitch
+                                                                        </div>
+                                                                        <div class="ms-4">
+                                                                            <p class="mb-1 text-dark">
+                                                                                {{$new->title}}
+                                                                            </p>
+                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                    height="12" fill="currentColor"
+                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                    <path
+                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                </svg><small class="ms-2">
+                                                                                @php
+                                                                                    $date_new = strtotime($new->created_at);
+                                                                                    $date_cur =  date('Y-m-d H:i:s');
+                                                                                    $time = strtotime($date_cur) - strtotime($date_new);
+                                                                                    echo $time. " days";
+                                                                                @endphp    
+                                                                                </small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a> --}}
+                                                            </li>
+                                                        @endforeach
+                                                    @else
+                                                    <li class="list-group-item px-5 py-4 list-group-item-action">
+                                                        <h4 class="text-muted text-center">There are no notificates</h4>
+                                                    </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                            <div class="border-top px-5 py-4 text-center">
+                                                <a href="#!" class=" "> View All </a>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +364,7 @@
                 <div class="col-md-4 col-xxl-3 mx-auto text-end d-none d-lg-block dropdown dropdown-fullwidth">
                     <div class="d-flex flex-row justify-content-around w-75">
                         @if (Auth::check())
-                            <div class=" me-3">
+                            {{-- <div class=" me-3">
                                 <a href="#!" class="text-muted dropdown-toggle user_dropdown position-relative"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20"
@@ -245,6 +389,135 @@
                                                 </a>
                                             @endforeach
                                         @endif
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="me-3">
+                                <a href="#!" class=" text-muted dropdown-toggle user_dropdown position-relative" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20"
+                                        height="20" fill="currentColor">
+                                        <path
+                                            d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
+                                    </svg>
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        <span class="fw-bold countFav">
+                                            {{ isset($news) ? count($news) : 0 }}
+                                        </span>
+                                    </span>
+                                </a>
+                                <div class=" dropdown-menu dropdown-menu-end dropdown-menu-lg shadow p-0 border-0">
+                                    <div class="border-bottom p-5 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="mb-1">Notifications</h5>
+                                            <p class="mb-0 small">You have {{isset($news)? count($news):0}} unread notificates</p>
+                                        </div>
+                                        <a href="#!" class="text-muted">
+                                            <a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                data-bs-title="Mark all as read">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    fill="currentColor" class="bi bi-check2-all text-success"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+                                                    <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+                                                </svg>
+                                            </a>
+                                        </a>
+                                    </div>
+                                    <div data-simplebar style="height: 250px">
+                                        <!-- List group -->
+                                        <ul class="list-group list-group-flush notification-list-scroll fs-6">
+                                            <!-- List group item -->
+                                            @if (isset($news))
+                                                @foreach ($news as $new)
+                                                    <li class="list-group-item px-5 py-4 list-group-item-action">
+                                                        @if (Auth::check() && Auth::user()->admin == "0")
+                                                        <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
+                                                            <div class="d-flex">
+                                                                <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                <div class="ms-4">
+                                                                    <p class="mb-1 text-dark">
+                                                                        {{$new->title}}
+                                                                    </p>
+                                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                            height="12" fill="currentColor"
+                                                                            class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                            <path
+                                                                                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                        </svg><small class="ms-2">
+                                                                        @php
+                                                                            $date_new = $new->created_at;
+                                                                            $date_cur =  date('Y-m-d H:i:s');
+                                                                            $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                            $days= $difference/(60*60*24);
+                                                                            if($days>30){
+                                                                                if(($days /30)%12 >1){
+                                                                                    echo floor(($days /30)%12 )." years";
+                                                                                }else{
+                                                                                    echo floor($days /30) .' months';
+                                                                                }
+                                                                            }else if($days >1){
+                                                                                echo floor($days). " days";
+                                                                            }else{
+                                                                                echo floor($difference/(60*60)). " hours";
+                                                                            }
+                                                                            // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                        @endphp    
+                                                                        </small></span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        @else
+                                                         <a href="javascript:void(0)" class="text-muted manager_notificate" data-bs-toggle="modal" data-bs-target="#viewModalOrder2" data-order="{{$new->id_news}}">
+                                                            <div class="d-flex">
+                                                                <img src="{{ asset('images/avatar/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                <div class="ms-4">
+                                                                    <p class="mb-1 text-dark">
+                                                                        {{$new->title}}
+                                                                    </p>
+                                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                            height="12" fill="currentColor"
+                                                                            class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                            <path
+                                                                                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                        </svg><small class="ms-2">
+                                                                        @php
+                                                                            $date_new = $new->created_at;
+                                                                            $date_cur =  date('Y-m-d H:i:s');
+                                                                            $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                            $days= $difference/(60*60*24);
+                                                                            if($days>30){
+                                                                                if(($days /30)%12 >1){
+                                                                                    echo floor(($days /30)%12 )." years";
+                                                                                }else{
+                                                                                    echo floor($days /30) .' months';
+                                                                                }
+                                                                            }else if($days >1){
+                                                                                echo floor($days). " days";
+                                                                            }else{
+                                                                                echo floor($difference/(60*60)). " hours";
+                                                                            }
+                                                                        @endphp    
+                                                                        </small>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </a>                                                           
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                            <li class="list-group-item px-5 py-4 list-group-item-action">
+                                                <h4 class="text-muted text-center">There are no notificates</h4>
+                                            </li>
+                                            @endif
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

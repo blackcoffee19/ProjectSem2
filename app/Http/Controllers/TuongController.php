@@ -1074,6 +1074,27 @@ class TuongController extends Controller
             echo $order;
         }
     }
+    public function modal_notificate($id){
+        if(Auth::check() && Auth::user()->admin != "2"){
+            echo "Wrong way bro";
+        }else{
+            $code = News::find($id)->link;
+            $order = Order::where("order_code",'=',$code)->first();
+            $name =[];
+            $images =[];
+            $order->cart = $order->Cart->toArray();
+            foreach($order->Cart as $cart){
+                array_push($images,$cart->Product->Library[0]->image);
+                array_push($name,$cart->Product->name);          
+            };
+            $order->image = $images;
+            $order->product = $name;
+            $order->news = $id;
+            $order->discount = $order->code_coupon?$order->Coupon->discount: 0;
+            $order->coupon_title = $order->code_coupon?$order->Coupon->title: '';
+            echo $order;
+        }
+    }
     public function post_confirmorder(Request $req){
         $order = Order::find($req['id_order']);
         $order->status = $req['status_order'];
@@ -1116,6 +1137,13 @@ class TuongController extends Controller
                 Mail::to($order->email)->send(new OrderShipped($order));
             break;
             default:
+        }
+        return redirect()->back();
+    }
+    public function post_removenoti(Request $req){
+        if(isset($req['id_notificate'])){
+            $new = News::find($req['id_notificate']);
+            $new->delete();
         }
         return redirect()->back();
     }

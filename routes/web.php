@@ -53,7 +53,9 @@ Route::post('/shop-wishlist',[TuongController::class,'post_wishlist'])->name('wi
 Route::get('/ajax/modal/show-product/{id}',[TuongController::class,'modal_product']);
 Route::group(['prefix'=>'manager'],function(){
     Route::get('/ajax/check-order/{id}',[TuongController::class,'modal_order']);
+    Route::get('/ajax/check-notificate/{code}',[TuongController::class,'modal_notificate']);
     Route::post('/confirm',[TuongController::class,'post_confirmorder'])->name('confirm_order');
+    Route::post('/remove-notificate',[TuongController::class,'post_removenoti'])->name('remove_notificate');
     Route::get('/list_order',[TuongController::class,'list_allorder'])->name('allorder');
 });
 //Login Google

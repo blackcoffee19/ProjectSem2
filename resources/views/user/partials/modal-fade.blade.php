@@ -396,6 +396,73 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="viewModalOrder2" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content ">
+      <form action="{{route('remove_notificate')}}" method="POST">
+        @csrf
+      <div class="modal-body p-8" >
+        <div class="position-absolute top-0 end-0 me-3 mt-3">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-4 col-lg-6 ">
+            <table class="table table-responsive">
+              <thead>
+                <tr>
+                  <th rowspan="2" >No</th>
+                  <th rowspan="2">Item</th>
+                  <th colspan="2"class="text-center">Price</th>
+                  <th  rowspan="2" >Amount</th>
+                </tr>
+                <tr>
+                  <th>Price (1kg)</th>
+                  <th>Sale</th>
+                </tr>
+              </thead>
+              <tbody id="listCart2">
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">Item Subtotal</td>
+                  <td colspan="3" class="text-center" id="item_subtotal2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Shipping Fee</td>
+                  <td colspan="3" class="text-center" id="shipment_fee_modal2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Discount</td>
+                  <td colspan="3" class="text-center" id="discount2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Total</td>
+                  <td class="3" class="text-center h5" id="total_order2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="col-5 col-md-6 col-lg-5 mx-auto">
+            <p>Reciever: <span id="receiver2"></span></p>
+            <p>Address: <span id="address2"></span></p>
+            <p>Phone: <span id="phone2"></span></p>
+            <p>Email: <span id="email_order2"></span></p>
+            <p>Instruction: <small id="instruction2"></small></p>
+            <p>Payment Method: <span id="payment_method2"></span></p>
+            <p>Coupon: <span id="coupon_title2"></span></p>
+            <input type="hidden" name="id_notificate">
+            <p class="col-form-label col-4">Status: <span id="status_order2" class="fs-5 fw-bold"></span></p>
+          </div>
+        </div>
+      </div>
+      <div class=" modal-footer me-3 mt-3">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-warning" id="save_order" >Close and Remove Notifications</button>
+      </div>
+      </form> 
+    </div>
+  </div>
+</div>
 @if (isset($warning_setting))
 <div class="toast align-items-center border-0 start-50 translate-middle-x position-sticky show" role="alert" aria-live="assertive" aria-atomic="true" style="bottom: 15px;width: fit-content;" id="warning_setting">
   <div class="d-flex">

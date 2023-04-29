@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Groupmessage;
+use App\Models\Library;
 use App\Models\Message;
 use App\Models\News;
 use App\Models\Order;
@@ -32,13 +33,30 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('user.partials.header',function($view){
             if(Auth::check()){
-                $news = News::where('send_admin', '=', false)->where(function (Builder $query) {
-                                                                        $query->where('id_user', '=', Auth::user()->id_user)
-                                                                              ->orWhere('id_user', '=', null);
-                                                                    })->get();
-                $view->with('news',$news);
+                if(Auth::user()->admin == "0"){
+                    $news = News::where('send_admin', '=', false)->where(function (Builder $query) {
+                                                                            $query->where('id_user', '=', Auth::user()->id_user)
+                                                                                  ->orWhere('id_user', '=', null);
+                                                                        })->get();
+                    foreach($news as $new){
+                        switch($new->link){
+                            case "products-details":
+                                $new->image =Library::where('id_product','=',intval($new->attr))->first()->image;
+                            break;
+                            default:
+                                $new->image = "feedback.png";
+                        };
+                    }
+                    $view->with('news',$news);
+                }else{
+                    $news = News::where('send_admin', '=', true)->get();
+                    foreach($news as $new){
+                        $new->image = isset($new->User->avatar)? $new->User->avatar: "user.png";
+                    }
+                    $view->with('news',$news);
+                }
                 if(Auth::user()->admin == '2'){
-                    $orders = Order::where('status','=','unconfirmed')->orWhere('status','=','confirmed')->orderBy('status','desc')->get();
+                    $orders = Order::where('status','=','unconfirmed')->orWhere('status','=','confirmed')->orWhere('status','=','delivery')->orderBy('status','desc')->get();
                     $view->with('orders',$orders);
                 }
             }

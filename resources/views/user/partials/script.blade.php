@@ -5,9 +5,15 @@
         //         $('#listCartmodal').html(data);
         //     })
         // });
+        @if(Route::currentRouteName() == 'checkout' && Session::has('success_paypal'))
+          $('a').attr({onclick:"return alert('Cannot leave after paid order');",href:'javascript:void();'});
+        @endif
+        @if(Route::currentRouteName() != 'checkout')
+          {{Session::forget(['name','phone','email','province','district','address','ward','shipfee','coupon','paypal_success','success_paypal','select_add']);}}
+        @endif
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
-            $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
+            $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/cart/listcart",function(data){
                 $('#listCartmodal').html(data);
                 $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
                 $('.btn_minus').click(function(e){
@@ -48,7 +54,7 @@
             $(this).val(validateNum.test(currentVl)?currentVl:value);
         }
         $('.btn_modal').click(function(){
-            $.get(window.location.origin+"/public/index.php/ajax/modal/show-product/"+$(this).data('product'),function(data){
+            $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/modal/show-product/"+$(this).data('product'),function(data){
               let dataProduct = jQuery.parseJSON(data);
               let listImage = "";
               let slider_product = "";
@@ -112,20 +118,20 @@
           if($('#btn-compare').hasClass('d-none')){
             $('#btn-compare').removeClass('d-none');
           }
-          $.get(window.location.origin+"/public/index.php/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
+          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
             $('#messCompare').html(data);  
           })
           const toast = new bootstrap.Toast($('#toastCompare'))
           toast.show();
         });
         $('#show_compare').click(function(){
-          $.get(window.location.origin+"/public/index.php/ajax/compare/showcompare",function(data){
+          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/compare/showcompare",function(data){
             $('#compare_detail').html(data);  
           })
         });
         $('.addFav').click(function(){
             $(this).children().toggleClass('bi-heart').toggleClass('bi-heart-fill text-danger');
-          $.get(window.location.origin+'/public/index.php/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
+          $.get(window.location.origin+'/ProjectSem2-quan/public/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
             $('.countFav').html(data);
           })
         });
@@ -137,7 +143,7 @@
           let toastorder = new bootstrap.Toast($('#toastWarning'))
           toastorder.show();
           @endif
-          $.get(window.location.origin+"/public/index.php/ajax/add-cart/"+$(this).data('bsId'),function(data){
+          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/add-cart/"+$(this).data('bsId'),function(data){
             $('.countCart').html(data);
           });
         });
@@ -180,7 +186,7 @@
           }
         })
         $('.remove_add').click(function(){
-          $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
+          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/remove_address/"+$(this).data('idadd'),function(data){
             $("#listAddress").html(data);
           });
         })
@@ -323,7 +329,7 @@
             }
             $(this).addClass('is-invalid');      
           }else{
-            $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+            $.get(window.location.origin + '/ProjectSem2-quan/public/ajax/check-email/'+$(this).val(), function(data){
               if(data == "existed"){
                 $('input[name=register_email]').addClass('is-invalid');
                 $('#register_email').text('This email has signed. Choose another one or signin');
@@ -369,7 +375,7 @@
           }
         });
         $('.check_order').click(function(){
-          $.get(window.location.origin+"/public/index.php/manager/ajax/check-order/"+$(this).data('order'),function(data){
+          $.get(window.location.origin+"/ProjectSem2-quan/public/manager/ajax/check-order/"+$(this).data('order'),function(data){
             let dataJson = jQuery.parseJSON(data);
             $('input[name=id_order]').val(dataJson['id_order']);
             $("#receiver").html(dataJson['receiver']);
@@ -412,7 +418,7 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/public/index.php/ajax/denied-order',
+            url: window.location.origin+'/ProjectSem2-quan/public/ajax/denied-order',
             data: {'id_order':$(this).data('order')},
             success: function (data) {
               if(data == 0){
@@ -425,7 +431,7 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/public/index.php/ajax/accept-order',
+            url: window.location.origin+'/ProjectSem2-quan/public/ajax/accept-order',
             data: {'id_order':$(this).data('order')},
             success: function (data) {
               if(data == 0){

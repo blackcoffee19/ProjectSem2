@@ -31,10 +31,11 @@ class IndexController extends Controller
 
     public function categoryById($id_type)
     {
-        $products = Product::where('id_type', $id_type)->get();
+        $prods = Product::where('id_type', $id_type)->get();
+        $rate = Comment::all(); 
         $type = TypeProduct::find($id_type);
 
-        return view('user.pages.Products.index', compact('products', 'type'));
+        return view('user.pages.Products.index', compact( 'type','prods','rate'));
     }
 
     public function product_detail($id)

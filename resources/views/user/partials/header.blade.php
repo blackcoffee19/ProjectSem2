@@ -124,38 +124,56 @@
                                         </a>
                                     @endif
                                 </div>
-                                <div class="list-inline-item">
+                                @if (Auth::check() && Auth::user()->admin == '2')
+                                    <div>
+                                        <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
+                                            role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
+                                            aria-controls="offcanvasRight">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-package"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                                @if (isset($orders) && count($orders)>0)
+                                                    <span class="fw-bold countOrder">{{ count($orders) }}
+                                                    </span>
+                                                @else 
+                                                    <span class="fw-bold countOrder">0</span>
+                                                @endif
+                                            </span>
+                                        </a>
+                                    </div>
+                                    @else
+                                        <div class="list-inline-item">
 
-                                    <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
-                                        role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
-                                        aria-controls="offcanvasRight">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-shopping-bag">
-                                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                            <line x1="3" y1="6" x2="21" y2="6">
-                                            </line>
-                                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                        </svg>
-                                        <span
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                            @if (Auth::check())
-                                                <span class="fw-bold countCart">
-                                                    {{ count(Auth::user()->Cart->where('order_code', '=', null)) }}
+                                            <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
+                                                role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
+                                                aria-controls="offcanvasRight">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-shopping-bag">
+                                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                                    <line x1="3" y1="6" x2="21" y2="6">
+                                                    </line>
+                                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                                </svg>
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                                    @if (Auth::check())
+                                                        <span class="fw-bold countCart">
+                                                            {{ count(Auth::user()->Cart->where('order_code', '=', null)) }}
+                                                        </span>
+                                                    @endif
+                                                    @if (Session::has('cart'))
+                                                        <span class="fw-bold countCart">{{ count(Session::get('cart')) }}
+                                                        </span>
+                                                    @endif
+                                                    @if (!Auth::check() && !Session::has('cart'))
+                                                        <span class="fw-bold countCart">0</span>
+                                                    @endif
                                                 </span>
-                                            @endif
-                                            @if (Session::has('cart'))
-                                                <span class="fw-bold countCart">{{ count(Session::get('cart')) }}
-                                                </span>
-                                            @endif
-                                            @if (!Auth::check() && !Session::has('cart'))
-                                                <span class="fw-bold countCart">0</span>
-                                            @endif
-                                        </span>
-                                    </a>
-                                </div>
-
+                                            </a>
+                                        </div>
+                                        @endif
                             </div>
                             <!-- Button -->
                             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"
@@ -173,13 +191,18 @@
                     </div>
                 </div>
                 <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
-                    <form action="#">
+                    <form action="{{Route('product.findByNamePro')}}" method="GET">
                         @csrf
                         <div class="input-group ">
-                            <input class="form-control rounded" type="search" placeholder="Search for products">
+                            @if (isset($name))
+                            <input class="form-control rounded" name="name" placeholder="Search for products" value="{{$name}}" >
+                                
+                            @else
+                            <input class="form-control rounded" name="name" placeholder="Search for products" >
+                            @endif
                             <span class="input-group-append">
                                 <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                    type="button">
+                                type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
@@ -242,7 +265,7 @@
                                     </span>
                                 </a>
                             </div>
-
+                            
                             <div class="list-inline-item ">
                                 <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -281,6 +304,7 @@
                                 </div>
                             </div>
                         @else
+                        {{-- {{Route::currentRouteName()}} --}}
                             <div>
                                 <a href="#!" class="text-muted" data-bs-toggle="modal"
                                     data-bs-target="#userModal">
@@ -293,6 +317,24 @@
                                 </a>
                             </div>
                         @endif
+                        @if (Auth::check() && Auth::user()->admin == '2')
+                        <div>
+                            <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
+                                role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
+                                aria-controls="offcanvasRight">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-package"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                    @if (isset($orders) && count($orders)>0)
+                                        <span class="fw-bold countOrder">{{ count($orders) }}
+                                        </span>
+                                    @else 
+                                        <span class="fw-bold countOrder">0</span>
+                                    @endif
+                                </span>
+                            </a>
+                        </div>
+                        @else
                         <div>
                             <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
                                 role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
@@ -322,6 +364,7 @@
                                 </span>
                             </a>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -366,7 +409,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ Route('allProduct') }}">
+                            <a class="nav-link" href="{{ Route('user.pages.Products.index') }}">
                                 Categories <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"
@@ -429,6 +472,7 @@
     </nav>
 </div>
 <!-- Modal -->
+
 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-4">
@@ -450,27 +494,7 @@
                             placeholder="Enter Password" required="">
                     </div>
                     <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
-                    <button type="submit" class="btn btn-primary" id="modal_signin" disabled>Sign In</button>
-                    <a href="{{ route('google-auth') }}">
-                        <button type="submit" class="btn btn-outline-primary" id="modal_signin" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="me-1" viewBox="0 0 24 24"
-                                width="20">
-                                <path
-                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                    fill="#4285F4" />
-                                <path
-                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                    fill="#34A853" />
-                                <path
-                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                    fill="#FBBC05" />
-                                <path
-                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                    fill="#EA4335" />
-                                <path d="M1 1h22v22H1z" fill="none" />
-                            </svg>Sign in with Google
-                        </button>
-                    </a>
+                    <button type="submit" class="btn btn-primary" id="modal_signin" style="width: 100px" disabled>Sign In</button>
                 </form>
             </div>
             <div class="modal-footer border-0 justify-content-center">Don’t have an account? <a
@@ -486,8 +510,6 @@
     </div>
 </div>
 
-
-
 @if (Auth::check() && Auth::user()->admin == '2')
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
@@ -499,7 +521,7 @@
     <div class="offcanvas-body">
         <div>
             <ul class="list-group list-group-flush">
-                @if (isset($orders))
+                @if (isset($orders) && count($orders)>0)
                     @foreach ($orders as $order)
                         <li class='list-group-item py-3 ps-0 border-top border-bottom'>
                             <div class='row align-items-center'>
@@ -565,6 +587,12 @@
                             </div>
                         </li>
                     @endforeach
+                @else
+                <li class='list-group-item py-3 ps-0 border-top border-bottom'>
+                    <h4 class="text-muted text-center text-uppercase">
+                        There are no New Order
+                    </h4>
+                </li>
                 @endif
             </ul>
         </div>

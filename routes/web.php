@@ -8,12 +8,14 @@ use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProductDetailController;
 use App\Http\Controllers\User\UserWishlistController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserAccountController;
 use App\Http\Controllers\PayPalController;
 
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
 use App\Http\Middleware\ManagerLogin;
+use App\Http\Middleware\PaiedOrder;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -28,6 +30,10 @@ Route::get('process-transaction', [PayPalController::class, 'processTransaction'
 Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
+
+Route::get('/product.findByNamePro',[App\Http\Controllers\User\UserController::class ,'findByNamePro'])->name('product.findByNamePro');
+Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
+Route::get('/user.pages.Products.index/{type_name?}/{breed_name?}',[UserController::class,"productList"])->name('user.pages.Products.index');
 
 Route::get('/', [TuongController::class,'home_page'])->name('index');
 Route::get('/cate_pr', [TuongController::class,'admin_cate'])->name('productList');
@@ -55,9 +61,9 @@ Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('googl
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
 
 Route::group(['prefix'=>'/','middleware'=>'ManageLogin'],function(){
-    Route::get('/order',[TuongController::class,'get_order'])->name('order');
     Route::get('/checkout',[TuongController::class,'get_checkout'])->name('checkout');
     Route::post('/checkout',[TuongController::class,'post_checkout'])->name('checkout');
+    Route::get('/order',[TuongController::class,'get_order'])->name('order');
     Route::get('/removeCart/{id}',[TuongController::class,'removeCart'])->name("removeId");
     Route::get('/ajax/cart/listcart',[TuongController::class,'modalCart']);
     Route::get('/ajax/cart/clearcart',[TuongController::class,'clearCart']);
@@ -104,7 +110,7 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/Category',                     'allProduct')->name('allProduct');
     Route::get('/products-details/{id}',        'product_detail')->name('products-details');
     Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
-    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
+    Route::get('/category/{type}', [IndexController::class, 'categoryById'])->name('userShowProductCatagory');
 });
 
 

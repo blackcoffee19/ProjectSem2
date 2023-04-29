@@ -36,7 +36,6 @@ npm install slick-carousel
 ===//=== End note của hiển ===//===
 
 
-
 GIT FETCH MERGE ANOTHER BRANCH IN UPSTREAM REPO
 1
 git fetch upstream

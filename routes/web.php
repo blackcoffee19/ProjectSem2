@@ -8,6 +8,7 @@ use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProductDetailController;
 use App\Http\Controllers\User\UserWishlistController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserAccountController;
 use App\Http\Controllers\PayPalController;
 
@@ -29,6 +30,10 @@ Route::get('process-transaction', [PayPalController::class, 'processTransaction'
 Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
+
+Route::get('/product.findByNamePro',[App\Http\Controllers\User\UserController::class ,'findByNamePro'])->name('product.findByNamePro');
+Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
+Route::get('/user.pages.Products.index/{type_name?}/{breed_name?}',[UserController::class,"productList"])->name('user.pages.Products.index');
 
 Route::get('/', [TuongController::class,'home_page'])->name('index');
 Route::get('/cate_pr', [TuongController::class,'admin_cate'])->name('productList');

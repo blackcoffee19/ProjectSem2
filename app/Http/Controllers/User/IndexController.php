@@ -4,9 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
+use App\Models\Comment;
+
+// use Database\Seeders\banner;
 use App\Models\Comment;
 
 // use Database\Seeders\banner;
@@ -31,10 +35,11 @@ class IndexController extends Controller
 
     public function categoryById($id_type)
     {
-        $products = Product::where('id_type', $id_type)->get();
+        $prods = Product::where('id_type', $id_type)->get();
+        $rate = Comment::all(); 
         $type = TypeProduct::find($id_type);
 
-        return view('user.pages.Products.index', compact('products', 'type'));
+        return view('user.pages.Products.index', compact( 'type','prods','rate'));
     }
 
     public function product_detail($id)

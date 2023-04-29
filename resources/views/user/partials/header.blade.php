@@ -191,13 +191,18 @@
                     </div>
                 </div>
                 <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
-                    <form action="#">
+                    <form action="{{Route('product.findByNamePro')}}" method="GET">
                         @csrf
                         <div class="input-group ">
-                            <input class="form-control rounded" type="search" placeholder="Search for products" {{Route::currentRouteName() == 'checkout' && Session::has('success_paypal')? 'readonly':''}}>
+                            @if (isset($name))
+                            <input class="form-control rounded" name="name" placeholder="Search for products" value="{{$name}}" >
+                                
+                            @else
+                            <input class="form-control rounded" name="name" placeholder="Search for products" >
+                            @endif
                             <span class="input-group-append">
                                 <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                    type="button">
+                                type="submit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
@@ -404,7 +409,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ Route('allProduct') }}">
+                            <a class="nav-link" href="{{ Route('user.pages.Products.index') }}">
                                 Categories <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"

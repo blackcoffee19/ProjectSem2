@@ -486,12 +486,12 @@
                     <div class="mb-3">
                         <label for="modal_email" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="modal_email"
-                            placeholder="Enter Email address" required="" {{Route::currentRouteName() == 'checkout' && Session::has('success_paypal')?"readonly":''}}>
+                            placeholder="Enter Email address" required="">
                     </div>
                     <div class="mb-5">
                         <label for="modal_password" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" id="modal_password"
-                            placeholder="Enter Password" required="" {{Route::currentRouteName() == 'checkout' && Session::has('success_paypal')?"readonly":''}}>
+                            placeholder="Enter Password" required="">
                     </div>
                     <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
                     <button type="submit" class="btn btn-primary" id="modal_signin" style="width: 100px" disabled>Sign In</button>

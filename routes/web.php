@@ -111,7 +111,7 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/Category',                     'allProduct')->name('allProduct');
     Route::get('/products-details/{id}',        'product_detail')->name('products-details');
     Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
-    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
+    Route::get('/category/{type}', [IndexController::class, 'categoryById'])->name('userShowProductCatagory');
 });
 
 

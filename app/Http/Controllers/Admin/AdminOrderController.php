@@ -40,16 +40,6 @@ class AdminOrderController extends Controller
         return view('admin.pages.Order.single');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show(Order $id_order)
     {
         $orderCode = $id_order->order_code;

@@ -34,8 +34,8 @@ class TuongController extends Controller
         $cats = TypeProduct::all();
         $products = Product::where('quantity', '>', 0)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity', '>', 0)->where('sale', '>', 0)->inRandomOrder()->limit(3)->get();
-        $banner = Banner::all();
-        return view('user.index', compact('cats', 'products', 'product_hot', 'banner'));
+        $banners = Banner::all();
+        return view('user.index', compact('cats', 'products', 'product_hot', 'banners'));
     }
     public function get_signUp()
     {

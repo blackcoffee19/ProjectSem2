@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBannerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TuongController;
 use App\Http\Controllers\GoogleAuthController;
@@ -144,12 +145,21 @@ Route::controller(AdminOrderController::class)->group(function () {
 
 
 Route::controller(AdminCustomerController::class)->group(function () {
-    Route::get('/admin/customer',                              'index')->name('adminCustomers');
+    Route::get('/admin/customer',   'index')->name('adminCustomers');
 });
 
 
 Route::controller(AdminReviewController::class)->group(function () {
-    Route::get('/admin/review',                              'index')->name('adminReviews');
+    Route::get('/admin/review',                 'index')->name('adminReviews');
+    Route::get('/admin/review/find-by-name',    'findByName')->name('review.findByName');
+});
+
+
+Route::controller(AdminBannerController::class)->group(function () {
+    Route::get('/admin/banners',                        'index')->name('adminBanners');
+    Route::get('/admin/banners/detail/{id_banner}',     'show')->name('adminShowBanners');
+    Route::get('/admin/banners/edit/{id_banner}',       'edit')->name('adminEditBanners');
+    Route::put('/admin/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
 });
 
 

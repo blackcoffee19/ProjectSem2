@@ -18,9 +18,10 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $cats = TypeProduct::all();
-        $products  = Product::with('libraries')->paginate(15);
-        return view('user.index', compact('cats', 'products'));
+        // $cats = TypeProduct::all();
+        // $banners = Banner::all();
+        // $products  = Product::with('libraries')->paginate(15);
+        // return view('user.index', compact('cats', 'banners', 'products'));
     }
 
     public function allProduct()

@@ -71,37 +71,27 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-6 mb-3 mb-lg-0">
-                        <div>
-                            <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/images/banner/grocery-banner.png') }})no-repeat; background-size: cover; background-position: center;">
+                    @foreach ($banners as $banner)
+                        @if ($banner->id_banner == 1 || $banner->id_banner == 2)
+                            <div class="col-12 col-md-6 mb-3 mb-lg-0">
                                 <div>
-                                    <h3 class="fw-bold mb-1">Fruits & Vegetables
-                                    </h3>
-                                    <p class="mb-4">Get Upto <span class="fw-bold">30%</span> Off</p>
-                                    <a href="#!" class="btn btn-dark">Shop Now</a>
+                                    <div class="py-10 px-8 rounded"
+                                        style="background:url({{ asset('/images/banner/' . $banner->image) }})no-repeat; background-size: cover; background-position: center;">
+                                        <div>
+                                            <h3 class="fw-bold mb-1" style="color:{{ $banner->title_color }};">
+                                                {{ $banner->title }}
+                                            </h3>
+                                            <p class="mb-4" style="color:{{ $banner->content_color }}">
+                                                {{ $banner->content }}
+                                            </p>
+                                            <a href="#!" class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-md-6 ">
-
-                        <div>
-                            <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/images/banner/grocery-banner-2.jpg') }})no-repeat; background-size: cover; background-position: center;">
-                                <div>
-                                    <h3 class="fw-bold mb-1">Freshly Baked
-                                        Buns
-                                    </h3>
-                                    <p class="mb-4">Get Upto <span class="fw-bold">25%</span> Off</p>
-                                    <a href="#!" class="btn btn-dark">Shop Now</a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -220,15 +210,15 @@
                 <div class="table-responsive-xl pb-6">
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
-                            <div class=" pt-8 px-6 px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/banner-deal.jpg') }})no-repeat; background-size: cover; height: 470px;">
+                            <div class="px-xl-8 rounded"
+                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 550px; padding-top: 150px; padding-left: 30px;">
                                 <div>
-                                    <h3 class="fw-bold " style="color:{{ $banner[2]->title_color }}">
-                                        {{ $banner[2]->title }}
+                                    <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
+                                        {{ $banners[2]->title }}
                                     </h3>
-                                    <p style="color:{{ $banner[2]->content_color }}">{{ $banner[2]->content }}</p>
+                                    <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
                                     <a class="btn "
-                                        style="background-color: {{ $banner[2]->btn_bg_color }};color:{{ $banner[2]->btn_color }}">{{ $banner[2]->btn_content }}<i
+                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin-top: 160px;">{{ $banners[2]->btn_content }}<i
                                             class="feather-icon icon-arrow-right ms-1"></i></a>
                                 </div>
                             </div>

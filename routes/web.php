@@ -15,7 +15,6 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
 use App\Http\Middleware\ManagerLogin;
-use App\Http\Middleware\PaiedOrder;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -43,7 +42,7 @@ Route::get('/signup',[TuongController::class,"get_signUp"])->name('signup');
 Route::post('/signup',[TuongController::class,"post_signUp"])->name('signup');
 Route::get('/signout',[TuongController::class,'signOut'])->name('signout');
 
-Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
+// Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
 Route::post('/products-details/{id?}', [TuongController::class,'addToCart'])->name('products-details');
 Route::post('/post-comment',[TuongController::class,'post_comment'])->name('addComment');
 Route::get('/delete_cmt/{id}',[TuongController::class,'deleteCmt'])->name('delete_cmt');
@@ -109,7 +108,7 @@ Route::group(['prefix'=>'account', 'middleware'=>'UserLogin'],function(){
 
 Route::controller(IndexController::class)->group(function () {
     Route::get('/Category',                     'allProduct')->name('allProduct');
-    Route::get('/products-details/{id}',        'product_detail')->name('products-details');
+    Route::get('/products-details/{id?}',        'product_detail')->name('products-details');
     Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
     Route::get('/category/{type}', [IndexController::class, 'categoryById'])->name('userShowProductCatagory');
 });

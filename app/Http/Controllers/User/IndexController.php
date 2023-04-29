@@ -4,14 +4,14 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\Banner;
+// use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
 use App\Models\Comment;
 
 // use Database\Seeders\banner;
-use App\Models\Comment;
+// use App\Models\Comment;
 
 // use Database\Seeders\banner;
 

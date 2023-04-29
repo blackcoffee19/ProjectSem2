@@ -66,6 +66,5 @@ class Kernel extends HttpKernel
         'AdminLogin'=> \App\Http\Middleware\AdminLogin::class,
         'UserLogin'=> \App\Http\Middleware\UserLogin::class,
         "ManageLogin" => \App\Http\Middleware\ManagerLogin::class,
-        "PaidedOrder"=>\App\Http\Middleware\PaiedOrder::class
     ];
 }

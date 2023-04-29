@@ -4,9 +4,9 @@
     <p>Phone: {{$customer_phone}}</p>
     <p>Instruction: {{$instruction}}</p>
     <p>Order method: {{$method}}</p>
-    <p>Shipment fee: ${{$shipment_fee}}</p>
+    <p>Shipment fee: {{number_format($shipment_fee,0,'',' ')}} đ</p>
     @if ($coupon != null)
-    <p>Coupon: {{$coupon->title}} {{$coupon->discount >=10 ? "-".$coupon->discount."%": "- $".$coupon->discount}}</p>
+    <p>Coupon: {{$coupon->title}} {{$coupon->discount <=100 ? "-".$coupon->discount."%": "- ".number_format($coupon->discount,0,'',' ')." đ"}}</p>
     @endif
     <p>Status: <span style="color: brown; font-weight: 600">{{$status}}</span> ({{date_format($date,"F j, Y")}})</p>
     <table >
@@ -28,7 +28,7 @@
                     <td style="padding: 0 10px">{{$i+1}}</td>
                     <td style="padding: 0 10px">{{$cart[$i]->Product->name}}</td>
                     <td style="padding: 0 10px">{{$cart[$i]->amount}}</td>
-                    <td style="padding: 0 10px">${{$cart[$i]->price}}</td>
+                    <td style="padding: 0 10px">{{number_format($cart[$i]->price,0,'',' ')}}đ</td>
                     <td style="padding: 0 10px">{{$cart[$i]->sale}}%</td>
                 </tr>
                 @php
@@ -42,12 +42,12 @@
             @php
                 $total += $shipment_fee;
                 if($coupon !=null){
-                    $total = $coupon->discount>=10 ? $total*(1-$coupon->discount/100): $total - $coupon->discount;
+                    $total = $coupon->discount<=100 ? $total*(1-$coupon->discount/100): $total - $coupon->discount;
                 }
             @endphp
         </tbody>
         <tfoot>
-            <tr style="margin-top: 10px"><td colspan="3">Total</td><td colspan="2" style="color:red; font-weight: 700">${{number_format($total,2,'.', ' ')}}</td></tr>
+            <tr style="margin-top: 10px"><td colspan="3">Total</td><td colspan="2" style="color:red; font-weight: 700">{{number_format($total,0,'', ' ')}} đ</td></tr>
         </tfoot>
     </table>
 </div>

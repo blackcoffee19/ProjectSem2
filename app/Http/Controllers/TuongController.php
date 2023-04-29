@@ -313,14 +313,6 @@ class TuongController extends Controller
                 $product->quantity -=$value["amount"];
                 $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $product->save();
-                $comment  = new Comment();
-                $comment->id_product = $value["id_product"];
-                $comment->name="Guest";
-                $comment->verified = true;
-                $comment->rating = 5;
-                $comment->phone = $req['phoneReciever'];
-                $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
-                $comment->save();
             }
             
             $order->order_code = $order_code;
@@ -742,7 +734,7 @@ class TuongController extends Controller
     }
     public function showCompare(){
         $cmp = "";
-        $info = ["Image","Name","Type","Quantity","Status","Description","Rating","Sold","Price",'Delete'];
+        $info = ["Image","Name","Type","Quantity","Status","Rating","Sold","Price",'Delete'];
         for($i =0; $i<count($info);$i++){
             $cmp.="<tr><td>".$info[$i]."</td>";
             foreach(Session::get('compare') as $key=> $product){
@@ -758,16 +750,13 @@ class TuongController extends Controller
                         $cmp.="<td class='text-dark text-capitalize'>".$prod->TypeProduct->type."</td>";
                         break;
                     case 3:
-                        $cmp .= "<td class='text-dark'>".number_format($product->quantity,2,',',' ')."g</td>";
+                        $cmp .= "<td class='text-dark'>Left: ".number_format($product->quantity,0,'',' ')."grams</td>";
                         break;
                     case 4:
                         $status = $product->status? "In Stock": "Out Stock";
                         $cmp .="<td class='text-dark'>".$status."</td>";
                         break;
                     case 5:
-                        $cmp .= "<td class='text-dark'>".$product->description."</td>";
-                        break;
-                    case 6:
                         $cmp.="<td>";
                         for($j =0; $j<floor($product->rating);$j++){
                             $cmp.="<i class='bi bi-star-fill text-warning fs-5'></i>";
@@ -780,15 +769,15 @@ class TuongController extends Controller
                         };
                         $cmp.="</td>";
                         break;
-                    case 7:
+                    case 6:
                         $cmp .= "<td class='text-dark'>".$product->sold."</td>";
                         break;
-                    case 8:
+                    case 7:
                         if($product->sale>0){
-                            $cmp .= "<td><span class='fs-4 text-danger'>".($product->price * (1-$product->sale/100))." đ/kg</span>";
+                            $cmp .= "<td><span class='fs-4 text-danger'>".(number_format($product->price * (1-$product->sale/100),0,'',' '))." đ/kg</span>";
                             $cmp.="<span class='text-muted ms-1'>(Off ".$product->sale."%)</span></td>";
                         }else{
-                            $cmp.="<td><span class='fs-4 text-black'>".$product->price." đ/kg</span></td>";
+                            $cmp.="<td><span class='fs-4 text-black'>".number_format($product->price,0,'',' ')." đ/kg</span></td>";
                         };
                         break;
                     default:
@@ -1090,8 +1079,43 @@ class TuongController extends Controller
         $order->status = $req['status_order'];
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
-        if($req['status_order'] == 'delivery'){
-            Mail::to($order->email)->send(new OrderShipped($order));
+        switch($req['status_order']){
+            case "finished":
+                if(preg_match("/gut/i",$order->order_code) == 1){
+                    foreach($order->Cart as $cart){
+                        $comment = new Comment();
+                        $comment->id_product = $cart->id_product;
+                        $comment->name = "Guest";
+                        $comment->verified = true;
+                        $comment->rating = 5;
+                        $comment->phone = $order->phone;
+                        $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                        $comment->save();
+                    }
+                }else{
+                    $new = new News();
+                    $new->order_code = $order->order_code;
+                    $new->title = "How do you think about your order?";
+                    $new->id_user = $order->id_user;
+                    $new->link = "feedback";
+                    $new->attr = $order->order_code;
+                    $new->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $new->save();
+                }
+            break;
+            case "transaction failed":
+                foreach($order->Cart as $cart){
+                    $product = $cart->Product;
+                    $product->quantity += $cart->amount;
+                    $product->save();
+                    $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $cart->save();
+                }
+            break;
+            case "delivery":
+                Mail::to($order->email)->send(new OrderShipped($order));
+            break;
+            default:
         }
         return redirect()->back();
     }
@@ -1117,7 +1141,7 @@ class TuongController extends Controller
     public function denied_order(Request $req){
         $order = Order::find($req['id_order']);
         $phone =$order->phone; 
-        $order->phone = "G_".$order->phone;
+        $order->phone = "G_".$phone;
         $order->save();
         $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
         $num = count($list_order);

@@ -174,6 +174,10 @@ public function successTransaction(Request $request)
             $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
             $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
             $order->save();
+            Session::forget('instructions');
+            Session::forget('select_add');
+            Session::forget('shipfee');
+            Session::forget('code_coupon');
             return redirect()
                 ->route('accountorder')
                 ->with('paypal_success', true);
@@ -220,7 +224,16 @@ public function successTransaction(Request $request)
             $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
             $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
             $order->save();
+            Session::forget('instructions');
             Session::forget("cart");
+            Session::forget('name');
+            Session::forget('phone');
+            Session::forget('email');
+            Session::forget('province');
+            Session::forget('district');
+            Session::forget('address');
+            Session::forget('ward');
+            Session::forget('shipfee');
             return redirect()
                 ->route('index')
                 ->with('paypal_success', true);

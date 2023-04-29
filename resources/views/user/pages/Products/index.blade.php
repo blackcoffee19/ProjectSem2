@@ -175,7 +175,7 @@
                                                 <div class=" position-absolute top-0 start-0">
                                                     <span class="badge bg-danger">Sale</span>
                                                 </div>
-                                                <a href="{{ route('products-details') }}">
+                                                <a href="{{ route('products-details',$item->id_product) }}">
 
                                                     <!-- img --><img
                                                     @if (!empty($item->Library) && count($item->Library) > 0)
@@ -185,23 +185,22 @@
                                                 </a>
                                                 <!-- action btn -->
                                                 <div class="card-product-action">
-                                                    <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                                        data-bs-target="#quickViewModal"><i class="bi bi-eye"
-                                                            data-bs-toggle="tooltip" data-bs-html="true"
-                                                            title="Quick View"></i></a>
-                                                    <a href="{{ Route('wishlist') }}" class="btn-action"
-                                                        data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
-                                                            class="bi bi-heart"></i></a>
-                                                    <a href="#!" class="btn-action" data-bs-toggle="tooltip"
-                                                        data-bs-html="true" title="Compare"><i
-                                                            class="bi bi-arrow-left-right"></i></a>
+                                                    <a class="btn-action btn_modal" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="{{$item->id_product}}">
+                                                        <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
+                                                    </a>
+                                                    <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip" {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$item->id_product"}} >
+                                                        <i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$item->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i>
+                                                    </a>
+                                                    <a class="btn-action compare_product" data-bs-toggle="tooltip"  data-bs-html="true" title="Compare" data-bs-product="{{$item->id_product}}">
+                                                        <i class="bi bi-arrow-left-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <!-- heading -->
                                             <div class="text-small mb-1"><a href="#!"
                                                     class="text-decoration-none text-muted"><small>{{ $item->name }}
                                                         </small></a></div>
-                                            <h2 class="fs-6"><a href="{{ route('products-details') }}"
+                                            <h2 class="fs-6"><a href="{{ route('products-details',$item->id_product) }}"
                                                     class="text-inherit text-decoration-none">{{ $item->name }}</a></h2>
                                             <div>
                                                 <!-- rating -->

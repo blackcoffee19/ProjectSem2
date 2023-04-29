@@ -42,4 +42,4 @@ git fetch upstream
 2
 git checkout branch-name
 3 
-git rebase branch-nam
+git merge branch-you-want-merge

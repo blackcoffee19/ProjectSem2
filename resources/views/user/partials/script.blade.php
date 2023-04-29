@@ -381,28 +381,44 @@
             $("#payment_method").html(dataJson['method']);
             if(dataJson['coupon']){
               $("#coupon_title").html(dataJson['coupon_title']);
-              if(dataJson['discount'] >=10){
+              if(dataJson['discount'] <= 100){
                 $('#discount').html("- "+dataJson['discount']+"%");
               }else{
-                $('#discount').html("- "+dataJson['discount']+"d");
+                $('#discount').html("- "+dataJson['discount']+" đ");
               }
             }
             let list ="";
             let total = 0;
               for (let i = 0; i < dataJson['cart'].length; i++) {
-                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']}</td><td>${Math.floor(dataJson['cart'][i]['sale'])}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
-                total+=parseFloat(dataJson['cart'][i]['sale']) >0 ?(parseFloat(dataJson['cart'][i]['price'])*(1- parseFloat(dataJson['cart'][i]['sale'])/100))*(dataJson['cart'][i]['amount']/1000):parseFloat(dataJson['cart'][i]['price'])*(parseFloat(dataJson['cart'][i]['amount'])/1000);
+                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
+                total+=parseInt(dataJson['cart'][i]['sale']) >0 ?(parseInt(dataJson['cart'][i]['price'])*(1- parseInt(dataJson['cart'][i]['sale'])/100))*(parseInt(dataJson['cart'][i]['amount'])/1000):parseInt(dataJson['cart'][i]['price'])*(parseInt(dataJson['cart'][i]['amount'])/1000);
               };
             $('#listCart').html(list);
-            $('#shipment_fee_modal').html("$"+dataJson['shipping_fee']);
-            total+=parseFloat(dataJson['shipping_fee']);
-            if(parseInt(dataJson['discount']) <10){
-                total-= parseFloat(dataJson['discount']);
+            $("#item_subtotal").html(total+" đ");
+            $('#shipment_fee_modal').html(dataJson['shipping_fee']+" đ");
+            total+=parseInt(dataJson['shipping_fee']);
+            if(parseInt(dataJson['discount']) >100){
+                total-= parseInt(dataJson['discount']);
               }else{
-                total *=(1- parseFloat(dataJson['discount'])/100);
+                total*=(1- parseInt(dataJson['discount'])/100);
               }
-            $('#total_order').html("$"+total.toFixed(2));
+            $('#total_order').html(total+" đ");
             $("#status_order option[value="+dataJson['status']+"]").attr("selected", true);
+            if(dataJson['status'] == 'unconfirmed'){
+              $("#status_order option[value='unconfirmed']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").attr('disabled','disabled');
+              $("#status_order option[value='finished']").attr('disabled','disabled');
+            } else if(dataJson['status'] == "delivery"){
+              $("#status_order option[value='finished']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").removeAttr('disabled');
+              $("#status_order option[value='unconfirmed']").attr('disabled','disabled');
+              $("#status_order option[value='confirmed']").attr('disabled','disabled');
+            }else{
+              $("#status_order option[value='unconfirmed']").attr('disabled','disabled');
+              $("#status_order option[value='confirmed']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").attr('disabled','disabled');
+              $("#status_order option[value='finished']").attr('disabled','disabled');
+            }
             $('#order_token').val($('meta[name="csrf-token"]').attr('content'));
             $('#status_order').change(function(){
               $('#save_order').removeAttr('disabled');

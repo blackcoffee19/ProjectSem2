@@ -347,6 +347,10 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <td colspan="2">Item Subtotal</td>
+                  <td colspan="3" class="text-center" id="item_subtotal"></td>
+                </tr>
+                <tr>
                   <td colspan="2">Shipping Fee</td>
                   <td colspan="3" class="text-center" id="shipment_fee_modal"></td>
                 </tr>
@@ -377,6 +381,8 @@
                   <option value="unconfirmed">Unconfirmed</option>
                   <option value="confirmed">Confirm</option>
                   <option value="delivery">Delivery</option>
+                  <option value="finished" disabled>Finished</option>
+                  <option value="transaction failed" disabled>Transaction Failed</option>
                 </select>
               </div>
             </div>
@@ -440,24 +446,24 @@
                       <td>{{$num}}</td>
                       <td><img src="{{asset('images/products/'.$cart->Product->Library[0]->image)}}"  class='icon-shape icon-xl'  alt="{{$cart->Product->name}}"></td>
                       <td>{{$cart->Product->name}}</td>
-                      <td>{{number_format($cart->price,0,'',' ')}} VND/kg</td>
+                      <td>{{number_format($cart->price,0,'',' ')}} đ/kg</td>
                       <td>{{$cart->sale}}%</td>
                       <td>{{$cart->amount}} grams</td>
                     </tr>
                     @php
                         $num++;
-                        $total += $cart->price*(1 - $cart->sale/100)*($cart->amount/1000);
+                        $total += $cart->sale>0?$cart->price*(1 - $cart->sale/100)*($cart->amount/1000):$cart->price*($cart->amount/1000);
                     @endphp
                 @endforeach
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="2">Shipment Fee</td>
-                  <td colspan="3">{{number_format($check_orders[$i]->shipping_fee,0,'',' ')}} VND</td>
+                  <td colspan="3">{{number_format($check_orders[$i]->shipping_fee,0,'',' ')}} đ</td>
                 </tr>
                 <tr>
                   <td colspan="2">Total</td>
-                  <td colspan="3">{{number_format($total,0,'',' ')}}VND</td>
+                  <td colspan="3">{{number_format($total+$check_orders[$i]->shipping_fee,0,'',' ')}} đ</td>
                 </tr>
               </tfoot>
             </table>

@@ -124,10 +124,11 @@ Route::controller(IndexController::class)->group(function () {
 
 // =============== ROUTE ADMIN =============== //
 Route::get('/admin/signin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
+Route::get('/admin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
 Route::post('/admin/signin',[TuongController::class,'post_admin_signin'])->name('admin_signin');
-
 Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
-
+    
+    
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
     Route::controller(AdminCategoryController::class)->group(function () {
@@ -179,6 +180,9 @@ Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
         Route::put('/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
     });
     
-    
+    Route::get('{path?}',[TuongController::class,'get_admin_signin'])->where('path','.*');
     // =============== END ROUTE ADMIN =============== //
 });
+// =============== 404 Page ===================== //
+Route::get('/{path}',[TuongController::class,'get_404'])->where('path','.*');
+// =============== END 404 Page ===================== //

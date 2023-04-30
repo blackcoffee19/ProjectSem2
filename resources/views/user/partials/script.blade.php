@@ -397,12 +397,12 @@
             $('#listCart2').html(list);
             $("#item_subtotal2").html(total+" đ");
             $('#shipment_fee_modal2').html(dataJson['shipping_fee']+" đ");
-            total+=parseInt(dataJson['shipping_fee']);
             if(parseInt(dataJson['discount']) >100){
-                total-= parseInt(dataJson['discount']);
-              }else{
-                total*=(1- parseInt(dataJson['discount'])/100);
-              }
+              total-= parseInt(dataJson['discount']);
+            }else{
+              total*=(1- parseInt(dataJson['discount'])/100);
+            }
+            total+=parseInt(dataJson['shipping_fee']);
             $('#total_order2').html(total+" đ");
             $("#status_order2").html(dataJson['status']);
           })
@@ -434,12 +434,12 @@
             $('#listCart').html(list);
             $("#item_subtotal").html(total+" đ");
             $('#shipment_fee_modal').html(dataJson['shipping_fee']+" đ");
-            total+=parseInt(dataJson['shipping_fee']);
             if(parseInt(dataJson['discount']) >100){
-                total-= parseInt(dataJson['discount']);
-              }else{
-                total*=(1- parseInt(dataJson['discount'])/100);
-              }
+              total-= parseInt(dataJson['discount']);
+            }else{
+              total*=(1- parseInt(dataJson['discount'])/100);
+            }
+            total+=parseInt(dataJson['shipping_fee']);
             $('#total_order').html(total+" đ");
             $("#status_order option[value="+dataJson['status']+"]").attr("selected", true);
             if(dataJson['status'] == 'unconfirmed'){

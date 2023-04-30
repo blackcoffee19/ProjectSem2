@@ -59,7 +59,8 @@
     <!-- Theme JS -->
     <script src="{{ asset('js/theme.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('js/chart.js') }}"></script>
+    {{-- <script src="{{ asset('js/chart.js') }}"></script> --}}
+    @include('admin.partials.chart')
     <!-- footer end-->
 </body>
 

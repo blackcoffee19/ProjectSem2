@@ -20,7 +20,7 @@
                 </div>
             </div>
             <!-- table -->
-            
+
 
             <div class="row">
                 <div class="col-lg-4 col-12 mb-6">
@@ -39,7 +39,7 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">$93,438.78</h1>
+                                <h1 class="mb-2 fw-bold fs-2">{{number_format(($income[count($income)-1] - $expense[count($expense)-1]),0,'',' ')}} VND</h1>
                                 <span>Monthly revenue</span>
                             </div>
                         </div>
@@ -61,8 +61,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">42,339</h1>
-                                <span><span class="text-dark me-1">35+</span>New Sales</span>
+                                <h1 class="mb-2 fw-bold fs-2">{{$order_y}}</h1>
+                                <span><span class="text-dark me-1">{{$sale_pro}}+</span>New Sales</span>
                             </div>
                         </div>
                     </div>
@@ -83,9 +83,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">39,354</h1>
-                                <span><span class="text-dark me-1">30+</span>new in 2
-                                    days</span>
+                                <h2 class="mb-2 ">{{$customer}}</h2>
+                                <span class="text-dark me-1">User: {{$users}}</span> 
                             </div>
                         </div>
                     </div>
@@ -102,12 +101,12 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h3 class="mb-1 fs-5">Revenue</h3>
-                                    <small>(+63%) than last year)</small>
+                                    {{-- <small>(+63%) than last year</small> --}}
                                 </div>
                                 <div>
                                     <!-- select option -->
                                     <select class="form-select">
-                                        <option selected>2019</option>
+                                        <option selected>2023</option>
                                         <option value="2023">2020</option>
                                         <option value="2024">2021</option>
                                         <option value="2025">2022</option>
@@ -302,58 +301,45 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th scope="col">Order Number</th>
-                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Order from</th>
                                             <th scope="col">Order Date</th>
                                             <th scope="col">Price</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($recent_orders as $order)
                                         <tr>
-                                            <td>#FC0005</td>
-                                            <td>Haldiram's Sev Bhujia</td>
-                                            <td>28 March 2023</td>
-                                            <td>$18.00</td>
+                                            <td>#{{$order->order_code}}</td>
+                                            <td>{{$order->id_user? $order->User->name : "GUEST"}}</td>
+                                            <td>{{date_format($order->created_at,"j F Y")}}</td>
+                                            <td>{{number_format($order->total,0,'',' ')}} đ</td>
                                             <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Shipped</span>
+                                                @switch($order->status)
+                                                    @case('finished')
+                                                        <span class="badge bg-light-primary text-dark-primary"> Shipped </span>   
+                                                        @break
+                                                    @case('confirmed')
+                                                        <span class="badge bg-light-info text-dark-info">Processing</span>
+                                                        @break
+                                                    @case('unconfirmed')
+                                                        <span class="badge bg-light-warning text-dark-warning">Pending</span>
+                                                        @break
+                                                    @case('delivery')
+                                                        <span class="badge bg-light-info text-dark-info">Delivery</span>
+                                                        @break
+                                                    @case('cancel')
+                                                        <span class="badge bg-light-danger text-dark-danger">Cancel</span>
+                                                        @break
+                                                    @case('transaction failed')
+                                                        <span class="badge bg-light-danger text-dark">Transaction Failed</span>
+                                                        @break
+                                                    @default
+                                                    @endswitch
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0004</td>
-                                            <td>NutriChoice Digestive</td>
-                                            <td>24 March 2023</td>
-                                            <td>$24.00</td>
-                                            <td>
-                                                <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0003</td>
-                                            <td>Onion Flavour Potato</td>
-                                            <td>8 Feb 2023</td>
-                                            <td>$9.00</td>
-                                            <td>
-                                                <span class="badge bg-light-danger text-dark-danger">Cancel</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0002</td>
-                                            <td>Blueberry Greek Yogurt</td>
-                                            <td>20 Jan 2023</td>
-                                            <td>$12.00</td>
-                                            <td>
-                                                <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0001</td>
-                                            <td>Slurrp Millet Chocolate</td>
-                                            <td>14 Jan 2023</td>
-                                            <td>$8.00</td>
-                                            <td>
-                                                <span class="badge bg-light-info text-dark-info">Processing</span>
-                                            </td>
-                                        </tr>
+                                        </tr>    
+                                        @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>

@@ -218,13 +218,17 @@ class TuongController extends Controller
         Auth::logout();
         return redirect('/');
     }
-    public function product_detail($id){
-        $product = Product::find($id);
-        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
-            ->take(5)
-            ->get();
-        $comments= Comment::where('id_product','=',$id)->get();
-        return view('user.pages.ProductDetails.index',compact('product','related_products','comments'));
+    public function product_detail($id = null){
+        if($id == null){
+            return redirect('/not_found')->with("error","Product Not Found");
+        }else{
+            $product = Product::find($id);
+            $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
+                ->take(5)
+                ->get();
+            $comments= Comment::where('id_product','=',$id)->get();
+            return view('user.pages.ProductDetails.index',compact('product','related_products','comments'));
+        }
     }
     public function post_comment(Request $req){
         $comment = new Comment();
@@ -1201,6 +1205,9 @@ class TuongController extends Controller
         echo $num;
     }
     public function get_admin_signin(){
+        if(Auth::check() && Auth::user()->admin == '1'){
+            Auth::logout();
+        }
         return view('admin.pages.Signin.index');
     }
     public function post_admin_signin(Request $req){
@@ -1210,5 +1217,8 @@ class TuongController extends Controller
         }else{
             return redirect()->back()->with('error',"Email or password incorrect");
         }
+    }
+    public function get_404(){
+        return view('user.pages.404Notfound.index');
     }
 }

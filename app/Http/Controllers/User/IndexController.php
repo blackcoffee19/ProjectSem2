@@ -43,14 +43,18 @@ class IndexController extends Controller
         return view('user.pages.Products.index', compact( 'type','prods','rate'));
     }
 
-    public function product_detail($id)
+    public function product_detail($id = null)
     {
-        $product = Product::find($id);
-        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
-            ->take(5)
-            ->get();
-        $comments = Comment::where('id_product', '=', $id)->get();
-        return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
+        if($id == null){
+            return redirect('/not_found')->with("error","Product Not Found");
+        }else{
+            $product = Product::find($id);
+            $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
+                ->take(5)
+                ->get();
+            $comments = Comment::where('id_product', '=', $id)->get();
+            return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
+        }
     }
 
 

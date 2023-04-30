@@ -345,12 +345,12 @@
                         Total
                       </div>
                       @php
-                          $subtotal += $shipment_fee;
                           if(Session::has('coupon') && $coupon->freeship){
                             $subtotal -= $coupon->discount;
                           }else if(Session::has('coupon')){
                             $subtotal *=(1- $coupon->discount/100);
                           }
+                          $subtotal += $shipment_fee;
                       @endphp
                       <div id="total" data-total="{{$subtotal-$shipment_fee}}">
                         {{number_format($subtotal,0,'',' ') }} đ

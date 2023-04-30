@@ -59,35 +59,27 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-6 mb-3 mb-lg-0">
-                        <div>
-                            <div class="py-10 px-8 rounded" style="background:url({{ asset('/images/banner/'.$banner[0]->image) }})no-repeat; background-size: cover; background-position: center;">
+                    @foreach ($banners as $banner)
+                        @if ($banner->id_banner == 1 || $banner->id_banner == 2)
+                            <div class="col-12 col-md-6 mb-3 mb-lg-0">
                                 <div>
-                                    <h3 class="fw-bold mb-1" style="color: {{$banner[0]->title_color}}">{{$banner[0]->title}}
-                                    </h3>
-                                    <p class="mb-4" style="color: {{$banner[0]->content_color}}">{{$banner[0]->content}}</p>
-                                    <a href="{{route($banner[0]->link,$banner[0]->attr)}}" class="btn " style="background-color: {{$banner[0]->btn_bg_color}};color: {{$banner[0]->btn_color}}">{{$banner[0]->btn_content}}</a>
+                                    <div class="py-10 px-8 rounded"
+                                        style="background:url({{ asset('/images/banner/' . $banner->image) }})no-repeat; background-size: cover; background-position: center;">
+                                        <div>
+                                            <h3 class="fw-bold mb-1" style="color:{{ $banner->title_color }};">
+                                                {{ $banner->title }}
+                                            </h3>
+                                            <p class="mb-4" style="color:{{ $banner->content_color }}">
+                                                {{ $banner->content }}
+                                            </p>
+                                            <a href="#!" class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-md-6 ">
-
-                        <div>
-                            <div class="py-10 px-8 rounded"
-                                style="background:url({{ asset('/images/banner/'.$banner[1]->image) }})no-repeat; background-size: cover; background-position: center;">
-                                <div>
-                                    <h3 class="fw-bold mb-1"style="color: {{$banner[1]->title_color}}">{{$banner[1]->title}}
-                                    </h3>
-                                    <p class="mb-4" style="color: {{$banner[1]->content_color}}">{{$banner[1]->content}}</p>
-                                    <a href="{{route($banner[1]->link,$banner[1]->attr)}}" class="btn"style="background-color: {{$banner[1]->btn_bg_color}};color: {{$banner[1]->btn_color}}">{{$banner[1]->btn_content}}</a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -187,14 +179,15 @@
                 <div class="table-responsive-xl pb-6">
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
-                            <div class=" pt-8 px-6 px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/'.$banner[2]->image) }})no-repeat; background-size: cover; height: 470px;">
+                            <div class="px-xl-8 rounded"
+                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 550px; padding-top: 150px; padding-left: 30px;">
                                 <div>
-                                    <h3 class="fw-bold " style="color:{{$banner[2]->title_color}}">
-                                        {{$banner[2]->title}}
-                                    </h3>                                    
-                                    <p style="color:{{$banner[2]->content_color}}">{{$banner[2]->content}}</p>
-                                    <a  class="btn " style="background-color: {{$banner[2]->btn_bg_color}};color:{{$banner[2]->btn_color}}">{{$banner[2]->btn_content}}<i
+                                    <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
+                                        {{ $banners[2]->title }}
+                                    </h3>
+                                    <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
+                                    <a class="btn "
+                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin-top: 160px;">{{ $banners[2]->btn_content }}<i
                                             class="feather-icon icon-arrow-right ms-1"></i></a>
                                 </div>
                             </div>

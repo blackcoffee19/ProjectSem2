@@ -81,7 +81,12 @@
                                                             alt="" style="width:50px; height:auto;">
                                                     @endforeach
                                                 </td>
-                                                <td>{{ $item->name }}</td>
+                                                <td>
+                                                    <a href="{{ route('products-details', $item->id_product) }}">
+                                                        {{ $item->name }}
+                                                    </a>
+                                                </td>
+
                                                 <td>
                                                     {{ $item->typeproduct->type }}
                                                 </td>

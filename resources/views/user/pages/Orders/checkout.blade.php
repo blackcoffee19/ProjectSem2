@@ -21,11 +21,9 @@
           <div class="alert alert-danger">{{ \Session::get('paypal_error') }}</div>
           {{ \Session::forget('paypal_error') }}
       @endif
-      @if(\Session::has('success_paypal'))
-          <div class="alert alert-success">{{ \Session::get('paypal_success'). " Make sure you sign all delivery Infomation" }}</div>
-      @endif
+      
       @php
-          $shipment = 2;
+          $shipment_fee = 20000;
       @endphp
       <div>
         <form action="{{route('checkout')}}" method="post">
@@ -54,11 +52,7 @@
                                   <div class="col-lg-6 col-12 mb-4">
                                     <div class="card card-body p-6 " style="height: 240px">
                                       <div class="form-check mb-4">
-                                        @if (Session::has('select_add'))
-                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{Session::get('select_add') == $add->id_address?'checked':''}} value="{{$add->id_address}}">
-                                        @else
-                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
-                                        @endif
+                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
                                         <label class="form-check-label text-dark" >
                                           Reciver : {{$add->receiver}}
                                         </label>
@@ -67,15 +61,11 @@
                                       <address style="height: 90px">
                                         {{$add->address}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
-                                        @php
-                                          if(!Session::has('select_add')){
-                                            if($add->default){
-                                              $shipment_fee = $add->shipment_fee;
-                                            }
-                                          }else{
-                                            $shipment_fee = intval(Session::get('shipfee'));
-                                          }
-                                        @endphp
+                                      @php
+                                        if($add->default){
+                                          $shipment_fee = $add->shipment_fee;
+                                        }
+                                      @endphp
                                       @if ($add->default)
                                       <span class="text-danger">Default address </span>
                                       @endif
@@ -84,17 +74,11 @@
                                   </div>
                               @endforeach
                             @else
-                            @php
-                                $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):20000;
-                            @endphp
                             @endif
                           </div>
                         </div>
                       </div>
                     @else
-                      @php
-                          $shipment_fee = Session::has('shipfee')?intval(Session::get('shipfee')):20000;
-                      @endphp
                       <div class="d-flex justify-content-between align-items-center">
                         <a href="#" class="fs-5 text-inherit collapsed h4"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
                           <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
@@ -105,43 +89,31 @@
                           <div class="row g-3">
                             <!-- col -->
                             <div class="col-12">
-                              <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" value="{{Session::has('name')?Session::get('name'):''}}">
+                              <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="" >
                               
                             </div>
                             <div class="col-6">
-                              <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" value="{{Session::has('phone')?Session::get('phone'):''}}">
+                              <input type="text" class="form-control" name="phoneReciever" placeholder="Phone number"  required="" >
                               
                             </div>
                             <div class="col-6">
-                              <input type="text" class="form-control" name="emailReciever" placeholder="Email" value="{{Session::has('email')?Session::get('email'):''}}">
+                              <input type="text" class="form-control" name="emailReciever" placeholder="Email" >
                             
                             </div>
                             <div class="col-12">
-                              <input type="text" class="form-control" name="addressReciever" placeholder="Address" value="{{Session::has('address')?Session::get('address'):''}}">
+                              <input type="text" class="form-control" name="addressReciever" placeholder="Address" >
                               
                             </div>
                             <div class="col-12">
-                              <select class="form-select" name="province" id="province">
-                                @if (Session::has('province'))
-                                    <option value="{{Session::get('province')}}" checked>{{Session::get('province')}}</option>
-                                    
-                                @endif
+                              <select class="form-select" name="province" id="province" >
                               </select>
                             </div>
                             <div class="col-12">
-                              <select class="form-select" name="district" id="district" {{Session::has('district')?'':"disabled"}}>
-                                @if (Session::has('district'))
-                                  <option value="{{Session::get('district')}}" checked>{{Session::get('district')}}</option>
-                                  
-                                @endif
+                              <select class="form-select" name="district" id="district" disabled>
                               </select>
                             </div>
                             <div class="col-12">
-                              <select class="form-select" name="ward" id="ward" {{Session::has('ward')?'':"disabled"}}>
-                                @if (Session::has('ward'))
-                                  <option value="{{Session::get('ward')}}" checked>{{Session::get('ward')}}</option>
-                                  
-                                @endif
+                              <select class="form-select" name="ward" id="ward" disabled>
                               </select>
                             </div>
                           </div>
@@ -149,7 +121,7 @@
                       </div>
                     @endif
                   </div>
-                  <input type="hidden" name="shipment_fee" id="shipment_fee"value="{{Session::has('shipfee')?intval(Session::get('shipfee')):$shipment_fee}}">
+                  <input type="hidden" name="shipment_fee"value="{{$shipment_fee}}">
                   <div class="accordion-item py-4">
                     <a href="#" class="text-inherit h5"  data-bs-toggle="collapse"
                       data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -157,12 +129,10 @@
                     </a>
                     <div id="flush-collapseThree" class="accordion-collapse collapse "
                       data-bs-parent="#accordionFlushExample">
-
                       <div class="mt-5">
                         <label for="DeliveryInstructions" class="form-label sr-only">Delivery instructions</label>
                         <textarea class="form-control" id="DeliveryInstructions" name="delivery_instructions" rows="3"
-                          placeholder="Write delivery instructions ">{{Session::has('instructions')?Session::get('instructions'):''}}</textarea>
-                          
+                          placeholder="Write delivery instructions "></textarea>
                         <p class="form-text">Add instructions for how you want your order shopped and/or delivered</p>
                         <div class="mt-5 d-flex justify-content-end">
                           <a href="#" class="btn btn-outline-gray-400 text-muted"
@@ -186,45 +156,58 @@
                       <div class="mt-5">
                         <div>
                           <div class="card card-bordered shadow-none mb-2">
-                            <div class="card-body p-6 {{Session::has('success_paypal')?'alert alert-primary':''}}">
+                            <div class="card card-bordered shadow-none">
+                              <div class="card-body p-6">
+                                <div class="d-flex">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="order_method" value="cod" id="cashonDelivery" checked>
+                                      <label class="form-check-label ms-2" for="cashonDelivery">
+                                    </label>
+                                  </div>
+                                  <div>
+                                    <h5 class="mb-1 h6"> Cash on Delivery</h5>
+                                    <p class="mb-0 small">Pay with cash when your order is delivered.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-body p-6">
                               <div class="d-flex">
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="order_method" value="paypal" id="paypal" {{Session::has('success_paypal')?'checked':''}}>
-                                    <label class="form-check-label ms-2" for="paypal">
-                                    </label>
+                                  <input class="form-check-input" type="radio" name="order_method" value="paypal" id="paypal">
+                                  <label for="paypal mx-2">
+                                    <svg width="56" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <g id="paypal-light-large">
+                                      <rect id="card_bg" width="32" height="21.3333" rx="4" fill="#DFE3E8"/>
+                                      <g id="paypal">
+                                      <path id="Path" d="M13.5642 16.88L13.7976 15.4133H13.2776H10.8242L12.5309 4.57333C12.5354 4.53975 12.552 4.50895 12.5776 4.48666C12.6044 4.46595 12.637 4.45428 12.6709 4.45333H16.8109C18.1909 4.45333 19.1376 4.74 19.6376 5.30666C19.8588 5.54435 20.0129 5.83653 20.0842 6.15333C20.162 6.53833 20.162 6.935 20.0842 7.32V7.65333L20.3176 7.78666C20.4952 7.8752 20.6555 7.99487 20.7909 8.14C20.9947 8.386 21.1262 8.6837 21.1709 9C21.2208 9.41348 21.2028 9.83234 21.1176 10.24C21.0296 10.7352 20.8559 11.2112 20.6042 11.6467C20.4008 11.9958 20.1259 12.2979 19.7976 12.5333C19.4671 12.7587 19.0991 12.9235 18.7109 13.02C18.2751 13.1299 17.827 13.1837 17.3776 13.18H17.0509C16.8219 13.18 16.6002 13.2602 16.4242 13.4067C16.2473 13.5557 16.1311 13.7644 16.0976 13.9933V14.1267L15.6909 16.7133V16.8133C15.6957 16.8308 15.6957 16.8492 15.6909 16.8667H15.6509L13.5642 16.88Z" fill="#253D80"/>
+                                      <path id="Path_2" d="M20.5361 7.38667L20.4961 7.63333C19.9494 10.4333 18.0761 11.4067 15.6894 11.4067H14.4761C14.1842 11.4063 13.9354 11.6184 13.8894 11.9067L13.2694 15.8533L13.0894 16.9733C13.0759 17.063 13.1019 17.1542 13.1608 17.2232C13.2196 17.2922 13.3054 17.3324 13.3961 17.3333H15.5561C15.8122 17.3331 16.03 17.1464 16.0694 16.8933V16.7867L16.4761 14.2067V14.0667C16.5125 13.8146 16.7281 13.6274 16.9828 13.6267H17.3361C19.4228 13.6267 21.0628 12.78 21.5361 10.2933C21.7922 9.44343 21.6342 8.52258 21.1094 7.80667C20.9429 7.63588 20.7492 7.49394 20.5361 7.38667V7.38667Z" fill="#189BD7"/>
+                                      <path id="Path_3" d="M19.9603 7.16L19.7069 7.09333L19.4269 7.04C19.0739 6.98721 18.7172 6.96268 18.3603 6.96666H15.1069C15.0309 6.96458 14.9555 6.98057 14.8869 7.01333C14.7323 7.0857 14.6246 7.23105 14.6003 7.4L13.9336 11.78V11.9067C13.9795 11.6184 14.2283 11.4063 14.5203 11.4067H15.7336C18.1203 11.4067 19.9936 10.4333 20.5403 7.63333L20.5803 7.38666C20.4367 7.31246 20.2873 7.25003 20.1336 7.2L19.9603 7.16Z" fill="#242E65"/>
+                                      <path id="Path_4" d="M14.6022 7.4C14.6265 7.23105 14.7343 7.08571 14.8889 7.01333C14.9575 6.98058 15.0329 6.96458 15.1089 6.96667H18.3622C18.7191 6.96269 19.0758 6.98721 19.4289 7.04L19.7089 7.09333L19.9622 7.16L20.0889 7.2C20.2426 7.25003 20.3919 7.31246 20.5355 7.38667C20.7522 6.55375 20.5536 5.66745 20.0022 5.00667C19.3355 4.3 18.2422 4 16.8155 4H12.6689C12.3769 3.99965 12.1281 4.2117 12.0822 4.5L10.3555 15.44C10.3401 15.5432 10.3701 15.648 10.4379 15.7273C10.5057 15.8066 10.6046 15.8526 10.7089 15.8533H13.2689L13.9355 11.78L14.6022 7.4Z" fill="#253D80"/>
+                                      </g>
+                                      </g>
+                                    </svg>                                    
+                                  </label>
                                 </div>
                                 <div >
                                   <h5 class="mb-1 h6"> Payment with Paypal</h5>
                                   <p class="mb-0 small">{{Session::has('paypal_success')?Session::get('paypal_success'):'You will be redirected to PayPal website to complete your purchase
                                     securely.'}}</p>
-                                    <a class="btn btn-primary m-3 px-2 h5"  id="paypal_btn" data-success="{{Session::has('success_paypal')? 'success': 'none'}}">Pay </a>
+                                    <button type="button" for="paypal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#payPalModal" id="paypal_btn">
+                                      Pay $<span class="totalPay"></span>
+                                    </button>
+                                    
+                                    {{-- <a class="btn btn-primary m-3 px-2 h5"  id="paypal_btn" data-success="{{Session::has('success_paypal')? 'success': 'none'}}">Pay </a> --}}
                                 </div>
                               </div>
                             </div>
                           </div>
-                          @if (!Session::has('success_paypal'))
-                          <div class="card card-bordered shadow-none">
-                            <div class="card-body p-6">
-                              <div class="d-flex">
-                                <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="order_method" value="cod" id="cashonDelivery" checked>
-                                    <label class="form-check-label ms-2" for="cashonDelivery">
-                                  </label>
-                                </div>
-                                <div>
-                                  <h5 class="mb-1 h6"> Cash on Delivery</h5>
-                                  <p class="mb-0 small">Pay with cash when your order is delivered.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                              
-                          @endif
+                          
                           <div class="mt-5 d-flex justify-content-end">
                             <a href="#" class="btn btn-outline-gray-400 text-muted"
                               data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                               aria-controls="flush-collapseThree">Prev</a>
-                            
+                                <button type="submit" class="btn btn-primary ms-2 col-3" id="submit_order" {{!Auth::check()?"disabled":''}}>Finish Order</button>
                           </div>
                         </div>
                       </div>
@@ -333,7 +316,7 @@
                         {{number_format($shipment_fee,0,'',' ')}} đ
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between {{Session::has('shipfee') && intval(Session::get('shipfee'))<$shipment_fee?'':'d-none'}} mb-2 " id="extra_ship">
+                    <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
                       <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
                       </div>
                       <div class="fw-bold text-danger" >
@@ -362,7 +345,7 @@
                         Total
                       </div>
                       @php
-                          $subtotal +=Session::has('shipfee')?intval(Session::get('shipfee')):$shipment_fee;
+                          $subtotal += $shipment_fee;
                           if(Session::has('coupon') && $coupon->freeship){
                             $subtotal -= $coupon->discount;
                           }else if(Session::has('coupon')){
@@ -377,9 +360,7 @@
                 </ul>
 
               </div>
-              <div class="mt-4 row">
-                <button type="submit" class="btn btn-primary ms-2 col-3" id="submit_order" {{!Auth::check()?(!Session::has('success_paypal')?"disabled":''):''}}>Finish Order</button>
-              </div>
+              
 
             </div>
           </div>
@@ -398,30 +379,22 @@
               window.location.assign(window.location.origin+'/public/index.php/remove_address/'+$(this).data('idadd'));
             });
             $('input[name="select_address"]').change(function(){
-              if(parseInt($('input[name="select_address"]:checked').data('shipment'))>20000){
-                if($("#shippment_fee").data('ship') != 30000){
+              if(parseInt($('input[name="select_address"]:checked').data('shipment')) > parseInt($("input[name=shipment_fee]").val())){
                   $('#extra_ship').removeClass('d-none');
-                  $('#shipment_fee').val(30000);
-                  let totall = parseInt($("#total").data('total'))+30000;
-                  $('#total').html(totall+' VND');
-                  $("#paypal_btn").text("Pay $"+Math.floor((parseInt($('#total').data('total'))+30000)*0,000043));
-                };
-              }else{
-                if(!$('#extra_ship').hasClass('d-none')){
+                  let totall = parseInt($("#total").data('total'))+parseInt($('input[name="select_address"]:checked').data('shipment'));
+                  $('#total').html(totall+' đ');
+                  $(".totalPay").text((totall*0.000043).toFixed(2));
+                }else if(parseInt($('input[name="select_address"]:checked').data('shipment')) < parseInt($("input[name=shipment_fee]").val())){
+                  console.log("SECOND");
                   $('#extra_ship').addClass('d-none');
+                  $("#shippment_fee").html('20 000 đ');
+                  let totall = parseInt($("#total").data('total'))+parseInt($('input[name="select_address"]:checked').data('shipment'));
+                  $('#total').html(totall+" đ");
+                  $(".totalPay").text((totall*0.000043).toFixed(2));
                 }
-                $("#shippment_fee").html('20000 VND');
-                  $("#shippment_fee").data('ship',20000);
-                  $('#shipment_fee').val(20000);
-                  $('#total').html('$'+parseInt($("#total").data('total'))+20000)
-                  $("#paypal_btn").text("Pay $"+((parseInt($('#total').data('total'))+30000)*0.000043).toFixed(2));
-              }
-            })
-            @if(Session::has('success_paypal'))
-            $("#paypal_btn").text("Paied");
-            @else
-            $("#paypal_btn").text("Pay $"+((parseInt($('#total').data('total'))+parseInt($('#shipment_fee').val()))*0.000043).toFixed(2));
-            @endif
+                $("input[name=shipment_fee]").val(parseInt($('input[name="select_address"]:checked').data('shipment')));
+            });
+            $(".totalPay").text(((parseInt($('#total').data('total'))+parseInt($("input[name=shipment_fee]").val()))*0.000043).toFixed(2));
             $("input[name=order_method]").change(function(){
               if(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked')){
                 $('#submit_order').removeAttr('disabled');
@@ -430,15 +403,70 @@
               }
             });
             $("#paypal_btn").click(function(){
-              @if(!Session::has('success_paypal'))
-                @if(Auth::check())
-                  window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('#shipment_fee').val()+"&coupon="+$('input[name=code_coupon]').val());
-                @else
-                  window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('#shipment_fee').val());
-                @endif
+              @if(Auth::check())
+                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                  let dataAddress = jQuery.parseJSON(data);
+                  $('#intruct_pay').html($("#DeliveryInstructions").val());
+                  $('#address_pay').html(dataAddress['address']);
+                  $('#name_pay').html(dataAddress['receiver']);
+                  $('#phone_pay').html(dataAddress['phone']);
+                  $('#email_pay').html(dataAddress['email']);
+                  $("#confirm_paypal").click(function(){
+                    window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
+                  });
+                })
               @else
-                alert("You has paied. Now Sign all delivery information then submit");
-              @endif
+                  if($('input[name=nameReciever]').val().trim().length ==0){
+                    $('#name_pay').html("You forgot input receiver name");
+                    $('#name_pay').addClass('text-danger');
+                    $("#confirm_paypal").attr("disabled","disabled");
+                  }else{
+                    $('#name_pay').removeClass('text-danger');
+                    $('#name_pay').html($('input[name=nameReciever]').val());
+                  }
+                  if($('input[name=phoneReciever]').val().trim().length == 0){
+                    $('#phone_pay').html("You forgot input receiver's phone nummber");
+                    $('#phone_pay').addClass('text-danger');
+
+                  }else{ 
+                    $('#phone_pay').removeClass('text-danger');
+                    $('#phone_pay').html($('input[name=phoneReciever]').val());
+                  }
+                  if($('input[name=emailReciever]').val().trim().length == 0){
+                    $('#email_pay').html("You forgot input email for us");
+                    $('#email_pay').addClass('text-danger');
+                    $("#confirm_paypal").attr("disabled","disabled");
+                  }else{
+                    $('#email_pay').removeClass('text-danger');
+                    $('#email_pay').html($('input[name=emailReciever]').val());
+                  }
+                  $('#intruct_pay').html($("#DeliveryInstructions").val());
+                  $("#address_pay2").html($('input[name=addressReciever]').val());
+                  let checkAddr= false;
+                  if($('#ward option:selected').val() == null || 
+                  $('#district option:selected').val() == null||
+                  $('#province option:selected').val() == null || 
+                  ($('#ward option:selected').val().includes("Choose") || !isNaN($('#ward option:selected').val())) ||
+                  ($('#district option:selected').val().includes('Choose') || !isNaN($('#district option:selected').val())) ||
+                  ($('#province option:selected').val().includes("Choose") || !isNaN($('#province option:selected').val()))
+                  ){
+                    $("#ward_pay").html("You need to select Address for Delivery");
+                    $("#ward_pay").addClass("text-danger");
+                    $("#confirm_paypal").attr("disabled","disabled");
+                  }else{
+                    $("#ward_pay").removeClass('text-danger');
+                    $("#ward_pay").html($('#ward option:selected').val());
+                    $('#district_pay').html($('#district option:selected').val());
+                    $("#province_pay").html($('#province option:selected').val());
+                    checkAddr=true;
+                  }
+                  if($('input[name=nameReciever]').val().trim().length>0 && $('input[name=phoneReciever]').val().trim().length>0 && $('input[name=emailReciever]').val().trim().length >0 && checkAddr){
+                    $("#confirm_paypal").removeAttr('disabled');
+                  }
+                @endif
+            })
+            $("#confirm_paypal").click(function(){
+                window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
             })
         })
     </script>

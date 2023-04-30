@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Coupon;
+use App\Models\Address;
+use App\Models\Comment;
+use App\Models\Product;
+use Carbon\Carbon;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+
 class PayPalController extends Controller
 {
       /**
@@ -46,6 +52,7 @@ class PayPalController extends Controller
             if(Str::length($req['coupon'])>0){
                 $coupon = Coupon::where('code','=',$req['coupon'])->first();
                 $total = $coupon->discount <=100 ? $total*(1-$coupon->discount/100) : $total-$coupon->discount;
+                Session::put('code_coupon',$req['coupon']);
             }
             $total*=0.000043;
             $response = $provider->createOrder([
@@ -137,12 +144,100 @@ public function successTransaction(Request $request)
     $provider->setApiCredentials(config('paypal'));
     $provider->getAccessToken();
     $response = $provider->capturePaymentOrder($request['token']);
-    // dd($response);
     if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-         Session::put('success_paypal', true);
-        return redirect()
-            ->route('checkout')
-            ->with('paypal_success', 'Transaction complete.');
+        //  Session::put('success_paypal', true);
+         $order = new Order();
+        if(Auth::check()){
+            $order->id_user = Auth::user()->id_user;
+            $order_code = "USR".Auth::user()->id_user."_".count(Auth::user()->Order);
+            $order->order_code = $order_code;
+            $address = Address::find(Session::get('select_add'));
+            $order->receiver = $address['receiver']; 
+            $order->phone = $address['phone'];
+            $order->email = $address['email'];
+            $order->address = $address['address'];
+            $order->code_coupon = Session::has('code_coupon')?Session::get('code_coupon'):null;
+            $order->method = 'paypal';
+            $order->instruction = Session::has('instructions')?Session::get('instructions'):null;
+            foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
+                $cart->Product->quantity-=$cart->amount;
+                $cart->Product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $cart->Product->save();
+                $cart->order_code = $order_code;
+                $cart->price = $cart->Product->price;
+                $cart->sale = $cart->Product->sale;
+                $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $cart->save();
+            }
+            $order->shipping_fee = intval(Session::get('shipfee'));
+            $order->status = 'unconfirmed';
+            $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
+            $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+            $order->save();
+            Session::forget('instructions');
+            Session::forget('select_add');
+            Session::forget('shipfee');
+            Session::forget('code_coupon');
+            return redirect()
+                ->route('accountorder')
+                ->with('paypal_success', true);
+        }else{
+            $nnum = count(Order::where('order_code','LIKE','%GUT%')->get());
+            $order_code = "GUT_".$nnum;
+            while(Order::where('order_code','=',$order_code)->first()){
+                $nnum++;
+                $order_code ="GUT_".$nnum;
+            }
+            $current_guest_cart = Session::get('cart');
+            foreach($current_guest_cart as $key => $value){
+                $guest_cart = new Cart();
+                $guest_cart->order_code=$order_code;
+                $guest_cart->id_product= $value["id_product"];
+                $guest_cart->price = $value["per_price"];
+                $guest_cart->sale = $value["sale"];
+                $guest_cart->amount = $value["amount"];
+                $guest_cart->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $guest_cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $guest_cart->save();
+                $product = Product::where('id_product','=',$value["id_product"])->first();
+                $product->quantity -=$value["amount"];
+                $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $product->save();
+                $comment  = new Comment();
+                $comment->id_product = $value["id_product"];
+                $comment->name="Guest";
+                $comment->verified = true;
+                $comment->rating = 5;
+                $comment->phone = Session::get('phone');
+                $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $comment->save();
+            }
+            $order->order_code = $order_code;
+            $order->receiver = Session::get('name');
+            $order->phone = Session::get('phone');
+            $order->email = Session::get('email');
+            $order->address = Session::get('address').", ".Session::get('ward').", ".Session::get('district'). ", ".Session::get('province');
+            $order->method = 'paypal';
+            $order->instruction = Session::has('instructions')?Session::get('instructions'):null;
+            $order->shipping_fee = intval(Session::get('shipfee'));
+            $order->status = 'unconfirmed';
+            $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
+            $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+            $order->save();
+            Session::forget('instructions');
+            Session::forget("cart");
+            Session::forget('name');
+            Session::forget('phone');
+            Session::forget('email');
+            Session::forget('province');
+            Session::forget('district');
+            Session::forget('address');
+            Session::forget('ward');
+            Session::forget('shipfee');
+            return redirect()
+                ->route('index')
+                ->with('paypal_success', true);
+        }
     } else {
         return redirect()
             ->route('checkout')

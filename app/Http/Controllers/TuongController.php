@@ -32,10 +32,10 @@ class TuongController extends Controller
         $cats = TypeProduct::all();
         $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
-        $banner = Banner::all();
+        $banners = Banner::all();
         $sliders = Slide::all();
         // dd($check_orders);
-        return view('user.index',compact('products','product_hot','banner','check_orders','cats','sliders'));
+        return view('user.index',compact('products','product_hot','banners','check_orders','cats','sliders'));
     }
     public function get_signUp(){
         $site= "Signup";
@@ -60,7 +60,7 @@ class TuongController extends Controller
         $newAdd->id_user =Auth::user()->id_user;
         $newAdd->receiver = $req['nameReciever'];
         $newAdd->address = $req['addressReciever'].", ". $req['ward'].', '.$req['district'].", ".$req['province'];
-        $newAdd->shipment_fee = $req['province'] != "Thành phố Hồ Chí Minh" ? 3:2;
+        $newAdd->shipment_fee = $req['province'] != "Thành phố Hồ Chí Minh" ? 30000:20000;
         $newAdd->phone = $req['phoneReciever'];
         $newAdd->email = $req['emailReciever'];
         if(isset($req['saveAddress'])){
@@ -77,7 +77,14 @@ class TuongController extends Controller
     public function remove_address($id){
         $add = Address::where('id_address','=',$id)->first();
         $add->delete();
+        $address = Address::where('id_user','=',Auth::user()->id_user)->first();
+        $address->default = true;
+        $address->save();
         return redirect()->back()->with('message','Delete Address successfully');
+    }
+    public function get_addressdetail($id){
+        $address = Address::find($id);
+        echo $address;
     }
     public function check_email($email){
         $checkEmail = User::where('email','=',$email)->get();
@@ -306,17 +313,10 @@ class TuongController extends Controller
                 $product->quantity -=$value["amount"];
                 $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
                 $product->save();
-                $comment  = new Comment();
-                $comment->id_product = $value["id_product"];
-                $comment->name="Guest";
-                $comment->verified = true;
-                $comment->rating = 5;
-                $comment->phone = $req['phoneReciever'];
-                $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
-                $comment->save();
             }
             
             $order->order_code = $order_code;
+            $order->instruction = $req['delivery_instructions'];
             $order->receiver = $req['nameReciever'];
             $order->phone = $req['phoneReciever'];
             $order->email = $req['emailReciever'];
@@ -734,7 +734,7 @@ class TuongController extends Controller
     }
     public function showCompare(){
         $cmp = "";
-        $info = ["Image","Name","Type","Quantity","Status","Description","Rating","Sold","Price",'Delete'];
+        $info = ["Image","Name","Type","Quantity","Status","Rating","Sold","Price",'Delete'];
         for($i =0; $i<count($info);$i++){
             $cmp.="<tr><td>".$info[$i]."</td>";
             foreach(Session::get('compare') as $key=> $product){
@@ -750,16 +750,13 @@ class TuongController extends Controller
                         $cmp.="<td class='text-dark text-capitalize'>".$prod->TypeProduct->type."</td>";
                         break;
                     case 3:
-                        $cmp .= "<td class='text-dark'>".number_format($product->quantity,2,',',' ')."g</td>";
+                        $cmp .= "<td class='text-dark'>Left: ".number_format($product->quantity,0,'',' ')."grams</td>";
                         break;
                     case 4:
                         $status = $product->status? "In Stock": "Out Stock";
                         $cmp .="<td class='text-dark'>".$status."</td>";
                         break;
                     case 5:
-                        $cmp .= "<td class='text-dark'>".$product->description."</td>";
-                        break;
-                    case 6:
                         $cmp.="<td>";
                         for($j =0; $j<floor($product->rating);$j++){
                             $cmp.="<i class='bi bi-star-fill text-warning fs-5'></i>";
@@ -772,15 +769,15 @@ class TuongController extends Controller
                         };
                         $cmp.="</td>";
                         break;
-                    case 7:
+                    case 6:
                         $cmp .= "<td class='text-dark'>".$product->sold."</td>";
                         break;
-                    case 8:
+                    case 7:
                         if($product->sale>0){
-                            $cmp .= "<td><span class='fs-4 text-danger'>".($product->price * (1-$product->sale/100))." đ/kg</span>";
+                            $cmp .= "<td><span class='fs-4 text-danger'>".(number_format($product->price * (1-$product->sale/100),0,'',' '))." đ/kg</span>";
                             $cmp.="<span class='text-muted ms-1'>(Off ".$product->sale."%)</span></td>";
                         }else{
-                            $cmp.="<td><span class='fs-4 text-black'>".$product->price." đ/kg</span></td>";
+                            $cmp.="<td><span class='fs-4 text-black'>".number_format($product->price,0,'',' ')." đ/kg</span></td>";
                         };
                         break;
                     default:
@@ -922,7 +919,15 @@ class TuongController extends Controller
     public function cancel_order($id){
         $order = Order::find($id);
         $order->status = 'cancel';
+        $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
+        foreach($order->Cart as $cart){
+            $product = $cart->Product;
+            $product->quantity += $cart->amount;
+            $product->save();
+            $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+            $cart->save();
+        }
         $new = new News();
         $new->order_code =$order->order_code;
         $new->link = $order->order_code;
@@ -1069,13 +1074,76 @@ class TuongController extends Controller
             echo $order;
         }
     }
+    public function modal_notificate($id){
+        if(Auth::check() && Auth::user()->admin != "2"){
+            echo "Wrong way bro";
+        }else{
+            $code = News::find($id)->link;
+            $order = Order::where("order_code",'=',$code)->first();
+            $name =[];
+            $images =[];
+            $order->cart = $order->Cart->toArray();
+            foreach($order->Cart as $cart){
+                array_push($images,$cart->Product->Library[0]->image);
+                array_push($name,$cart->Product->name);          
+            };
+            $order->image = $images;
+            $order->product = $name;
+            $order->news = $id;
+            $order->discount = $order->code_coupon?$order->Coupon->discount: 0;
+            $order->coupon_title = $order->code_coupon?$order->Coupon->title: '';
+            echo $order;
+        }
+    }
     public function post_confirmorder(Request $req){
         $order = Order::find($req['id_order']);
         $order->status = $req['status_order'];
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
-        if($req['status_order'] == 'delivery'){
-            Mail::to($order->email)->send(new OrderShipped($order));
+        switch($req['status_order']){
+            case "finished":
+                if(preg_match("/gut/i",$order->order_code) == 1){
+                    foreach($order->Cart as $cart){
+                        $comment = new Comment();
+                        $comment->id_product = $cart->id_product;
+                        $comment->name = "Guest";
+                        $comment->verified = true;
+                        $comment->rating = 5;
+                        $comment->phone = $order->phone;
+                        $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                        $comment->save();
+                    }
+                }else{
+                    $new = new News();
+                    $new->order_code = $order->order_code;
+                    $new->title = "How do you think about your order?";
+                    $new->id_user = $order->id_user;
+                    $new->link = "feedback";
+                    $new->attr = $order->order_code;
+                    $new->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $new->save();
+                }
+            break;
+            case "transaction failed":
+                foreach($order->Cart as $cart){
+                    $product = $cart->Product;
+                    $product->quantity += $cart->amount;
+                    $product->save();
+                    $cart->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $cart->save();
+                }
+            break;
+            case "delivery":
+                Mail::to($order->email)->send(new OrderShipped($order));
+            break;
+            default:
+        }
+        return redirect()->back();
+    }
+    public function post_removenoti(Request $req){
+        if(isset($req['id_notificate'])){
+            $new = News::find($req['id_notificate']);
+            $new->delete();
         }
         return redirect()->back();
     }
@@ -1101,7 +1169,7 @@ class TuongController extends Controller
     public function denied_order(Request $req){
         $order = Order::find($req['id_order']);
         $phone =$order->phone; 
-        $order->phone = "G_".$order->phone;
+        $order->phone = "G_".$phone;
         $order->save();
         $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
         $num = count($list_order);
@@ -1131,5 +1199,16 @@ class TuongController extends Controller
         $list_order = Order::where('id_user','=',null)->where('phone','=',Auth::user()->phone)->get();
         $num = count($list_order);
         echo $num;
+    }
+    public function get_admin_signin(){
+        return view('admin.pages.Signin.index');
+    }
+    public function post_admin_signin(Request $req){
+        $check = array('email'=>$req['email'],'password'=>$req['password']);
+        if(Auth::attempt($check)){
+            return redirect('/admin/dashboard');
+        }else{
+            return redirect()->back()->with('error',"Email or password incorrect");
+        }
     }
 }

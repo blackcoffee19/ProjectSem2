@@ -94,6 +94,14 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ Route('adminBanners') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="fa-solid fa-tarp"></i></span>
+                            <span class="nav-link-text">Banner</span>
+                        </div>
+                    </a>
+                </li>
                 <!-- Nav item -->
                 {{-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -199,8 +207,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#navOrders"
-                        aria-expanded="false" aria-controls="navOrders">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-bag"></i></span>
                             <span class="nav-link-text">Orders</span>

@@ -93,7 +93,7 @@
                                                     </td>
                                                 @else
                                                     <td  class="align-middle border-top-0">
-                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
+                                                        @if ($order->status == 'unconfirmed' || $order->status == 'confirmed' || $order->status == "delivery")
                                                             @switch($order->status)
                                                                 @case('confirmed')
                                                                     <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
@@ -106,17 +106,21 @@
                                                                     </button>
                                                                     @break
                                                                 @default        
+                                                                    <button type="button" class="btn btn-success check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                                        Finished
+                                                                    </button>
                                                             @endswitch
                                                         @endif
                                                     </td>
                                                 @endif
                                             </tr>
                                             <tr class="collapse collapseDetail{{$order->id_order}}">
-                                                <td class="align-middle border-top-0" colspan="2">{{$order->receiver}}</td>
-                                                <td  class=" border-top-0" colspan="3">{{$order->address}}</td>
+                                                <td class="align-middle border-top-0" colspan="1">{{$order->order_code}}</td>
+                                                <td class="align-middle border-top-0" colspan="1">{{$order->receiver}}</td>
+                                                <td  class=" border-top-0" colspan="2">{{$order->address}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->phone}}</td>
                                                 <td  class="align-middle border-top-0" colspan="1">{{$order->email}}</td>
-                                                <td  class="align-middle border-top-0" colspan="1">{{$order->shipping_fee}} đ</td>
+                                                <td  class="align-middle border-top-0" colspan="2">{{number_format($order->shipping_fee,0,'',' ')}}đ</td>
                                             </tr>
                                             <tr class="collapse collapseOrder{{$order->id_order}}">
                                                 <td colspan="9">

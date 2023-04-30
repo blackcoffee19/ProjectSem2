@@ -71,15 +71,14 @@
                                         @foreach ($cats as $item)
                                             <tr>
 
+                                                <td>{{ $item->id_type }}</td>
                                                 <td>
-                                                    {{ $item->id_type }}
-                                                </td>
-                                                <td>
-                                                    <a href="#!"> <img
+                                                    <a href="{{ route('userShowProductCatagory', $item->id_type) }}"> <img
                                                             src="{{ asset('images/category/' . $item->image) }}"
                                                             alt="" class="icon-shape icon-sm"></a>
                                                 </td>
-                                                <td><a href="#" class="text-reset">{{ $item->type }}</a></td>
+                                                <td><a href="{{ Route('adminShowCategory', $item->id_type) }}"
+                                                        class="text-reset">{{ $item->type }}</a></td>
 
                                                 <td>{{ $item->created_at }}</td>
 

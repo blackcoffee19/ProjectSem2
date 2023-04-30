@@ -5,15 +5,9 @@
         //         $('#listCartmodal').html(data);
         //     })
         // });
-        @if(Route::currentRouteName() == 'checkout' && Session::has('success_paypal'))
-          $('a').attr({onclick:"return alert('Cannot leave after paid order');",href:'javascript:void();'});
-        @endif
-        @if(Route::currentRouteName() != 'checkout')
-          {{Session::forget(['name','phone','email','province','district','address','ward','shipfee','coupon','paypal_success','success_paypal','select_add']);}}
-        @endif
         @if(!Auth::check() || Auth::user()->admin != "2")
         $('.btn_showcart').click(function(){
-            $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/cart/listcart",function(data){
+            $.get(window.location.origin+"/ProjectSem2/public/ajax/cart/listcart",function(data){
                 $('#listCartmodal').html(data);
                 $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
                 $('.btn_minus').click(function(e){
@@ -39,8 +33,8 @@
             })
         });
         @endif
-        @if (Session::has('order_mess'))
-          $('#order_message').html("{{Session::get('order_mess')}}");
+        @if (Session::has('order_mess') || Session::has('paypal_success'))
+          $('#order_message').html("Order successful! We will delivery your order soon.");
           let toastorder = new bootstrap.Toast($('#toastOrder'))
           toastorder.show();
         @endif
@@ -54,7 +48,7 @@
             $(this).val(validateNum.test(currentVl)?currentVl:value);
         }
         $('.btn_modal').click(function(){
-            $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/modal/show-product/"+$(this).data('product'),function(data){
+            $.get(window.location.origin+"/ProjectSem2/public/ajax/modal/show-product/"+$(this).data('product'),function(data){
               let dataProduct = jQuery.parseJSON(data);
               let listImage = "";
               let slider_product = "";
@@ -118,20 +112,20 @@
           if($('#btn-compare').hasClass('d-none')){
             $('#btn-compare').removeClass('d-none');
           }
-          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
+          $.get(window.location.origin+"/ProjectSem2/public/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
             $('#messCompare').html(data);  
           })
           const toast = new bootstrap.Toast($('#toastCompare'))
           toast.show();
         });
         $('#show_compare').click(function(){
-          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/compare/showcompare",function(data){
+          $.get(window.location.origin+"/ProjectSem2/public/ajax/compare/showcompare",function(data){
             $('#compare_detail').html(data);  
           })
         });
         $('.addFav').click(function(){
             $(this).children().toggleClass('bi-heart').toggleClass('bi-heart-fill text-danger');
-          $.get(window.location.origin+'/ProjectSem2-quan/public/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
+          $.get(window.location.origin+'/ProjectSem2/public/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
             $('.countFav').html(data);
           })
         });
@@ -143,7 +137,7 @@
           let toastorder = new bootstrap.Toast($('#toastWarning'))
           toastorder.show();
           @endif
-          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/add-cart/"+$(this).data('bsId'),function(data){
+          $.get(window.location.origin+"/ProjectSem2/public/ajax/add-cart/"+$(this).data('bsId'),function(data){
             $('.countCart').html(data);
           });
         });
@@ -186,20 +180,18 @@
           }
         })
         $('.remove_add').click(function(){
-          $.get(window.location.origin+"/ProjectSem2-quan/public/ajax/remove_address/"+$(this).data('idadd'),function(data){
+          $.get(window.location.origin+"/ProjectSem2/public/ajax/remove_address/"+$(this).data('idadd'),function(data){
             $("#listAddress").html(data);
           });
         })
         const host = "https://vapi.vnappmob.com";
         const getProvince = host+"/api/province/";
-        @if (!Session::has('province'))
         $.getJSON(getProvince,function(data){
             $('#province').append("<option selected>--Choose 1 province--</option>");
             $.each(data.results,function(key,value){
                 $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
             });
         });
-        @endif
         $('#province').click(function(){
           $.getJSON(getProvince,function(data){
             $.each(data.results,function(key,value){
@@ -215,16 +207,19 @@
               @if (!Auth::check())
                 $('#extra_ship').removeClass('d-none');
                 let totall = parseInt($("#total").data('total'))+30000;
-                $('#total').html("$"+totall);
-                $("#paypal_btn").text("Pay $"+(totall*0.000043).toFixed(2));
+                $("input[name=shipment_fee]").val(30000);
+                $('#total').html(totall+ ' đ');
+                $(".totalPay").text((totall*0.000043).toFixed(2));
               @endif
             }else{
               @if (!Auth::check())
                 $('#extra_ship').addClass('d-none');
-                $('#total').html('$'+(parseInt($("#total").data('total'))+20000));
-                $("#paypal_btn").text("Pay $"+((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2));
+                $('#total').html((parseInt($("#total").data('total'))+20000) +" đ");
+                $(".totalPay").text(
+                  ((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2)
+                );
+                $("input[name=shipment_fee]").val(20000);
               @endif
-                $('#shipment_fee').val(20000);
             }
             let getDistric = host+"/api/province/district/"+$(this).val();
             $('#district').removeAttr('disabled');
@@ -329,7 +324,7 @@
             }
             $(this).addClass('is-invalid');      
           }else{
-            $.get(window.location.origin + '/ProjectSem2-quan/public/ajax/check-email/'+$(this).val(), function(data){
+            $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
               if(data == "existed"){
                 $('input[name=register_email]').addClass('is-invalid');
                 $('#register_email').text('This email has signed. Choose another one or signin');
@@ -374,8 +369,46 @@
             $('#register_submit').attr('disabled','disabled');
           }
         });
+        $(".manager_notificate").click(function(){
+          $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
+            let dataJson = jQuery.parseJSON(data);
+            // console.log(dataJson);
+            $('input[name=id_notificate]').val(dataJson['news']);
+            $("#receiver2").html(dataJson['receiver']);
+            $("#address2").html(dataJson['address']);
+            $('#instruction2').html(dataJson['instruction']);
+            $("#phone2").html(dataJson['phone']);
+            $('#email_order2').html(dataJson['email']);
+            $("#payment_method2").html(dataJson['method']);
+            if(dataJson['coupon']){
+              $("#coupon_title2").html(dataJson['coupon_title']);
+              if(dataJson['discount'] <= 100){
+                $('#discount2').html("- "+dataJson['discount']+"%");
+              }else{
+                $('#discount2').html("- "+dataJson['discount']+" đ");
+              }
+            }
+            let list ="";
+            let total = 0;
+              for (let i = 0; i < dataJson['cart'].length; i++) {
+                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
+                total+=parseInt(dataJson['cart'][i]['sale']) >0 ?(parseInt(dataJson['cart'][i]['price'])*(1- parseInt(dataJson['cart'][i]['sale'])/100))*(parseInt(dataJson['cart'][i]['amount'])/1000):parseInt(dataJson['cart'][i]['price'])*(parseInt(dataJson['cart'][i]['amount'])/1000);
+              };
+            $('#listCart2').html(list);
+            $("#item_subtotal2").html(total+" đ");
+            $('#shipment_fee_modal2').html(dataJson['shipping_fee']+" đ");
+            total+=parseInt(dataJson['shipping_fee']);
+            if(parseInt(dataJson['discount']) >100){
+                total-= parseInt(dataJson['discount']);
+              }else{
+                total*=(1- parseInt(dataJson['discount'])/100);
+              }
+            $('#total_order2').html(total+" đ");
+            $("#status_order2").html(dataJson['status']);
+          })
+        })
         $('.check_order').click(function(){
-          $.get(window.location.origin+"/ProjectSem2-quan/public/manager/ajax/check-order/"+$(this).data('order'),function(data){
+          $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-order/"+$(this).data('order'),function(data){
             let dataJson = jQuery.parseJSON(data);
             $('input[name=id_order]').val(dataJson['id_order']);
             $("#receiver").html(dataJson['receiver']);
@@ -386,28 +419,44 @@
             $("#payment_method").html(dataJson['method']);
             if(dataJson['coupon']){
               $("#coupon_title").html(dataJson['coupon_title']);
-              if(dataJson['discount'] >=10){
+              if(dataJson['discount'] <= 100){
                 $('#discount').html("- "+dataJson['discount']+"%");
               }else{
-                $('#discount').html("- "+dataJson['discount']+"d");
+                $('#discount').html("- "+dataJson['discount']+" đ");
               }
             }
             let list ="";
             let total = 0;
               for (let i = 0; i < dataJson['cart'].length; i++) {
-                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']}</td><td>${Math.floor(dataJson['cart'][i]['sale'])}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
-                total+=parseFloat(dataJson['cart'][i]['sale']) >0 ?(parseFloat(dataJson['cart'][i]['price'])*(1- parseFloat(dataJson['cart'][i]['sale'])/100))*(dataJson['cart'][i]['amount']/1000):parseFloat(dataJson['cart'][i]['price'])*(parseFloat(dataJson['cart'][i]['amount'])/1000);
+                list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
+                total+=parseInt(dataJson['cart'][i]['sale']) >0 ?(parseInt(dataJson['cart'][i]['price'])*(1- parseInt(dataJson['cart'][i]['sale'])/100))*(parseInt(dataJson['cart'][i]['amount'])/1000):parseInt(dataJson['cart'][i]['price'])*(parseInt(dataJson['cart'][i]['amount'])/1000);
               };
             $('#listCart').html(list);
-            $('#shipment_fee_modal').html("$"+dataJson['shipping_fee']);
-            total+=parseFloat(dataJson['shipping_fee']);
-            if(parseInt(dataJson['discount']) <10){
-                total-= parseFloat(dataJson['discount']);
+            $("#item_subtotal").html(total+" đ");
+            $('#shipment_fee_modal').html(dataJson['shipping_fee']+" đ");
+            total+=parseInt(dataJson['shipping_fee']);
+            if(parseInt(dataJson['discount']) >100){
+                total-= parseInt(dataJson['discount']);
               }else{
-                total *=(1- parseFloat(dataJson['discount'])/100);
+                total*=(1- parseInt(dataJson['discount'])/100);
               }
-            $('#total_order').html("$"+total.toFixed(2));
+            $('#total_order').html(total+" đ");
             $("#status_order option[value="+dataJson['status']+"]").attr("selected", true);
+            if(dataJson['status'] == 'unconfirmed'){
+              $("#status_order option[value='unconfirmed']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").attr('disabled','disabled');
+              $("#status_order option[value='finished']").attr('disabled','disabled');
+            } else if(dataJson['status'] == "delivery"){
+              $("#status_order option[value='finished']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").removeAttr('disabled');
+              $("#status_order option[value='unconfirmed']").attr('disabled','disabled');
+              $("#status_order option[value='confirmed']").attr('disabled','disabled');
+            }else{
+              $("#status_order option[value='unconfirmed']").attr('disabled','disabled');
+              $("#status_order option[value='confirmed']").removeAttr('disabled');
+              $("#status_order option[value='transaction failed']").attr('disabled','disabled');
+              $("#status_order option[value='finished']").attr('disabled','disabled');
+            }
             $('#order_token').val($('meta[name="csrf-token"]').attr('content'));
             $('#status_order').change(function(){
               $('#save_order').removeAttr('disabled');
@@ -418,7 +467,7 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/ProjectSem2-quan/public/ajax/denied-order',
+            url: window.location.origin+'/ProjectSem2/public/ajax/denied-order',
             data: {'id_order':$(this).data('order')},
             success: function (data) {
               if(data == 0){
@@ -431,7 +480,7 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/ProjectSem2-quan/public/ajax/accept-order',
+            url: window.location.origin+'/ProjectSem2/public/ajax/accept-order',
             data: {'id_order':$(this).data('order')},
             success: function (data) {
               if(data == 0){

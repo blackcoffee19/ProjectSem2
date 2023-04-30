@@ -171,7 +171,7 @@
                 }
                 $('input[name=register_email]').addClass('is-invalid');
             } else {
-                $.get(window.location.origin + '/public/index.php/ajax/check-email/' + $(
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/' + $(
                     'input[name=register_email]').val(), function(data) {
                     if (data == "existed") {
                         $('input[name=register_email]').addClass('is-invalid');

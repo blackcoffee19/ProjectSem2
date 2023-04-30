@@ -8,12 +8,16 @@
             <div class="container">
                 <div class="hero-slider ">
                     @foreach ($sliders as $slide)
-                        <div style="background: url({{ asset('/images/slider/'.$slide->image) }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
+                        <div
+                            style="background: url({{ asset('/images/slider/' . $slide->image) }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;">
                             <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-                                <span class="badge" style="background-color: {{$slide->alert_bg}}; color:{{$slide->alert_color}}">{{$slide->alert}}</span>
-                                <h2 class="display-5 fw-bold mt-4" style="color:{{$slide->title_color}}">{{$slide->title}}</h2>
-                                <p class="lead" style="color:{{$slide->content_color}}">{{$slide->content}}</p>
-                                <a href="{{route($slide->link,$slide->attr)}}" class="btn btn-dark mt-3">{{$slide->btn_content}} 
+                                <span class="badge"
+                                    style="background-color: {{ $slide->alert_bg }}; color:{{ $slide->alert_color }}">{{ $slide->alert }}</span>
+                                <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
+                                </h2>
+                                <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
+                                <a href="{{ route($slide->link, $slide->attr) }}"
+                                    class="btn btn-dark mt-3">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
                             </div>
@@ -102,64 +106,79 @@
 
                                     <div class="text-center position-relative ">
                                         <div class=" position-absolute top-0 start-0">
-                                            @if ($pro->sale !=0)
-                                                <span class="badge bg-danger">{{number_format($pro->sale,0)}}%</span>
+                                            @if ($pro->sale != 0)
+                                                <span class="badge bg-danger">{{ number_format($pro->sale, 0) }}%</span>
                                             @endif
                                         </div>
-                                        <a href="{{route('products-details',$pro->id_product)}}"> 
-                                            <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
+                                        <a href="{{ route('products-details', $pro->id_product) }}">
+                                            <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
+                                                class="mb-3 img-fluid">
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal" data-product="{{$pro->id_product}}"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                            <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
-                                            {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$pro->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
-                                            <a class="btn-action compare_product" data-bs-toggle="tooltip" 
-                                                data-bs-html="true" title="Compare" data-bs-product="{{$pro->id_product}}"><i
+                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}"><i
+                                                    class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
+                                                    title="Quick View"></i></a>
+                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                data-bs-toggle="tooltip"
+                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}><i
+                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare"
+                                                data-bs-product="{{ $pro->id_product }}"><i
                                                     class="bi bi-arrow-left-right"></i></a>
                                         </div>
 
                                     </div>
-                                    <div class="text-small mb-1"><a href="#!"
-                                            class="text-decoration-none text-muted"><small>{{$pro->TypeProduct->name}}</small></a></div>
+                                    <div class="text-small mb-1"><a
+                                            href="{{ route('userShowProductCatagory', $pro->id_type) }}"
+                                            class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
+                                    </div>
                                     <h2 class="fs-6">
-                                        <a href="{{ route('products-details',$pro->id_product) }}" class="text-inherit text-decoration-none">{{$pro->name}}</a>
+                                        <a href="{{ route('products-details', $pro->id_product) }}"
+                                            class="text-inherit text-decoration-none">{{ $pro->name }}</a>
                                     </h2>
                                     <div>
-                                    <p>    
-                                        @php
-                                          $rating = 0;
-                                          if (count($pro->Comment->where('rating','!=',null)) >0) {
-                                            foreach ($pro->Comment->where('rating','!=',null) as $cmt) {
-                                              $rating += $cmt->rating;
-                                            }
-                                            $rating /= count($pro->Comment->where('rating','!=',null));
-                                          }
-                                      @endphp
-                                        @for ($i = 0; $i < floor($rating); $i++)
-                                        <i class="bi bi-star-fill fs-4 text-warning"></i>
-                                        @endfor
-                                        @if (is_float($rating))
-                                        <i class="bi bi-star-half fs-4 text-warning"></i>
-                                        @endif
-                                        @for ($i = 0; $i < 5-ceil($rating); $i++)
-                                        <i class="bi bi-star fs-4 text-warning"></i>
-                                        @endfor
-                                        <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
-                                    </p> 
+                                        <p>
+                                            @php
+                                                $rating = 0;
+                                                if (count($pro->Comment->where('rating', '!=', null)) > 0) {
+                                                    foreach ($pro->Comment->where('rating', '!=', null) as $cmt) {
+                                                        $rating += $cmt->rating;
+                                                    }
+                                                    $rating /= count($pro->Comment->where('rating', '!=', null));
+                                                }
+                                            @endphp
+                                            @for ($i = 0; $i < floor($rating); $i++)
+                                                <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                            @endfor
+                                            @if (is_float($rating))
+                                                <i class="bi bi-star-half fs-4 text-warning"></i>
+                                            @endif
+                                            @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                <i class="bi bi-star fs-4 text-warning"></i>
+                                            @endfor
+                                            <span
+                                                class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
+                                        </p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <div>
-                                            @if ($pro->sale >0)
-                                            <span class="text-dark fs-5">{{number_format($pro->price*(1-$pro->sale/100),0,'',' ')}}</span>
-                                            <span class="text-decoration-line-through text-muted">{{number_format($pro->price,0,'',' ')}}</span> <small> đ/kg</small>
+                                            @if ($pro->sale > 0)
+                                                <span
+                                                    class="text-dark fs-5">{{ number_format($pro->price * (1 - $pro->sale / 100), 0, '', ' ') }}</span>
+                                                <span
+                                                    class="text-decoration-line-through text-muted">{{ number_format($pro->price, 0, '', ' ') }}</span>
+                                                <small> đ/kg</small>
                                             @else
-                                            <span class="text-dark fs-5">{{number_format($pro->price,0,'',' ')}}</span><small> đ/kg</small>
+                                                <span
+                                                    class="text-dark fs-5">{{ number_format($pro->price, 0, '', ' ') }}</span><small>
+                                                    đ/kg</small>
                                             @endif
                                         </div>
-                                        <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
-                                            <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
+                                        <div><button data-bs-id="{{ $pro->id_product }}" type="button"
+                                                class="btn btn-primary btn addToCart">
+                                                <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +199,7 @@
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
                             <div class="px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 550px; padding-top: 150px; padding-left: 30px;">
+                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 170px; padding-left: 30px;">
                                 <div>
                                     <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
                                         {{ $banners[2]->title }}
@@ -193,85 +212,100 @@
                             </div>
                         </div>
                         @foreach ($product_hot as $product)
-                        <div class="col">
-                            <div class="card card-product">
-                                <div class="card-body">
-                                    <div class="text-center  position-relative "> 
-                                        <div class=" position-absolute top-0 start-0">
-                                            @if ($product->sale !=0)
-                                                <span class="badge bg-danger">{{number_format($product->sale,0)}}%</span>
-                                            @endif
+                            <div class="col">
+                                <div class="card card-product">
+                                    <div class="card-body">
+                                        <div class="text-center  position-relative ">
+                                            <div class=" position-absolute top-0 start-0">
+                                                @if ($product->sale != 0)
+                                                    <span
+                                                        class="badge bg-danger">{{ number_format($product->sale, 0) }}%</span>
+                                                @endif
+                                            </div>
+                                            <a href="{{ route('products-details', $product->id_product) }}">
+                                                <img src="{{ asset('/images/products/' . $product->Library[0]->image) }}"
+                                                    class="mb-3 img-fluid">
+                                            </a>
+                                            <div class="card-product-action">
+                                                <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                    data-bs-target="#quickViewModal"
+                                                    data-product="{{ $product->id_product }}"><i class="bi bi-eye"
+                                                        data-bs-toggle="tooltip" data-bs-html="true"
+                                                        title="Quick View"></i></a>
+                                                <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                    data-bs-toggle="tooltip"
+                                                    {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product" }}><i
+                                                        class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                                <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                    data-bs-html="true" title="Compare"
+                                                    data-bs-product="{{ $product->id_product }}"><i
+                                                        class="bi bi-arrow-left-right"></i></a>
+                                            </div>
                                         </div>
-                                        <a href="{{ route('products-details',$product->id_product) }}">
-                                        <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
-                                        </a>
-                                        <div class="card-product-action">
-                                            <a  class="btn-action btn_modal" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal" data-product="{{$product->id_product}}"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                            <a  class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
-                                            {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$product->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
-                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare" data-bs-product="{{$product->id_product}}"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
+                                        <div class="text-small mb-1">
+                                            <a class="text-decoration-none text-muted">
+                                                <small>{{ $product->TypeProduct->type }}</small>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="text-small mb-1">
-                                        <a  class="text-decoration-none text-muted">
-                                            <small>{{$product->TypeProduct->type}}</small>
-                                        </a>
-                                    </div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details',$product->id_product) }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
-                                    
-                                    <div class="d-flex justify-content-between align-items-center mt-3 flex-nowrap">
-                                        <div>
-                                            @if ($product->sale >0)
-                                                <span class="text-danger fs-4">{{number_format($product->price*(1-$product->sale/100),0,'',' ')}}</span><small> đ/kg</small>
-                                            @else
-                                            <span class="text-dark fs-4">{{number_format($product->price,0,'',' ')}} đ/kg</span>
-                                            @endif
+                                        <h2 class="fs-6"><a
+                                                href="{{ route('products-details', $product->id_product) }}"
+                                                class="text-inherit text-decoration-none">{{ $product->name }}</a></h2>
+
+                                        <div class="d-flex justify-content-between align-items-center mt-3 flex-nowrap">
+                                            <div>
+                                                @if ($product->sale > 0)
+                                                    <span
+                                                        class="text-danger fs-4">{{ number_format($product->price * (1 - $product->sale / 100), 0, '', ' ') }}</span><small>
+                                                        đ/kg</small>
+                                                @else
+                                                    <span
+                                                        class="text-dark fs-4">{{ number_format($product->price, 0, '', ' ') }}
+                                                        đ/kg</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                @php
+                                                    $rating = 0;
+                                                    if (count($product->Comment->where('rating', '!=', null)) > 0) {
+                                                        foreach ($product->Comment->where('rating', '!=', null) as $cmt) {
+                                                            $rating += $cmt->rating;
+                                                        }
+                                                        $rating /= count($product->Comment->where('rating', '!=', null));
+                                                    }
+                                                @endphp
+                                                @for ($i = 0; $i < floor($rating); $i++)
+                                                    <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                                @endfor
+                                                @if (is_float($rating))
+                                                    <i class="bi bi-star-half fs-4 text-warning"></i>
+                                                @endif
+                                                @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                    <i class="bi bi-star fs-4 text-warning"></i>
+                                                @endfor
+                                                <span
+                                                    class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            @php
-                                                $rating = 0;
-                                                if (count($product->Comment->where('rating','!=',null)) >0) {
-                                                  foreach ($product->Comment->where('rating','!=',null) as $cmt) {
-                                                    $rating += $cmt->rating;
-                                                  }
-                                                  $rating /= count($product->Comment->where('rating','!=',null));
-                                                }
-                                            @endphp
-                                              @for ($i = 0; $i < floor($rating); $i++)
-                                              <i class="bi bi-star-fill fs-4 text-warning"></i>
-                                              @endfor
-                                              @if (is_float($rating))
-                                              <i class="bi bi-star-half fs-4 text-warning"></i>
-                                              @endif
-                                              @for ($i = 0; $i < 5-ceil($rating); $i++)
-                                              <i class="bi bi-star fs-4 text-warning"></i>
-                                              @endfor
-                                              <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-grid mt-2"><button data-bs-id="{{$product->id_product}}" type="button" class="btn btn-primary btn addToCart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-plus">
-                                                <line x1="12" y1="5" x2="12" y2="19">
-                                                </line>
-                                                <line x1="5" y1="12" x2="19" y2="12">
-                                                </line>
-                                            </svg> Add to cart </button></div>
-                                    <div class="d-flex justify-content-start text-center mt-3">
-                                        <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                        <div class="d-grid mt-2"><button data-bs-id="{{ $product->id_product }}"
+                                                type="button" class="btn btn-primary btn addToCart">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-plus">
+                                                    <line x1="12" y1="5" x2="12" y2="19">
+                                                    </line>
+                                                    <line x1="5" y1="12" x2="19" y2="12">
+                                                    </line>
+                                                </svg> Add to cart </button></div>
+                                        <div class="d-flex justify-content-start text-center mt-3">
+                                            <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>   
                         @endforeach
-                        
+
                     </div>
                 </div>
             </div>
@@ -325,4 +359,3 @@
         </section>
     </main>
 @endsection
-

@@ -1200,4 +1200,15 @@ class TuongController extends Controller
         $num = count($list_order);
         echo $num;
     }
+    public function get_admin_signin(){
+        return view('admin.pages.Signin.index');
+    }
+    public function post_admin_signin(Request $req){
+        $check = array('email'=>$req['email'],'password'=>$req['password']);
+        if(Auth::attempt($check)){
+            return redirect('/admin/dashboard');
+        }else{
+            return redirect()->back()->with('error',"Email or password incorrect");
+        }
+    }
 }

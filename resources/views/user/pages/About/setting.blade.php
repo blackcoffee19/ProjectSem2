@@ -235,17 +235,15 @@
                 if(valiPhone.test($(this).val().trim())){
                     $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
                         if(data == "existed"){
-                            if($(this).hasClass('is-valid')){
-                                $(this).removeClass('is-valid');
+                            if($('#new_phone').hasClass('is-valid')){
+                                $('#new_phone').removeClass('is-valid');
                             }
-                            $(this).addClass('is-invalid');
+                            $('#new_phone').addClass('is-invalid');
                             $('#invalidPhone').html('This phone has used by another account.');
                             $('#changeProfie').attr('disabled','disabled');
                         }else{
-                            if($(this).hasClass('is-invalid')){
-                                $(this).removeClass('is-invalid');
-                            }
-                            $(this).addClass('is-valid');
+                            $('#new_phone').removeClass('is-invalid');
+                            $('#new_phone').addClass('is-valid');
                             $('#invalidPhone').html('');
                             $('#changeProfie').removeAttr('disabled');
                         }

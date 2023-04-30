@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Auth;
 class AdminLogin
 {
     /**
@@ -15,6 +15,10 @@ class AdminLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if(Auth::check() && Auth::user()->admin == '1'){
+            return $next($request);
+        }else{
+            return redirect('/admin/signin')->with('permission_deinied','Your account has no permission to enter Admin site');
+        }
     }
 }

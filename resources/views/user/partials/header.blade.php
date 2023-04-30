@@ -554,7 +554,7 @@
                                 </a>
                                 <div class=" dropdown-menu pb-0 ">
                                     <div class="list-group">
-                                        @if (Auth::user()->name == 'admin')
+                                        @if (Auth::user()->admin == '1')
                                             <a href="{{ route('dashboard') }}"
                                                 class="list-group-item list-group-item-action">Dashboard</a>
                                         @endif

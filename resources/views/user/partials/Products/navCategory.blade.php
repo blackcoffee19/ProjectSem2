@@ -9,7 +9,7 @@
         <div class="offcanvas-body ps-lg-2 pt-lg-0">
             <div class="mb-8">
                 <!-- title -->
-                 <a href="{{route('user.pages.Products.index')}}" ><h5 class="mb-3" onclick="filterSelection('all')">Categories</h5></a> 
+                 <a href="{{route('user.pages.Products.index')}}" ><h3 class="mb-3" onclick="filterSelection('all')">Categories</h3></a> 
                 <!-- nav -->
 
 
@@ -48,26 +48,28 @@
 
             <div class="mb-8">
                 <!-- price -->
-                <h5 class="mb-3">Price</h5>
+                <form action="{{Route('product.searchPrice')}}">
+                <h3 class="mb-3">Price</h3>
                 <div>
                     <!-- range -->
                     <div id="priceRange" class="mb-3"></div>
-                    <small class="text-muted">Price:</small> <span id="priceRange-value" class="small"></span>
-
+                    <small class="text-muted ">Form: <br> </small> <input name="form" id="priceRange-value" class="small price1"> <br>
+                    <small class="text-muted "> To: <br> </small> <input name="to" id="priceRange-value" class="small price1"><br>
+                    <input class="searchPrice" type="submit"value="Search"/>
                 </div>
-
+                </form>
 
 
             </div>
             <!-- rating -->
             <div class="mb-8">
 
-                <h5 class="mb-3">Rating</h5>
+                <h3 class="mb-3">Rating</h3>
                 <div class="filter">
                     <!-- form check -->
                     <div class="form-check mb-2 checkbox">
                         <!-- input -->
-                        <input class="form-check-input rating-checkbox" rel="5"  type="checkbox" value="5" >
+                        <input class="form-check-input rating-checkbox"   type="checkbox" value="5" >
                         <label class="form-check-label" for="ratingFive">
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning "></i>
@@ -79,7 +81,7 @@
                     <!-- form check -->
                     <div class="form-check mb-2 checkbox">
                         <!-- input -->
-                        <input class="form-check-input rating-checkbox" rel="4"   type="checkbox" value="4" >
+                        <input class="form-check-input rating-checkbox"    type="checkbox" value="4" >
                         <label class="form-check-label" for="ratingFour">
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning "></i>
@@ -91,7 +93,7 @@
                     <!-- form check -->
                     <div class="form-check mb-2 checkbox">
                         <!-- input -->
-                        <input class="form-check-input rating-checkbox" rel="3"  type="checkbox" value="3" >
+                        <input class="form-check-input rating-checkbox"   type="checkbox" value="3" >
                         <label class="form-check-label" for="ratingThree">
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning "></i>
@@ -103,7 +105,7 @@
                     <!-- form check -->
                     <div class="form-check mb-2 checkbox">
                         <!-- input -->
-                        <input class="form-check-input rating-checkbox" rel="2"  type="checkbox" value="2" >
+                        <input class="form-check-input rating-checkbox"  type="checkbox" value="2" >
                         <label class="form-check-label" for="ratingTwo">
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning"></i>
@@ -115,7 +117,7 @@
                     <!-- form check -->
                     <div class="form-check mb-2 checkbox">
                         <!-- input -->
-                        <input class="form-check-input rating-checkbox" rel="1"  type="checkbox" value="1" >
+                        <input class="form-check-input rating-checkbox"   type="checkbox" value="1" >
                         <label class="form-check-label" for="ratingOne">
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star text-warning"></i>
@@ -147,3 +149,4 @@
     </div>
     
 </aside>
+

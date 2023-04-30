@@ -1,79 +1,35 @@
 @extends('user.partials.master')
 @section('content')
-<style>
-    .filterDiv {
-    
-      display: none;
-    }
-    
-    .show {
-      display: block;
-    }
-    .rate {
-            float: left;
-            height: 46px;
-            padding: 0 10px;
-        }
-        .rating-value{
-            display: none;
-        }
-        .rate:not(:checked) > input {
-            position:absolute;
-            top:-9999px;
-        }
-        .rate:not(:checked) > label {
-            float:right;
-            width:1em;
-            overflow:hidden;
-            white-space:nowrap;
-            cursor:pointer;
-            font-size:30px;
-            color:rgba(0, 0, 0, 0.302);
-        }
-        .rate:not(:checked) > label:before {
-            content: '★ ';
-        }
-        .rate > input:checked ~ label {
-            color: #ffc107;    
-        }
-        
-        
-        
 
-        .rateComment {
-            float: left;
-            height: 46px;
-            padding: 0 10px;
-        }
-        .rateComment:not(:checked) > input {
-            position:absolute;
-            top:-9999px;
-        }
-        .rateComment:not(:checked) > label {
-            float:right;
-            width:1em;
-            overflow:hidden;
-            white-space:nowrap;
-            cursor:pointer;
-            font-size:30px;
-            color:rgba(0, 0, 0, 0.302);
-        }
-        .rateComment:not(:checked) > label:before {
-            content: '★ ';
-        }
-        .rateComment > input:checked ~ label {
-            color: #ffc107;    
-        }
-        .rateComment > input:checked + label:hover,
-        .rateComment > input:checked + label:hover ~ label,
-        .rateComment > input:checked ~ label:hover,
-        .rateComment > input:checked ~ label:hover ~ label,
-        .rateComment > label:hover ~ input:checked ~ label {
-            color: #ffc107;
-        }
-    
-    </style>
     <main>
+        <style>
+            .filterDiv {
+            
+              display: none;
+            }
+            
+            .show {
+              display: block;
+            }
+            .price1{
+            
+                border: 2px solid #dfe2e1;
+                border-radius: .5rem;
+                display: block;
+
+                padding: .55rem 3rem .55rem 1rem;
+
+                /* width: 100%; */
+            }
+            .searchPrice{
+                border: 0px;
+                width: 70px;
+                height: 30px;
+                border-radius: .5rem;
+                background-color: #0aad0a;
+                color: white;
+            }
+            </style>
         
         <!-- breadcrumb -->
         @include('user.partials.breadcrumb')
@@ -100,7 +56,7 @@
                                 <h2 class="mb-0 fs-1">Search for: {{$name}}</h2>
                                     
                                 @else
-                                <h2 class="mb-0 fs-1">Snacks & Munchies</h2>
+                                <h2 class="mb-0 fs-1">Categories</h2>
                                     
                                 @endif
                             </div>
@@ -134,15 +90,7 @@
                                 </div> --}}
 
                                 <div class="d-flex mt-2 mt-lg-0">
-                                    <div class="me-2 flex-grow-1">
-                                        <!-- select option -->
-                                        <select class="form-select">
-                                            <option selected>Show: 50</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                        </select>
-                                    </div>
+                       
                                     
                                     <div>
                                         <!-- select option -->
@@ -161,91 +109,76 @@
                         
                         
                         <!-- row -->
-                        <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2"> 
-                                @foreach($prods as $item)
+                        <div class="row g-4 row-cols-xl-4 row-cols-lg-2 row-cols-2 row-cols-md-3 mt-2"> 
+                                @foreach($prods as $pro)
                             <!-- col -->
-                                <div class=" filterDiv {{$item->id_type}} col" data-price="{{$item->price}}" >
+                                <div class=" filterDiv {{$pro->id_type}} col" data-price="{{$pro->price}}" >
                                     
                                     <!-- card -->
-                                    <div class="card card-product" >
+                                    <div class="card card-product">
                                         <div class="card-body">
-    
-                                            <!-- badge -->
+        
                                             <div class="text-center position-relative ">
                                                 <div class=" position-absolute top-0 start-0">
-                                                    <span class="badge bg-danger">Sale</span>
+                                                    @if ($pro->sale !=0)
+                                                        <span class="badge bg-danger">{{number_format($pro->sale,0)}}%</span>
+                                                    @endif
                                                 </div>
-                                                <a href="{{ route('products-details',$item->id_product) }}">
-
-                                                    <!-- img --><img
-                                                    @if (!empty($item->Library) && count($item->Library) > 0)
-                                                        src="{{asset('images/products/'.$item->Library[0]->image)}}"
-                                                        alt="Grocery Ecommerce Template" class="mb-3 img-fluid">
-                                                        @endif
+                                                <a href="{{route('products-details',$pro->id_product)}}"> 
+                                                    <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
                                                 </a>
-                                                <!-- action btn -->
                                                 <div class="card-product-action">
-                                                    <a class="btn-action btn_modal" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="{{$item->id_product}}">
-                                                        <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
-                                                    </a>
-                                                    <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip" {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$item->id_product"}} >
-                                                        <i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$item->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i>
-                                                    </a>
-                                                    <a class="btn-action compare_product" data-bs-toggle="tooltip"  data-bs-html="true" title="Compare" data-bs-product="{{$item->id_product}}">
-                                                        <i class="bi bi-arrow-left-right"></i>
-                                                    </a>
+                                                    <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                        data-bs-target="#quickViewModal" data-product="{{$pro->id_product}}"><i class="bi bi-eye"
+                                                            data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
+                                                    <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
+                                                    {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$pro->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
+                                                    <a class="btn-action compare_product" data-bs-toggle="tooltip" 
+                                                        data-bs-html="true" title="Compare" data-bs-product="{{$pro->id_product}}"><i
+                                                            class="bi bi-arrow-left-right"></i></a>
                                                 </div>
+        
                                             </div>
-                                            <!-- heading -->
                                             <div class="text-small mb-1"><a href="#!"
-                                                    class="text-decoration-none text-muted"><small>{{ $item->name }}
-                                                        </small></a></div>
-                                            <h2 class="fs-6"><a href="{{ route('products-details',$item->id_product) }}"
-                                                    class="text-inherit text-decoration-none">{{ $item->name }}</a></h2>
+                                                    class="text-decoration-none text-muted"><small>{{$pro->TypeProduct->name}}</small></a></div>
+                                            <h2 class="fs-6">
+                                                <a href="{{ route('products-details',$pro->id_product) }}" class="text-inherit text-decoration-none">{{$pro->name}}</a>
+                                            </h2>
                                             <div>
-                                                <!-- rating -->
-                                                <div class=" rate"> 
-                                                    <input type="radio" />
-                                                    <label  title="text"></label>
-                                                    <input type="radio" />
-                                                    <label  title="text"></label>
-                                                    <input type="radio" />
-                                                    <label  title="text"></label>
-                                                    <input type="radio"  />
-                                                    <label  title="text"></label>
-                                                    <input type="radio" />
-                                                    <label  title="text"></label>
-                                                </div> 
-                                                    <span class="text-muted small">4.5(149)</span>
+                                            <p class="rate10">    
+                                                @php
+                                                  $rating = 0;
+                                                  if (count($pro->Comment->where('rating','!=',null)) >0) {
+                                                    foreach ($pro->Comment->where('rating','!=',null) as $cmt) {
+                                                      $rating += $cmt->rating;
+                                                    }
+                                                    $rating /= count($pro->Comment->where('rating','!=',null));
+                                                  }
+                                              @endphp
+                                                @for ($i = 0; $i < floor($rating); $i++)
+                                                <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                                @endfor
+                                                @if (is_float($rating))
+                                                <i class="bi bi-star-half fs-4 text-warning"></i>
+                                                @endif
+                                                @for ($i = 0; $i < 5-ceil($rating); $i++)
+                                                <i class="bi bi-star fs-4 text-warning"></i>
+                                                @endfor
+                                                <span class="text-black-50 ms-3">{{number_format($rating,1,'.',' ')}}({{count($pro->Comment->where('rating','!=',null))}})</span>
+                                            </p>
+                                            <input type="hidden" class="rating-value" value="{{ceil($rating)}}" /> 
                                             </div>
-                                            @php
-                                            $averageRating = 0; // Khởi tạo biến với giá trị mặc định là 0
-                                            $totalRating = 0;
-                                            if(count($item->Comment)>0){
-                                            foreach($item->Comment as $comment) {
-                                                $totalRating += $comment->rating;
-                                            }
-                                            $averageRating = $totalRating / count($item->Comment);
-                                            }
-                                            @endphp
-
-                                            <input type="hidden" class="rating-value" value="{{ceil($averageRating)}}" />
-                                            <!-- price -->
                                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                                <div><span class="text-dark">${{ $item->price }}</span> <span
-                                                        class="text-decoration-line-through text-muted">${{ $item->price }}</span>
+                                                <div>
+                                                    @if ($pro->sale >0)
+                                                    <span class="text-dark fs-5">{{number_format($pro->price*(1-$pro->sale/100),0,'',' ')}}</span>
+                                                    <span class="text-decoration-line-through text-muted">{{number_format($pro->price,0,'',' ')}}</span> <small> đ/kg</small>
+                                                    @else
+                                                    <span class="text-dark fs-5">{{number_format($pro->price,0,'',' ')}}</span><small> đ/kg</small>
+                                                    @endif
                                                 </div>
-                                                <!-- btn -->
-                                                <div><button data-bs-id="{{$item->id_product}}" type="button" class="btn btn-primary btn addToCart">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                            class="feather feather-plus">
-                                                            <line x1="12" y1="5" x2="12"
-                                                                y2="19"></line>
-                                                            <line x1="5" y1="12" x2="19"
-                                                                y2="12"></line>
-                                                        </svg> Add</button></div>
+                                                <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
+                                                    <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
                                             </div>
                                         </div>
                                     </div>
@@ -265,13 +198,13 @@
         //hiển thị số sao từng sản phẩm
         const ratingValues = document.querySelectorAll(".rating-value");
         ratingValues.forEach(function(ratingValue) {
-        const ratingInputs = ratingValue.parentNode.querySelectorAll(".rate input");
+        const ratingInputs = ratingValue.parentNode.querySelectorAll(".rate10 i");
         const value = Number(ratingValue.value);
         if (value <= 5 && value >= 1) {
             ratingInputs[ratingInputs.length - value].checked = true;
         }
 
-        ratingValue.addEventListener(" input", function() {
+        ratingValue.addEventListener(" i", function() {
             const value = Number(ratingValue.value);
             if (value <= 5 && value >= 1) {
             ratingInputs[ratingInputs.length - value].checked = true;

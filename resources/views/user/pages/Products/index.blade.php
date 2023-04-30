@@ -16,7 +16,9 @@
                 border: 2px solid #dfe2e1;
                 border-radius: .5rem;
                 display: block;
+
                 padding: .55rem 3rem .55rem 1rem;
+
                 /* width: 100%; */
             }
 
@@ -142,9 +144,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="text-small mb-1"><a
-                                                    href="{{ route('userShowProductCatagory', $pro->id_type) }}"
-                                                    class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
+                                            <div class="text-small mb-1"><a href="#!"
+                                                    class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->name }}</small></a>
                                             </div>
                                             <h2 class="fs-6">
                                                 <a href="{{ route('products-details', $pro->id_product) }}"
@@ -216,6 +217,7 @@
             if (value <= 5 && value >= 1) {
                 ratingInputs[ratingInputs.length - value].checked = true;
             }
+
             ratingValue.addEventListener(" i", function() {
                 const value = Number(ratingValue.value);
                 if (value <= 5 && value >= 1) {

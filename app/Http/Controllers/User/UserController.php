@@ -26,5 +26,12 @@ class UserController extends Controller
         return view('user.pages.Products.index', compact('prods','name'));
     }
     
+    public function searchPrice(Request $request){
+        $form = $request->form;
+        $to = $request->to;
+        $prods = Product::where('price','>=',$form)->where('price','<=',$to)-> get();
+        return view('user.pages.Products.index', compact('prods'));
+    }
 
 }
+

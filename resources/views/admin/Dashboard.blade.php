@@ -39,8 +39,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">{{number_format(($income[count($income)-1] - $expense[count($expense)-1]),0,'',' ')}} VND</h1>
-                                <span>Monthly revenue</span>
+                                <h1 class="mb-2 fw-bold fs-2">{{number_format($income[count($income)-1],0,'',' ')}} VND</h1>
+                                <span>Monthly revenue</span><br>
                             </div>
                         </div>
                     </div>
@@ -105,12 +105,9 @@
                                 </div>
                                 <div>
                                     <!-- select option -->
-                                    <select class="form-select">
-                                        <option selected>2023</option>
-                                        <option value="2023">2020</option>
-                                        <option value="2024">2021</option>
-                                        <option value="2025">2022</option>
-                                        <option value="2025">2023</option>
+                                    <select class="form-select" id="select_year">
+                                        <option value="2023" {{isset($year)? (intval($year) == 2023? 'selected':''):"selected"}}>2023</option>
+                                        <option value="2022" {{isset($year)? (intval($year) == 2022? 'selected':''):""}}>2022</option>
                                     </select>
                                 </div>
                             </div>
@@ -173,11 +170,10 @@
                 <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
                     <!-- card -->
                     <div class="card h-100 card-lg">
-                        <!-- card body -->
                         <div class="card-body p-6">
                             <h3 class="mb-0 fs-5">Sales Overview</h3>
                             <div class="mt-6">
-                                <!-- text -->
+                                
                                 <div class="mb-5">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Profit</h5>
@@ -352,11 +348,12 @@
     </main>
 @endsection
 
-{{-- @extends('admin.partials.master')
-@section('admin-content')
-    <main>
-        ...
-    </main>
-@endsection --}}
-
-{{-- <i class="fa-solid fa-ellipsis-vertical fs-5"></i> --}}
+@section('admin-script')
+    <script>
+        $(document).ready(function(){
+            $("#select_year").change(function(){
+                window.location.assign(window.location.origin+"/public/index.php/admin/dashboard?y="+$(this).val());
+            })
+        })
+    </script>
+@endsection

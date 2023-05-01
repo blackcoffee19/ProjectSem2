@@ -67,5 +67,14 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('warning_setting',$setting_mess);
             };
         });
+        view()->composer('admin.partials.header',function($view){
+            if(Auth::check() && Auth::user()->admin == '1'){
+                $notificates = News::where('send_admin','=',true)->get();
+                foreach($notificates as $new){
+                    $new->image = isset($new->User->avatar)? $new->User->avatar: "user.png";
+                }
+                $view->with('notificates',$notificates);
+            };
+        });
     }
 }

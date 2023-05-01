@@ -298,13 +298,13 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}%;"
-                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}"
+                                                                        style="width: {{(count($product->Comment->where('rating', '=', 5))/count($product->Comment->where('rating','!=',null)))*100}}%;"
+                                                                        aria-valuenow="{{(count($product->Comment->where('rating', '=', 5))/count($product->Comment->where('rating','!=',null)))*100}}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div>
                                                             <span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{number_format((count($product->Comment->where('rating','=',5))/count($product->Comment->where('rating','!=',null)))*100,0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -316,12 +316,12 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
-                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
+                                                                        style="width: {{(count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100}}%;"
+                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100}}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -333,12 +333,12 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
-                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
+                                                                        style="width: {{(count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100}}%;"
+                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100}}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -350,12 +350,12 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
-                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
+                                                                        style="width: {{(count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100}}%;"
+                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100}}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -367,12 +367,12 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
-                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
+                                                                        style="width: {{(count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100}}%;"
+                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100}}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center mb-2">

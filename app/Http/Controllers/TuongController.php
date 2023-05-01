@@ -1079,7 +1079,7 @@ class TuongController extends Controller
         }
     }
     public function modal_notificate($id){
-        if(Auth::check() && Auth::user()->admin != "2"){
+        if(Auth::check() && Auth::user()->admin == "0" ){
             echo "Wrong way bro";
         }else{
             $code = News::find($id)->link;

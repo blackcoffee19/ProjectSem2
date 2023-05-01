@@ -29,9 +29,13 @@ class insert_cart extends Seeder
             ["order_code"=>"USR2_3","id_user"=>2,"id_product"=>16,'price'=>223000,'sale'=>20,'amount'=>240,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','20/07/2022 00:00:00')],
             ["order_code"=>"USR2_3","id_user"=>2,"id_product"=>13,'price'=>31000,'sale'=>20,'amount'=>340,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','20/07/2022 00:00:00')],
 
-            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>17,'price'=>30000,'sale'=>0,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
-            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>19,'price'=>44000,'sale'=>20,'amount'=>240,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
-            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>23,'price'=>32000,'sale'=>20,'amount'=>340,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
+            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>17,'price'=>30000,'sale'=>0,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 02:00:00')],
+            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>19,'price'=>44000,'sale'=>20,'amount'=>240,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 02:00:00')],
+            ["order_code"=>"USR2_4","id_user"=>2,"id_product"=>23,'price'=>32000,'sale'=>20,'amount'=>340,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 02:00:00')],
+
+            ["order_code"=>"USR2_5","id_user"=>2,"id_product"=>28,'price'=>220000,'sale'=>0,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
+            ["order_code"=>"USR2_5","id_user"=>2,"id_product"=>26,'price'=>330000,'sale'=>1,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
+            ["order_code"=>"USR2_5","id_user"=>2,"id_product"=>2,'price'=>10000,'sale'=>20,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 02:00:00')],
             
             ["order_code"=>"USR3_0","id_user"=>3,"id_product"=>9,'price'=>10000,'sale'=>0,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','02/08/2022 00:00:00')],
             ["order_code"=>"USR3_0","id_user"=>3,"id_product"=>10,'price'=>30000,'sale'=>10,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','02/08/2022 00:00:00')],
@@ -78,19 +82,21 @@ class insert_cart extends Seeder
             ["order_code"=>"USR3_11","id_user"=>3,"id_product"=>1,'price'=>12000,'sale'=>0,'amount'=>100,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
             ["order_code"=>"USR3_11","id_user"=>3,"id_product"=>22,'price'=>222200,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
             
-            ["order_code"=>"USR3_12","id_user"=>3,"id_product"=>15,'price'=>40200,'sale'=>10,'amount'=>900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
+            ["order_code"=>"USR3_12","id_user"=>3,"id_product"=>15,'price'=>40200,'sale'=>10,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
             ["order_code"=>"USR3_12","id_user"=>3,"id_product"=>2,'price'=>19000,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/03/2023 00:00:00')],
 
-            ["order_code"=>"USR3_13","id_user"=>3,"id_product"=>28,'price'=>230000,'sale'=>0,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/03/2023 00:00:00')],
+            ["order_code"=>"USR3_13","id_user"=>3,"id_product"=>28,'price'=>230000,'sale'=>0,'amount'=>200,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/03/2023 00:00:00')],
             ["order_code"=>"USR3_13","id_user"=>3,"id_product"=>25,'price'=>32000,'sale'=>0,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/03/2023 00:00:00')],
             
-            ["order_code"=>"USR3_14","id_user"=>3,"id_product"=>20,'price'=>35000,'sale'=>0,'amount'=>1400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
+            ["order_code"=>"USR3_14","id_user"=>3,"id_product"=>20,'price'=>35000,'sale'=>0,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
             ["order_code"=>"USR3_14","id_user"=>3,"id_product"=>21,'price'=>254000,'sale'=>0,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','17/04/2023 00:00:00')],
             ["order_code"=>"USR3_15","id_user"=>3,"id_product"=>20,'price'=>35000,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','29/04/2023 00:00:00')],
-            ["order_code"=>"USR3_15","id_user"=>3,"id_product"=>21,'price'=>254000,'sale'=>0,'amount'=>1300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','29/04/2023 00:00:00')],
+            ["order_code"=>"USR3_15","id_user"=>3,"id_product"=>27,'price'=>190000,'sale'=>0,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','29/04/2023 00:00:00')],
             
             ["order_code"=>"USR3_16","id_user"=>3,"id_product"=>27,'price'=>190000,'sale'=>0,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','30/04/2023 00:00:00')],
             ["order_code"=>"USR3_16","id_user"=>3,"id_product"=>16,'price'=>220000,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','30/04/2023 00:00:00')],
+            ["order_code"=>"USR3_17","id_user"=>3,"id_product"=>29,'price'=>500000,'sale'=>10,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 00:00:00')],
+            ["order_code"=>"USR3_17","id_user"=>3,"id_product"=>26,'price'=>330000,'sale'=>1,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 00:00:00')],
             
             ["order_code"=>"USR4_0","id_user"=>4,"id_product"=>1,'price'=>12000,'sale'=>0,'amount'=>1500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','14/02/2022 00:00:00')],
             ["order_code"=>"USR4_0","id_user"=>4,"id_product"=>6,'price'=>20000,'sale'=>0,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','14/02/2022 00:00:00')],
@@ -245,10 +251,10 @@ class insert_cart extends Seeder
             ["order_code"=>"USR5_22","id_user"=>5,"id_product"=>18,'price'=>20000,'sale'=>10,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/02/2023 00:00:00')],
             ["order_code"=>"USR5_22","id_user"=>5,"id_product"=>19,'price'=>44000,'sale'=>10,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/02/2023 00:00:00')],
             
-            ["order_code"=>"USR5_23","id_user"=>5,"id_product"=>29,'price'=>500000,'sale'=>0,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/02/2023 00:00:00')],
+            ["order_code"=>"USR5_23","id_user"=>5,"id_product"=>29,'price'=>500000,'sale'=>0,'amount'=>200,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/02/2023 00:00:00')],
             ["order_code"=>"USR5_23","id_user"=>5,"id_product"=>18,'price'=>20000,'sale'=>10,'amount'=>900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/02/2023 00:00:00')],
             
-            ["order_code"=>"USR5_24","id_user"=>5,"id_product"=>9,'price'=>10000,'sale'=>0,'amount'=>1900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','24/03/2023 00:00:00')],
+            ["order_code"=>"USR5_24","id_user"=>5,"id_product"=>9,'price'=>10000,'sale'=>0,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','24/03/2023 00:00:00')],
             ["order_code"=>"USR5_24","id_user"=>5,"id_product"=>18,'price'=>23000,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','24/03/2023 00:00:00')],
 
             ["order_code"=>"USR5_25","id_user"=>5,"id_product"=>15,'price'=>38000,'sale'=>20,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','03/04/2023 00:00:00')],
@@ -441,33 +447,46 @@ class insert_cart extends Seeder
             ["order_code"=>"GUT_35","id_product"=>6,'price'=>16000,'sale'=>0,'amount'=>1900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','18/02/2023 00:00:00')],
             ["order_code"=>"GUT_35","id_product"=>8,'price'=>10000,'sale'=>0,'amount'=>1300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','18/02/2023 00:00:00')],
 
-            ["order_code"=>"GUT_36","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
-            ["order_code"=>"GUT_36","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
-            ["order_code"=>"GUT_36","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
+            ["order_code"=>"GUT_36","id_product"=>1,'price'=>12000,'sale'=>0,'amount'=>1200,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
+            ["order_code"=>"GUT_36","id_product"=>2,'price'=>10000,'sale'=>0,'amount'=>1200,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
+            ["order_code"=>"GUT_36","id_product"=>3,'price'=>18000,'sale'=>0,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/03/2023 00:00:00')],
 
-            ["order_code"=>"GUT_37","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','13/03/2023 00:00:00')],
-            ["order_code"=>"GUT_37","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','13/03/2023 00:00:00')],
+            ["order_code"=>"GUT_37","id_product"=>14,'price'=>33000,'sale'=>10,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','13/03/2023 00:00:00')],
+            ["order_code"=>"GUT_37","id_product"=>18,'price'=>20000,'sale'=>0,'amount'=>200,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','13/03/2023 00:00:00')],
 
-            ["order_code"=>"GUT_38","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/03/2023 00:00:00')],
-            ["order_code"=>"GUT_39","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','29/03/2023 00:00:00')],
-            ["order_code"=>"GUT_40","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
-            ["order_code"=>"GUT_40","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
+            ["order_code"=>"GUT_38","id_product"=>22,'price'=>380000,'sale'=>20,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/03/2023 00:00:00')],
+            ["order_code"=>"GUT_39","id_product"=>23,'price'=>29000,'sale'=>0,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','29/03/2023 00:00:00')],
+            ["order_code"=>"GUT_40","id_product"=>24,'price'=>43000,'sale'=>20,'amount'=>900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
+            ["order_code"=>"GUT_40","id_product"=>25,'price'=>30000,'sale'=>0,'amount'=>990,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
 
-            ["order_code"=>"GUT_41","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
-            ["order_code"=>"GUT_41","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
+            ["order_code"=>"GUT_41","id_product"=>27,'price'=>190000,'sale'=>0,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
+            ["order_code"=>"GUT_41","id_product"=>11,'price'=>20000,'sale'=>0,'amount'=>2000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','12/04/2023 00:00:00')],
             
-            ["order_code"=>"GUT_42","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
-            ["order_code"=>"GUT_42","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
-            ["order_code"=>"GUT_43","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
+            ["order_code"=>"GUT_42","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
+            ["order_code"=>"GUT_42","id_product"=>19,'price'=>40000,'sale'=>0,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
+            ["order_code"=>"GUT_43","id_product"=>29,'price'=>500000,'sale'=>0,'amount'=>800,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','27/04/2023 00:00:00')],
             
-            ["order_code"=>"GUT_44","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
-            ["order_code"=>"GUT_44","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
-            ["order_code"=>"GUT_44","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
-            ["order_code"=>"GUT_44","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
+            ["order_code"=>"GUT_44","id_product"=>8,'price'=>8000,'sale'=>0,'amount'=>1990,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
+            ["order_code"=>"GUT_44","id_product"=>7,'price'=>14000,'sale'=>0,'amount'=>1000,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
+            ["order_code"=>"GUT_44","id_product"=>6,'price'=>17000,'sale'=>32,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
+            ["order_code"=>"GUT_44","id_product"=>9,'price'=>10000,'sale'=>0,'amount'=>300,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 04:00:00')],
 
-            ["order_code"=>"GUT_45","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
-            ["order_code"=>"GUT_45","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
-            ["order_code"=>"GUT_45","id_product"=>21,'price'=>250000,'sale'=>0,'amount'=>360,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>"GUT_45","id_product"=>12,'price'=>18000,'sale'=>45,'amount'=>390,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>"GUT_45","id_product"=>16,'price'=>220000,'sale'=>10,'amount'=>460,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>"GUT_45","id_product"=>22,'price'=>380000,'sale'=>40,'amount'=>770,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+
+            ["order_code"=>"GUT_46","id_product"=>30,'price'=>500000,'sale'=>0,'amount'=>500,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>"GUT_46","id_product"=>26,'price'=>330000,'sale'=>1,'amount'=>400,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>"GUT_46","id_product"=>18,'price'=>20000,'sale'=>25,'amount'=>700,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+
+            ["order_code"=>"GUT_47","id_product"=>12,'price'=>18000,'sale'=>45,'amount'=>390,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 08:00:00')],
+            ["order_code"=>"GUT_47","id_product"=>6,'price'=>17000,'sale'=>32,'amount'=>860,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 08:00:00')],
+            ["order_code"=>"GUT_47","id_product"=>19,'price'=>40000,'sale'=>15,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 08:00:00')],
+
+            ["order_code"=>null,"id_user"=>4,"id_product"=>12,'price'=>18000,'sale'=>45,'amount'=>600,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>null,"id_user"=>4,"id_product"=>16,'price'=>220000,'sale'=>10,'amount'=>900,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>null,"id_user"=>2,"id_product"=>16,'price'=>220000,'sale'=>10,'amount'=>460,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
+            ["order_code"=>null,"id_user"=>3,"id_product"=>22,'price'=>380000,'sale'=>40,'amount'=>770,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 06:00:00')],
         ];
         try {
             foreach ($carts as $cart) {

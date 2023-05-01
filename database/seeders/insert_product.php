@@ -15,7 +15,7 @@ class insert_product extends Seeder
     public function run(): void
     {
         $products = [
-            [
+            [ //1
                 'id_type' => 1,
                 'name' => "Corn",
                 'quantity' => 5000,
@@ -24,7 +24,7 @@ class insert_product extends Seeder
                 'sale' => 10,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //2
                 'id_type' => 1,
                 'name' => "calabash",
                 'quantity' => 4000,
@@ -41,7 +41,7 @@ class insert_product extends Seeder
                 'sale' => 20,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //3
                 'id_type' => 1,
                 'name' => "pumkin",
                 'quantity' => 5000,
@@ -54,7 +54,7 @@ class insert_product extends Seeder
                 'sale' => 45,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //4
                 'id_type' => 1,
                 'name' => "tomato",
                 'quantity' => 4000,
@@ -65,7 +65,7 @@ class insert_product extends Seeder
                 'sale' => 36,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //5
                 'id_type' => 1,
                 'name' => "carrot",
                 'quantity' => 3500,
@@ -77,7 +77,7 @@ class insert_product extends Seeder
                 'sale' => 25,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //6
                 'id_type' => 1,
                 'name' => "eggplant",
                 'quantity' => 4500,
@@ -88,7 +88,7 @@ class insert_product extends Seeder
                 'sale' => 32,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //7
                 'id_type' => 1,
                 'name' => "White radish",
                 'quantity' => 3900,
@@ -99,7 +99,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //8
                 'id_type' => 1,
                 'name' => "onion",
                 'quantity' => 4400,
@@ -111,7 +111,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //9
                 'id_type' => 1,
                 'name' => "bell pepper",
                 'quantity' => 2000,
@@ -120,7 +120,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //10
                 'id_type' => 1,
                 'name' => "Lettuce",
                 'quantity' => 5000,
@@ -136,7 +136,7 @@ class insert_product extends Seeder
                 'sale' => 20,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //11
                 'id_type' => 2,
                 'name' => "coconut",
                 'quantity' => 4000,
@@ -145,7 +145,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //12
                 'id_type' => 2,
                 'name' => "watermelon",
                 'quantity' => 3900,
@@ -154,7 +154,7 @@ class insert_product extends Seeder
                 'sale' => 45,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //13
                 'id_type' => 2,
                 'name' => "pear",
                 'quantity' => 2500,
@@ -163,7 +163,7 @@ class insert_product extends Seeder
                 'sale' => 30,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/03/2022 00:00:00')
             ],
-            [
+            [ //14
                 'id_type' => 2,
                 'name' => "plum",
                 'quantity' => 2800,
@@ -175,7 +175,7 @@ class insert_product extends Seeder
                 'sale' => 20,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '10/07/2022 00:00:00')
             ],
-            [
+            [ //15
                 'id_type' => 2,
                 'name' => "mangosteen",
                 'quantity' => 4600,
@@ -184,7 +184,7 @@ class insert_product extends Seeder
                 'sale' => 25,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/01/2022 00:00:00')
             ],
-            [
+            [ //16
                 'id_type' => 2,
                 'name' => "durian",
                 'quantity' => 3400,
@@ -195,7 +195,7 @@ class insert_product extends Seeder
                 'sale' => 10,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/06/2022 00:00:00')
             ],
-            [
+            [ //17
                 'id_type' => 2,
                 'name' => "apple",
                 'quantity' => 5000,
@@ -206,7 +206,7 @@ class insert_product extends Seeder
                 'sale' => 40,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '01/04/2022 00:00:00')
             ],
-            [
+            [ //18
                 'id_type' => 2,
                 'name' => "pinapple",
                 'quantity' => 4600,
@@ -218,7 +218,7 @@ class insert_product extends Seeder
                 'sale' => 25,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '01/02/2022 00:00:00')
             ],
-            [
+            [ //19
                 'id_type' => 2,
                 'name' => "litchi",
                 'quantity' => 3600,
@@ -230,7 +230,7 @@ class insert_product extends Seeder
                 'sale' => 15,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/08/2022 00:00:00')
             ],
-            [
+            [ //20
                 'id_type' => 2,
                 'name' => "mango",
                 'quantity' => 4000,
@@ -239,7 +239,7 @@ class insert_product extends Seeder
                 'sale' => 40,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '12/05/2022 00:00:00')
             ],
-            [
+            [ //21
                 'id_type' => 3,
                 'name' => "beef",
                 'quantity' => 5000,
@@ -251,7 +251,7 @@ class insert_product extends Seeder
                 'sale' => 20,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/03/2022 00:00:00')
             ],
-            [
+            [ //22
                 'id_type' => 3,
                 'name' => "plaice",
                 'quantity' => 3700,
@@ -263,7 +263,7 @@ class insert_product extends Seeder
                 'sale' => 40,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/03/2022 00:00:00')
             ],
-            [
+            [ //23
                 'id_type' => 3,
                 'name' => "Snakehead fish",
                 'quantity' => 2500,
@@ -275,7 +275,7 @@ class insert_product extends Seeder
                 'sale' => 10,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/04/2022 00:00:00')
             ],
-            [
+            [ //24
                 'id_type' => 3,
                 'name' => "tuna",
                 'quantity' => 9000,
@@ -286,7 +286,7 @@ class insert_product extends Seeder
                 'sale' => 20,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/06/2022 00:00:00')
             ],
-            [
+            [ //25
                 'id_type' => 3,
                 'name' => "mackerel",
                 'quantity' => 9800,
@@ -297,7 +297,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/05/2022 00:00:00')
             ],
-            [
+            [ //26
                 'id_type' => 3,
                 'name' => "goat",
                 'quantity' => 1000,
@@ -308,7 +308,7 @@ class insert_product extends Seeder
                 'sale' => 1,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/03/2022 00:00:00')
             ],
-            [
+            [ //27
                 'id_type' => 3,
                 'name' => "chicken",
                 'quantity' => 10000,
@@ -320,7 +320,7 @@ class insert_product extends Seeder
                 'sale' => 10,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '19/02/2022 00:00:00')
             ],
-            [
+            [ //28
                 'id_type' => 3,
                 'name' => "pork",
                 'quantity' => 10000,
@@ -331,7 +331,7 @@ class insert_product extends Seeder
                 'sale' => 0,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '01/02/2022 00:00:00')
             ],
-            [
+            [ //29
                 'id_type' => 3,
                 'name' => "lamb",
                 'quantity' => 1200,
@@ -342,7 +342,7 @@ class insert_product extends Seeder
                 'sale' => 10,
                 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '29/06/2022 00:00:00')
             ],
-            [
+            [ //30
                 'id_type' => 3,
                 'name' => "Buffalo",
                 'quantity' => 5000,

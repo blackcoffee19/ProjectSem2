@@ -122,7 +122,7 @@
                         <!-- card body -->
                         <div class="card-body p-6">
                             <!-- heading -->
-                            <h3 class="mb-0 fs-5">Total Sales</h3>
+                            <h3 class="mb-0 fs-5">Total Orders</h3>
                             <div id="totalSale" class="mt-6 d-flex justify-content-center"></div>
                             <div class="mt-4">
                                 <!-- list -->
@@ -132,32 +132,32 @@
                                             fill="currentColor" class="bi bi-circle-fill text-primary" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Shippings $32.98</span>
-                                            (2%)</span>
+                                        <span class="ms-1"><span class="text-dark">Finished {{$arr_order[0]}}</span>
+                                            ({{number_format($arr_order[0]/array_sum($arr_order)*100,0,'','')}}%)</span>
                                     </li>
                                     <li class="mb-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-warning" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Refunds $11</span>
-                                            (11%)</span>
+                                        <span class="ms-1"><span class="text-dark">Cancel {{$arr_order[1]}}</span>
+                                            ({{number_format($arr_order[1]/array_sum($arr_order)*100,0,'','')}}%)</span>
                                     </li>
                                     <li class="mb-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-danger" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Order $14.87</span>
-                                            (1%)</span>
+                                        <span class="ms-1"><span class="text-dark">Transaction Failed {{$arr_order[2]}}</span>
+                                            ({{number_format($arr_order[2]/array_sum($arr_order)*100,0,'','')}}%)</span>
                                     </li>
                                     <li>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-info" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Income 3,271</span>
-                                            (86%)</span>
+                                        <span class="ms-1"><span class="text-dark">Order {{$arr_order[3]}}</span>
+                                            ({{number_format($arr_order[3]/array_sum($arr_order)*100,0,'','')}}%)</span>
                                     </li>
                                 </ul>
                             </div>
@@ -177,15 +177,18 @@
                                 <div class="mb-5">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Profit</h5>
-                                        <span><span class="me-1 text-dark">$1,619</span>
-                                            (8.6%)</span>
+                                        <span><span class="me-1 text-dark">{{$income[count($income)-1]-$expense[count($expense)-1]}} đ</span>
+                                            ({{number_format(($income[count($income)-1]-$expense[count($expense)-1])/(array_sum($income)-array_sum($expense))*100,1,'.','')}}%)</span>
                                     </div>
                                     <!-- main wrapper -->
                                     <div>
+                                        @php
+                                            $num_pr = ($income[count($income)-1]-$expense[count($expense)-1])/(array_sum($income)-array_sum($expense))*100;
+                                        @endphp
                                         <!-- progressbar -->
                                         <div class="progress bg-light-primary" style="height: 6px">
                                             <div class="progress-bar bg-primary" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 25%" aria-valuenow="25"
+                                                aria-label="Example 1px high" style="width: {{$num_pr}}%;" aria-valuenow="{{$num_pr}}"
                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
@@ -194,14 +197,17 @@
                                     <!-- text -->
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Income</h5>
-                                        <span><span class="me-1 text-dark">$3,571</span>
-                                            (86.4%)</span>
+                                        <span><span class="me-1 text-dark">{{$income[count($income)-1]}} đ</span>
+                                            ({{number_format($income[count($income)-1]/array_sum($income)*100,1,'.','')}}%)</span>
                                     </div>
                                     <div>
                                         <!-- progressbar -->
+                                        @php
+                                            $num_in = $income[count($income)-1]/array_sum($income)*100;
+                                        @endphp
                                         <div class="progress bg-info-soft" style="height: 6px">
                                             <div class="progress-bar bg-info" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 88%" aria-valuenow="88"
+                                                aria-label="Example 1px high" style="width: {{$num_in}}%;" aria-valuenow="{{$num_in}}"
                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
@@ -210,14 +216,17 @@
                                     <!-- text -->
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Expenses</h5>
-                                        <span><span class="me-1 text-dark">$3,430</span>
-                                            (74.5%)</span>
+                                        <span><span class="me-1 text-dark">{{$expense[count($expense)-1]}} đ</span>
+                                            ({{number_format($expense[count($expense)-1]/array_sum($expense)*100,1,'.','')}}%)</span>
                                     </div>
                                     <div>
+                                        @php
+                                            $num_ex = $expense[count($expense)-1]/array_sum($expense)*100;
+                                        @endphp
                                         <!-- progressbar -->
                                         <div class="progress bg-light-danger" style="height: 6px">
                                             <div class="progress-bar bg-danger" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 45%" aria-valuenow="45"
+                                                aria-label="Example 1px high" style="width: {{$num_ex}}%" aria-valuenow="{{$num_ex}}"
                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>

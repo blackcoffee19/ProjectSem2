@@ -52,7 +52,12 @@ class AdminDashboardController extends Controller
 
         $users = count(User::all());
         $customer = count(User::where('admin','!=','2')->get()) +count(Order::where('id_user','=',null)->get());
-        
-        return view('admin.Dashboard',compact('recent_orders','income','expense','order_y','sale_pro','users','customer','year'));
+        $arr_order = [
+            count(Order::where('status','=','finished')->get()),
+            count(Order::where('status','=','cancel')->get()),
+            count(Order::where('status','=','transaction failed')->get()),
+            count(Order::where('status','=','unconfirmed')->orWhere('status','=','delivery')->get()),
+        ];
+        return view('admin.Dashboard',compact('recent_orders','income','expense','order_y','sale_pro','users','customer','year','arr_order'));
     }
 }

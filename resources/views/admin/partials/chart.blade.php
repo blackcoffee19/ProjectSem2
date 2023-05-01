@@ -2,11 +2,16 @@
     const theme={primary:"var(--fc-primary)",secondary:"var(--fc-secondary)",success:"var(--fc-success)",info:"var(--fc-info)",warning:"var(--fc-warning)",danger:"var(--fc-danger)",dark:"var(--fc-dark)",light:"var(--fc-light)",white:"var(--fc-white)",gray100:"var(--fc-gray-100)",gray200:"var(--fc-gray-200)",gray300:"var(--fc-gray-300)",gray400:"var(--fc-gray-400)",gray500:"var(--fc-gray-500)",gray600:"var(--fc-gray-600)",gray700:"var(--fc-gray-700)",gray800:"var(--fc-gray-800)",gray900:"var(--fc-gray-900)",black:"var(--fc-black)",transparent:"transparent"};
     let arr_income = [];
     let arr_expense = [];
+    let arr_order =[];
     @foreach($income as $key=> $ic)
         arr_income.push(({{$ic}}/1000).toFixed(2));
     @endforeach
     @foreach($expense as $key=> $ex)
         arr_expense.push(({{$ex}}/1000).toFixed(2));
+    @endforeach
+    @foreach($arr_order as $key=>$or){
+        arr_order.push({{$or}})
+    }
     @endforeach
 window.theme=theme,function(){
     var e;
@@ -67,8 +72,8 @@ window.theme=theme,function(){
     ),
     $("#totalSale").length&&(
         e={
-            series:[6e3,2e3,1e3,600],
-            labels:["Shippings","Refunds","Order","Income"],
+            series:arr_order,
+            labels:["Finished","Cancel","Transaction Failed","Other"],
             colors:["#0aad0a","#ffc107","#db3030","#016bf8"],
             chart:{type:"donut",height:280},legend:{show:!1},
             dataLabels:{enabled:!1},
@@ -84,7 +89,7 @@ window.theme=theme,function(){
                             value:{show:!0,fontSize:"24px",fontFamily:'"Inter", "sans-serif"',fontWeight:800,colors:window.theme.gray800,offsetY:8,
                                 formatter:function(e){return e}
                             },
-                            total:{show:!0,showAlways:!1,label:"Total Sales",fontSize:"16px",fontFamily:'"Inter", "sans-serif"',fontWeight:400,colors:window.theme.gray400,
+                            total:{show:!0,showAlways:!1,label:"Total Orders",fontSize:"16px",fontFamily:'"Inter", "sans-serif"',fontWeight:400,colors:window.theme.gray400,
                                 formatter:function(e){return e.globals.seriesTotals.reduce((e,r)=>e+r,0)}
                             }
                         }

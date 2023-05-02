@@ -489,5 +489,55 @@
             }
           });
         });
+        $('#btn_close').click(function(){
+            $('#chatbox').toggleClass('d-none');
+        })
+        $('.show_chat').click(function(){
+          $('#chatbox').removeClass('d-none');
+          $('#messages').data('chat',$(this).data('groupcode'));
+          $('#messages').data('iduser',$(this).data('iduser'));
+          $.ajax(
+              {method: "GET",
+              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+              url: window.location.origin+'/public/index.php/ajax/message/show',
+              data: {'codegroup':$(this).data('groupcode'),'id_user':$(this).data('iduser')},
+              success: function (data) {
+                let data_mess  = data.split(',');
+                // console.log(data_mess);
+                $('#messages').html(data_mess[0]);
+                $('#usr_contact').html(data_mess[0]?data_mess[1]:'');
+              }}
+          )
+        });
+        $('.list_mess').click(function(){
+          if(!$('#chatbox').hasClass('d-none')){
+            $('#chatbox').addClass('d-none');
+          }
+        })
+        $('.button-submit').click(function(){
+            let message = $(this).siblings('input[name="send_message"]');
+            let chatbox = $(this).parents('.input_message').prev();
+            if(message.val().length>0){
+              $.ajax({
+                method: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: window.location.origin+'/public/index.php/ajax-post/message',
+                data: {'send_message':message.val(),'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
+                success: function (data) {
+                  chatbox.append(`<div class="row mb-4 mx-3"><div class="col-4"></div><div class="col-8">
+                    <div class="text-wrap rounded-1 border py-1 px-2 bg-light">
+                      ${data}
+                    </div>
+                  </div>
+                </div>`);
+                }
+              });
+              message.val('');
+            };
+          });
+          $('.show_listchat').click(function(){
+            let nextDD = $(this).next();
+            $('.chatbox').not(nextDD).removeClass('show');
+          })
     })  
 </script>

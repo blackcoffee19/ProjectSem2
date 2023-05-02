@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('code_group',10);
             $table->foreignId('id_user');
             $table->foreignId('id_admin');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

@@ -59,6 +59,8 @@ Route::group(['prefix'=>'manager'],function(){
     Route::post('/remove-notificate',[TuongController::class,'post_removenoti'])->name('remove_notificate');
     Route::get('/list_order',[TuongController::class,'list_allorder'])->name('allorder');
 });
+Route::get('/ajax/message/show',[TuongController::class,'get_listmessage']);
+Route::post('/ajax-post/message',[TuongController::class,'postajax_message']);
 //Login Google
 Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);

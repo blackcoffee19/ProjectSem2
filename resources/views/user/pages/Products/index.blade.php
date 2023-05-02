@@ -70,6 +70,7 @@
                             <div class="d-md-flex justify-content-between align-items-center">
                                 {{-- <div class="d-flex align-items-center justify-content-between">
                                     <div>
+
                                         <a href="shop-list.html" class="text-muted me-3"><i class="bi bi-list-ul"></i></a>
                                         <a href="shop-grid.html" class=" me-3 active"><i class="bi bi-grid"></i></a>
                                         <a href="shop-grid-3-column.html" class="me-3 text-muted"><i
@@ -225,10 +226,12 @@
                 }
             });
         });
+
         //sắp xếp theo giá
         function sortProductsByPrice() {
             const productDivs = document.querySelectorAll('.filterDiv');
             const selectedOption = document.getElementById('sort').value;
+
             // Tạo một mảng chứa các sản phẩm và giá của chúng
             let products = [];
             for (let i = 0; i < productDivs.length; i++) {
@@ -239,6 +242,7 @@
                     price: price
                 });
             }
+
             // Sắp xếp sản phẩm theo giá
             if (selectedOption === 'asc') {
                 products.sort(function(a, b) {
@@ -291,10 +295,12 @@
             element.className = arr1.join(" ");
         }
         //fiter rate
+
         $(document).ready(function() {
             var selectedValues = []; // biến lưu trữ danh sách các giá trị được chọn từ các checkbox
             var visibleCols = []; // biến lưu trữ trạng thái ban đầu của các cột
             var filterOn = false; // biến cờ cho biết liệu chức năng lọc đang được kích hoạt hay không
+
             $(".rating-checkbox").change(function() {
                 selectedValues = [];
                 $(".rating-checkbox:checked").each(function() {
@@ -313,12 +319,13 @@
                     visibleCols.each(function() {
                         if ($.inArray($(this).find(".rating-value").val(), selectedValues) !== -1) {
                             $(this)
-                                .show(); // Nếu giá trị của cột nằm trong danh sách giá trị được chọn, hiển thị cột đó
+                        .show(); // Nếu giá trị của cột nằm trong danh sách giá trị được chọn, hiển thị cột đó
                         }
                     });
                     filterOn = true; // Đặt biến cờ là true
                 }
             }
+
             $(".rating-checkbox").click(function() {
                 // Đảo ngược chức năng lọc nếu checkbox đã được chọn
                 if (filterOn) {

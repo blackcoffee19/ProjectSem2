@@ -31,7 +31,7 @@
 
                     <div class="col-6 mx-auto">
                         <div class="ps-lg-10 mt-6 mt-md-0">
-                            <a href="{{ route('userShowProductCatagory', $product->id_type) }}"
+                            <a href="{{ Route('userShowProductCatagory', $product->id_type) }}"
                                 class="mb-4 d-block">{{ $product->TypeProduct->type }}</a>
                             <h1 class="mb-1 text-capitalize">{{ $product->name }}</h1>
                             <div class="mb-4">
@@ -308,7 +308,7 @@
                                                                 </div>
                                                             </div>
                                                             <span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -325,7 +325,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -342,7 +342,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -359,7 +359,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -376,7 +376,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center mb-2">
@@ -709,7 +709,7 @@
                                         </div>
                                     </div>
                                     <div class="text-small mb-1"><a
-                                            href="{{ route('userShowProductCatagory', $re_product->id_type) }}"
+                                            href="{{ Route('userShowProductCatagory', $product->id_type) }}"
                                             class="text-decoration-none text-muted"><small>{{ $re_product->TypeProduct->type }}</small></a>
                                     </div>
                                     <h2 class="fs-6">

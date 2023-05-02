@@ -13,6 +13,8 @@ use App\Models\Coupon;
 use App\Models\TypeProduct;
 use App\Models\Cart;
 use App\Models\News;
+use App\Models\Groupmessage;
+use App\Models\Message;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Address;
@@ -30,8 +32,8 @@ class TuongController extends Controller
             $check_orders = null;
         }
         $cats = TypeProduct::all();
-        $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
-        $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
+        $products = Product::where('quantity','>',0)->where('status','=',true)->inRandomOrder()->limit(10)->get();
+        $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->where('status','=',true)->inRandomOrder()->limit(3)->get();
         $banners = Banner::all();
         $sliders = Slide::all();
         // dd($check_orders);
@@ -218,13 +220,17 @@ class TuongController extends Controller
         Auth::logout();
         return redirect('/');
     }
-    public function product_detail($id){
-        $product = Product::find($id);
-        $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
-            ->take(5)
-            ->get();
-        $comments= Comment::where('id_product','=',$id)->get();
-        return view('user.pages.ProductDetails.index',compact('product','related_products','comments'));
+    public function product_detail($id = null){
+        if($id == null){
+            return redirect('/not_found')->with("error","Product Not Found");
+        }else{
+            $product = Product::find($id);
+            $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
+                ->take(5)
+                ->get();
+            $comments= Comment::where('id_product','=',$id)->get();
+            return view('user.pages.ProductDetails.index',compact('product','related_products','comments'));
+        }
     }
     public function post_comment(Request $req){
         $comment = new Comment();
@@ -1075,7 +1081,7 @@ class TuongController extends Controller
         }
     }
     public function modal_notificate($id){
-        if(Auth::check() && Auth::user()->admin != "2"){
+        if(Auth::check() && Auth::user()->admin == "0" ){
             echo "Wrong way bro";
         }else{
             $code = News::find($id)->link;
@@ -1201,6 +1207,9 @@ class TuongController extends Controller
         echo $num;
     }
     public function get_admin_signin(){
+        if(Auth::check() && Auth::user()->admin == '1'){
+            Auth::logout();
+        }
         return view('admin.pages.Signin.index');
     }
     public function post_admin_signin(Request $req){
@@ -1210,5 +1219,74 @@ class TuongController extends Controller
         }else{
             return redirect()->back()->with('error',"Email or password incorrect");
         }
+    }
+    public function get_404(){
+        return view('user.pages.404Notfound.index');
+    }
+    public function get_listmessage(Request $req){
+        if($req['codegroup'] && $req['codegroup'] != "new" ){
+            $get_gr = Groupmessage::where('code_group','=',$req['codegroup'])->first();
+            if(Auth::user()->admin == 0){
+                $user = $get_gr->Admin;
+            }else{
+                $user = $get_gr->User;
+            }
+            $group = Message::where('code_group','=',$req['codegroup'])->get();
+        }else{
+            $user = User::find($req['id_user']);
+            $group = Message::where('id_user','=',$req['id_user'])->where('code_group','=',null)->get();
+        };
+        $html="";
+        foreach($group as $chat){
+            $date_mess = Carbon::parse($chat->created_at);
+            $date_cur = Carbon::now();
+            $time= $date_cur->diffInDays($date_mess)>1 ? $date_cur->diffInDays($date_mess)." days ago": (($date_cur->diffInDays($date_mess) == 0)? ($date_cur->diffInHours($date_mess)> 0? $date_cur->diffInHours($date_mess).' hours before': $date_cur->diffInMinutes($date_mess). " minutes ago"): $date_cur->diffInDays($date_mess)." day ago");
+            $html .= "<div class='row mb-4 mx-3'>";
+            if($chat->id_user != Auth::user()->id_user){
+                $html.= "<div class='col-1 me-3 rounded-circle border text-center p-1' style='width:40px;height: 40px'>";
+                $html.= $chat->User->avatar?"<img src='images/avatar/".$chat->User->avatar."' class='img-fluid h-100 rounded-circle' style='object-fit: cover'>":"<img src='images/avatar/user.png' class='img-fluid h-100 rounded-circle' style='object-fit: cover'>";
+                $html.="</div><div class='col-8'><span>".$chat->User->name."</span><div class='text-wrap rounded-1 border py-1 px-2 bg-light'>";
+                $html.= $chat->message;
+                $html.="</div><span class='text-black-50'>".$time."</span></div>";
+            }else{
+                $html.= "<div class='col-2'></div>";
+                $html.="<div class='col-10 text-wrap rounded-1 border py-1 px-2 bg-light'>";
+                $html.= $chat->message;
+                $html.="</div>";
+            }
+            $html.= "</div>";
+        };
+        $data = [
+            'mess' => $html,
+            'name'=> $user->name
+        ];
+        echo implode(',',$data);
+    }
+    public function postajax_message(Request $req){
+        $new_message = new Message();
+        $code = $req['code_group'];
+        if($code == "new"){
+            $code = null;
+        }else if($code == null){
+            $code = "UCT".$req['connect_user'].Auth::user()->id_user;
+            $group_exist = Groupmessage::where('code_group','=',$code)->first();
+            if(!$group_exist){
+                $new_gr = new Groupmessage();
+                $new_gr->code_group = $code;
+                $new_gr->id_user = $req['connect_user'];
+                $new_gr->id_admin = Auth::user()->id_user;
+                $new_gr->save();
+            }
+            foreach(Message::where('code_group','=',null)->where('id_user','=',$req['connect_user'])->get() as $mess){
+                $mess->code_group = $code;
+                $mess->save();
+            };
+        };
+        $new_message->code_group = $code;
+        $new_message->id_user = Auth::user()->id_user;
+        $new_message->message = $req['send_message'];
+        $new_message->created_at = Carbon::now()->format('Y-m-d H:i:s');
+        $new_message->save();
+        echo $req['send_message'];
     }
 }

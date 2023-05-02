@@ -71,7 +71,8 @@
                                             <tr>
 
                                                 <td>{{ $orther->id_order }}</td>
-                                                <td><a href="#" class="text-reset">{{ $orther->order_code }}</a></td>
+                                                <td><a href="{{ Route('adminShowOrther', $orther->id_order) }}"
+                                                        class="text-reset">{{ $orther->order_code }}</a></td>
                                                 <td>{{ $orther->receiver }}</td>
 
                                                 <td>{{ $orther->created_at }}</td>

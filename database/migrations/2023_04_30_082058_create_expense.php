@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groupmessage', function (Blueprint $table) {
-            $table->id('id_group');
-            $table->string('code_group',10);
-            $table->foreignId('id_user');
-            $table->foreignId('id_admin');
-            $table->boolean('status')->default(true);
+        Schema::create('expense', function (Blueprint $table) {
+            $table->id('id_expense');
+            $table->string('name')->default('purchase costs');
+            $table->foreignId('id_product')->nullable();
+            $table->bigInteger('costs');
+            $table->bigInteger('quantity');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groupmessage');
+        Schema::dropIfExists('expense');
     }
 };

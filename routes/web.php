@@ -59,6 +59,8 @@ Route::group(['prefix'=>'manager'],function(){
     Route::post('/remove-notificate',[TuongController::class,'post_removenoti'])->name('remove_notificate');
     Route::get('/list_order',[TuongController::class,'list_allorder'])->name('allorder');
 });
+Route::get('/ajax/message/show',[TuongController::class,'get_listmessage']);
+Route::post('/ajax-post/message',[TuongController::class,'postajax_message']);
 //Login Google
 Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
@@ -124,10 +126,11 @@ Route::controller(IndexController::class)->group(function () {
 
 // =============== ROUTE ADMIN =============== //
 Route::get('/admin/signin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
+Route::get('/admin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
 Route::post('/admin/signin',[TuongController::class,'post_admin_signin'])->name('admin_signin');
-
 Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
-
+    
+    
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
     Route::controller(AdminCategoryController::class)->group(function () {
@@ -179,6 +182,9 @@ Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
         Route::put('/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
     });
     
-    
+    Route::get('{path?}',[TuongController::class,'get_admin_signin'])->where('path','.*');
     // =============== END ROUTE ADMIN =============== //
 });
+// =============== 404 Page ===================== //
+Route::get('/{path}',[TuongController::class,'get_404'])->where('path','.*');
+// =============== END 404 Page ===================== //

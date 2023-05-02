@@ -7,8 +7,7 @@ NEED require socialite to get GoogleAuth
 composer require laravel/socialite
 npm install slick-carousel
 
-
-===//=== Note ===//===
+===///===
 
 GIT FETCH MERGE ANOTHER BRANCH IN UPSTREAM REPO
 1
@@ -18,19 +17,12 @@ git checkout branch-name
 3
 git merge branch-you-want-merge
 
-===//===
-
->> 26/4
-1. Làm phần seeders product, Categories, library
-2. Thêm hình vào folder product (30 sản phẩm)
-3. Sửa nav phần header
-4. Fix route
-
-===//===
+===///===
 
 >> 30/4
+0. Gộp code của Tường
 1. fix banner Daily Best Sells
 2. fix link categories trong trang chủ + trang chi tiết sản phẩm + trang categories
+3. fix hình ảnh trang order trong admin + link detail list sản phẩm trang order list
 
-
-
+===///===

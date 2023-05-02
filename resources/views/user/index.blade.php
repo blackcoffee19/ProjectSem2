@@ -130,9 +130,8 @@
                                         </div>
 
                                     </div>
-                                    <div class="text-small mb-1"><a
-                                            href="{{ route('userShowProductCatagory', $pro->id_type) }}"
-                                            class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
+                                    <div class="text-small mb-1"><a href="#!"
+                                            class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->name }}</small></a>
                                     </div>
                                     <h2 class="fs-6">
                                         <a href="{{ route('products-details', $pro->id_product) }}"
@@ -199,7 +198,7 @@
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
                             <div class="px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 170px; padding-left: 30px;">
+                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 168px; padding-left: 30px;">
                                 <div>
                                     <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
                                         {{ $banners[2]->title }}

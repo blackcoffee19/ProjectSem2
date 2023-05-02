@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->bigInteger('quantity');
             $table->longText('description')->nullable();
-            $table->bigInteger('original_price');
             $table->bigInteger('price');
             $table->double('sale')->default(0);
             $table->timestamps();

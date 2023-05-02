@@ -33,39 +33,44 @@
                         <div class="card-body p-6">
                             <div class="d-md-flex justify-content-between">
                                 <div class="d-flex align-items-center mb-2 mb-md-0">
-                                    <h2 class="mb-0">Order ID: #{{ $id_order->id_order }} </h2>
+                                    <h2 class="mb-0">
+                                        Order ID: #{{ $id_order->id_order }}
+                                        <span style="padding-left: 50px">Order Name: {{ $id_order->order_code }}</span>
+                                    </h2>
                                     {{-- <span class="badge bg-light-warning text-dark-warning ms-2">Pending</span> --}}
-                                    @switch($id_order->status)
-                                        @case($id_order->status == 'finished')
-                                            <span class="badge ms-2 bg-light-primary text-dark-primary">
-                                                {{ $id_order->status }}</span>
-                                        @break
+                                    <span style="padding-left: 50px">
+                                        @switch($id_order->status)
+                                            @case($id_order->status == 'finished')
+                                                <span class="badge ms-2 bg-light-primary text-dark-primary">
+                                                    {{ $id_order->status }}</span>
+                                            @break
 
-                                        @case($id_order->status == 'delivery')
-                                            <span class="badge ms-2 bg-light-warning text-dark-warning">
-                                                {{ $id_order->status }}</span>
-                                        @break
+                                            @case($id_order->status == 'delivery')
+                                                <span class="badge ms-2 bg-light-warning text-dark-warning">
+                                                    {{ $id_order->status }}</span>
+                                            @break
 
-                                        @case($id_order->status == 'transaction failed')
-                                            <span class="badge ms-2 bg-light-danger text-dark-danger">
-                                                {{ $id_order->status }}</span>
-                                        @break
+                                            @case($id_order->status == 'transaction failed')
+                                                <span class="badge ms-2 bg-light-danger text-dark-danger">
+                                                    {{ $id_order->status }}</span>
+                                            @break
 
-                                        @case($id_order->status == 'cancel')
-                                            <span class="badge ms-2 bg-light-danger text-dark-danger">
-                                                {{ $id_order->status }}</span>
-                                        @break
+                                            @case($id_order->status == 'cancel')
+                                                <span class="badge ms-2 bg-light-danger text-dark-danger">
+                                                    {{ $id_order->status }}</span>
+                                            @break
 
-                                        @case($id_order->status == 'unconfimred')
-                                            <span class="badge ms-2 text-bg-dark"> {{ $id_order->status }}</span>
-                                        @break
+                                            @case($id_order->status == 'unconfimred')
+                                                <span class="badge ms-2 text-bg-dark"> {{ $id_order->status }}</span>
+                                            @break
 
-                                        @case($id_order->status == 'confirmed')
-                                            <span class="text-primary"> {{ $id_order->status }}</span>
-                                        @break
+                                            @case($id_order->status == 'confirmed')
+                                                <span class="text-primary"> {{ $id_order->status }}</span>
+                                            @break
 
-                                        @default
-                                    @endswitch
+                                            @default
+                                        @endswitch
+                                    </span>
                                 </div>
                                 <!-- select option -->
                                 <div class="d-md-flex">
@@ -138,8 +143,13 @@
                                             @foreach ($cartItems as $item)
                                                 <tr>
                                                     <td>
-                                                        <img src="{{ asset('images/products/' . $item->image) }}"
-                                                            alt="{{ $item->name }}" style="width: 50px;">
+                                                        <a href="{{ route('products-details', $item->id_product) }}">
+                                                            <img src="{{ asset('images/products/' . $item->Product->Library[0]->image) }}"
+                                                                alt="{{ $item->Product->Library[0]->image }}"
+                                                                style="width: 60px;">
+                                                            <span
+                                                                style="padding-left: 50px">{{ $item->product->name }}</span>
+                                                        </a>
                                                     </td>
                                                     <td><span class="text-body">${{ $item->price }}</span></td>
                                                     <td>{{ $item->amount }}</td>

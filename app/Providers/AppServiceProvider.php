@@ -67,5 +67,31 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('warning_setting',$setting_mess);
             };
         });
+        view()->composer('admin.partials.header',function($view){
+            if(Auth::check() && Auth::user()->admin == '1'){
+                $notificates = News::where('send_admin','=',true)->get();
+                foreach($notificates as $new){
+                    $new->image = isset($new->User->avatar)? $new->User->avatar: "user.png";
+                }
+                $view->with('notificates',$notificates);
+            };
+        });
+        view()->composer(['user.partials.message'],function($view){
+            if(Auth::check()){
+                if(Auth::user()->admin == '0'){
+                    $groups = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+                    // GET MESSAGES THAT ADMIN STILL NOT REPLY 
+                    $messages_to_admin = Message::where('code_group','=',null)->where('id_user','=',Auth::user()->id_user)->get();
+                    $view->with('groups',$groups);
+                    $view->with('messages_to_admin',$messages_to_admin);
+                }else{
+                    $groups = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+                    // GET ALL USER MESSAGE TO ADMIN THAT STILL NOT REPLY 
+                    $user_mess=  User::whereIn('id_user',Message::select('id_user')->where('code_group','=',null)->distinct()->get())->get();
+                    $view->with('groups',$groups);
+                    $view->with('user_message',$user_mess);
+                }
+            }
+        });
     }
 }

@@ -17,8 +17,10 @@ class AdminLogin
     {
         if(Auth::check() && Auth::user()->admin == '1'){
             return $next($request);
-        }else{
+        }else if(Auth::check()){
             return redirect('/admin/signin')->with('permission_deinied','Your account has no permission to enter Admin site');
+        }else{
+            return redirect('/admin/signin');
         }
     }
 }

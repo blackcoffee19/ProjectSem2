@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta content="Codescandy" name="author">
-
+    <base href="{{asset('')}}">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
     <script>
@@ -59,8 +59,11 @@
     <!-- Theme JS -->
     <script src="{{ asset('js/theme.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('js/chart.js') }}"></script>
+    {{-- <script src="{{ asset('js/chart.js') }}"></script> --}}
+    @include('admin.partials.chart')
+    @include('admin.partials.script')
     <!-- footer end-->
+    @yield('admin-script')
 </body>
 
 </html>

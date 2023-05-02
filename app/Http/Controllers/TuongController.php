@@ -32,8 +32,8 @@ class TuongController extends Controller
             $check_orders = null;
         }
         $cats = TypeProduct::all();
-        $products = Product::where('quantity','>',0)->inRandomOrder()->limit(10)->get();
-        $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->inRandomOrder()->limit(3)->get();
+        $products = Product::where('quantity','>',0)->where('status','=',true)->inRandomOrder()->limit(10)->get();
+        $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->where('status','=',true)->inRandomOrder()->limit(3)->get();
         $banners = Banner::all();
         $sliders = Slide::all();
         // dd($check_orders);

@@ -1,4 +1,5 @@
 <script>
+    @if(isset($income) && isset($expense) && isset($arr_order))
     const theme={primary:"var(--fc-primary)",secondary:"var(--fc-secondary)",success:"var(--fc-success)",info:"var(--fc-info)",warning:"var(--fc-warning)",danger:"var(--fc-danger)",dark:"var(--fc-dark)",light:"var(--fc-light)",white:"var(--fc-white)",gray100:"var(--fc-gray-100)",gray200:"var(--fc-gray-200)",gray300:"var(--fc-gray-300)",gray400:"var(--fc-gray-400)",gray500:"var(--fc-gray-500)",gray600:"var(--fc-gray-600)",gray700:"var(--fc-gray-700)",gray800:"var(--fc-gray-800)",gray900:"var(--fc-gray-900)",black:"var(--fc-black)",transparent:"transparent"};
     let arr_income = [];
     let arr_expense = [];
@@ -13,6 +14,7 @@
         arr_order.push({{$or}})
     }
     @endforeach
+    
 window.theme=theme,function(){
     var e;
     $("#revenueChart").length&&(
@@ -105,4 +107,5 @@ window.theme=theme,function(){
         new ApexCharts(document.querySelector("#totalSale"),e).render()
     )
 }();
+@endif
 </script>

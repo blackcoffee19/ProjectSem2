@@ -60,6 +60,6 @@ class IndexController extends Controller
 
     public function privacy()
     {
-        return view('user.pages.privacypolicy.index');
+        return view('user.pages.PrivacyPolicy.index');
     }
 }

@@ -67,6 +67,7 @@
                                             <th>Category</th>
                                             <th>Status</th>
                                             <th>Price</th>
+                                            <th>Qty</th>
                                             <th>Create at</th>
                                             <th></th>
                                         </tr>
@@ -76,7 +77,7 @@
                                             <tr>
                                                 <td>{{ $item->id_product }}</td>
                                                 <td>
-                                                    @foreach (array_reverse($item->libraries->toArray()) as $library)
+                                                    @foreach ($item->libraries as $library)
                                                         <img src="{{ asset('images/products/' . $library['image']) }}"
                                                             alt="" style="width:50px; height:auto;">
                                                     @endforeach
@@ -97,8 +98,9 @@
                                                         <span class="btn bg-light-danger text-dark-danger">Desable</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format($item->price, 0) }}</td>
-                                                <td>{{ $item->created_at }}</td>
+                                                <td>{{ number_format($item->price, 0) }}đ</td>
+                                                <td>{{ number_format($item->quantity, 0) }}g</td>
+                                                <td>{{ date_format($item->created_at,"j/m/Y") }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <a href="#" class="text-reset" data-bs-toggle="dropdown"

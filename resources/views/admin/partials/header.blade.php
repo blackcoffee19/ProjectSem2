@@ -59,7 +59,6 @@
                                                 <div class="ms-4">
                                                     <p class="mb-1">
                                                         <span class="text-dark">{{$noti->title}}</span>
-                                                        waiting for shipping
                                                     </p>
                                                     <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
                                                             height="12" fill="currentColor"

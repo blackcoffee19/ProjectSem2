@@ -31,6 +31,10 @@ Route::get('success-transaction', [PayPalController::class, 'successTransaction'
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
 
+Route::get('/user.pages.Contact.mail', [App\Http\Controllers\User\UserController::class, 'Mail'])->name('user.pages.Contact.mail');
+Route::post('/user/send-mail', [UserController::class, 'sendMail'])->name('user.sendMail');
+Route::get('/aboutUs', [App\Http\Controllers\User\UserController::class, 'AboutUs'])->name('user.pages.AboutUs.index');
+Route::get('/contact', [App\Http\Controllers\User\UserController::class, 'Contact'])->name('user.pages.Contact.index');
 Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchPrice'])->name('product.searchPrice');
 Route::get('/product.findByNamePro',[App\Http\Controllers\User\UserController::class ,'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
@@ -59,6 +63,8 @@ Route::group(['prefix'=>'manager'],function(){
     Route::post('/remove-notificate',[TuongController::class,'post_removenoti'])->name('remove_notificate');
     Route::get('/list_order',[TuongController::class,'list_allorder'])->name('allorder');
 });
+Route::get('/ajax/message/show',[TuongController::class,'get_listmessage']);
+Route::post('/ajax-post/message',[TuongController::class,'postajax_message']);
 //Login Google
 Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
 Route::get('/auth/google/callback',[GoogleAuthController::class,'callbackGoogle']);
@@ -123,57 +129,66 @@ Route::controller(IndexController::class)->group(function () {
 
 
 // =============== ROUTE ADMIN =============== //
-
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
-Route::controller(AdminCategoryController::class)->group(function () {
-    Route::get('/admin/category',                       'index')->name('adminCategories');
-    Route::get('/admin/category/find-by-name',          'findByName')->name('category.findByName');
-    Route::get('/admin/category/create',                'create')->name('adminAddCategories');
-    Route::post('/admin/category/store',                'store')->name('adminStoreCategories');
-    Route::get('/admin/category/detail/{id_type}',      'show')->name('adminShowCategory');
-    Route::get('/admin/category/edit/{id_type}',        'edit')->name('adminEditCategory');
-    Route::put('/admin/category/update/{id_type}',      'update')->name('adminUpdateCategory');
-    Route::delete('/admin/category/delete/{id_type}',   'delete')->name('adminDeleteCategory');
+Route::get('/admin/signin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
+Route::get('/admin',[TuongController::class,'get_admin_signin'])->name('admin_signin');
+Route::post('/admin/signin',[TuongController::class,'post_admin_signin'])->name('admin_signin');
+Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
+    
+    
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    
+    Route::controller(AdminCategoryController::class)->group(function () {
+        Route::get('/category',                       'index')->name('adminCategories');
+        Route::get('/category/find-by-name',          'findByName')->name('category.findByName');
+        Route::get('/category/create',                'create')->name('adminAddCategories');
+        Route::post('/category/store',                'store')->name('adminStoreCategories');
+        Route::get('/category/detail/{id_type}',      'show')->name('adminShowCategory');
+        Route::get('/category/edit/{id_type}',        'edit')->name('adminEditCategory');
+        Route::put('/category/update/{id_type}',      'update')->name('adminUpdateCategory');
+        Route::delete('/category/delete/{id_type}',   'delete')->name('adminDeleteCategory');
+    });
+    
+    
+    Route::controller(AdminProductController::class)->group(function () {
+        Route::get('/products',                           'index')->name('adminProduct');
+        Route::get('/products/find-by-name',              'findByNameP')->name('product.findByName');
+        Route::get('/products/create',                    'create')->name('adminAddProduct');
+        Route::post('/products/store',                    'store')->name('admin.product.store');
+        Route::get('/products/detail/{id_product}',       'show')->name('adminShowProduct');
+        Route::get('/products/edit/{id_product}',         'edit')->name('adminEditProduct');
+        Route::put('/products/update/{id_product}',       'update')->name('adminUpdateProduct');
+        Route::delete('/products/delete/{id_product}',    'delete')->name('adminDeleteProduct');
+    });
+    
+    
+    Route::controller(AdminOrderController::class)->group(function () {
+        Route::get('/order',                      'index')->name('adminOrder');
+        Route::get('/order/find-by-name',         'findByNameO')->name('orther.findByName');
+        Route::get('/order/detail/{id_order}',    'show')->name('adminShowOrther');
+    });
+    
+    
+    Route::controller(AdminCustomerController::class)->group(function () {
+        Route::get('/customer',   'index')->name('adminCustomers');
+    });
+    
+    
+    Route::controller(AdminReviewController::class)->group(function () {
+        Route::get('/review',                 'index')->name('adminReviews');
+        Route::get('/review/find-by-name',    'findByName')->name('review.findByName');
+    });
+    
+    
+    Route::controller(AdminBannerController::class)->group(function () {
+        Route::get('/banners',                        'index')->name('adminBanners');
+        Route::get('/banners/detail/{id_banner}',     'show')->name('adminShowBanners');
+        Route::get('/banners/edit/{id_banner}',       'edit')->name('adminEditBanners');
+        Route::put('/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
+    });
+    
+    Route::get('{path?}',[TuongController::class,'get_admin_signin'])->where('path','.*');
+    // =============== END ROUTE ADMIN =============== //
 });
-
-
-Route::controller(AdminProductController::class)->group(function () {
-    Route::get('/admin/products',                           'index')->name('adminProduct');
-    Route::get('/admin/products/find-by-name',              'findByNameP')->name('product.findByName');
-    Route::get('/admin/products/create',                    'create')->name('adminAddProduct');
-    Route::post('/admin/products/store',                    'store')->name('admin.product.store');
-    Route::get('/admin/products/detail/{id_product}',       'show')->name('adminShowProduct');
-    Route::get('/admin/products/edit/{id_product}',         'edit')->name('adminEditProduct');
-    Route::put('/admin/products/update/{id_product}',       'update')->name('adminUpdateProduct');
-    Route::delete('/admin/products/delete/{id_product}',    'delete')->name('adminDeleteProduct');
-});
-
-
-Route::controller(AdminOrderController::class)->group(function () {
-    Route::get('/admin/order',                      'index')->name('adminOrder');
-    Route::get('/admin/order/find-by-name',         'findByNameO')->name('orther.findByName');
-    Route::get('/admin/order/detail/{id_order}',    'show')->name('adminShowOrther');
-});
-
-
-Route::controller(AdminCustomerController::class)->group(function () {
-    Route::get('/admin/customer',   'index')->name('adminCustomers');
-});
-
-
-Route::controller(AdminReviewController::class)->group(function () {
-    Route::get('/admin/review',                 'index')->name('adminReviews');
-    Route::get('/admin/review/find-by-name',    'findByName')->name('review.findByName');
-});
-
-
-Route::controller(AdminBannerController::class)->group(function () {
-    Route::get('/admin/banners',                        'index')->name('adminBanners');
-    Route::get('/admin/banners/detail/{id_banner}',     'show')->name('adminShowBanners');
-    Route::get('/admin/banners/edit/{id_banner}',       'edit')->name('adminEditBanners');
-    Route::put('/admin/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
-});
-
-
-// =============== END ROUTE ADMIN =============== //
+// =============== 404 Page ===================== //
+Route::get('/{path}',[TuongController::class,'get_404'])->where('path','.*');
+// =============== END 404 Page ===================== //

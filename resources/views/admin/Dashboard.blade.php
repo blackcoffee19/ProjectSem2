@@ -7,12 +7,7 @@
                 <div class="col-md-12">
                     <!-- card -->
                     <div class="card bg-light border-0 rounded-4"
-                        style="
-            background-image: url({{ asset('images/slider/slider-image-1.jpg') }});
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: right;
-          ">
+                        style=" background-image: url({{ asset('images/slider/slider-image-1.jpg') }}); background-repeat: no-repeat; background-size: cover; background-position: right; ">
                         <div class="card-body p-lg-12">
                             <h1>Welcome back! FreshCart</h1>
                             <p>
@@ -25,6 +20,7 @@
                 </div>
             </div>
             <!-- table -->
+
 
             <div class="row">
                 <div class="col-lg-4 col-12 mb-6">
@@ -43,8 +39,9 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">$93,438.78</h1>
-                                <span>Monthly revenue</span>
+                                <h1 class="mb-2 fw-bold fs-2">{{ number_format($income[count($income) - 1], 0, '', ' ') }} VND
+                                </h1>
+                                <span>Monthly revenue</span><br>
                             </div>
                         </div>
                     </div>
@@ -65,8 +62,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">42,339</h1>
-                                <span><span class="text-dark me-1">35+</span>New Sales</span>
+                                <h1 class="mb-2 fw-bold fs-2">{{ $order_y }}</h1>
+                                <span><span class="text-dark me-1">{{ $sale_pro }}+</span>New Sales</span>
                             </div>
                         </div>
                     </div>
@@ -87,9 +84,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">39,354</h1>
-                                <span><span class="text-dark me-1">30+</span>new in 2
-                                    days</span>
+                                <h2 class="mb-2 ">{{ $customer }}</h2>
+                                <span class="text-dark me-1">User: {{ $users }}</span>
                             </div>
                         </div>
                     </div>
@@ -106,16 +102,16 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h3 class="mb-1 fs-5">Revenue</h3>
-                                    <small>(+63%) than last year)</small>
+                                    {{-- <small>(+63%) than last year</small> --}}
                                 </div>
                                 <div>
                                     <!-- select option -->
-                                    <select class="form-select">
-                                        <option selected>2019</option>
-                                        <option value="2023">2020</option>
-                                        <option value="2024">2021</option>
-                                        <option value="2025">2022</option>
-                                        <option value="2025">2023</option>
+                                    <select class="form-select" id="select_year">
+                                        <option value="2023"
+                                            {{ isset($year) ? (intval($year) == 2023 ? 'selected' : '') : 'selected' }}>2023
+                                        </option>
+                                        <option value="2022"
+                                            {{ isset($year) ? (intval($year) == 2022 ? 'selected' : '') : '' }}>2022</option>
                                     </select>
                                 </div>
                             </div>
@@ -130,7 +126,7 @@
                         <!-- card body -->
                         <div class="card-body p-6">
                             <!-- heading -->
-                            <h3 class="mb-0 fs-5">Total Sales</h3>
+                            <h3 class="mb-0 fs-5">Total Orders</h3>
                             <div id="totalSale" class="mt-6 d-flex justify-content-center"></div>
                             <div class="mt-4">
                                 <!-- list -->
@@ -140,32 +136,33 @@
                                             fill="currentColor" class="bi bi-circle-fill text-primary" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Shippings $32.98</span>
-                                            (2%)</span>
+                                        <span class="ms-1"><span class="text-dark">Finished {{ $arr_order[0] }}</span>
+                                            ({{ number_format(($arr_order[0] / array_sum($arr_order)) * 100, 0, '', '') }}%)</span>
                                     </li>
                                     <li class="mb-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-warning" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Refunds $11</span>
-                                            (11%)</span>
+                                        <span class="ms-1"><span class="text-dark">Cancel {{ $arr_order[1] }}</span>
+                                            ({{ number_format(($arr_order[1] / array_sum($arr_order)) * 100, 0, '', '') }}%)</span>
                                     </li>
                                     <li class="mb-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-danger" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Order $14.87</span>
-                                            (1%)</span>
+                                        <span class="ms-1"><span class="text-dark">Transaction Failed
+                                                {{ $arr_order[2] }}</span>
+                                            ({{ number_format(($arr_order[2] / array_sum($arr_order)) * 100, 0, '', '') }}%)</span>
                                     </li>
                                     <li>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                             fill="currentColor" class="bi bi-circle-fill text-info" viewBox="0 0 16 16">
                                             <circle cx="8" cy="8" r="8" />
                                         </svg>
-                                        <span class="ms-1"><span class="text-dark">Income 3,271</span>
-                                            (86%)</span>
+                                        <span class="ms-1"><span class="text-dark">Order {{ $arr_order[3] }}</span>
+                                            ({{ number_format(($arr_order[3] / array_sum($arr_order)) * 100, 0, '', '') }}%)</span>
                                     </li>
                                 </ul>
                             </div>
@@ -178,24 +175,29 @@
                 <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
                     <!-- card -->
                     <div class="card h-100 card-lg">
-                        <!-- card body -->
                         <div class="card-body p-6">
                             <h3 class="mb-0 fs-5">Sales Overview</h3>
                             <div class="mt-6">
-                                <!-- text -->
+
                                 <div class="mb-5">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Profit</h5>
-                                        <span><span class="me-1 text-dark">$1,619</span>
-                                            (8.6%)</span>
+                                        <span><span
+                                                class="me-1 text-dark">{{ $income[count($income) - 1] - $expense[count($expense) - 1] }}
+                                                đ</span>
+                                            ({{ number_format((($income[count($income) - 1] - $expense[count($expense) - 1]) / (array_sum($income) - array_sum($expense))) * 100, 1, '.', '') }}%)</span>
                                     </div>
                                     <!-- main wrapper -->
                                     <div>
+                                        @php
+                                            $num_pr = (($income[count($income) - 1] - $expense[count($expense) - 1]) / (array_sum($income) - array_sum($expense))) * 100;
+                                        @endphp
                                         <!-- progressbar -->
                                         <div class="progress bg-light-primary" style="height: 6px">
                                             <div class="progress-bar bg-primary" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 25%" aria-valuenow="25"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                                aria-label="Example 1px high" style="width: {{ $num_pr }}%;"
+                                                aria-valuenow="{{ $num_pr }}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -203,15 +205,19 @@
                                     <!-- text -->
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Income</h5>
-                                        <span><span class="me-1 text-dark">$3,571</span>
-                                            (86.4%)</span>
+                                        <span><span class="me-1 text-dark">{{ $income[count($income) - 1] }} đ</span>
+                                            ({{ number_format(($income[count($income) - 1] / array_sum($income)) * 100, 1, '.', '') }}%)</span>
                                     </div>
                                     <div>
                                         <!-- progressbar -->
+                                        @php
+                                            $num_in = ($income[count($income) - 1] / array_sum($income)) * 100;
+                                        @endphp
                                         <div class="progress bg-info-soft" style="height: 6px">
                                             <div class="progress-bar bg-info" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 88%" aria-valuenow="88"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                                aria-label="Example 1px high" style="width: {{ $num_in }}%;"
+                                                aria-valuenow="{{ $num_in }}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -219,15 +225,19 @@
                                     <!-- text -->
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Expenses</h5>
-                                        <span><span class="me-1 text-dark">$3,430</span>
-                                            (74.5%)</span>
+                                        <span><span class="me-1 text-dark">{{ $expense[count($expense) - 1] }} đ</span>
+                                            ({{ number_format(($expense[count($expense) - 1] / array_sum($expense)) * 100, 1, '.', '') }}%)</span>
                                     </div>
                                     <div>
+                                        @php
+                                            $num_ex = ($expense[count($expense) - 1] / array_sum($expense)) * 100;
+                                        @endphp
                                         <!-- progressbar -->
                                         <div class="progress bg-light-danger" style="height: 6px">
                                             <div class="progress-bar bg-danger" role="progressbar"
-                                                aria-label="Example 1px high" style="width: 45%" aria-valuenow="45"
-                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                                aria-label="Example 1px high" style="width: {{ $num_ex }}%"
+                                                aria-valuenow="{{ $num_ex }}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -306,58 +316,51 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th scope="col">Order Number</th>
-                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Order from</th>
                                             <th scope="col">Order Date</th>
                                             <th scope="col">Price</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>#FC0005</td>
-                                            <td>Haldiram's Sev Bhujia</td>
-                                            <td>28 March 2023</td>
-                                            <td>$18.00</td>
-                                            <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Shipped</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0004</td>
-                                            <td>NutriChoice Digestive</td>
-                                            <td>24 March 2023</td>
-                                            <td>$24.00</td>
-                                            <td>
-                                                <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0003</td>
-                                            <td>Onion Flavour Potato</td>
-                                            <td>8 Feb 2023</td>
-                                            <td>$9.00</td>
-                                            <td>
-                                                <span class="badge bg-light-danger text-dark-danger">Cancel</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0002</td>
-                                            <td>Blueberry Greek Yogurt</td>
-                                            <td>20 Jan 2023</td>
-                                            <td>$12.00</td>
-                                            <td>
-                                                <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>#FC0001</td>
-                                            <td>Slurrp Millet Chocolate</td>
-                                            <td>14 Jan 2023</td>
-                                            <td>$8.00</td>
-                                            <td>
-                                                <span class="badge bg-light-info text-dark-info">Processing</span>
-                                            </td>
-                                        </tr>
+                                        @foreach ($recent_orders as $order)
+                                            <tr>
+                                                <td>#{{ $order->order_code }}</td>
+                                                <td>{{ $order->id_user ? $order->User->name : 'GUEST' }}</td>
+                                                <td>{{ date_format($order->created_at, 'j F Y') }}</td>
+                                                <td>{{ number_format($order->total, 0, '', ' ') }} đ</td>
+                                                <td>
+                                                    @switch($order->status)
+                                                        @case('finished')
+                                                            <span class="badge bg-light-primary text-dark-primary"> Shipped </span>
+                                                        @break
+
+                                                        @case('confirmed')
+                                                            <span class="badge bg-light-info text-dark-info">Processing</span>
+                                                        @break
+
+                                                        @case('unconfirmed')
+                                                            <span class="badge bg-light-warning text-dark-warning">Pending</span>
+                                                        @break
+
+                                                        @case('delivery')
+                                                            <span class="badge bg-light-info text-dark-info">Delivery</span>
+                                                        @break
+
+                                                        @case('cancel')
+                                                            <span class="badge bg-light-danger text-dark-danger">Cancel</span>
+                                                        @break
+
+                                                        @case('transaction failed')
+                                                            <span class="badge bg-light-danger text-dark">Transaction Failed</span>
+                                                        @break
+
+                                                        @default
+                                                    @endswitch
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
@@ -370,11 +373,13 @@
     </main>
 @endsection
 
-{{-- @extends('admin.partials.master')
-@section('admin-content')
-    <main>
-        ...
-    </main>
-@endsection --}}
-
-{{-- <i class="fa-solid fa-ellipsis-vertical fs-5"></i> --}}
+@section('admin-script')
+    <script>
+        $(document).ready(function() {
+            $("#select_year").change(function() {
+                window.location.assign(window.location.origin + "/ProjectSem2/public/admin/dashboard?y=" +
+                    $(this).val());
+            })
+        })
+    </script>
+@endsection

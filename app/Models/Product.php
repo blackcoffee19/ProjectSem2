@@ -42,4 +42,7 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class, 'id_product', 'id_product');
     }
+    public function Expense(){
+        return $this->hasMany(Expense::class, 'id_product', 'id_product');
+    }
 }

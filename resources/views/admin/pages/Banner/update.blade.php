@@ -125,11 +125,11 @@
                                                 <div class="col-6">
                                                     <input type="text" class="form-control"
                                                         value="{{ $id_banner->title }}" id="textTitle"
-                                                        onblur="changeText()" name="title">
+                                                        oninput="changeText()" name="title">
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
-                                                        id="colorTitle" onblur="changeColor()" name="title_color">
+                                                        id="colorTitle" oninput="changeColor()" name="title_color">
                                                 </div>
                                             </div>
                                             <hr>
@@ -138,11 +138,11 @@
                                                 <div class="col-6">
                                                     <input type="text" class="form-control"
                                                         value="{{ $id_banner->content }}" id="textContent"
-                                                        onblur="changeText()" name="content">
+                                                        oninput="changeText()" name="content">
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
-                                                        id="colorContent" onblur="changeColor()" name="content_color">
+                                                        id="colorContent" oninput="changeColor()" name="content_color">
                                                 </div>
                                             </div>
                                             <hr>
@@ -151,17 +151,17 @@
                                                 <div class="col-6">
                                                     <input type="text" class="form-control"
                                                         value="{{ $id_banner->btn_content }}" id="textButton"
-                                                        onblur="changeText()" name="btn_content">
+                                                        oninput="changeText()" name="btn_content">
                                                 </div>
                                                 <div class="col-6">
                                                     <div style="float:left;">
                                                         <input type="color" class="form-control form-control-color"
-                                                            id="colorBackgroundButton" onblur="changeColor()"
+                                                            id="colorBackgroundButton" oninput="changeColor()"
                                                             name="btn_bg_color">
                                                     </div>
                                                     <div>
                                                         <input type="color" class="form-control form-control-color"
-                                                            id="colorButton" onblur="changeColor()" name="btn_color">
+                                                            id="colorButton" oninput="changeColor()" name="btn_color">
                                                     </div>
                                                 </div>
                                             </div>

@@ -31,7 +31,8 @@
 
                     <div class="col-6 mx-auto">
                         <div class="ps-lg-10 mt-6 mt-md-0">
-                            <a href="#!" class="mb-4 d-block">{{ $product->TypeProduct->type }}</a>
+                            <a href="{{ Route('userShowProductCatagory', $product->id_type) }}"
+                                class="mb-4 d-block">{{ $product->TypeProduct->type }}</a>
                             <h1 class="mb-1 text-capitalize">{{ $product->name }}</h1>
                             <div class="mb-4">
                                 <small class="text-warning">
@@ -61,20 +62,23 @@
                             <div class="fs-4">
                                 @if ($product->sale > 0)
                                     <span
-                                        class="fw-bold text-dark fs-5">{{ number_format($product->price * (1 - $product->sale / 100), 0, '.', ' ') }} </span>
+                                        class="fw-bold text-dark fs-5">{{ number_format($product->price * (1 - $product->sale / 100), 0, '.', ' ') }}
+                                    </span>
                                     <span
-                                        class="text-decoration-line-through text-muted">${{ number_format($product->price, 0) }}</span><small> đ/kg</small>
+                                        class="text-decoration-line-through text-muted">${{ number_format($product->price, 0) }}</span><small>
+                                        đ/kg</small>
                                     <span>
                                         <small class="fs-6 ms-2 text-danger">{{ number_format($product->sale, 0) }}%
                                             Off</small>
                                     </span>
                                 @else
-                                    <span
-                                        class="fw-bold text-dark fs-5">{{ number_format($product->price, 0, '.', ' ') }} đ/kg</span>
+                                    <span class="fw-bold text-dark fs-5">{{ number_format($product->price, 0, '.', ' ') }}
+                                        đ/kg</span>
                                 @endif
                             </div>
                             <hr class="my-6">
-                            <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left: {{number_format($product->quantity,0,'',' ')}} grams</button>
+                            <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left:
+                                    {{ number_format($product->quantity, 0, '', ' ') }} grams</button>
                             </div>
                             <form action="{{ route('products-details', [$product->id_product]) }}" method="post">
                                 @csrf
@@ -122,7 +126,7 @@
                             <hr class="my-6">
                             <div>
                                 <table class="table table-borderless mb-0">
-    
+
                                     <tbody>
                                         <tr>
                                             <td>Product Code:</td>
@@ -152,11 +156,11 @@
                                                     <span class="text-muted">( Free pickup today)</span></small>
                                             </td>
                                         </tr>
-    
-    
+
+
                                     </tbody>
                                 </table>
-    
+
                             </div>
                             <div class="mt-8">
                                 <!-- dropdown -->
@@ -165,7 +169,7 @@
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         Share <i class="fa-solid fa-chevron-right"></i>
                                     </a>
-    
+
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#"><i
                                                     class="bi bi-facebook me-2"></i>Facebook</a></li>
@@ -304,7 +308,7 @@
                                                                 </div>
                                                             </div>
                                                             <span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -321,7 +325,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -338,7 +342,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -355,7 +359,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -372,7 +376,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center mb-2">
@@ -484,7 +488,8 @@
                                                                     value="{{ $product->id_product }}">
                                                                 <div id="printf"></div>
                                                                 <div class="mb-3">
-                                                                    <textarea name="comment" id="input_comment"rows="2" class="form-control" placeholder="What do you think about this product?"></textarea>
+                                                                    <textarea name="comment" id="input_comment"rows="2" class="form-control"
+                                                                        placeholder="What do you think about this product?"></textarea>
                                                                 </div>
                                                                 <div class="d-flex flex-row justify-content-between">
                                                                     <span class="text-black-50 count-word"></span>
@@ -503,7 +508,7 @@
                                                 @else
                                                     @foreach ($comments as $cmt)
                                                         <div class="row border-bottom pb-6 mb-6">
-                                                            @if ($cmt->id_user &&$cmt->User->avatar)
+                                                            @if ($cmt->id_user && $cmt->User->avatar)
                                                                 <img src="{{ asset('images/avatar/' . $cmt->User->avatar) }}"
                                                                     class="rounded-circle avatar-lg col-2 p-0">
                                                             @else
@@ -536,7 +541,7 @@
                                                                     </div>
                                                                 @endif
                                                                 <p class="current_cmt">{{ $cmt->context }}</p>
-                                                                
+
                                                                 <div class="collapse"
                                                                     id="collapseEdit{{ $cmt->id_comment }}">
                                                                     <form
@@ -642,8 +647,7 @@
                                                             @if (Auth::check() && $cmt->id_user != Auth::user()->id_user)
                                                                 <div class="d-flex justify-content-end  mt-4 col-12">
                                                                     <a href="#" class="text-muted">
-                                                                        <i
-                                                                            class="bi bi-hand-thumbs-up me-2"></i>Like</a>
+                                                                        <i class="bi bi-hand-thumbs-up me-2"></i>Like</a>
                                                                     <a href="#" class="text-muted ms-4">
                                                                         <i class="bi bi-flag me-2"></i>Report abuse</a>
                                                                 </div>
@@ -704,7 +708,8 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="text-small mb-1"><a href="#!"
+                                    <div class="text-small mb-1"><a
+                                            href="{{ Route('userShowProductCatagory', $product->id_type) }}"
                                             class="text-decoration-none text-muted"><small>{{ $re_product->TypeProduct->type }}</small></a>
                                     </div>
                                     <h2 class="fs-6">
@@ -742,10 +747,12 @@
                                                 <span
                                                     class="text-dark">{{ number_format($re_product->price * (1 - $re_product->sale / 100), 0, '.', ' ') }}</span>
                                                 <span
-                                                    class="text-decoration-line-through text-muted">{{ number_format($re_product->price, 0, '.', ' ') }}</span> <small> đ/kg</small>
+                                                    class="text-decoration-line-through text-muted">{{ number_format($re_product->price, 0, '.', ' ') }}</span>
+                                                <small> đ/kg</small>
                                             @else
                                                 <span
-                                                    class="text-dark">${{ number_format($re_product->price, 2, '.', ' ') }} đ/kg</span>
+                                                    class="text-dark">${{ number_format($re_product->price, 2, '.', ' ') }}
+                                                    đ/kg</span>
                                             @endif
                                         </div>
                                         <div>

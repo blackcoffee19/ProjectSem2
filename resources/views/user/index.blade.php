@@ -247,8 +247,7 @@
                                         </a>
                                     </div>
                                     <h2 class="fs-6"><a href="{{ route('products-details',$product->id_product) }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
-                                    
-                                    <div class="d-flex justify-content-between align-items-center mt-3 flex-nowrap">
+                                    <div class="d-flex flex-column justify-content-between align-items-center mt-3 flex-nowrap">
                                         <div>
                                             @if ($product->sale >0)
                                                 <span class="text-danger fs-4">{{number_format($product->price*(1-$product->sale/100),0,'',' ')}}</span><small> đ/kg</small>
@@ -277,7 +276,8 @@
                                               @endfor
                                               <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
                                         </div>
-                                        <div class="d-grid mt-2"><button data-bs-id="{{ $product->id_product }}"
+                                        <div class="d-grid mt-2">
+                                            <button data-bs-id="{{ $product->id_product }}"
                                                 type="button" class="btn btn-primary btn addToCart">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -287,7 +287,9 @@
                                                     </line>
                                                     <line x1="5" y1="12" x2="19" y2="12">
                                                     </line>
-                                                </svg> Add to cart </button></div>
+                                                </svg> Add to cart 
+                                            </button>
+                                        </div>
                                         <div class="d-flex justify-content-start text-center mt-3">
                                             <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
                                             </div>
@@ -295,6 +297,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         @endforeach
 
                     </div>

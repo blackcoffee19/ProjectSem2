@@ -380,7 +380,7 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(
+                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(
                     this).data('idadd'));
             });
             $('input[name="select_address"]').change(function(){

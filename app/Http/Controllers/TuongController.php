@@ -1108,7 +1108,7 @@ class TuongController extends Controller
         $order->save();
         switch($req['status_order']){
             case "finished":
-                if(preg_match("/gut/i",$order->order_code) == 1){
+                if($order->id_user == null){
                     foreach($order->Cart as $cart){
                         $comment = new Comment();
                         $comment->id_product = $cart->id_product;

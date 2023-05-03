@@ -26,3 +26,9 @@ git merge branch-you-want-merge
 3. fix hình ảnh trang order trong admin + link detail list sản phẩm trang order list
 
 ===///===
+
+>> 3/5
+1. Gộp code about & contact của Quân
+2. fix lại giá trong order admin
+
+===///===

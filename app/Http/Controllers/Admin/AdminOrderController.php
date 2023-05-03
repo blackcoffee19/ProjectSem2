@@ -47,8 +47,6 @@ class AdminOrderController extends Controller
         $id_order = Order::where('order_code', $orderCode)->first();
 
         $cartItems = Cart::where('order_code', $orderCode)
-            ->join('library', 'cart.id_product', '=', 'library.id_product')
-            ->select('cart.*', 'library.image')
             ->get();
 
         return view('admin.pages.Order.single', compact('id_order', 'cartItems'));

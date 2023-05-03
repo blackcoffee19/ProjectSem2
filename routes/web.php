@@ -31,6 +31,10 @@ Route::get('success-transaction', [PayPalController::class, 'successTransaction'
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 // =============== ROUTE USER =============== //
 
+Route::get('/user.pages.Contact.mail', [App\Http\Controllers\User\UserController::class, 'Mail'])->name('user.pages.Contact.mail');
+Route::post('/user/send-mail', [UserController::class, 'sendMail'])->name('user.sendMail');
+Route::get('/aboutUs', [App\Http\Controllers\User\UserController::class, 'AboutUs'])->name('user.pages.AboutUs.index');
+Route::get('/contact', [App\Http\Controllers\User\UserController::class, 'Contact'])->name('user.pages.Contact.index');
 Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchPrice'])->name('product.searchPrice');
 Route::get('/product.findByNamePro',[App\Http\Controllers\User\UserController::class ,'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');

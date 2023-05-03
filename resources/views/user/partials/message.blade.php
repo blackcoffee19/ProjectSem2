@@ -6,6 +6,7 @@
         </a>
         <div class="dropdown-menu pt-0" style="background-color:  transparent">
             <div class="btn-group" style="background: transparent">
+                @if (isset($groups))
                 @foreach ($groups as $group)
                 <a class="ms-3 show_chat" data-groupcode="{{$group->code_group}}" data-iduser="" style="width:60px;height: 60px;">
                     @if ($group->User->avatar)
@@ -15,6 +16,7 @@
                     @endif
                 </a>
                 @endforeach
+                @endif
                 @foreach ($user_message as $user)
                 <a class="ms-3 show_chat" data-groupcode="" data-iduser="{{$user->id_user}}" style="width:60px;height: 60px;">
                     @if ($user->image)

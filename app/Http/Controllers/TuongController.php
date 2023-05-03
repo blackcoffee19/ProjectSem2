@@ -1282,11 +1282,17 @@ class TuongController extends Controller
                 $mess->save();
             };
         };
+        $product_share =Product::find(intval($req['send_message'])); 
+        if($product_share){
+            $str = "<a href='".route('products-details',intval($req['send_message']))."'>".$product_share->name."</a>";
+        }else{
+            $str = $req['send_message'];
+        }
         $new_message->code_group = $code;
         $new_message->id_user = Auth::user()->id_user;
-        $new_message->message = $req['send_message'];
+        $new_message->message = $str;
         $new_message->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $new_message->save();
-        echo $req['send_message'];
+        echo $str;
     }
 }

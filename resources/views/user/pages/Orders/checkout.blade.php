@@ -238,7 +238,11 @@
                         @if (Auth::check())
                         <div class="row align-items-center">
                           <div class="col-2 col-md-2">
+                            @if (count($item->Product->Library)>0)
                             <img src="{{asset('images/products/'.$item->Product->Library[0]->image)}}" alt="Ecommerce" class="img-fluid">    
+                            @else
+                            <img src="{{asset('images/category/'.$item->Product->TypeProduct->image)}}" alt="Ecommerce" class="img-fluid">    
+                            @endif
                           </div>
                           <div class="col-5 col-md-5">
                             <h6 class="mb-0">{{$item->Product->name}}</h6>

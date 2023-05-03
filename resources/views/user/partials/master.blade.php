@@ -32,6 +32,7 @@
     <link href="{{ asset('css/slick-theme.css') }}" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="{{asset('../resources/css/pagination.css')}}">
     <link href="{{asset('../node_modules/slick-carousel/slick/slick.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="{{asset('../node_modules/slick-carousel/slick/slick-theme.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -68,6 +69,7 @@
     @include('user.partials.footer')
     <!-- Libs JS -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="{{ asset('js/simplebar.min.js') }}"></script>
     <!-- Theme JS -->

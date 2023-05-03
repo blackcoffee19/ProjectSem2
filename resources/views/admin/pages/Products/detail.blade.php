@@ -203,6 +203,10 @@
                                                 </div> --}}
                                             </div>
                                         </div>
+                                        <div class="card-footer mt-3">
+                                            <a href="#!" onclick="history.back()" class="me-4 btn btn-dark" style="width: 70px">Back</a>
+                                            <a href="{{route('adminEditProduct', $id_product->id_product)}}" class="me-4 btn btn-warning">Edit Product</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

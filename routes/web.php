@@ -152,8 +152,9 @@ Route::group(['prefix'=>'admin', 'middleware'=>'AdminLogin'],function(){
         Route::post('/products/store',                    'store')->name('admin.product.store');
         Route::get('/products/detail/{id_product}',       'show')->name('adminShowProduct');
         Route::get('/products/edit/{id_product}',         'edit')->name('adminEditProduct');
-        Route::put('/products/update/{id_product}',       'update')->name('adminUpdateProduct');
+        Route::post('/products/update/{id_product}',       'update')->name('adminUpdateProduct');
         Route::delete('/products/delete/{id_product}',    'delete')->name('adminDeleteProduct');
+        Route::get('/ajax/check-product',                 'check_name');
     });
     
     

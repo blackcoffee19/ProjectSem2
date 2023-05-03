@@ -36,7 +36,11 @@
                     @foreach ($order->Cart as $cart)
                         <tr>
                             <td class="w-25">
+                                @if (count($cart->Product->Library)>0)
                                 <img src="{{asset('images/products/'.$cart->Product->Library[0]->image)}}" class="img-fluid" alt="{{$cart->Product->name}}" style="height: 200px; object-fit: contain">    
+                                @else
+                                <img src="{{asset('images/category/'.$cart->TypeProduct->image)}}" class="img-fluid" alt="{{$cart->Product->name}}" style="height: 200px; object-fit: contain">    
+                                @endif
                             </td>
                             <td class="w-25">
                                 <p>Product: <b>{{$cart->Product->name}}</b></p>

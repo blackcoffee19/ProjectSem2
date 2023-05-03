@@ -107,7 +107,11 @@
                                             @endif
                                         </div>
                                         <a href="{{route('products-details',$pro->id_product)}}"> 
-                                            <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
+                                            @if (count($pro->Library)>0)
+                                                <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
+                                            @else
+                                                <img src="{{ asset('/images/category/'.($pro->TypeProduct->image)) }}" class="mb-3 img-fluid">
+                                            @endif
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"
@@ -203,7 +207,11 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('products-details',$product->id_product) }}">
-                                        <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
+                                            @if (count($product->Library)>0)
+                                                <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
+                                            @else
+                                                <img src="{{ asset('/images/category/'.$product->TypeProduct->image) }}" class="mb-3 img-fluid">
+                                            @endif
                                         </a>
                                         <div class="card-product-action">
                                             <a  class="btn-action btn_modal" data-bs-toggle="modal"

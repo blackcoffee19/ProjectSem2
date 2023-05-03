@@ -8,15 +8,23 @@
                     <div class="col-5 ">
                         <div class="slide_wrapper">
                             <div class="slider_product product">
-                                @foreach ($product->Library as $lib)
-                                    <div class="zoom slider_item" onmousemove="zoom(event)"
-                                        style="background-image: url({{ asset('images/products/' . $lib->image) }}">
-                                        <img src="{{ asset('images/products/' . $lib->image) }}" class="img-fluid">
-                                    </div>
-                                @endforeach
+                                @if (count($product->Library)>0)
+                                    @foreach ($product->Library as $lib)
+                                        <div class="zoom slider_item" onmousemove="zoom(event)"
+                                            style="background-image: url({{ asset('images/products/' . $lib->image) }}">
+                                            <img src="{{ asset('images/products/' . $lib->image) }}" class="img-fluid">
+                                        </div>
+                                    @endforeach
+                                @else
+                                <div class="zoom slider_item" onmousemove="zoom(event)"
+                                style="background-image: url({{ asset('images/category/' . $product->TypeProduct->image) }}">
+                                <img src="{{ asset('images/category/' . $product->TypeProduct->image) }}" class="img-fluid">
+                            </div>
+                                @endif
                             </div>
                         </div>
                         <div class="product-tools ">
+                            @if (count($product->Library)>0)
                             <div class="thumbnails slider_nav row g-3" id="productThumbnails">
                                 @foreach ($product->Library as $lib)
                                     <div class="col-3">
@@ -26,6 +34,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -683,8 +692,11 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('products-details', $re_product->id_product) }}">
-                                            <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}"
-                                                alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @if (count($re_product->Library)>0)
+                                            <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @else
+                                            <img src="{{ asset('images/category/' . $re_product->TypeProduct->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @endif
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"

@@ -93,5 +93,17 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+        view()->composer(['user.partials.script'],function($view){
+            $name_product = Product::select('name','id_product')->get();
+            $arr = [];
+            foreach($name_product as $pro){
+                $arr_n=[];
+                $arr[] = (object)array(
+                'id' => $pro->id_product,
+                'name' => $pro->name
+                );
+            }
+            $view->with('name_products',$arr);
+        });
     }
 }

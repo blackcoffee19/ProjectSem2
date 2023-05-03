@@ -60,7 +60,7 @@
                                                             class="form-control @error('name') is-invalid @enderror"
                                                             name="name" value="{{ old('name') }}" required
                                                             autocomplete="name" autofocus>
-
+                                                        <span id="check_name"></span>
                                                         @error('name')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -98,7 +98,7 @@
                                                         class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                                     <div class="col-md-6">
-                                                        <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
+                                                        <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" >{{ old('description') }}</textarea>
 
                                                         @error('description')
                                                             <span class="invalid-feedback" role="alert">
@@ -243,4 +243,87 @@
                 </div>
             </div>
     </main>
+@endsection
+@section('admin-script')
+    <script>
+        $(document).ready(function(){
+            if($("input[name='name']").val().trim().length >0){
+                $.get(window.location.origin+"/public/index.php/admin/ajax/check-product?name="+$("input[name='name']").val().trim(),function(data){
+                    if(data){
+                        $('#check_name').html(`Product name <a href='${data}'>`+$("input[name='name']").val()+"</a> has existed ");
+                        $('#check_name').addClass('text-danger');
+                        $("input[name='name']").addClass('is-invalid');
+                    }else{
+                        $('#check_name').html('');
+                        $("input[name='name']").removeClass('is-invalid');
+                    }
+                })
+            }
+            $("input[name='name']").change(function(e){
+                e.preventDefault();
+                $.get(window.location.origin+"/public/index.php/admin/ajax/check-product?name="+$(this).val().trim(),function(data){
+                    if(data){
+                        $('#check_name').html(`Product name <a href='${data}'>`+$("input[name='name']").val()+"</a> has existed ");
+                        $('#check_name').addClass('text-danger');
+                        $("input[name='name']").addClass('is-invalid');
+                    }else{
+                        $('#check_name').html('');
+                        $("input[name='name']").removeClass('is-invalid');
+                    }
+                })
+            })
+            $("input[name=quantity]").on('focusout',function(e){
+                e.preventDefault();
+                let validateNum =/^\d{1,10}$/;
+                let currentVl = $(this).val();
+                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                    $(this).removeClass('is-invalid');
+                    $(this).val(currentVl);
+                }else{
+                    $(this).addClass('is-invalid');
+                    $(this).val('');
+                }
+            })
+            $("input[name=price]").on('focusout',function(e){
+                e.preventDefault();
+                let validateNum =/^\d{1,10}$/;
+                let currentVl = $(this).val();
+                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                    $(this).removeClass('is-invalid');
+                    if(currentVl<1000){
+                        currentVl *=1000;
+                    }
+                    $(this).val(currentVl);
+                }else{
+                    $(this).addClass('is-invalid');
+                    $(this).val('');
+                }
+            })
+            $("input[name=original_price]").on('focusout',function(e){
+                e.preventDefault();
+                let validateNum =/^\d{1,10}$/;
+                let currentVl = $(this).val();
+                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                    $(this).removeClass('is-invalid');
+                    if(currentVl<1000){
+                        currentVl *=1000;
+                    }
+                    $(this).val(currentVl);
+                }else{
+                    $(this).addClass('is-invalid');
+                    $(this).val('');
+                }
+            })
+            $("input[name=sale]").on('focusout',function(e){
+                e.preventDefault();
+                let validateNum =/^\d{1,10}$/;
+                let currentVl = $(this).val();
+                if(validateNum.test(currentVl) && (parseInt(currentVl) >=0)){
+                    $(this).val(currentVl);
+                }else{
+                    $(this).val(0);
+                }
+            })
+        })
+    </script>
 @endsection

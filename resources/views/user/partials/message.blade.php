@@ -1,7 +1,7 @@
 @if (Auth::check())
     @if (Auth::user()->admin != '0')
-    <div class="position-fixed dropstart position-relative"  style="right: 50px;bottom: 20px;">
-        <a class="dropdown-toggle list_mess rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false" style="bottom: 30px;">
+    <div class="position-fixed dropstart position-relative d-none d-sm-block"  style="right: 50px;bottom: 20px;">
+        <a class="dropdown-toggle list_mess rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false" style="width:60px;height: 60px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
         </a>
         <div class="dropdown-menu pt-0" style="background-color:  transparent">
@@ -46,9 +46,9 @@
         </div>
     </div>
     @else
-    <div class="position-fixed  dropstart position-relative"  style="right: 50px;bottom: 20px;">
-        <a class="dropdown-toggle list_mess rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false" style="bottom: 30px;" data-bs-offset="0,0">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
+    <div class="position-fixed  dropstart position-relative d-none d-sm-block"  style="right: 50px;bottom: 20px;">
+        <a class="dropdown-toggle list_mess rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false" style="bottom: 30px;" data-bs-offset="0,0"  style="width:60px;height: 60px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
         </a>
         <div class=" dropdown-menu pt-0"  style="background: transparent">
           <div class="btn-group" style="background: transparent; height: 60px;">
@@ -88,10 +88,9 @@
     </div>
     @endif
 @else
-    <div class="position-fixed  bottom-0 end-0 p-3 "style="right: 50px;bottom: 20px;" >
+    <div class="position-fixed  bottom-0 end-0 p-3 d-none d-sm-block"style="right: 50px;bottom: 20px;" >
             <a href="#!" class="btn shadow rounded-circle" data-bs-toggle="modal" data-bs-target="#userModal" style="width:60px;height: 60px;" >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
-
             </a>
     </div>
 @endif

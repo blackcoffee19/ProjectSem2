@@ -17,22 +17,24 @@ class AdminProductController extends Controller
 {
     public function index()
     {
-        $prods = Product::all(); // paginate(10)
+        $prods = Product::paginate(10);
         $types = TypeProduct::all();
-        return view('admin.pages.Products.index', compact('prods', 'types'));
+        $pagination = true;
+        return view('admin.pages.Products.index', compact('prods', 'types','pagination'));
     }
 
     public function findByNameP(Request $request)
     {
         $name = $request->name;
-        $status = $request->status;
+        $type_product = $request->type_product;
+        $status_sl = $request->status_sl == "true"? true:false;
         $prods = Product::where('name', 'like', '%' . $name . '%')
-            ->when($status, function ($query, $status) {
-                return $query->where('id_type', $status);
-            })->get();
+            ->when($type_product, function ($query, $type_product) {
+                return $query->where('id_type', $type_product);
+            })->where('status','=',$status_sl)->get();
 
         $types = TypeProduct::all();
-        return view('admin.pages.Products.index', compact('prods', 'types'));
+        return view('admin.pages.Products.index', compact('prods', 'types','type_product','status_sl'));
     }
 
     public function create()
@@ -40,7 +42,16 @@ class AdminProductController extends Controller
         $types = TypeProduct::all();
         return view('admin.pages.Products.create', compact('types'));
     }
-
+    public function check_name(Request $req){
+        $product = Product::where('name','=',$req['name'])->first();
+        $id = null;
+        if($product){
+            $id = $product->id_product;
+            echo route('adminShowProduct',$id);
+        }else{
+            echo $id;
+        }
+    }
     public function store(Request $request)
     {
         $product = new Product();
@@ -51,7 +62,7 @@ class AdminProductController extends Controller
         // $product->original_price = $request->original_price;
         $product->price = $request->price;
         $product->sale = $request->sale;
-        $product->Carbon::now()->format('Y-m-d H:i:s');
+        $product->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $product->save();
         $productId = $product->id_product;
         $expense = new Expense();
@@ -107,6 +118,9 @@ class AdminProductController extends Controller
         // $product->original_price = $request->original_price;
         $product->price = $request->price;
         $product->sale = $request->sale;
+        if(!isset($request->status)){
+            $product->status = false;
+        }
         $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $product->save();
         if(isset($request->remove_image)){

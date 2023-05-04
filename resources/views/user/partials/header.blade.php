@@ -290,7 +290,8 @@
                                             </span>
                                         </a>
                                     </div>
-                                    @else
+                                @endif
+                                @if(!Auth::check() || Auth::user()->admin == '0')
                                         <div class="list-inline-item">
 
                                             <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
@@ -619,7 +620,8 @@
                                 </span>
                             </a>
                         </div>
-                        @else
+                        @endif
+                        @if(!Auth::check() || Auth::user()->admin == '0')
                         <div>
                             <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
                                 role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"

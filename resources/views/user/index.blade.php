@@ -16,10 +16,10 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                <a href="{{ route($slide->link, $slide->attr) }}"
-                                    class="btn btn-dark mt-3">{{ $slide->btn_content }}
+                                <a href="" class="btn btn-dark mt-3">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
+                                {{-- {{ route($slide->link, $slide->attr) }} --}}
                             </div>
                         </div>
                     @endforeach

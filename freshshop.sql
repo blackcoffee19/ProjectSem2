@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 02, 2023 lúc 09:42 PM
+-- Thời gian đã tạo: Th5 04, 2023 lúc 04:29 AM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.2.0
 
@@ -436,7 +436,8 @@ INSERT INTO `cart` (`id_cart`, `order_code`, `id_user`, `id_product`, `price`, `
 (329, NULL, 4, 12, 18000, 45, 600, '2023-04-30 23:00:00', NULL),
 (330, NULL, 4, 16, 220000, 10, 900, '2023-04-30 23:00:00', NULL),
 (331, NULL, 2, 16, 220000, 10, 460, '2023-04-30 23:00:00', NULL),
-(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL);
+(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL),
+(335, NULL, 9, 26, 330000, 1, 200, '2023-05-03 10:58:47', '2023-05-03 10:58:47');
 
 -- --------------------------------------------------------
 
@@ -733,7 +734,7 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`id_coupon`, `title`, `code`, `discount`, `max`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'New Member', 'NEWMEM', 40, 1, 1, '2022-01-28 17:00:00', NULL),
+(1, 'New Member', 'NEWMEM', 5000, 1, 1, '2022-01-28 17:00:00', NULL),
 (2, 'Wednesday', 'WEDNESDAY22', 50, 1, 0, '2022-11-22 17:00:00', NULL),
 (3, 'Merry Chirstmast', 'MARRYCHIRT', 20, 1, 0, '2022-12-23 17:00:00', NULL),
 (4, 'Free Ship', 'FREESHIP423', 20000, 3, 1, '2023-03-31 17:00:00', NULL),
@@ -1148,7 +1149,8 @@ INSERT INTO `news` (`id_news`, `order_code`, `title`, `id_user`, `link`, `attr`,
 (5, 'USR2_4', 'How do you think about your order?', 2, 'feedback', 'USR2_4', 0, '2023-04-30 17:00:00', NULL),
 (6, 'USR3_16', 'Order Cancel', 3, 'USR3_2', NULL, 1, '2023-04-18 04:00:00', NULL),
 (7, 'GUT_47', 'Order Transaction Failed', NULL, 'GUT_47', NULL, 1, '2023-05-01 01:00:00', NULL),
-(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-02 11:32:48', NULL);
+(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-02 11:32:48', NULL),
+(9, NULL, 'Please take the last step to activate account', 9, 'accountsetting', NULL, 0, '2023-05-02 12:53:36', '2023-05-02 12:53:36');
 
 -- --------------------------------------------------------
 
@@ -1450,8 +1452,8 @@ CREATE TABLE `slide` (
 --
 
 INSERT INTO `slide` (`id_slide`, `image`, `title`, `title_color`, `content`, `content_color`, `link`, `btn_content`, `btn_color`, `btn_bg_color`, `attr`, `alert`, `alert_size`, `alert_color`, `alert_bg`, `created_at`, `updated_at`) VALUES
-(1, 'slide-1.jpg', 'SuperMarket For Fresh Grocery', '#000000', 'Introduced a new model for online grocery shopping and convenient home delivery.', '#5C6C75', 'allProduct', 'Shop Now', '#ffffff', '#000000', NULL, 'Opening Sale Discount 50%', 'fs-6', '#000000', '#FFC107', '2023-05-02 11:32:47', NULL),
-(2, 'slider-2.jpg', 'Free Shipping', '#000000', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#5C6C75', 'signup', 'Sign Up', '#ffffff', '#000000', NULL, 'Free Shipping For New Member', 'fs-6', '#000000', '#FFC107', '2023-05-02 11:32:47', NULL);
+(1, 'slider_3.jpg', 'Lễ hội trái cây Miền Tây', '#ffffff', '...', '#000000', '', 'Lick ngay', '#ffffff', '#3845ff', NULL, 'Giảm đến 50%', 'fs-6', '#ff0000', '#ffffff', '2023-05-02 11:32:47', '2023-05-03 19:21:30'),
+(2, 'slider-2.jpg', 'Free Shipping', '#000000', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#5C6C75', 'signup', 'Sign Up', '#ffffff', '#000000', NULL, 'Free Shipping For New Member', 'fs-6', '#000000', '#FFC107', '2023-05-02 11:32:47', '2023-05-03 19:26:25');
 
 -- --------------------------------------------------------
 
@@ -1521,7 +1523,8 @@ INSERT INTO `users` (`id_user`, `name`, `phone`, `avatar`, `email`, `admin`, `go
 (5, 'User 4', '09199141135', 'avatar-4.jpg', 'guest4@gmail.com', '0', NULL, NULL, '$2y$10$6fZE0hu6/JXfe9Lljhn9JO9Au28X1u0PWN2H0/JQBoEEwXxGLKf/a', 1, NULL, '2022-01-31 17:00:00', NULL),
 (6, 'User 5', '09199141111', 'avatar-5.jpg', 'guest5@gmail.com', '0', NULL, NULL, '$2y$10$OulI2KssxhboIfmZyoAo7eMzmAophH6X6nkHI8tqg7IP42MqMkBWG', 1, NULL, '2022-02-28 17:00:00', NULL),
 (7, 'Cat Tuong', '0919941037', 'user_0_meme-2.jpg', 'cattuongw2000@gmail.com', '1', NULL, NULL, '$2y$10$.HrtYq0mbs6/Ig3kf4ysZO/JY8drlxozn55id/JJrdrmx7CerIc0.', 1, NULL, '2022-11-22 17:00:00', NULL),
-(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$FUC1KW.YcWTTf8712puSAuV1tBygb2ShFHwCKvtpdIba8tVasF6Ea', 1, NULL, '2022-01-22 17:00:00', NULL);
+(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$FUC1KW.YcWTTf8712puSAuV1tBygb2ShFHwCKvtpdIba8tVasF6Ea', 1, NULL, '2022-01-22 17:00:00', NULL),
+(9, 'Hiển Vũ', NULL, 'gguser_116526290178629162871.jpg', 'hienkhoca@gmail.com', '1', '116526290178629162871', '2023-05-02 12:53:36', NULL, 1, NULL, '2023-05-02 12:53:36', '2023-05-02 12:53:36');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1672,7 +1675,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
+  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
@@ -1732,7 +1735,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id_news` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_news` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
@@ -1768,7 +1771,7 @@ ALTER TABLE `typeproduct`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -15,6 +15,32 @@ class AdminSlideController extends Controller
         return view('admin.pages.Slide.index', compact('slides'));
     }
 
+    public function create()
+    {
+        return view('admin.pages.Slide.create');
+    }
+
+    public function store(Request $request)
+    {
+        $item = $request->all();
+
+        if ($request->hasFile('photo')) { // kiểm tra xem có file hình tồn tại chưa
+            $file = $request->file('photo');
+            $ext = $file->getClientOriginalExtension();
+            if ($ext != 'jpg' && $ext != 'jpeg' && $ext != 'png') {
+                return redirect('admin/slider');
+            }
+            $imageFile = $file->getClientOriginalName();
+            $file->move("images/slider", $imageFile);
+        } else {
+            $imageFile = null;
+        }
+
+        $item['image'] = $imageFile;
+        Slide::create($item);
+        return redirect('admin/slides');
+    }
+
     public function show(Slide $id_slide)
     {
         return view('admin.pages.Slide.detail', compact('id_slide'));
@@ -59,5 +85,11 @@ class AdminSlideController extends Controller
 
         return redirect()->route('adminSlides');
         // return view('admin.pages.Banner.update', compact('id_banner'));
+    }
+
+    public function delete($id_slide)
+    {
+        Slide::find($id_slide)->delete();
+        return redirect()->route('adminSlides');
     }
 }

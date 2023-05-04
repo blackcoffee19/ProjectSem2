@@ -31,8 +31,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             @if (Auth::user()->avatar)
-                                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}" alt=""
-                                                    class="img-thumbnail w-50">
+                                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}"
+                                                    alt="" class="img-thumbnail w-50">
                                             @else
                                                 <span class="text-muted">No Image</span>
                                             @endif
@@ -172,7 +172,7 @@
                         success: function(data) {
                             if (data == "Accept") {
                                 if ($('input[name="current_password"]').hasClass(
-                                    'is-invalid')) {
+                                        'is-invalid')) {
                                     $('input[name="current_password"]').removeClass(
                                         "is-invalid");
                                 }
@@ -225,7 +225,7 @@
                     $(this).addClass('is-invalid');
                     $('#invalidPass').html(
                         'Password must contains at least 1 number, 1 normal character and min length 8 characters'
-                        ).addClass('text-danger');
+                    ).addClass('text-danger');
                     $('#changePassword').attr('disabled', 'disabled');
                 };
             });
@@ -253,26 +253,27 @@
                     $('#changeProfie').attr('disabled', 'disabled');
                 }
             });
-            $('#new_phone').change(function(){
-                if(valiPhone.test($(this).val().trim())){
-                    $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
-                        if(data == "existed"){
-                            if($('#new_phone').hasClass('is-valid')){
-                                $('#new_phone').removeClass('is-valid');
+            $('#new_phone').change(function() {
+                if (valiPhone.test($(this).val().trim())) {
+                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/' + $(this).val(),
+                        function(data) {
+                            if (data == "existed") {
+                                if ($('#new_phone').hasClass('is-valid')) {
+                                    $('#new_phone').removeClass('is-valid');
+                                }
+                                $('#new_phone').addClass('is-invalid');
+                                $('#invalidPhone').html('This phone has used by another account.');
+                                $('#changeProfie').attr('disabled', 'disabled');
+                            } else {
+                                $('#new_phone').removeClass('is-invalid');
+                                $('#new_phone').addClass('is-valid');
+                                $('#invalidPhone').html('');
+                                $('#changeProfie').removeAttr('disabled');
                             }
-                            $('#new_phone').addClass('is-invalid');
-                            $('#invalidPhone').html('This phone has used by another account.');
-                            $('#changeProfie').attr('disabled','disabled');
-                        }else{
-                            $('#new_phone').removeClass('is-invalid');
-                            $('#new_phone').addClass('is-valid');
-                            $('#invalidPhone').html('');
-                            $('#changeProfie').removeAttr('disabled');
-                        }
-                    });
-                }else if($(this).val().trim().length ==0){
-                    @if(Auth::user()->phone!=null)
-                    $(this).val("{{Auth::user()->phone}}");
+                        });
+                } else if ($(this).val().trim().length == 0) {
+                    @if (Auth::user()->phone != null)
+                        $(this).val("{{ Auth::user()->phone }}");
                     @endif
                     $('#changeProfie').attr('disabled', 'disabled');
                 } else {

@@ -8,13 +8,13 @@
                     <div class="d-md-flex justify-content-between align-items-center">
                         <!-- pageheader -->
                         <div>
-                            <h2>Edit Slide</h2>
+                            <h2>Create Slide</h2>
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Slide</li>
-                                    <li class="breadcrumb-item active" aria-current="page">Update</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Create</li>
                                 </ol>
                             </nav>
                         </div>
@@ -33,10 +33,8 @@
                         <!-- card body -->
                         <div class="card h-100 card-lg">
                             <div class="card-body p-6"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
-                                <form action="{{ route('adminUpdateSlides', $id_slide) }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ Route('adminStoreSlides') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    @method('PUT')
                                     <div class="row p-5">
                                         <div class="col-6">
                                             <div class="row">
@@ -53,9 +51,9 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="dropdown">
-                                                <button class="btn btn-info" type="button" data-bs-toggle="dropdown"
+                                                <button class="btn btn-primary" type="button" data-bs-toggle="dropdown"
                                                     aria-expanded="false">
-                                                    Edit Sliders
+                                                    Create Sliders
                                                 </button>
                                                 <ul class="dropdown-menu" style="width: 100%;">
                                                     <li>
@@ -63,7 +61,7 @@
                                                         <div class="row">
                                                             <div class="col-8">
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->alert }}" id="alert_text"
+                                                                    value="sample data alert sale up to 50%" id="alert_text"
                                                                     oninput="changeText()" name="alert">
                                                             </div>
                                                             <div class="col-2">
@@ -83,7 +81,7 @@
                                                         <div class="row">
                                                             <div class="col-10">
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->title }}" id="title_text"
+                                                                    value="5 word sample title data" id="title_text"
                                                                     oninput="changeText()" name="title">
                                                             </div>
                                                             <div class="col-2">
@@ -98,8 +96,8 @@
                                                         <div class="row">
                                                             <div class="col-10">
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->content }}" id="content_text"
-                                                                    oninput="changeText()" name="content">
+                                                                    value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, fuga?"
+                                                                    id="content_text" oninput="changeText()" name="content">
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"
@@ -114,7 +112,7 @@
                                                         <div class="row">
                                                             <div class="col-8">
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->btn_content }}" id="btn_content"
+                                                                    value="button sample" id="btn_content"
                                                                     oninput="changeText()" name="btn_content">
                                                             </div>
                                                             <div class="col-2">
@@ -135,12 +133,12 @@
                                                             <div class="col-6">
                                                                 <h3>Link</h3>
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->link }}"name="link">
+                                                                    value=""name="link">
                                                             </div>
                                                             <div class="col-6">
                                                                 <h3>Attr</h3>
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->attr }}"name="attr">
+                                                                    value=""name="attr">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -150,46 +148,31 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 mb-6 mb-lg-3">
-                                            <div style="background: url({{ asset('images/slider/' . $id_slide->image) }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;"
+                                            <div style="background: url({{ asset('images/slider/slide_sample.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center;"
                                                 id="img-previewone">
                                                 <div
                                                     class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-                                                    <span class="badge"
-                                                        style="background-color: {{ $id_slide->alert_bg }}; color:{{ $id_slide->alert_color }}"
-                                                        id="alert1">{{ $id_slide->alert }}</span>
-                                                    <h2 class="display-5 fw-bold mt-4"
-                                                        style="color:{{ $id_slide->title_color }}" id="title1">
-                                                        {{ $id_slide->title }}
+                                                    <span class="badge" style="background-color: #ffffff; color: red"
+                                                        id="alert1">sample data alert sale up to 50%</span>
+                                                    <h2 class="display-5 fw-bold mt-4" style="color:#fff" id="title1">
+                                                        5 word sample title data
                                                     </h2>
-                                                    <p class="lead" style="color:{{ $id_slide->content_color }}"
-                                                        id="content1">
-                                                        {{ $id_slide->content }}</p>
-                                                    <a href="" class="btn mt-3"
-                                                        style="background-color: {{ $id_slide->btn_bg_color }}; color:{{ $id_slide->btn_color }}"
-                                                        id="button1">{{ $id_slide->btn_content }}
-                                                        <i class="feather-icon icon-arrow-right ms-1"></i>
+                                                    <p class="lead" style="color:#6c6c6c" id="content1">Lorem ipsum
+                                                        dolor sit amet consectetur adipisicing elit. Minima, fuga?</p>
+                                                    <a href="" class="btn btn-primary mt-3" id="button1">
+                                                        button sample
                                                     </a>
                                                     {{-- {{ route($id_slide->link, $id_slide->attr) }} --}}
                                                 </div>
                                             </div>
-                                            <div style="background: url({{ asset('images/slider/' . $id_slide->image) }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center; display: none;"
+                                            <div style="background: url({{ asset('images/slider/slide_sample.jpg') }})no-repeat; background-size: cover; border-radius: .5rem; background-position: center; display: none;"
                                                 id="img-previewtwo">
                                                 <div
                                                     class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-                                                    <span class="badge"
-                                                        style="background-color: {{ $id_slide->alert_bg }}; color:{{ $id_slide->alert_color }}"
-                                                        id="alert2">{{ $id_slide->alert }}</span>
-                                                    <h2 class="display-5 fw-bold mt-4"
-                                                        style="color:{{ $id_slide->title_color }}" id="title2">
-                                                        {{ $id_slide->title }}
-                                                    </h2>
-                                                    <p class="lead" style="color:{{ $id_slide->content_color }}"
-                                                        id="content2">
-                                                        {{ $id_slide->content }}</p>
-                                                    <a href="" class="btn btn-dark mt-3"
-                                                        id="button2">{{ $id_slide->btn_content }}
-                                                        <i class="feather-icon icon-arrow-right ms-1"></i>
-                                                    </a>
+                                                    <span class="badge" id="alert2"></span>
+                                                    <h2 class="display-5 fw-bold mt-4"id="title2"></h2>
+                                                    <p class="lead" id="content2"></p>
+                                                    <a href="" class="btn mt-3" id="button2"></a>
                                                     {{-- {{ route($id_slide->link, $id_slide->attr) }} --}}
                                                 </div>
                                             </div>

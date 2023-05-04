@@ -8,7 +8,7 @@
                     <div class="d-md-flex justify-content-between align-items-center">
                         <!-- pageheader -->
                         <div>
-                            <h2>Banner</h2>
+                            <h2>Detail Banner</h2>
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">

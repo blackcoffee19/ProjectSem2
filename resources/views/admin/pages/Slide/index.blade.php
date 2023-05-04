@@ -2,19 +2,25 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Slides</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Slides</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Slide</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Slide</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminAddSlides') }}" class="btn btn-primary">Add New Slide</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,6 +76,17 @@
                                                                 <a class="dropdown-item"
                                                                     href="{{ Route('adminEditSlides', $slide->id_slide) }}">
                                                                     <i class="bi bi-pencil-square me-3"></i>Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <form
+                                                                    action="{{ Route('adminDeleteSlides', $slide->id_slide) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bi bi-trash me-3"></i>Delete
+                                                                    </button>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </div>

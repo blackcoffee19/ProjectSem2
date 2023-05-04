@@ -18,7 +18,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{route('adminAddProduct')}}" class="btn btn-primary">Add Product</a>
+                            <a href="{{ Route('adminAddProduct') }}" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                                                 </td>
                                                 <td>{{ number_format($item->price, 0) }}đ</td>
                                                 <td>{{ number_format($item->quantity, 0) }}g</td>
-                                                <td>{{ date_format($item->created_at,"j/m/Y") }}</td>
+                                                <td>{{ date_format($item->created_at, 'j/m/Y') }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <a href="#" class="text-reset" data-bs-toggle="dropdown"

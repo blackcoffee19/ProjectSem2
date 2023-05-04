@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminReviewController;
+use App\Http\Controllers\Admin\AdminSlideController;
 
 
 Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
@@ -185,6 +186,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
         Route::get('/banners/detail/{id_banner}',     'show')->name('adminShowBanners');
         Route::get('/banners/edit/{id_banner}',       'edit')->name('adminEditBanners');
         Route::put('/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
+    });
+
+    Route::controller(AdminSlideController::class)->group(function () {
+        Route::get('/slides',                        'index')->name('adminSlides');
+        Route::get('/slides/detail/{id_slide}',     'show')->name('adminShowSlides');
+        Route::get('/slides/edit/{id_slide}',       'edit')->name('adminEditSlides');
+        Route::put('/slides/update/{id_slide}',     'update')->name('adminUpdateSlides');
     });
 
     Route::get('{path?}', [TuongController::class, 'get_admin_signin'])->where('path', '.*');

@@ -79,9 +79,11 @@
                                                             required>
                                                             <option value="">-- Select Type --</option>
                                                             @foreach ($types as $type)
-                                                                <option value="{{ $type->id_type }}"
-                                                                    @if (old('id_type') == $type->id_type) selected @endif>
-                                                                    {{ $type->type }}</option>
+                                                                @if ($type->status == 'Active')
+                                                                    <option value="{{ $type->id_type }}"
+                                                                        @if (old('id_type') == $type->id_type) selected @endif>
+                                                                        {{ $type->type }}</option>
+                                                                @endif
                                                             @endforeach
                                                         </select>
 

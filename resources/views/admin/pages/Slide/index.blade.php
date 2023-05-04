@@ -6,12 +6,12 @@
                 <div class="col-md-12">
                     <div>
                         <!-- page header -->
-                        <h2>Banners</h2>
+                        <h2>Slides</h2>
                         <!-- breacrumb -->
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                                <li class="breadcrumb-item active" aria-current="page">Slides</li>
                             </ol>
                         </nav>
 
@@ -34,24 +34,25 @@
                                             <th>No.</th>
                                             <th>Images</th>
                                             <th>Title</th>
-                                            <th>Content</th>
                                             <th>Created At</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($banners as $banner)
+                                        @foreach ($slides as $slide)
                                             <tr>
-                                                <td>{{ $banner->id_banner }}</td>
-                                                <td>
-                                                    <img src="{{ asset('images/banner/' . $banner->image) }}"
-                                                        alt="{{ $banner->image }}" style="width: 200px;">
+                                                <td>{{ $slide->id_slide }}</td>
+                                                <td style="text-align: center">
+                                                    <img src="{{ asset('images/slider/' . $slide->image) }}"
+                                                        alt="{{ $slide->image }}" style="width: 200px;">
+                                                    <br>
+                                                    <br>
+                                                    <span style="color:red;">1660 x 625 px</span>
                                                 </td>
                                                 <td><a
-                                                        href="{{ Route('adminShowBanners', $banner->id_banner) }}">{{ $banner->title }}</a>
+                                                        href="{{ Route('adminShowSlides', $slide->id_slide) }}">{{ $slide->title }}</a>
                                                 </td>
-                                                <td>{{ $banner->content }}</td>
-                                                <td>{{ $banner->updated_at }}</td>
+                                                <td>{{ $slide->updated_at }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <a href="#" class="text-reset" data-bs-toggle="dropdown"
@@ -61,13 +62,13 @@
                                                         <ul class="dropdown-menu">
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ Route('adminShowBanners', $banner->id_banner) }}">
+                                                                    href="{{ Route('adminShowSlides', $slide->id_slide) }}">
                                                                     <i class="bi bi-eye me-3"></i>Detail</a>
                                                             </li>
 
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ Route('adminEditBanners', $banner->id_banner) }}">
+                                                                    href="{{ Route('adminEditSlides', $slide->id_slide) }}">
                                                                     <i class="bi bi-pencil-square me-3"></i>Edit</a>
                                                             </li>
                                                         </ul>
@@ -81,7 +82,7 @@
                             </div>
 
                             {{-- <div class="p-5">
-                                {{ $banners->links('pagination::bootstrap-5') }}
+                                {{ $slides->links('pagination::bootstrap-5') }}
                             </div> --}}
                         </div>
 

@@ -2,20 +2,26 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Banner</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Banners</li>
-                                <li class="breadcrumb-item active" aria-current="page">Detail</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Banner</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Detail</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminBanners') }}" class="btn btn-light">Back To Banner</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,15 +32,6 @@
                     <div class="card h-100 card-lg">
                         <!-- card body -->
                         <div class="card-body p-6">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="{{ Route('adminBanners') }}">
-                                    <button class="btn btn-primary">Back To Banner</button>
-                                </a>
-                                <a href="{{ Route('adminEditBanners', $id_banner->id_banner) }}">
-                                    <button class="btn btn-info">Edit</button>
-                                </a>
-                            </div>
-                            <br>
                             <div class="row">
                                 <div class="col-12 col-md-12 mb-6 mb-lg-3">
                                     <div>
@@ -71,6 +68,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <a href="{{ Route('adminEditBanners', $id_banner->id_banner) }}">
+                                <button class="btn btn-info" style="width: 100%">Edit</button>
+                            </a>
                         </div>
                     </div>
                 </div>

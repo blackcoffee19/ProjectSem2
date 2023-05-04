@@ -201,7 +201,7 @@
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
                         <div class="col">
                             <div class="px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 550px; padding-top: 150px; padding-left: 30px;">
+                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 168px; padding-left: 30px;">
                                 <div>
                                     <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
                                         {{ $banners[2]->title }}

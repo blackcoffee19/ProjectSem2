@@ -27,3 +27,8 @@ git merge branch-you-want-merge
 
 ===///===
 
+>> 3/5
+1. Gộp code about & contact của Quân
+2. fix lại giá trong order admin
+
+===///===

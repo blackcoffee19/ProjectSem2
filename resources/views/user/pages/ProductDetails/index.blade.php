@@ -311,8 +311,8 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{(count($product->Comment->where('rating', '=', 5))/count($product->Comment->where('rating','!=',null)))*100}}%;"
-                                                                        aria-valuenow="{{(count($product->Comment->where('rating', '=', 5))/count($product->Comment->where('rating','!=',null)))*100}}"
+                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}%;"
+                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100 }}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div>
@@ -329,8 +329,8 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{(count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100}}%;"
-                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100}}"
+                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
+                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
@@ -346,8 +346,8 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{(count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100}}%;"
-                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100}}"
+                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
+                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
@@ -363,8 +363,8 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{(count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100}}%;"
-                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100}}"
+                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
+                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
@@ -380,8 +380,8 @@
                                                                 <div class="progress" style="height: 6px;">
                                                                     <div class="progress-bar bg-warning"
                                                                         role="progressbar"
-                                                                        style="width: {{(count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100}}%;"
-                                                                        aria-valuenow="{{(count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100}}"
+                                                                        style="width: {{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}%;"
+                                                                        aria-valuenow="{{ (count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100 }}"
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span

@@ -1,6 +1,5 @@
 @extends('admin.partials.master')
 @section('admin-content')
-
     <main>
         <section class="container">
             <!-- row -->

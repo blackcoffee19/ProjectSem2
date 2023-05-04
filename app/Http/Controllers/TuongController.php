@@ -1376,4 +1376,12 @@ class TuongController extends Controller
         }
         return redirect()->back();
     }
+    public function model_coupon($code){
+        $coupon = Coupon::where('code','=',$code)->where('status',true)->first();
+        if($coupon){
+            echo $coupon;
+        }else{
+            echo '';
+        };
+    }
 }

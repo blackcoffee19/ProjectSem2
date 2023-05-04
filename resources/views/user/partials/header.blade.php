@@ -79,43 +79,83 @@
                                                         @foreach ($news as $new)
                                                             <li class="list-group-item px-5 py-4 list-group-item-action">
                                                                 @if (Auth::check() && Auth::user()->admin == "0")
-                                                                <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
-                                                                    <div class="d-flex">
-                                                                        <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
-                                                                        <div class="ms-4">
-                                                                            <p class="mb-1 text-dark">
-                                                                                {{$new->title}}
-                                                                            </p>
-                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
-                                                                                    height="12" fill="currentColor"
-                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
-                                                                                    <path
-                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                                                                    <path
-                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                                                                                </svg><small class="ms-2">
-                                                                                @php
-                                                                                    $date_new = $new->created_at;
-                                                                                    $date_cur =  date('Y-m-d H:i:s');
-                                                                                    $difference = strtotime($date_cur) - strtotime($date_new);
-                                                                                    $days= $difference/(60*60*24);
-                                                                                    if($days>30){
-                                                                                        if(($days /30)%12 >1){
-                                                                                            echo floor(($days /30)%12 )." years";
+                                                                    @if ($new->link == 'show_coupon')
+                                                                    <a href="javascript:void(0)"  class="text-muted modal_coupon" data-bs-toggle="modal" data-bs-target="#couponModal" data-coupon="{{$new->attr}}">
+                                                                        <div class="d-flex">
+                                                                            <img src="{{ asset('images/icons/tags.svg') }}" class="avatar avatar-md rounded-circle me-3" width="40" height="40"/>
+                                                                            <div class="ms-4">
+                                                                                <p class="mb-1 text-dark">
+                                                                                    {{$new->title}}
+                                                                                </p>
+                                                                                <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                        height="12" fill="currentColor"
+                                                                                        class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                        <path
+                                                                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                        <path
+                                                                                            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                    </svg><small class="ms-2">
+                                                                                    @php
+                                                                                        $date_new = $new->created_at;
+                                                                                        $date_cur =  date('Y-m-d H:i:s');
+                                                                                        $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                        $days= $difference/(60*60*24);
+                                                                                        if($days>30){
+                                                                                            if(($days /30)%12 >1){
+                                                                                                echo floor(($days /30)%12 )." years";
+                                                                                            }else{
+                                                                                                echo floor($days /30) .' months';
+                                                                                            }
+                                                                                        }else if($days >1){
+                                                                                            echo floor($days). " days";
                                                                                         }else{
-                                                                                            echo floor($days /30) .' months';
+                                                                                            echo floor($difference/(60*60)). " hours";
                                                                                         }
-                                                                                    }else if($days >1){
-                                                                                        echo floor($days). " days";
-                                                                                    }else{
-                                                                                        echo floor($difference/(60*60)). " hours";
-                                                                                    }
-                                                                                    // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
-                                                                                @endphp    
-                                                                                </small></span>
+                                                                                        // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                                    @endphp    
+                                                                                    </small></span>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </a>
+                                                                    </a>
+                                                                    @else
+                                                                    <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
+                                                                        <div class="d-flex">
+                                                                            <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                            <div class="ms-4">
+                                                                                <p class="mb-1 text-dark">
+                                                                                    {{$new->title}}
+                                                                                </p>
+                                                                                <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                        height="12" fill="currentColor"
+                                                                                        class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                        <path
+                                                                                            d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                        <path
+                                                                                            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                    </svg><small class="ms-2">
+                                                                                    @php
+                                                                                        $date_new = $new->created_at;
+                                                                                        $date_cur =  date('Y-m-d H:i:s');
+                                                                                        $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                        $days= $difference/(60*60*24);
+                                                                                        if($days>30){
+                                                                                            if(($days /30)%12 >1){
+                                                                                                echo floor(($days /30)%12 )." years";
+                                                                                            }else{
+                                                                                                echo floor($days /30) .' months';
+                                                                                            }
+                                                                                        }else if($days >1){
+                                                                                            echo floor($days). " days";
+                                                                                        }else{
+                                                                                            echo floor($difference/(60*60)). " hours";
+                                                                                        }
+                                                                                        // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                                    @endphp    
+                                                                                    </small></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                    @endif
                                                                 @else
                                                                 <a href="javascript:void(0)" class="text-muted manager_notificate" data-bs-toggle="modal" data-bs-target="#viewModalOrder2" data-order="{{$new->id_news}}">
                                                                     <div class="d-flex">
@@ -155,41 +195,6 @@
                                                                     </div>
                                                                 </a>                                                           
                                                                 @endif
-                                                                {{-- <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
-                                                                    <div class="d-flex">
-                                                                        <div class=" rounded-circle border">
-                                                                            @switch($new->link)
-                                                                                @case('feedback')
-                                                                                    <i class="fa-solid fa-hand-holding-box fa-2xl" style="color: #26a269;"></i>
-                                                                                    @break
-                                                                                @case("products-details")
-                                                                                <i class="fa-regular fa-crate-apple fa-2xl" style="color: #e66100;"></i>
-                                                                                    @break
-                                                                                @default
-                                                                            @endswitch
-                                                                        </div>
-                                                                        <div class="ms-4">
-                                                                            <p class="mb-1 text-dark">
-                                                                                {{$new->title}}
-                                                                            </p>
-                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
-                                                                                    height="12" fill="currentColor"
-                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
-                                                                                    <path
-                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                                                                    <path
-                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                                                                                </svg><small class="ms-2">
-                                                                                @php
-                                                                                    $date_new = strtotime($new->created_at);
-                                                                                    $date_cur =  date('Y-m-d H:i:s');
-                                                                                    $time = strtotime($date_cur) - strtotime($date_new);
-                                                                                    echo $time. " days";
-                                                                                @endphp    
-                                                                                </small></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </a> --}}
                                                             </li>
                                                         @endforeach
                                                     @else
@@ -401,43 +406,83 @@
                                                 @foreach ($news as $new)
                                                     <li class="list-group-item px-5 py-4 list-group-item-action">
                                                         @if (Auth::check() && Auth::user()->admin == "0")
-                                                        <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
-                                                            <div class="d-flex">
-                                                                <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
-                                                                <div class="ms-4">
-                                                                    <p class="mb-1 text-dark">
-                                                                        {{$new->title}}
-                                                                    </p>
-                                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
-                                                                            height="12" fill="currentColor"
-                                                                            class="bi bi-clock text-muted" viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                                                            <path
-                                                                                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                                                                        </svg><small class="ms-2">
-                                                                        @php
-                                                                            $date_new = $new->created_at;
-                                                                            $date_cur =  date('Y-m-d H:i:s');
-                                                                            $difference = strtotime($date_cur) - strtotime($date_new);
-                                                                            $days= $difference/(60*60*24);
-                                                                            if($days>30){
-                                                                                if(($days /30)%12 >1){
-                                                                                    echo floor(($days /30)%12 )." years";
-                                                                                }else{
-                                                                                    echo floor($days /30) .' months';
-                                                                                }
-                                                                            }else if($days >1){
-                                                                                echo floor($days). " days";
-                                                                            }else{
-                                                                                echo floor($difference/(60*60)). " hours";
-                                                                            }
-                                                                            // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
-                                                                        @endphp    
-                                                                        </small></span>
-                                                                </div>
-                                                            </div>
-                                                        </a>
+                                                            @if ($new->link == "show_coupon")
+                                                                <a href="javascript:void(0)"  class="text-muted modal_coupon" data-bs-toggle="modal" data-bs-target="#couponModal" data-coupon="{{$new->attr}}">
+                                                                    <div class="d-flex">
+                                                                        <img src="{{ asset('images/icons/tags.svg') }}" class="avatar avatar-md rounded-circle ms-3" width="40" height="40"/>
+                                                                        <div class="ms-4">
+                                                                            <p class="mb-1 text-dark">
+                                                                                {{$new->title}}
+                                                                            </p>
+                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                    height="12" fill="currentColor"
+                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                    <path
+                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                </svg><small class="ms-2">
+                                                                                @php
+                                                                                    $date_new = $new->created_at;
+                                                                                    $date_cur =  date('Y-m-d H:i:s');
+                                                                                    $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                    $days= $difference/(60*60*24);
+                                                                                    if($days>30){
+                                                                                        if(($days /30)%12 >1){
+                                                                                            echo floor(($days /30)%12 )." years";
+                                                                                        }else{
+                                                                                            echo floor($days /30) .' months';
+                                                                                        }
+                                                                                    }else if($days >1){
+                                                                                        echo floor($days). " days";
+                                                                                    }else{
+                                                                                        echo floor($difference/(60*60)). " hours";
+                                                                                    }
+                                                                                    // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                                @endphp    
+                                                                                </small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ route($new->link, $new->attr) }}" class="text-muted">
+                                                                    <div class="d-flex">
+                                                                        <img src="{{ asset('images/products/'.$new->image) }}" alt="" class="avatar avatar-md rounded-circle" width="40" height="40"/>
+                                                                        <div class="ms-4">
+                                                                            <p class="mb-1 text-dark">
+                                                                                {{$new->title}}
+                                                                            </p>
+                                                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                                    height="12" fill="currentColor"
+                                                                                    class="bi bi-clock text-muted" viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                                                                    <path
+                                                                                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                                                                </svg><small class="ms-2">
+                                                                                @php
+                                                                                    $date_new = $new->created_at;
+                                                                                    $date_cur =  date('Y-m-d H:i:s');
+                                                                                    $difference = strtotime($date_cur) - strtotime($date_new);
+                                                                                    $days= $difference/(60*60*24);
+                                                                                    if($days>30){
+                                                                                        if(($days /30)%12 >1){
+                                                                                            echo floor(($days /30)%12 )." years";
+                                                                                        }else{
+                                                                                            echo floor($days /30) .' months';
+                                                                                        }
+                                                                                    }else if($days >1){
+                                                                                        echo floor($days). " days";
+                                                                                    }else{
+                                                                                        echo floor($difference/(60*60)). " hours";
+                                                                                    }
+                                                                                    // $time= $date_cur->diffInDays($date_new)>1 ? $date_cur->diffInDays($date_new)." days ago": (($date_cur->diffInDays($date_new) == 0)? ($date_cur->diffInHours($date_new)> 0? $date_cur->diffInHours($date_new).' hours before': $date_cur->diffInMinutes($date_new). " minutes ago"): $date_cur->diffInDays($date_new)." day ago");
+                                                                                @endphp    
+                                                                                </small></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            @endif
                                                         @else
                                                          <a href="javascript:void(0)" class="text-muted manager_notificate" data-bs-toggle="modal" data-bs-target="#viewModalOrder2" data-order="{{$new->id_news}}">
                                                             <div class="d-flex">

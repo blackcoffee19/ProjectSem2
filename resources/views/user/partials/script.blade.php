@@ -1,10 +1,5 @@
 <script>
     $(document).ready(function(){
-      // $('#clearCart').click(function(){
-      //     $.get(window.location.origin + "/public/index.php/ajax/cart/clearcart",function(data){
-      //         $('#listCartmodal').html(data);
-      //     })
-      // });
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
           $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
@@ -378,6 +373,18 @@
           $('#register_submit').attr('disabled','disabled');
         }
       });
+      $(".modal_coupon").click(function(){
+          $.get(window.location.origin+"/public/index.php/ajax/show_coupon/"+$(this).data('coupon'),function(data){
+            let coupon_data = jQuery.parseJSON(data);
+            $('#coupon_title_modal').html(coupon_data['title']);
+            $('#max_coupon').html(coupon_data['max']);
+            $('#code_coupon_modal').val(coupon_data['code']);
+            $("#coupon_clipboard").click(function(){
+              navigator.clipboard.writeText($('#code_coupon_modal').val());
+              $('#coupon_clipboard').html("<i class='bi bi-clipboard-check-fill'></i>");
+            })
+          })
+      })
       $(".manager_notificate").click(function(){
         $.get(window.location.origin+"/public/index.php/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
           let dataJson = jQuery.parseJSON(data);

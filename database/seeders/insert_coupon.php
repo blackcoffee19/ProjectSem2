@@ -19,6 +19,7 @@ class insert_coupon extends Seeder
             ["title"=>"Merry Chirstmast",'code'=>"MARRYCHIRT",'discount'=>20,'max'=>1,'status'=>false,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','24/12/2022 00:00:00')],
             ["title"=>"Free Ship",'code'=>"FREESHIP423",'discount'=>20000,'max'=>3,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/04/2023 00:00:00')],
             ["title"=>"Free Ship",'code'=>"FREESHIP522",'discount'=>20000,'max'=>3,'status'=>false,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2022 00:00:00')],
+            ["title"=>"Happy May",'code'=>"MAYBE",'discount'=>20,'max'=>3,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','01/05/2023 00:00:00')],
         ];
         try {
             foreach($coupons as $cp){

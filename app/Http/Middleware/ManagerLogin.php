@@ -17,6 +17,8 @@ class ManagerLogin
     {
         if(!Auth::check() || Auth::user()->admin == "0"){
             return $next($request);
+        }else{
+            return redirect()->back();
         }
     }
 }

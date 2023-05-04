@@ -608,3 +608,23 @@
     </div>
   </div>
 </div>
+<!-- Modal Coupon-->
+<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="couponModalLabel">Promotion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+        <h1 id="coupon_title_modal"></h1>
+        <p class="fs-3">Maximum used: <span class="text-danger fs-3" id="max_coupon"></span></p>
+        <div class="input-group my-3 w-50">
+          <input type="text" class="form-control" id="code_coupon_modal" disabled>
+          <button class="input-group-text fs-4" id="coupon_clipboard"><i class="bi bi-clipboard"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

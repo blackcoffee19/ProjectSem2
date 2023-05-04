@@ -50,7 +50,7 @@ Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
 // Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
-Route::get('/remove-news',[TuongController::class,'remove_allnews'])->name('remove-allnews');
+Route::get('/remove-news', [TuongController::class, 'remove_allnews'])->name('remove-allnews');
 Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('addComment');
 Route::get('/delete_cmt/{id}', [TuongController::class, 'deleteCmt'])->name('delete_cmt');
 Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_cmt');
@@ -189,10 +189,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     });
 
     Route::controller(AdminSlideController::class)->group(function () {
-        Route::get('/slides',                        'index')->name('adminSlides');
+        Route::get('/slides',                       'index')->name('adminSlides');
+        Route::get('/slides/create',                'create')->name('adminAddSlides');
+        Route::post('/slides/store',                'store')->name('adminStoreSlides');
         Route::get('/slides/detail/{id_slide}',     'show')->name('adminShowSlides');
         Route::get('/slides/edit/{id_slide}',       'edit')->name('adminEditSlides');
         Route::put('/slides/update/{id_slide}',     'update')->name('adminUpdateSlides');
+        Route::delete('/slides/delete/{id_slide}',   'delete')->name('adminDeleteSlides');
     });
 
     Route::get('{path?}', [TuongController::class, 'get_admin_signin'])->where('path', '.*');

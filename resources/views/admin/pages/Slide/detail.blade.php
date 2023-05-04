@@ -8,12 +8,12 @@
                     <div class="d-md-flex justify-content-between align-items-center">
                         <!-- pageheader -->
                         <div>
-                            <h2>Banner</h2>
+                            <h2>Detail Slide</h2>
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Sliders</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Slide</li>
                                     <li class="breadcrumb-item active" aria-current="page">Detail</li>
                                 </ol>
                             </nav>
@@ -46,7 +46,9 @@
                                                 </h2>
                                                 <p class="lead" style="color:{{ $id_slide->content_color }}">
                                                     {{ $id_slide->content }}</p>
-                                                <a href="" class="btn btn-dark mt-3">{{ $id_slide->btn_content }}
+                                                <a href="" class="btn mt-3"
+                                                    style="background-color: {{ $id_slide->btn_bg_color }}; color:{{ $id_slide->btn_color }}">
+                                                    {{ $id_slide->btn_content }}
                                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                                 </a>
                                                 {{-- {{ route($id_slide->link, $id_slide->attr) }} --}}

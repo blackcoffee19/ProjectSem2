@@ -16,7 +16,8 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                <a href="" class="btn btn-dark mt-3">{{ $slide->btn_content }}
+                                <a href="" class="btn mt-3"
+                                    style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
                                 {{-- {{ route($slide->link, $slide->attr) }} --}}
@@ -110,22 +111,30 @@
                                                 <span class="badge bg-danger">{{ number_format($pro->sale, 0) }}%</span>
                                             @endif
                                         </div>
-                                        <a href="{{route('products-details',$pro->id_product)}}"> 
-                                            @if (count($pro->Library)>0)
-                                                <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">
+                                        <a href="{{ route('products-details', $pro->id_product) }}">
+                                            @if (count($pro->Library) > 0)
+                                                <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
+                                                    class="mb-3 img-fluid">
                                             @else
-                                                <img src="{{ asset('/images/category/'.($pro->TypeProduct->image)) }}" class="mb-3 img-fluid">
+                                                <img src="{{ asset('/images/category/' . $pro->TypeProduct->image) }}"
+                                                    class="mb-3 img-fluid">
                                             @endif
                                         </a>
                                         <div class="card-product-action">
-                                            <a class="btn-action btn_modal" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}">
-                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
+                                            <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}">
+                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
+                                                    title="Quick View"></i>
                                             </a>
-                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}" data-bs-toggle="tooltip"
+                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                data-bs-toggle="tooltip"
                                                 {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}>
-                                                <i class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
+                                                <i
+                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
                                             </a>
-                                            <a class="btn-action compare_product" data-bs-toggle="tooltip" data-bs-html="true" title="Compare" data-bs-product="{{ $pro->id_product }}">
+                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare"
+                                                data-bs-product="{{ $pro->id_product }}">
                                                 <i class="bi bi-arrow-left-right"></i>
                                             </a>
                                         </div>
@@ -212,90 +221,108 @@
                             </div>
                         </div>
                         @foreach ($product_hot as $product)
-                        <div class="col">
-                            <div class="card card-product">
-                                <div class="card-body">
-                                    <div class="text-center  position-relative "> 
-                                        <div class=" position-absolute top-0 start-0">
-                                            @if ($product->sale !=0)
-                                                <span class="badge bg-danger">{{number_format($product->sale,0)}}%</span>
-                                            @endif
+                            <div class="col">
+                                <div class="card card-product">
+                                    <div class="card-body">
+                                        <div class="text-center  position-relative ">
+                                            <div class=" position-absolute top-0 start-0">
+                                                @if ($product->sale != 0)
+                                                    <span
+                                                        class="badge bg-danger">{{ number_format($product->sale, 0) }}%</span>
+                                                @endif
+                                            </div>
+                                            <a href="{{ route('products-details', $product->id_product) }}">
+                                                @if (count($product->Library) > 0)
+                                                    <img src="{{ asset('/images/products/' . $product->Library[0]->image) }}"
+                                                        class="mb-3 img-fluid">
+                                                @else
+                                                    <img src="{{ asset('/images/category/' . $product->TypeProduct->image) }}"
+                                                        class="mb-3 img-fluid">
+                                                @endif
+                                            </a>
+                                            <div class="card-product-action">
+                                                <a class="btn-action btn_modal" data-bs-toggle="modal"
+                                                    data-bs-target="#quickViewModal"
+                                                    data-product="{{ $product->id_product }}"><i class="bi bi-eye"
+                                                        data-bs-toggle="tooltip" data-bs-html="true"
+                                                        title="Quick View"></i></a>
+                                                <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                    data-bs-toggle="tooltip"
+                                                    {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product" }}><i
+                                                        class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                                <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                    data-bs-html="true" title="Compare"
+                                                    data-bs-product="{{ $product->id_product }}"><i
+                                                        class="bi bi-arrow-left-right"></i></a>
+                                            </div>
                                         </div>
-                                        <a href="{{ route('products-details',$product->id_product) }}">
-                                            @if (count($product->Library)>0)
-                                                <img src="{{ asset('/images/products/'.$product->Library[0]->image) }}" class="mb-3 img-fluid">
-                                            @else
-                                                <img src="{{ asset('/images/category/'.$product->TypeProduct->image) }}" class="mb-3 img-fluid">
-                                            @endif
-                                        </a>
-                                        <div class="card-product-action">
-                                            <a  class="btn-action btn_modal" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal" data-product="{{$product->id_product}}"><i class="bi bi-eye"
-                                                    data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                            <a  class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
-                                            {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$product->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
-                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare" data-bs-product="{{$product->id_product}}"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
+                                        <div class="text-small mb-1">
+                                            <a class="text-decoration-none text-muted">
+                                                <small>{{ $product->TypeProduct->type }}</small>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="text-small mb-1">
-                                        <a  class="text-decoration-none text-muted">
-                                            <small>{{$product->TypeProduct->type}}</small>
-                                        </a>
-                                    </div>
-                                    <h2 class="fs-6"><a href="{{ route('products-details',$product->id_product) }}" class="text-inherit text-decoration-none">{{$product->name}}</a></h2>
-                                    <div class="d-flex flex-column justify-content-between align-items-center mt-3 flex-nowrap">
-                                        <div>
-                                            @if ($product->sale >0)
-                                                <span class="text-danger fs-4">{{number_format($product->price*(1-$product->sale/100),0,'',' ')}}</span><small> đ/kg</small>
-                                            @else
-                                            <span class="text-dark fs-4">{{number_format($product->price,0,'',' ')}} đ/kg</span>
-                                            @endif
-                                        </div>
-                                        <div>
-                                            @php
-                                                $rating = 0;
-                                                if (count($product->Comment->where('rating','!=',null)) >0) {
-                                                  foreach ($product->Comment->where('rating','!=',null) as $cmt) {
-                                                    $rating += $cmt->rating;
-                                                  }
-                                                  $rating /= count($product->Comment->where('rating','!=',null));
-                                                }
-                                            @endphp
-                                              @for ($i = 0; $i < floor($rating); $i++)
-                                              <i class="bi bi-star-fill fs-4 text-warning"></i>
-                                              @endfor
-                                              @if (is_float($rating))
-                                              <i class="bi bi-star-half fs-4 text-warning"></i>
-                                              @endif
-                                              @for ($i = 0; $i < 5-ceil($rating); $i++)
-                                              <i class="bi bi-star fs-4 text-warning"></i>
-                                              @endfor
-                                              <span class="text-black-50 ms-3">({{number_format($rating,1,'.',' ')}})</span>
-                                        </div>
-                                        <div class="d-grid mt-2">
-                                            <button data-bs-id="{{ $product->id_product }}"
-                                                type="button" class="btn btn-primary btn addToCart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-plus">
-                                                    <line x1="12" y1="5" x2="12" y2="19">
-                                                    </line>
-                                                    <line x1="5" y1="12" x2="19" y2="12">
-                                                    </line>
-                                                </svg> Add to cart 
-                                            </button>
-                                        </div>
-                                        <div class="d-flex justify-content-start text-center mt-3">
-                                            <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                        <h2 class="fs-6"><a
+                                                href="{{ route('products-details', $product->id_product) }}"
+                                                class="text-inherit text-decoration-none">{{ $product->name }}</a></h2>
+                                        <div
+                                            class="d-flex flex-column justify-content-between align-items-center mt-3 flex-nowrap">
+                                            <div>
+                                                @if ($product->sale > 0)
+                                                    <span
+                                                        class="text-danger fs-4">{{ number_format($product->price * (1 - $product->sale / 100), 0, '', ' ') }}</span><small>
+                                                        đ/kg</small>
+                                                @else
+                                                    <span
+                                                        class="text-dark fs-4">{{ number_format($product->price, 0, '', ' ') }}
+                                                        đ/kg</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                @php
+                                                    $rating = 0;
+                                                    if (count($product->Comment->where('rating', '!=', null)) > 0) {
+                                                        foreach ($product->Comment->where('rating', '!=', null) as $cmt) {
+                                                            $rating += $cmt->rating;
+                                                        }
+                                                        $rating /= count($product->Comment->where('rating', '!=', null));
+                                                    }
+                                                @endphp
+                                                @for ($i = 0; $i < floor($rating); $i++)
+                                                    <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                                @endfor
+                                                @if (is_float($rating))
+                                                    <i class="bi bi-star-half fs-4 text-warning"></i>
+                                                @endif
+                                                @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                    <i class="bi bi-star fs-4 text-warning"></i>
+                                                @endfor
+                                                <span
+                                                    class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
+                                            </div>
+                                            <div class="d-grid mt-2">
+                                                <button data-bs-id="{{ $product->id_product }}" type="button"
+                                                    class="btn btn-primary btn addToCart">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus">
+                                                        <line x1="12" y1="5" x2="12"
+                                                            y2="19">
+                                                        </line>
+                                                        <line x1="5" y1="12" x2="19"
+                                                            y2="12">
+                                                        </line>
+                                                    </svg> Add to cart
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start text-center mt-3">
+                                                <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
 
                     </div>

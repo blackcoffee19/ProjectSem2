@@ -2,20 +2,26 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Slides</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Slides</li>
-                                <li class="breadcrumb-item active" aria-current="page">Detail</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Banner</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Sliders</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Detail</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminSlides') }}" class="btn btn-light">Back To Sliders</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,15 +32,6 @@
                     <div class="card h-100 card-lg">
                         <!-- card body -->
                         <div class="card-body p-6">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="{{ Route('adminSlides') }}">
-                                    <button class="btn btn-primary">Back To Slide</button>
-                                </a>
-                                <a href="{{ Route('adminEditSlides', $id_slide->id_slide) }}">
-                                    <button class="btn btn-info">Edit</button>
-                                </a>
-                            </div>
-                            <br>
                             <div class="row">
                                 <div class="col-12 col-md-12 mb-6 mb-lg-3">
                                     <div>
@@ -58,6 +55,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <a href="{{ Route('adminEditSlides', $id_slide->id_slide) }}">
+                                <button class="btn btn-info" style="width: 100%">Edit</button>
+                            </a>
                         </div>
                     </div>
                 </div>

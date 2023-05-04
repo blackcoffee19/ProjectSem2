@@ -2,20 +2,26 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Slides</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Slides</li>
-                                <li class="breadcrumb-item active" aria-current="page">Update</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Banner</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Sliders</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Update</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminSlides') }}" class="btn btn-light">Back To Sliders</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,13 +194,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <button type="submit" class="btn btn-info">Save</button>
-                                        <a href="{{ Route('adminSlides') }}">
-                                            <button class="btn btn-primary">Back To Slides</button>
-                                        </a>
-                                    </div>
+                                    <button type="submit" class="btn btn-info" style="width: 100%;">Save</button>
                                 </form>
                             </div>
                         </div>

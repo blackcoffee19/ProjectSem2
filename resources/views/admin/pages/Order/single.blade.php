@@ -19,7 +19,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{ Route('adminOrder') }}" class="btn btn-primary">Back to all orders</a>
+                            <a href="{{ Route('adminOrder') }}" class="btn btn-light">Back to all orders</a>
                         </div>
 
                     </div>

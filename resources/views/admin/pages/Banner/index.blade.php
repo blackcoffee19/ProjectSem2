@@ -23,31 +23,6 @@
                 <div class="col-xl-12 col-12 mb-5">
                     <!-- card -->
                     <div class="card h-100 card-lg">
-                        <div class="p-6 ">
-                            <div class="row justify-content-between">
-                                <div class="col-md-4 col-12 mb-2 mb-md-0">
-                                    <!-- form -->
-                                    {{-- <form action="{{ Route('review.findByName') }}" class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="Search Rating"
-                                            aria-label="Search" name="product">
-                                        <button class="btn btn-primary" value="Search"><i
-                                                class="fas fa-search"></i></button>
-                                    </form> --}}
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-12">
-                                    {{-- <form action="{{ Route('review.findByName') }}" class="d-flex" role="search">
-                                        <select class="form-select" name="rating" onchange="this.form.submit()">
-                                            <option selected>Select Rating</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
-                                        </select>
-                                    </form> --}}
-                                </div>
-                            </div>
-                        </div>
                         <!-- card body -->
                         <div class="card-body p-0">
                             <!-- table -->

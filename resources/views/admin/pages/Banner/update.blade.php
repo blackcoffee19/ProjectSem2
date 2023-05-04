@@ -2,41 +2,40 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Banner</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Banners</li>
-                                <li class="breadcrumb-item active" aria-current="page">Update</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Banner</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Update</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminBanners') }}" class="btn btn-light">Back To Banner</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- row -->
-            <div class="row ">
-                <div class="col-xl-12 col-12 mb-5">
-                    <!-- card -->
-                    <div class="card h-100 card-lg">
-                        <!-- card body -->
+            <form action="{{ route('adminUpdateBanners', $id_banner) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="row ">
+                    <div class="col-xl-12 col-12 mb-5">
+                        <!-- card -->
                         <div class="card h-100 card-lg">
-                            <div class="card-body p-6"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <a href="{{ Route('adminBanners') }}">
-                                        <button class="btn btn-primary">Back To Banner</button>
-                                    </a>
-                                </div>
-                                <br>
-                                <form action="{{ route('adminUpdateBanners', $id_banner) }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
+                            <!-- card body -->
+                            <div class="card h-100 card-lg p-6">
+                                <div class="card-body"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
                                     <div class="row">
                                         <div class="col-6">
                                             <div>
@@ -175,17 +174,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <button type="submit" class="btn btn-info">Save</button>
-                                    </div>
-                                </form>
+                                </div>
+                                <button type="submit" class="btn btn-info" style="100%">Save</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </main>
     <script>

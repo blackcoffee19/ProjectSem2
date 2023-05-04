@@ -94,7 +94,6 @@
             $('#idModal').html(dataProduct['id_product']);
             $('input[name=id_pro]').val(dataProduct['id_product']);
             $('.typeModal').html(dataProduct['type']);
-            $('.compare_product').data('bsProduct',dataProduct['id_product'])
             let slider = tns({
                 container: '.slider_modalproduct',
                 items: 1,
@@ -105,6 +104,16 @@
                 controls: 0,
                 navContainer: '.slider_modalnav',
                 navAsThumbnails:true
+            });
+            $("#compare_product2").click(function(){
+              if($('#btn-compare').hasClass('d-none')){
+                $('#btn-compare').removeClass('d-none');
+              }
+              $.get(window.location.origin+"/public/index.php/ajax/add-compare/"+dataProduct['id_product'],function(data){
+                $('#messCompare').html(data);  
+              })
+              const toast = new bootstrap.Toast($('#toastCompare'))
+              toast.show();
             })
           });
       });
@@ -130,7 +139,7 @@
         })
       });
       $('.addToCart').click(function(){
-        @if(!Auth::check() || Auth::user()->admin != '2')
+        @if(!Auth::check() || Auth::user()->admin == '0')
         const toast = new bootstrap.Toast($('#toastAdd'))
         toast.show();
         @else
@@ -524,12 +533,15 @@
             url: window.location.origin+'/public/index.php/ajax-post/message',
             data: {'send_message':message.val(),'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
             success: function (data) {
-              chatbox.append(`<div class="row mb-4 mx-3"><div class="col-4"></div><div class="col-8">
-                <div class="text-wrap rounded-1 border py-1 px-2 bg-light">
-                  ${data}
-                </div>
-              </div>
-            </div>`);
+              let mess_data = jQuery.parseJSON(data);
+              if(mess_data['message']){
+                  chatbox.append(`<div class="d-flex flex-row mb-4 mx-3"><div class="ms-auto">
+                    <div class="text-wrap rounded-1 py-1 px-2 bg-light">
+                      ${mess_data['message']}
+                    </div>
+                  </div>
+                </div>`);
+              }
             }
           });
           message.val('');
@@ -591,15 +603,22 @@
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: window.location.origin+'/public/index.php/ajax-post/message',
-            data: {'send_message':ui.item.value,'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
+            data: {'send_link':ui.item.value,'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
             success: function (data) {
-              console.log(data);
-              chatbox.append(`<div class="row mb-4 mx-3"><div class="col-4"></div><div class="col-8">
-                <div class="text-wrap rounded-1 border py-1 px-2 bg-light">
-                  ${data}
-                </div>
-              </div>
-            </div>`);
+              let mess_data = jQuery.parseJSON(data);
+              if(mess_data['link']){
+                let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
+                  <div class='row g-0'>
+                    <div class='col-4'>
+                      <img src='${mess_data['image']}' class='img-fluid rounded-start' >
+                    </div>
+                  <div class='col-8'>
+                    <div class='card-body'>
+                    <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
+                    <p class="card-text">View >> </p>
+                  </div></div></div></a></div></div>`;
+                chatbox.append(share);
+              };
             }
           });
           $( "input[name=send_message]" ).val('');

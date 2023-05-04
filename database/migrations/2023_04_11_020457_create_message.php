@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('message', function (Blueprint $table) {
             $table->id('id_message');
             $table->string('code_group',10)->nullable();
-            $table->string('message',200);
+            $table->string('message',200)->nullable();
+            $table->foreignId('link')->nullable();
             $table->foreignId('id_user');
             $table->timestamps();
         });

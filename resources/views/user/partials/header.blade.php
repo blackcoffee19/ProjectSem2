@@ -57,8 +57,8 @@
                                                     <h5 class="mb-1">Notifications</h5>
                                                     <p class="mb-0 small">You have {{isset($news)? count($news):0}} unread notificates</p>
                                                 </div>
-                                                <a href="#!" class="text-muted">
-                                                    <a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle"
+                                                <a href="{{route('remove-allnews')}}" class="text-muted">
+                                                    <a href="{{route('remove-allnews')}}" class="btn btn-ghost-secondary btn-icon rounded-circle"
                                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
                                                         data-bs-title="Mark all as read">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
@@ -384,15 +384,10 @@
                                             <h5 class="mb-1">Notifications</h5>
                                             <p class="mb-0 small">You have {{isset($news)? count($news):0}} unread notificates</p>
                                         </div>
-                                        <a href="#!" class="text-muted">
-                                            <a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle"
-                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                data-bs-title="Mark all as read">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-check2-all text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+                                        <a href="{{route('remove-allnews')}}" class="text-muted">
+                                            <a href="{{route('remove-allnews')}}" class="btn btn-ghost-secondary btn-icon rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remove all news">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-check2-all text-success" viewBox="0 0 16 16">
+                                                    <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
                                                     <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
                                                 </svg>
                                             </a>
@@ -402,7 +397,7 @@
                                         <!-- List group -->
                                         <ul class="list-group list-group-flush notification-list-scroll fs-6">
                                             <!-- List group item -->
-                                            @if (isset($news))
+                                            @if (isset($news) && count($news)>0)
                                                 @foreach ($news as $new)
                                                     <li class="list-group-item px-5 py-4 list-group-item-action">
                                                         @if (Auth::check() && Auth::user()->admin == "0")

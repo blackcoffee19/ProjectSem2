@@ -49,7 +49,7 @@ Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
 // Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
-Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('products-details');
+Route::get('/remove-news',[TuongController::class,'remove_allnews'])->name('remove-allnews');
 Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('addComment');
 Route::get('/delete_cmt/{id}', [TuongController::class, 'deleteCmt'])->name('delete_cmt');
 Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_cmt');
@@ -70,6 +70,7 @@ Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('goo
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
+    Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('products-details');
     Route::get('/checkout', [TuongController::class, 'get_checkout'])->name('checkout');
     Route::post('/checkout', [TuongController::class, 'post_checkout'])->name('checkout');
     Route::get('/order', [TuongController::class, 'get_order'])->name('order');

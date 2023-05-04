@@ -15,7 +15,7 @@ class ManagerLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::check() || Auth::user()->admin != "2"){
+        if(!Auth::check() || Auth::user()->admin == "0"){
             return $next($request);
         }
     }

@@ -118,18 +118,16 @@
                                             @endif
                                         </a>
                                         <div class="card-product-action">
-                                            <a class="btn-action btn_modal" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}"><i
-                                                    class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
-                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
-                                                data-bs-toggle="tooltip"
-                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}><i
-                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
-                                            <a class="btn-action compare_product" data-bs-toggle="tooltip"
-                                                data-bs-html="true" title="Compare"
-                                                data-bs-product="{{ $pro->id_product }}"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
+                                            <a class="btn-action btn_modal" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}">
+                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
+                                            </a>
+                                            <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}" data-bs-toggle="tooltip"
+                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}>
+                                                <i class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
+                                            </a>
+                                            <a class="btn-action compare_product" data-bs-toggle="tooltip" data-bs-html="true" title="Compare" data-bs-product="{{ $pro->id_product }}">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </a>
                                         </div>
 
                                     </div>

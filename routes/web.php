@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminSlideController;
+use App\Http\Controllers\Admin\AdminCouponController;
 
 
 Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
@@ -89,7 +90,7 @@ Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
     Route::get('/ajax/add-coupon/{coupon}', [TuongController::class, 'addCoupon']);
     Route::post('/ajax/denied-order', [TuongController::class, 'denied_order']);
     Route::post('/ajax/accept-order', [TuongController::class, 'accept_order']);
-    Route::get('/ajax/show_coupon/{code}',[TuongController::class,'model_coupon']);
+    Route::get('/ajax/show_coupon/{code}', [TuongController::class, 'model_coupon']);
 });
 Route::get('/ajax/check-email/{email}', [TuongController::class, 'check_email']);
 Route::get('/ajax/check-phone/{phone}', [TuongController::class, 'check_phone']);
@@ -196,7 +197,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
         Route::get('/slides/detail/{id_slide}',     'show')->name('adminShowSlides');
         Route::get('/slides/edit/{id_slide}',       'edit')->name('adminEditSlides');
         Route::put('/slides/update/{id_slide}',     'update')->name('adminUpdateSlides');
-        Route::delete('/slides/delete/{id_slide}',   'delete')->name('adminDeleteSlides');
+        Route::delete('/slides/delete/{id_slide}',  'delete')->name('adminDeleteSlides');
+    });
+
+    Route::controller(AdminCouponController::class)->group(function () {
+        Route::get('/coupon',                       'index')->name('adminCoupon');
+        Route::get('/coupon/create',                'create')->name('adminAddCoupon');
+        Route::post('/coupon/store',                'store')->name('adminStoreCoupon');
+        Route::get('/coupon/edit/{id_coupon}',       'edit')->name('adminEditCoupon');
+        Route::put('/coupon/update/{id_coupon}',     'update')->name('adminUpdateCoupon');
+        Route::delete('/coupon/delete/{id_coupon}',  'delete')->name('adminDeleteCoupon');
+        // Route::get('/coupon/detail/{id_coupon}',     'show')->name('adminShowCoupon');
     });
 
     Route::get('{path?}', [TuongController::class, 'get_admin_signin'])->where('path', '.*');

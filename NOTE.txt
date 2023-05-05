@@ -7,28 +7,18 @@ NEED require socialite to get GoogleAuth
 composer require laravel/socialite
 npm install slick-carousel
 
-===///===
+edit file "script.blade.php" from "ProjectSem2\resources\views\user\partials"
+>> /public/index.php/... => /ProjectSem2/public/...
 
-GIT FETCH MERGE ANOTHER BRANCH IN UPSTREAM REPO
-1
-git fetch upstream
-2
-git checkout branch-name
-3
-git merge branch-you-want-merge
+edit file "setting.blade.php" from "ProjectSem2\resources\views\user\pages\About"
+>> /public/index.php/... => /ProjectSem2/public/...
 
-===///===
+edit file "services.php" from "ProjectSem2\config"
+>> 'redirect' => 'http://127.0.0.1:8091/public/index.php/auth/google/callback'
+>> 'redirect' => 'http://127.0.0.1/ProjectSem2/public/auth/google/callback'
 
->> 30/4
-0. Gộp code của Tường
-1. fix banner Daily Best Sells
-2. fix link categories trong trang chủ + trang chi tiết sản phẩm + trang categories
-3. fix hình ảnh trang order trong admin + link detail list sản phẩm trang order list
 
 ===///===
 
->> 3/5
-1. Gộp code about & contact của Quân
-2. fix lại giá trong order admin
+final coupon -> administration 5/5
 
-===///===

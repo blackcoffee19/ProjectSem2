@@ -28,7 +28,8 @@ class UserController extends Controller
         $name = $request->name;
         $prods = Product::where('name', 'like', '%' . $name . '%')->get();
 
-        return view('user.pages.Products.index', compact('prods', 'name'));
+        $cats = TypeProduct::all();
+        return view('user.pages.Products.index', compact('prods', 'name', 'cats'));
     }
 
 

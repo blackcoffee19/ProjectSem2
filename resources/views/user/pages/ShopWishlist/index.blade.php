@@ -52,17 +52,17 @@
                                                         <small>unit: gram</small>
                                                     </div>
                                                 </td>
-                                                <td class="align-middle">${{number_format($fav->Product->sale>0?$fav->Product->price*(1-$fav->Product->sale/100) : $fav->Product->price,2,'.',' ')}}<span class='text-muted text-decoration-line-through ms-3'>{{$fav->Product->sale>0?$fav->Product->price:''}}</span>
+                                                <td class="align-middle">{{number_format($fav->Product->sale>0?$fav->Product->price*(1-$fav->Product->sale/100) : $fav->Product->price,0,'',' ')}}đ<span class='text-muted text-decoration-line-through ms-3'>{{$fav->Product->sale>0?$fav->Product->price:''}}</span>
                                                 </td>
                                                 <td class="align-middle">
-                                                    @if ($fav->Product->quantity == 0)
+                                                    @if ($fav->Product->quantity == 0 || $fav->Product->status == false)
                                                         <span class="badge bg-danger">Out of Stock</span>
                                                     @else
                                                         <span class="badge bg-success">In Stock</span>
                                                     @endif
                                                 </td>
                                                 <td class="align-middle ">
-                                                    @if ($fav->Product->quantity>0)
+                                                    @if ($fav->Product->quantity>0  && $fav->Product->status == true)
                                                         <div class="btn btn-primary btn-sm"><a  class="addToCart " style="color: #ffffff" data-bs-id="{{$fav->id_product}}" >Add to Cart</a></div>
                                                     @else
                                                         <div class="btn btn-dark btn-sm"><a>Contact us</a></div>

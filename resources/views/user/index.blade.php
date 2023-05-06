@@ -16,10 +16,14 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                <a href="{{ route($slide->link, $slide->attr) }}"
-                                    class="btn btn-dark mt-3">{{ $slide->btn_content }}
+                                <a href="@if ($slide->link != null && $slide->attr != null) {{ $slide->link . '/' . $slide->attr }}
+                                    @elseif ($slide->link != null && $slide->attr == null)
+                                    {{ $slide->link }} @endif"
+                                    class="btn mt-3"
+                                    style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
+                                {{-- {{ route($slide->link, $slide->attr) }} --}}
                             </div>
                         </div>
                     @endforeach
@@ -76,8 +80,14 @@
                                             <p class="mb-4" style="color:{{ $banner->content_color }}">
                                                 {{ $banner->content }}
                                             </p>
-                                            <a href="#!" class="btn"
-                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}</a>
+                                            <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                                class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,22 +121,31 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('products-details', $pro->id_product) }}">
-                                            <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
-                                                class="mb-3 img-fluid">
+                                            @if (count($pro->Library) > 0)
+                                                <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
+                                                    class="mb-3 img-fluid">
+                                            @else
+                                                <img src="{{ asset('/images/category/' . $pro->TypeProduct->image) }}"
+                                                    class="mb-3 img-fluid">
+                                            @endif
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}"><i
-                                                    class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
-                                                    title="Quick View"></i></a>
+                                                data-bs-target="#quickViewModal" data-product="{{ $pro->id_product }}">
+                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
+                                                    title="Quick View"></i>
+                                            </a>
                                             <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
                                                 data-bs-toggle="tooltip"
-                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}><i
-                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}>
+                                                <i
+                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
+                                            </a>
                                             <a class="btn-action compare_product" data-bs-toggle="tooltip"
                                                 data-bs-html="true" title="Compare"
-                                                data-bs-product="{{ $pro->id_product }}"><i
-                                                    class="bi bi-arrow-left-right"></i></a>
+                                                data-bs-product="{{ $pro->id_product }}">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </a>
                                         </div>
 
                                     </div>
@@ -204,9 +223,14 @@
                                         {{ $banners[2]->title }}
                                     </h3>
                                     <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
-                                    <a class="btn "
-                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin-top: 160px;">{{ $banners[2]->btn_content }}<i
-                                            class="feather-icon icon-arrow-right ms-1"></i></a>
+                                    <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                        class="btn"
+                                        style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -222,8 +246,13 @@
                                                 @endif
                                             </div>
                                             <a href="{{ route('products-details', $product->id_product) }}">
-                                                <img src="{{ asset('/images/products/' . $product->Library[0]->image) }}"
-                                                    class="mb-3 img-fluid">
+                                                @if (count($product->Library) > 0)
+                                                    <img src="{{ asset('/images/products/' . $product->Library[0]->image) }}"
+                                                        class="mb-3 img-fluid">
+                                                @else
+                                                    <img src="{{ asset('/images/category/' . $product->TypeProduct->image) }}"
+                                                        class="mb-3 img-fluid">
+                                                @endif
                                             </a>
                                             <div class="card-product-action">
                                                 <a class="btn-action btn_modal" data-bs-toggle="modal"
@@ -249,8 +278,8 @@
                                         <h2 class="fs-6"><a
                                                 href="{{ route('products-details', $product->id_product) }}"
                                                 class="text-inherit text-decoration-none">{{ $product->name }}</a></h2>
-
-                                        <div class="d-flex justify-content-between align-items-center mt-3 flex-nowrap">
+                                        <div
+                                            class="d-flex flex-column justify-content-between align-items-center mt-3 flex-nowrap">
                                             <div>
                                                 @if ($product->sale > 0)
                                                     <span
@@ -284,20 +313,25 @@
                                                 <span
                                                     class="text-black-50 ms-3">({{ number_format($rating, 1, '.', ' ') }})</span>
                                             </div>
-                                        </div>
-                                        <div class="d-grid mt-2"><button data-bs-id="{{ $product->id_product }}"
-                                                type="button" class="btn btn-primary btn addToCart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-plus">
-                                                    <line x1="12" y1="5" x2="12" y2="19">
-                                                    </line>
-                                                    <line x1="5" y1="12" x2="19" y2="12">
-                                                    </line>
-                                                </svg> Add to cart </button></div>
-                                        <div class="d-flex justify-content-start text-center mt-3">
-                                            <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                            <div class="d-grid mt-2">
+                                                <button data-bs-id="{{ $product->id_product }}" type="button"
+                                                    class="btn btn-primary btn addToCart">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-plus">
+                                                        <line x1="12" y1="5" x2="12"
+                                                            y2="19">
+                                                        </line>
+                                                        <line x1="5" y1="12" x2="19"
+                                                            y2="12">
+                                                        </line>
+                                                    </svg> Add to cart
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start text-center mt-3">
+                                                <div class="deals-countdown w-100" data-countdown="2028/10/10 00:00:00">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -11,14 +11,14 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Products</li>
                                 </ol>
                             </nav>
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="" class="btn btn-primary">Add Product</a>
+                            <a href="{{ Route('adminAddProduct') }}" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>
@@ -39,13 +39,21 @@
                                                 class="fas fa-search"></i></button>
                                     </form>
                                 </div>
+                                <div class="col-xl-2 col-md-2 col-12">
+                                    <form action="{{ route('product.findByName') }}">
+                                        <select class="form-select" name="status_sl" id="status_sl" onchange="this.form.submit()">
+                                            <option value="true" {{isset($status_sl) && $status_sl == true?"selected":''}}>Active</option>
+                                            <option value="false" {{isset($status_sl) && $status_sl == false?"selected":''}}>Deactivate</option>
+                                        </select>
+                                    </form>
+                                </div>
                                 <div class="col-xl-2 col-md-4 col-12">
                                     <form action="{{ route('product.findByName') }}" class="d-flex">
-                                        <select class="form-select" name="status" onchange="this.form.submit()">
+                                        <select class="form-select" name="type_product" onchange="this.form.submit()">
                                             <option value="">Type</option>
                                             @foreach ($types as $type)
                                                 @if ($type->status == 'Active')
-                                                    <option value="{{ $type->id_type }}">{{ $type->type }}</option>
+                                                    <option value="{{ $type->id_type }}" {{(isset($type_product) && $type_product == $type->id_type) ? "selected":''}}>{{ $type->type }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -83,7 +91,7 @@
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('products-details', $item->id_product) }}">
+                                                    <a href="{{ route('adminShowProduct', $item->id_product) }}">
                                                         {{ $item->name }}
                                                     </a>
                                                 </td>
@@ -95,12 +103,12 @@
                                                     @if ($item->status == '1')
                                                         <span class="btn bg-light-primary text-dark-primary">Active</span>
                                                     @else
-                                                        <span class="btn bg-light-danger text-dark-danger">Desable</span>
+                                                        <span class="btn bg-light-danger text-dark-danger">Deactivate</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ number_format($item->price, 0) }}đ</td>
                                                 <td>{{ number_format($item->quantity, 0) }}g</td>
-                                                <td>{{ date_format($item->created_at,"j/m/Y") }}</td>
+                                                <td>{{ date_format($item->created_at, 'j/m/Y') }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <a href="#" class="text-reset" data-bs-toggle="dropdown"
@@ -136,7 +144,9 @@
                                 </table>
                             </div>
                             <div class="p-5">
-                                {{-- {{ $prods->links('pagination::bootstrap-5') }} --}}
+                                @if (isset($pagination))
+                                {{ $prods->links('user.pagination.cus_pagination') }}
+                                @endif
                             </div>
                         </div>
                     </div>

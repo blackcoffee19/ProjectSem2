@@ -1,10 +1,5 @@
 <script>
     $(document).ready(function() {
-        // $('#clearCart').click(function(){
-        //     $.get(window.location.origin + "/ProjectSem2/public/ajax/cart/clearcart",function(data){
-        //         $('#listCartmodal').html(data);
-        //     })
-        // });
         @if (!Auth::check() || Auth::user()->admin != '2')
             $('.btn_showcart').click(function() {
                 $.get(window.location.origin + "/ProjectSem2/public/ajax/cart/listcart", function(
@@ -105,7 +100,6 @@
                     $('#idModal').html(dataProduct['id_product']);
                     $('input[name=id_pro]').val(dataProduct['id_product']);
                     $('.typeModal').html(dataProduct['type']);
-                    $('.compare_product').data('bsProduct', dataProduct['id_product'])
                     let slider = tns({
                         container: '.slider_modalproduct',
                         items: 1,
@@ -116,6 +110,19 @@
                         controls: 0,
                         navContainer: '.slider_modalnav',
                         navAsThumbnails: true
+                    });
+                    $("#compare_product2").click(function() {
+                        if ($('#btn-compare').hasClass('d-none')) {
+                            $('#btn-compare').removeClass('d-none');
+                        }
+                        $.get(window.location.origin +
+                            "/ProjectSem2/public/ajax/add-compare/" + dataProduct[
+                                'id_product'],
+                            function(data) {
+                                $('#messCompare').html(data);
+                            })
+                        const toast = new bootstrap.Toast($('#toastCompare'))
+                        toast.show();
                     })
                 });
         });
@@ -144,7 +151,7 @@
             })
         });
         $('.addToCart').click(function() {
-            @if (!Auth::check() || Auth::user()->admin != '2')
+            @if (!Auth::check() || Auth::user()->admin == '0')
                 const toast = new bootstrap.Toast($('#toastAdd'))
                 toast.show();
             @else
@@ -409,6 +416,20 @@
                     $('#register_submit').attr('disabled', 'disabled');
                 }
             });
+        $(".modal_coupon").click(function() {
+            $.get(window.location.origin + "/ProjectSem2/public/ajax/show_coupon/" + $(this).data(
+                'coupon'), function(data) {
+                let coupon_data = jQuery.parseJSON(data);
+                $('#coupon_title_modal').html(coupon_data['title']);
+                $('#max_coupon').html(coupon_data['max']);
+                $('#code_coupon_modal').val(coupon_data['code']);
+                $("#coupon_clipboard").click(function() {
+                    navigator.clipboard.writeText($('#code_coupon_modal').val());
+                    $('#coupon_clipboard').html(
+                        "<i class='bi bi-clipboard-check-fill'></i>");
+                })
+            })
+        })
         $(".manager_notificate").click(function() {
             $.get(window.location.origin + "/ProjectSem2/public/manager/ajax/check-notificate/" + $(
                 this).data('order'), function(data) {
@@ -600,12 +621,15 @@
                         'connect_user': chatbox.data('iduser')
                     },
                     success: function(data) {
-                        chatbox.append(`<div class="row mb-4 mx-3"><div class="col-4"></div><div class="col-8">
-                    <div class="text-wrap rounded-1 border py-1 px-2 bg-light">
-                      ${data}
+                        let mess_data = jQuery.parseJSON(data);
+                        if (mess_data['message']) {
+                            chatbox.append(`<div class="d-flex flex-row mb-4 mx-3"><div class="ms-auto">
+                    <div class="text-wrap rounded-1 py-1 px-2 bg-light">
+                      ${mess_data['message']}
                     </div>
                   </div>
                 </div>`);
+                        }
                     }
                 });
                 message.val('');
@@ -614,6 +638,87 @@
         $('.show_listchat').click(function() {
             let nextDD = $(this).next();
             $('.chatbox').not(nextDD).removeClass('show');
+        })
+
+        function split(val) {
+            return val.split(/@\s*/);
+        }
+
+        function extractLast(term) {
+            return split(term).pop();
+        }
+        let availableTags = [];
+        @if (isset($name_products))
+            @foreach ($name_products as $key => $value)
+                var object = new Object();
+                @foreach ($value as $key2 => $value2)
+                    object['{{ $key2 }}'] = "{{ $value2 }}";
+                @endforeach
+                availableTags.push(object);
+            @endforeach
+        @endif
+        $("input[name=send_message]").autocomplete({
+            minLength: 0,
+            source: function(request, response) {
+                var results, term = request.term;
+                var aData = $.map(availableTags, function(value, key) {
+                    return {
+                        label: value.name,
+                        value: value.id
+                    }
+                });
+                if (term.indexOf("@") >= 0) {
+                    term = extractLast(request.term);
+                    /* If they've typed anything after the "@": */
+                    if (term.length > 0) {
+                        results = $.ui.autocomplete.filter(
+                            aData, term);
+                        /* Otherwise, tell them to start typing! */
+                    } else {
+                        results = ['Start typing...'];
+                    }
+                }
+                /* Call the callback with the results: */
+                response(results);
+            },
+            focus: function(event, ui) {
+                // $('input[name=send_message]').val(ui.item.name);
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function(event, ui) {
+                let chatbox = $(this).parents('.input_message').prev();
+                $.ajax({
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: window.location.origin + '/ProjectSem2/public/ajax-post/message',
+                    data: {
+                        'send_link': ui.item.value,
+                        'code_group': chatbox.data('chat'),
+                        'connect_user': chatbox.data('iduser')
+                    },
+                    success: function(data) {
+                        let mess_data = jQuery.parseJSON(data);
+                        if (mess_data['link']) {
+                            let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
+                  <div class='row g-0'>
+                    <div class='col-4'>
+                      <img src='${mess_data['image']}' class='img-fluid rounded-start' >
+                    </div>
+                  <div class='col-8'>
+                    <div class='card-body'>
+                    <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
+                    <p class="card-text">View >> </p>
+                  </div></div></div></a></div></div>`;
+                            chatbox.append(share);
+                        };
+                    }
+                });
+                $("input[name=send_message]").val('');
+                return false;
+            }
         })
     })
 </script>

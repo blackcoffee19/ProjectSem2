@@ -31,7 +31,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">
-                                        <a href="#" class="text-inherit">Dashboard</a>
+                                        <a href="{{ route('dashboard') }}" class="text-inherit">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item">
                                         <a href="#" class="text-inherit">Products</a>
@@ -202,6 +202,12 @@
                                                     </div>
                                                 </div> --}}
                                             </div>
+                                        </div>
+                                        <div class="card-footer mt-3">
+                                            <a href="#!" onclick="history.back()" class="me-4 btn btn-dark"
+                                                style="width: 70px">Back</a>
+                                            <a href="{{ route('adminEditProduct', $id_product->id_product) }}"
+                                                class="me-4 btn btn-warning">Edit Product</a>
                                         </div>
                                     </div>
                                 </div>

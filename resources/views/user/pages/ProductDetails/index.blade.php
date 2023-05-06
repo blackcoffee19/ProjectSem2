@@ -8,15 +8,23 @@
                     <div class="col-5 ">
                         <div class="slide_wrapper">
                             <div class="slider_product product">
-                                @foreach ($product->Library as $lib)
-                                    <div class="zoom slider_item" onmousemove="zoom(event)"
-                                        style="background-image: url({{ asset('images/products/' . $lib->image) }}">
-                                        <img src="{{ asset('images/products/' . $lib->image) }}" class="img-fluid">
-                                    </div>
-                                @endforeach
+                                @if (count($product->Library)>0)
+                                    @foreach ($product->Library as $lib)
+                                        <div class="zoom slider_item" onmousemove="zoom(event)"
+                                            style="background-image: url({{ asset('images/products/' . $lib->image) }}">
+                                            <img src="{{ asset('images/products/' . $lib->image) }}" class="img-fluid">
+                                        </div>
+                                    @endforeach
+                                @else
+                                <div class="zoom slider_item" onmousemove="zoom(event)"
+                                style="background-image: url({{ asset('images/category/' . $product->TypeProduct->image) }}">
+                                <img src="{{ asset('images/category/' . $product->TypeProduct->image) }}" class="img-fluid">
+                            </div>
+                                @endif
                             </div>
                         </div>
                         <div class="product-tools ">
+                            @if (count($product->Library)>0)
                             <div class="thumbnails slider_nav row g-3" id="productThumbnails">
                                 @foreach ($product->Library as $lib)
                                     <div class="col-3">
@@ -26,6 +34,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -308,7 +317,7 @@
                                                                 </div>
                                                             </div>
                                                             <span
-                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100, 0, '', '') }}%</span>
+                                                                class="text-muted ms-3">{{number_format((count($product->Comment->where('rating','=',5))/count($product->Comment->where('rating','!=',null)))*100,0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -325,7 +334,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -342,7 +351,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -359,7 +368,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -376,7 +385,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
+                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center mb-2">
@@ -687,8 +696,11 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('products-details', $re_product->id_product) }}">
-                                            <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}"
-                                                alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @if (count($re_product->Library)>0)
+                                            <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @else
+                                            <img src="{{ asset('images/category/' . $re_product->TypeProduct->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @endif
                                         </a>
                                         <div class="card-product-action">
                                             <a class="btn-action btn_modal" data-bs-toggle="modal"

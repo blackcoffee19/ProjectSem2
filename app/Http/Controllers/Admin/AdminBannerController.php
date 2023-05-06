@@ -35,6 +35,7 @@ class AdminBannerController extends Controller
         $banners->btn_bg_color  = $request->input('btn_bg_color');
         $banners->btn_color     = $request->input('btn_color');
         $banners->link          = $request->input('link');
+        $banners->attr          = $request->input('attr');
 
         if ($request->hasFile('photo')) {
             // Xóa hình ảnh hiện tại của sản phẩm

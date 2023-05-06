@@ -79,19 +79,49 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['user.partials.message'],function($view){
             if(Auth::check()){
                 if(Auth::user()->admin == '0'){
+                     $num = 0;
                     $groups = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+                    foreach($groups as $gr){
+                        $last_mess = $gr->Message->last();
+                        if($last_mess->id_user != Auth::user()->id_user){
+                            $num++;
+                            $gr->new_mess = true;
+                        }
+                    }
                     // GET MESSAGES THAT ADMIN STILL NOT REPLY 
                     $messages_to_admin = Message::where('code_group','=',null)->where('id_user','=',Auth::user()->id_user)->get();
+                    $view->with('num_new',$num);
                     $view->with('groups',$groups);
                     $view->with('messages_to_admin',$messages_to_admin);
                 }else{
+                    $num = 0;
                     $groups = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+                    foreach($groups as $gr){
+                        $last_mess = $gr->Message->last();
+                        if($last_mess->id_user != Auth::user()->id_user){
+                            $num++;
+                            $gr->new_mess = true;
+                        }
+                    }
                     // GET ALL USER MESSAGE TO ADMIN THAT STILL NOT REPLY 
                     $user_mess=  User::whereIn('id_user',Message::select('id_user')->where('code_group','=',null)->distinct()->get())->get();
+                    $view->with('num_new',$num);
                     $view->with('groups',$groups);
                     $view->with('user_message',$user_mess);
                 }
             }
+        });
+        view()->composer(['user.partials.script'],function($view){
+            $name_product = Product::select('name','id_product')->get();
+            $arr = [];
+            foreach($name_product as $pro){
+                $arr_n=[];
+                $arr[] = (object)array(
+                'id' => $pro->id_product,
+                'name' => $pro->name
+                );
+            }
+            $view->with('name_products',$arr);
         });
     }
 }

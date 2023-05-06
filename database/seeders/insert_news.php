@@ -23,6 +23,7 @@ class insert_news extends Seeder
 	    	["order_code"=>'USR3_16','id_user'=>3,'send_admin'=>true,"title"=>"Order Cancel","link"=>"USR3_2",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '18/04/2023 11:00:00')],
             ["order_code"=>'GUT_47','send_admin'=>true,"title"=>"Order Transaction Failed","link"=>"GUT_47",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '01/05/2023 08:00:00')],
             ["title"=>"New Product",'link'=>"products-details","attr"=>"30",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
+            ["title"=>"We have a gift for you",'link'=>"show_coupon","attr"=>"MAYBE",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
 
         ];
         try {

@@ -102,6 +102,22 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ Route('adminSlides') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="fa-regular fa-image"></i></span>
+                            <span class="nav-link-text">Slide</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ Route('adminCoupon') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="fa-solid fa-ticket"></i></span>
+                            <span class="nav-link-text">Coupon</span>
+                        </div>
+                    </a>
+                </li>
                 <!-- Nav item -->
                 {{-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

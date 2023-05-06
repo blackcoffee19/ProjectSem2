@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
+use Illuminate\Database\Eloquent\Builder;
 class TuongController extends Controller
 {
     public function home_page(){
@@ -729,9 +730,21 @@ class TuongController extends Controller
         $product->sold = count($product->Comment->where('rating','!=',null));
         if(Session::has('compare')){
             if(count(Session::get('compare'))<=2){
-                Session::push('compare',$product);
+                $arr = [];
+                foreach(Session::get('compare') as $product_compare){
+                    if(!in_array($product_compare->id_product,$arr)){
+                        array_push($arr,$product_compare->id_product);
+                    }
+                }
+                if(!in_array($product->id_product,$arr)){
+                    Session::push('compare',$product);
+                    $msg.="Add (".count(Session::get('compare'))."/3) Product to compare";
+                }else{
+                    $msg.="Product has already existed in compare.";
+                }
+            }else{
+                $msg.="Compare List was full.";
             }
-            $msg.="Add (".count(Session::get('compare'))."/3) Product to compare";
         }else{
             $msg.="Add (1/3) Product to compare";
             Session::put('compare',[$product]);
@@ -1108,7 +1121,7 @@ class TuongController extends Controller
         $order->save();
         switch($req['status_order']){
             case "finished":
-                if(preg_match("/gut/i",$order->order_code) == 1){
+                if($order->id_user == null){
                     foreach($order->Cart as $cart){
                         $comment = new Comment();
                         $comment->id_product = $cart->id_product;
@@ -1245,13 +1258,56 @@ class TuongController extends Controller
             if($chat->id_user != Auth::user()->id_user){
                 $html.= "<div class='col-1 me-3 rounded-circle border text-center p-1' style='width:40px;height: 40px'>";
                 $html.= $chat->User->avatar?"<img src='images/avatar/".$chat->User->avatar."' class='img-fluid h-100 rounded-circle' style='object-fit: cover'>":"<img src='images/avatar/user.png' class='img-fluid h-100 rounded-circle' style='object-fit: cover'>";
-                $html.="</div><div class='col-8'><span>".$chat->User->name."</span><div class='text-wrap rounded-1 border py-1 px-2 bg-light'>";
-                $html.= $chat->message;
+                $html.="</div><div class='col-8'><span>".$chat->User->name."</span>";
+                if($chat->message !=null){
+                    $html.="<div class='text-wrap rounded-1 border py-1 px-2 bg-light'>";
+                    $html.= $chat->message;
+                }else if($chat->link != null){
+                    $html .= "<div>";
+                    $product = Product::find(intval($chat->link));
+                    if(!$product){
+                        $html.= "Not found product";
+                    }else{
+                        $src_image = count($product->Library)>0?"images/products/".$product->Library[0]->image: "images/category/".$product->TypeProduct->image; 
+                        $share_link = "<div class='card my-3'><a href='".route('products-details',$product->id_product)."'>
+                        <div class='row g-0'>
+                          <div class='col-4'>
+                          <img src='$src_image' class='img-fluid rounded-start' >
+                          </div>
+                        <div class='col-8'>
+                          <div class='card-body'>
+                          <h5 class='card-title text-uppercase'>".$product->name."</h5>
+                          <p class='card-text'>View >> </p>
+                        </div></div></div></a></div>";
+                        $html.=    $share_link;
+                    }
+                }
                 $html.="</div><span class='text-black-50'>".$time."</span></div>";
             }else{
-                $html.= "<div class='col-2'></div>";
-                $html.="<div class='col-10 text-wrap rounded-1 border py-1 px-2 bg-light'>";
-                $html.= $chat->message;
+                $html.= "<div class='col-2 mx-auto'></div>";
+                if($chat->message !=null){
+                $html.="<div class='col-auto  text-wrap rounded-1 border py-1 px-2 bg-light'>";
+                    $html.= $chat->message;
+                }else{
+                    $html.="<div class='col-10 rounded-1 border py-1 px-2'>";
+                    $product = Product::find(intval($chat->link));
+                    if(!$product){
+                        $html.= "Not found product";
+                    }else{
+                        $src_image = count($product->Library)>0?"images/products/".$product->Library[0]->image: "images/category/".$product->TypeProduct->image; 
+                        $share_link = "<div class='card my-3' ><a href='".route('products-details',$product->id_product)."'>
+                        <div class='row g-0'>
+                          <div class='col-4'>
+                          <img src='$src_image' class='img-fluid rounded-start' >
+                          </div>
+                        <div class='col-8'>
+                          <div class='card-body'>
+                          <h5 class='card-title text-uppercase'>".$product->name."</h5>
+                          <p class='card-text'>View >> </p>
+                        </div></div></div></a></div>";
+                        $html.=$share_link;
+                    }
+                }
                 $html.="</div>";
             }
             $html.= "</div>";
@@ -1282,11 +1338,50 @@ class TuongController extends Controller
                 $mess->save();
             };
         };
+        if(isset($req['send_link'])){
+            $product_share =Product::find(intval($req['send_link'])); 
+            $new_message->link = $product_share->id_product;
+        }else{
+            $new_message->link = null;
+        }
         $new_message->code_group = $code;
         $new_message->id_user = Auth::user()->id_user;
-        $new_message->message = $req['send_message'];
+        $new_message->message = isset($req['send_message'])?$req['send_message']: null;
         $new_message->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $new_message->save();
-        echo $req['send_message'];
+        if(isset($req['send_link'])){
+            $product_share =Product::find(intval($req['send_link'])); 
+            $new_message->share_link = route('products-details',$product_share->id_product);
+            $new_message->name_product =$product_share->name;
+            $new_message->image = count($product_share->Library)>0?"images/products/". $product_share->Library[0]->image:"images/category/". $product_share->TypeProduct->image;
+        }
+        echo $new_message;
+    }
+    public function remove_allnews(){
+        if(Auth::check() && Auth::user()->admin == '0'){
+            $news = News::where('send_admin', '=', false)->where(function (Builder $query) {
+                $query->where('id_user', '=', Auth::user()->id_user)
+                      ->orWhere('id_user', '=', null);
+                        })->get();
+            foreach($news as $new){
+                if($new->link !='feedback'){
+                    $new->delete();
+                }
+            };
+        }else{
+            $news = News::where('send_admin', '=', true)->get();
+            foreach($news as $new){
+                $new->delete();
+            }
+        }
+        return redirect()->back();
+    }
+    public function model_coupon($code){
+        $coupon = Coupon::where('code','=',$code)->where('status',true)->first();
+        if($coupon){
+            echo $coupon;
+        }else{
+            echo '';
+        };
     }
 }

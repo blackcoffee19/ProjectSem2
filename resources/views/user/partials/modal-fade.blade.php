@@ -60,7 +60,7 @@
                   </button>
                 </div>
                 <div class="col-md-4 col-5">
-                  <a class="btn btn-light compare_product" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare"  data-bs-product="">
+                  <a class="btn btn-light" id="compare_product2" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare"  >
                     <i class="bi bi-arrow-left-right"></i>
                   </a>
                   <a class="btn btn-light {{Auth::check()? 'addFav':''}}" id="modal_Fav"
@@ -118,7 +118,7 @@
         <div class="toast-body" style="padding:10px">
           <div class="row">
             <div class="col-2 mb-2 mx-auto">
-              <i class="bi bi-lightbulb " style="color: #f5c211; font-size: 1.3rem"></i>
+              <i class="bi bi-lightbulb " style="color: #f5c211; font-size: 1.7rem"></i>
             </div>
             <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" id="messCompare"></h4>
           </div>
@@ -195,7 +195,7 @@
           <div class="col-2 mb-3 mx-auto">
             <i class="bi bi-exclamation-triangle"  style="color: #c2732e; font-size: 2.3rem"></i>
           </div>
-          <h5 class="text-center text-capitalize" style="font-family: 'Quicksand', sans-serif;" >Sorry Manager cannot use this feature.<br>Change to normal account to do this</h5>
+          <h5 class="text-center text-capitalize" style="font-family: 'Quicksand', sans-serif;" >Sorry Admin and Manager cannot use this feature.<br>Change to normal account to do this</h5>
         </div>
       </div>
   </div>
@@ -604,6 +604,26 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary m-3 px-3 h4"  id="confirm_paypal">Pay $<span class="totalPay"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Coupon-->
+<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="couponModalLabel">Promotion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+        <h1 id="coupon_title_modal"></h1>
+        <p class="fs-3">Maximum used: <span class="text-danger fs-3" id="max_coupon"></span></p>
+        <div class="input-group my-3 w-50">
+          <input type="text" class="form-control" id="code_coupon_modal" disabled>
+          <button class="input-group-text fs-4" id="coupon_clipboard"><i class="bi bi-clipboard"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>

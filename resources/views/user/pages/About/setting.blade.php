@@ -31,8 +31,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             @if (Auth::user()->avatar)
-                                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}" alt=""
-                                                    class="img-thumbnail w-50">
+                                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}"
+                                                    alt="" class="img-thumbnail w-50">
                                             @else
                                                 <span class="text-muted">No Image</span>
                                             @endif
@@ -172,7 +172,7 @@
                         success: function(data) {
                             if (data == "Accept") {
                                 if ($('input[name="current_password"]').hasClass(
-                                    'is-invalid')) {
+                                        'is-invalid')) {
                                     $('input[name="current_password"]').removeClass(
                                         "is-invalid");
                                 }
@@ -225,7 +225,7 @@
                     $(this).addClass('is-invalid');
                     $('#invalidPass').html(
                         'Password must contains at least 1 number, 1 normal character and min length 8 characters'
-                        ).addClass('text-danger');
+                    ).addClass('text-danger');
                     $('#changePassword').attr('disabled', 'disabled');
                 };
             });

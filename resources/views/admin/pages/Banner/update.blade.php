@@ -2,41 +2,40 @@
 @section('admin-content')
     <main>
         <div class="container">
+            <!-- row -->
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Banner</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Banners</li>
-                                <li class="breadcrumb-item active" aria-current="page">Update</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Edit Banner</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Update</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminBanners') }}" class="btn btn-light">Back To Banner</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- row -->
-            <div class="row ">
-                <div class="col-xl-12 col-12 mb-5">
-                    <!-- card -->
-                    <div class="card h-100 card-lg">
-                        <!-- card body -->
+            <form action="{{ route('adminUpdateBanners', $id_banner) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="row ">
+                    <div class="col-xl-12 col-12 mb-5">
+                        <!-- card -->
                         <div class="card h-100 card-lg">
-                            <div class="card-body p-6"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <a href="{{ Route('adminBanners') }}">
-                                        <button class="btn btn-primary">Back To Banner</button>
-                                    </a>
-                                </div>
-                                <br>
-                                <form action="{{ route('adminUpdateBanners', $id_banner) }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
+                            <!-- card body -->
+                            <div class="card h-100 card-lg p-6">
+                                <div class="card-body"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
                                     <div class="row">
                                         <div class="col-6">
                                             <div>
@@ -75,7 +74,7 @@
                                                     </div>
                                                     <br>
                                                     <span style="color:red">* Vui lòng chọn ảnh có kích thước 781 x
-                                                        300</span>
+                                                        300 px</span>
                                                 @else
                                                     <div class="rounded"
                                                         style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center; height: 526px; width: 376px; padding-top: 150px; padding-left: 30px; "
@@ -107,8 +106,8 @@
                                                         </div>
                                                     </div>
                                                     <br>
-                                                    <span style="color:red">* Vui lòng chọn ảnh có kích thước 526px x
-                                                        376px</span>
+                                                    <span style="color:red">* Vui lòng chọn ảnh có kích thước 526 x
+                                                        376 px</span>
                                                 @endif
                                                 <br>
                                                 <br>
@@ -129,20 +128,20 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
-                                                        id="colorTitle" oninput="changeColor()" name="title_color">
+                                                        id="colorTitle" oninput="changeColor()" name="title_color"
+                                                        value="{{ $id_banner->title_color }}">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                                 <h3>Content</h3>
                                                 <div class="col-6">
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $id_banner->content }}" id="textContent"
-                                                        oninput="changeText()" name="content">
+                                                    <textarea type="text" class="form-control"id="textContent" oninput="changeText()" name="content">{{ $id_banner->content }}</textarea>
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
-                                                        id="colorContent" oninput="changeColor()" name="content_color">
+                                                        id="colorContent" oninput="changeColor()" name="content_color"
+                                                        value="{{ $id_banner->content_color }}">
                                                 </div>
                                             </div>
                                             <hr>
@@ -157,11 +156,12 @@
                                                     <div style="float:left;">
                                                         <input type="color" class="form-control form-control-color"
                                                             id="colorBackgroundButton" oninput="changeColor()"
-                                                            name="btn_bg_color">
+                                                            name="btn_bg_color" value="{{ $id_banner->btn_bg_color }}">
                                                     </div>
                                                     <div>
                                                         <input type="color" class="form-control form-control-color"
-                                                            id="colorButton" oninput="changeColor()" name="btn_color">
+                                                            id="colorButton" oninput="changeColor()" name="btn_color"
+                                                            value="{{ $id_banner->btn_color }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,23 +169,54 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <h3>Link</h3>
-                                                    <input type="text" class="form-control" placeholder="Link"
-                                                        name="link">
+                                                    <select name="link" class="form-control" required
+                                                        id="link-select">
+                                                        {{-- <option value=""selected>-- Select Type --</option> --}}
+                                                        <option value="{{ $id_banner->link }}"
+                                                            {{ $id_banner->link == $id_banner->id_banner ? 'selected' : '' }}>
+                                                            {{ $id_banner->link }}
+                                                        </option>
+                                                        <option value="">Home</option>
+                                                        <option value="user.pages.Products.index">All Product</option>
+                                                        <option value="category">Category By ID</option>
+                                                        <option value="products">Product By ID</option>
+                                                    </select>
+                                                </div>
+                                                <div id="attr-div" class="col-6" style="display:none;">
+                                                    <h3>Attr</h3>
+                                                    <input type="text" class="form-control" placeholder="attr"
+                                                        name="attr">
                                                 </div>
                                             </div>
+
+                                            <script>
+                                                // Lấy phần tử select box
+                                                var selectBox = document.getElementById("link-select");
+
+                                                // Thêm sự kiện onchange cho select box
+                                                selectBox.addEventListener("change", function() {
+                                                    // Lấy giá trị được chọn
+                                                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                                                    // Nếu giá trị là 'category' hoặc 'products'
+                                                    if (selectedValue === "category" || selectedValue === "products") {
+                                                        // Hiển thị phần tử chứa đoạn mã HTML
+                                                        document.getElementById("attr-div").style.display = "block";
+                                                    } else {
+                                                        // Ẩn phần tử chứa đoạn mã HTML
+                                                        document.getElementById("attr-div").style.display = "none";
+                                                    }
+                                                });
+                                            </script>
+
                                         </div>
                                     </div>
-                                    <br>
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <button type="submit" class="btn btn-info">Save</button>
-                                    </div>
-                                </form>
+                                </div>
+                                <button type="submit" class="btn btn-info" style="100%">Save</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </main>
     <script>
@@ -248,5 +279,7 @@
             button1.style.color = inputColor.value;
             button2.style.color = inputColor.value;
         }
+
+        // ---------------------
     </script>
 @endsection

@@ -39,8 +39,9 @@ class IndexController extends Controller
         $prods = Product::where('id_type', $id_type)->get();
         $rate = Comment::all(); 
         $type = TypeProduct::find($id_type);
-
-        return view('user.pages.Products.index', compact( 'type','prods','rate'));
+        $cats = TypeProduct::all();
+        
+        return view('user.pages.Products.index', compact( 'type','prods','rate','cats'));
     }
 
     public function product_detail($id = null)

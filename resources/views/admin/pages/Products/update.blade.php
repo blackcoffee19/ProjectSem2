@@ -13,10 +13,10 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">
-                                        <a href="#" class="text-inherit">Dashboard</a>
+                                        <a href="{{route('dashboard')}}" class="text-inherit">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="#" class="text-inherit">Products</a>
+                                        <a href="{{ Route('adminProduct') }}" class="text-inherit">Products</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Edit Product
@@ -48,11 +48,22 @@
                                         @if (Session::has('error'))
                                             <div class="alert alert-danger">{{Session::get('error')}}</div>
                                         @endif
+                                        @if (Session::has('error'))
+                                            <div class="alert alert-danger">{{Session::get('error')}}</div>
+                                        @endif
                                         <div class="card-body">
                                             <form method="POST" action="{{ route('adminUpdateProduct', $id_product) }}"
                                                 enctype="multipart/form-data">
                                                 @csrf
-                                                @method('PUT')
+                                                {{-- @method('PUT') --}}
+                                                <div class="form-group row mt-3">
+                                                    <label for="name"
+                                                        class="col-md-4 col-form-label text-md-right">Status</label>
+                                                    <div class="form-check form-switch mb-4 col-md-6 " >
+                                                        <input class="form-check-input ms-5" type="checkbox" role="switch" id="flexSwitchStock" name="status" checked>
+                                                        <label class="form-check-label ms-3" for="flexSwitchStock">Active</label>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group row mt-3">
                                                     <label for="name"
                                                         class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
@@ -82,7 +93,7 @@
                                                             {{-- <option value="">-- Select Type --</option> --}}
                                                             @foreach ($types as $type)
                                                                 <option value="{{ $type->id_type }}"
-                                                                     {{$id_product->typeproduct->id_product == $type->id_type? "selected":'' }}>
+                                                                     {{$id_product->TypeProduct->id_type == $type->id_type? "selected":'' }}>
                                                                     {{ $type->type }}</option>
                                                             @endforeach
                                                         </select>
@@ -272,9 +283,15 @@
                 }
             }
         });
+        $("#flexSwitchStock").change(function(){
+            if($(this).is(':checked')){
+                $(this).next().html('Active');
+            }else{
+                $(this).next().html('Deactivate');
+            }
+        })
         $("input[name='name']").on('focusout',function(e){
             e.preventDefault();
-            console.log($(this).val().trim());
             if($(this).val().trim().length == 0){
                 $(this).val('{{$id_product->name}}');
             }

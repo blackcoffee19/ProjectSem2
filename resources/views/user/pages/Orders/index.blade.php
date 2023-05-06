@@ -33,8 +33,11 @@
                                             <li class="list-group-item py-3 py-lg-0 px-0 border-top">
                                                 <div class="row align-items-center">
                                                     <div class="col-3 col-md-2">
-                                                        <img src="{{ asset('images/products/' . $cart->Product->Library[0]->image) }}"
-                                                            alt="Ecommerce" class="img-fluid">
+                                                        @if (count($cart->Product->Library)>0)
+                                                        <img src="{{ asset('images/products/'.$cart->Product->Library[0]->image) }}" alt="Ecommerce" class="img-fluid">
+                                                        @else
+                                                        <img src="{{ asset('images/category/'.$cart->Product->TypeProduct->image) }}" alt="Ecommerce" class="img-fluid">
+                                                        @endif
                                                     </div>
                                                     <div class="col-3 col-md-2">
                                                         <a href="{{ route('products-details', $cart->id_product) }}"

@@ -12,14 +12,14 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Order Single</li>
                                 </ol>
                             </nav>
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="{{ Route('adminOrder') }}" class="btn btn-primary">Back to all orders</a>
+                            <a href="{{ Route('adminOrder') }}" class="btn btn-light">Back to all orders</a>
                         </div>
 
                     </div>
@@ -35,7 +35,9 @@
                                 <div class="d-flex align-items-center mb-2 mb-md-0">
                                     <h2 class="mb-0">
                                         Order ID: #{{ $id_order->id_order }}
-                                        <span style="padding-left: 50px">Order Name: {{ $id_order->order_code }}</span>
+                                        <span style="padding-left: 50px">
+                                            <h2>Order Name: {{ $id_order->order_code }}</h2>
+                                        </span>
                                     </h2>
                                     {{-- <span class="badge bg-light-warning text-dark-warning ms-2">Pending</span> --}}
                                     <span style="padding-left: 50px">
@@ -73,13 +75,13 @@
                                     </span>
                                 </div>
                                 <!-- select option -->
-                                <div class="d-md-flex">
+                                {{-- <div class="d-md-flex">
                                     <!-- button -->
                                     <div class="ms-md-3">
                                         <a href="#" class="btn btn-primary">Save</a>
                                         <a href="#" class="btn btn-secondary">Download Invoice</a>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="mt-8">
                                 <div class="row">
@@ -108,8 +110,8 @@
                                             <p class="mb-1 lh-lg">Order ID: <span
                                                     class="text-dark">{{ $id_order->id_order }}</span><br>
                                                 Order Date: <span class="text-dark">{{ $id_order->created_at }}</span><br>
-                                                Shipping Fee: <span class="text-dark">$
-                                                    {{ $id_order->shipping_fee }}</span><br>
+                                                Shipping Fee: <span class="text-dark">
+                                                    {{ number_format($id_order->shipping_fee), 0 }} đ</span><br>
                                                 Coupon: <span class="text-dark">
                                                     @if ($id_order->code_coupon != null)
                                                         {{ $id_order->code_coupon }}
@@ -141,6 +143,8 @@
                                         <tbody>
                                             <span style="color:white">{{ $total = 0 }}</span>
                                             @foreach ($cartItems as $item)
+                                                <span
+                                                    style="color:white">{{ $prices = $item->product->price - ($item->product->price * $item->product->sale) / 100 }}</span>
                                                 <tr>
                                                     <td>
                                                         <a href="{{ route('products-details', $item->id_product) }}">
@@ -151,12 +155,15 @@
                                                                 style="padding-left: 50px">{{ $item->product->name }}</span>
                                                         </a>
                                                     </td>
-                                                    <td><span class="text-body">${{ $item->price }}</span></td>
-                                                    <td>{{ $item->amount }}</td>
-                                                    <td>$ {{ $item->price * $item->amount }}</td>
+                                                    <td><span class="text-body">
+                                                            {{ number_format($prices), 0 }}
+                                                            đ/kg
+                                                        </span></td>
+                                                    <td>{{ $item->amount }} g</td>
+                                                    <td>{{ number_format(($prices / 1000) * $item->amount), 0 }} đ</td>
                                                 </tr>
                                                 <span
-                                                    style="color:white">{{ $total += $item->price * $item->amount }}</span>
+                                                    style="color:white">{{ $total += ($prices / 1000) * $item->amount }}</span>
                                             @endforeach
 
                                             <tr>
@@ -168,7 +175,7 @@
                                                 </td>
                                                 <td class="fw-medium text-dark ">
                                                     <!-- text -->
-                                                    <strong class="text-primary">$ {{ $total }}</strong>
+                                                    <strong class="text-primary">{{ number_format($total), 0 }} đ</strong>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -180,7 +187,9 @@
                                                 </td>
                                                 <td class="fw-medium text-dark  ">
                                                     <!-- text -->
-                                                    <strong class="text-primary">$ {{ $id_order->shipping_fee }}</strong>
+                                                    <strong
+                                                        class="text-primary">{{ number_format($id_order->shipping_fee), 0 }}
+                                                        đ</strong>
                                                 </td>
                                             </tr>
 
@@ -195,9 +204,9 @@
                                                     <!-- text -->
                                                     <strong class="text-danger">
                                                         @if ($id_order->code_coupon != null)
-                                                            $ -{{ $id_order->coupon->discount }}
+                                                            -{{ number_format($id_order->coupon->discount), 0 }} đ
                                                         @else
-                                                            $ 0
+                                                            0 đ
                                                         @endif
                                                     </strong>
                                                 </td>
@@ -214,10 +223,10 @@
                                                     <!-- text -->
                                                     <h5 class="text-info">
                                                         @if ($id_order->code_coupon != null)
-                                                            $
-                                                            {{ $total + $id_order->shipping_fee - $id_order->coupon->discount }}
+                                                            {{ number_format($total + $id_order->shipping_fee - $id_order->coupon->discount), 0 }}
+                                                            đ
                                                         @else
-                                                            $ {{ $total + $id_order->shipping_fee }}
+                                                            {{ number_format($total + $id_order->shipping_fee), 0 }} đ
                                                         @endif
 
                                                     </h5>

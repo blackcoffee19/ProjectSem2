@@ -1,4 +1,11 @@
 @extends('admin.partials.master')
+<style>
+    .error-message {
+        color: red;
+        padding: 5px;
+        margin-top: 5px;
+    }
+</style>
 @section('admin-content')
     <main>
         <div class="container">
@@ -30,6 +37,13 @@
                 @csrf
                 @method('PUT')
                 <div class="row ">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }} <br>
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="col-xl-12 col-12 mb-5">
                         <!-- card -->
                         <div class="card h-100 card-lg">
@@ -98,5 +112,38 @@
                 </div>
             </form>
         </div>
+        <script>
+            var discountInput = document.querySelector('input[name="discount"]');
+            var maxInput = document.querySelector('input[name="max"]');
+
+            discountInput.addEventListener('blur', function() {
+                validateInput(discountInput);
+            });
+
+            maxInput.addEventListener('blur', function() {
+                validateInput(maxInput);
+            });
+
+            function validateInput(inputElement) {
+                var inputValue = parseFloat(inputElement.value);
+                var errorMessage = inputElement.parentNode.querySelector('.error-message');
+                if (inputValue <= 0) {
+                    if (errorMessage) {
+                        errorMessage.innerHTML = inputElement.name + ' phải lớn hơn 0 và không được âm';
+                    } else {
+                        errorMessage = document.createElement('div');
+                        errorMessage.innerHTML = inputElement.name + ' phải lớn hơn 0 và không được âm';
+                        errorMessage.classList.add('error-message');
+                        inputElement.parentNode.appendChild(errorMessage);
+                    }
+                    inputElement.classList.add('is-invalid');
+                } else {
+                    if (errorMessage) {
+                        errorMessage.remove();
+                    }
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
+        </script>
     </main>
 @endsection

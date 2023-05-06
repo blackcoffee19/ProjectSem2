@@ -77,8 +77,14 @@
                                             <p class="mb-4" style="color:{{ $banner->content_color }}">
                                                 {{ $banner->content }}
                                             </p>
-                                            <a href="#!" class="btn"
-                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}</a>
+                                            <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                                class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -214,9 +220,14 @@
                                         {{ $banners[2]->title }}
                                     </h3>
                                     <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
-                                    <a class="btn "
-                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin-top: 160px;">{{ $banners[2]->btn_content }}<i
-                                            class="feather-icon icon-arrow-right ms-1"></i></a>
+                                    <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                        class="btn"
+                                        style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                    </a>
                                 </div>
                             </div>
                         </div>

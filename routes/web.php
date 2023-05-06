@@ -40,7 +40,7 @@ Route::get('/contact', [App\Http\Controllers\User\UserController::class, 'Contac
 Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchPrice'])->name('product.searchPrice');
 Route::get('/product.findByNamePro', [App\Http\Controllers\User\UserController::class, 'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
-Route::get('/user.pages.Products.index/{type_name?}/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
+// Route::get('/user.pages.Products.index/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
 
 Route::get('/', [TuongController::class, 'home_page'])->name('index');
 Route::get('/cate_pr', [TuongController::class, 'admin_cate'])->name('productList');
@@ -120,10 +120,10 @@ Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
 // =============== START ROUTE USER =============== //
 
 Route::controller(IndexController::class)->group(function () {
-    Route::get('/Category',                     'allProduct')->name('allProduct');
-    Route::get('/products-details/{id?}',        'product_detail')->name('products-details');
+    Route::get('/category',                     'allProduct')->name('allProduct');
+    Route::get('/products/{id?}',               'product_detail')->name('products-details');
     Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
-    Route::get('/category/{type}', [IndexController::class, 'categoryById'])->name('userShowProductCatagory');
+    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
 });
 
 
@@ -216,3 +216,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 // =============== 404 Page ===================== //
 Route::get('/{path}', [TuongController::class, 'get_404'])->where('path', '.*');
 // =============== END 404 Page ===================== //
+
+
+Route::get('/validate-input/{inputName}/{inputValue}', function ($inputName, $inputValue) {
+    $response = array('success' => true);
+
+    // Kiểm tra giá trị của input
+    if ($inputName == 'discount' && $inputValue < 0) {
+        $response = array('success' => false, 'message' => 'Discount không được nhập số âm');
+    }
+    if ($inputName == 'max' && $inputValue < 0) {
+        $response = array('success' => false, 'message' => 'Max không được nhập số âm');
+    }
+
+    return response()->json($response);
+});

@@ -22,3 +22,9 @@ edit file "services.php" from "ProjectSem2\config"
 
 final coupon -> administration 5/5
 
+fix color banner update
+fix link banner update
+fix coupon không được nhập số 0 và số âm
+fix hiển thị id với name trong order Single, ẩn 2 button save, Download Invoice
+
+

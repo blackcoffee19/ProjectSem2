@@ -138,7 +138,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
+    Route::get('/news/order/{code}',[AdminDashboardController::class,'get_orderdetail'])->name('showOrderDetail');
     Route::controller(AdminCategoryController::class)->group(function () {
         Route::get('/category',                       'index')->name('adminCategories');
         Route::get('/category/find-by-name',          'findByName')->name('category.findByName');

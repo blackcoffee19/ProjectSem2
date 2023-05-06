@@ -59,6 +59,7 @@
     <!-- Theme JS -->
     <script src="{{ asset('js/theme.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts.min.js') }}"></script>
+    {{-- <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script> --}}
     {{-- <script src="{{ asset('js/chart.js') }}"></script> --}}
     @include('admin.partials.chart')
     @include('admin.partials.script')

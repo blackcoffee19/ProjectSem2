@@ -105,6 +105,7 @@ class AppServiceProvider extends ServiceProvider
                     }
                     // GET ALL USER MESSAGE TO ADMIN THAT STILL NOT REPLY 
                     $user_mess=  User::whereIn('id_user',Message::select('id_user')->where('code_group','=',null)->distinct()->get())->get();
+                    $num += count($user_mess);
                     $view->with('num_new',$num);
                     $view->with('groups',$groups);
                     $view->with('user_message',$user_mess);

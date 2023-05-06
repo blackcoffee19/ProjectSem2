@@ -4,6 +4,7 @@
     let arr_income = [];
     let arr_expense = [];
     let arr_order =[];
+    let top_product= {route:[],name_product:[],name:'purchase',data:[],'image':[]};
     @foreach($income as $key=> $ic)
         arr_income.push(({{$ic}}/1000).toFixed(2));
     @endforeach
@@ -14,7 +15,14 @@
         arr_order.push({{$or}})
     }
     @endforeach
-    
+    @foreach ($hot_product as $key=>$hp)
+    var name = '{{$hp->name_product}}';
+    var data = {{$hp->number}};
+    top_product['data'].push(data);
+    top_product['name_product'].push(name);
+    top_product['route'].push('{{$hp->route}}');
+    top_product['image'].push('{{$hp->image}}');
+    @endforeach
 window.theme=theme,function(){
     var e;
     $("#revenueChart").length&&(
@@ -105,7 +113,66 @@ window.theme=theme,function(){
             }]
         },
         new ApexCharts(document.querySelector("#totalSale"),e).render()
+    ),
+    $("#top_product").length&&(
+        e={
+            series:[top_product],
+            chart: {
+                height: 350,
+                type: 'bar',
+                events: {
+                    click: function(chart, w, config) {
+                        var ix = config.dataPointIndex;
+                        window.location.assign(top_product['route'][ix]);
+                    }
+                },
+                toolbar: {
+                    show:false
+                }
+            },
+            colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800'],
+            plotOptions: {
+                bar: {
+                    columnWidth: '55%',
+                    distributed: true,
+                    dataLabels: {
+                        position: 'top',
+                    }
+                },
+                formatter: {
+                    enabled: true,
+                    style: {
+                        colors: ['#333']
+                    },
+                    offsetX: 0,
+                },
+                
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            legend: {
+                show: false
+            },
+            xaxis: {
+                categories: top_product['name_product'],
+                labels: {
+                    style: {
+                    colors: '#8B75D7',
+                    fontSize: '13px'
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Time Order'
+                }
+            }
+        },
+        new ApexCharts(document.querySelector("#top_product"),e).render()
+        
     )
 }();
 @endif
+
 </script>

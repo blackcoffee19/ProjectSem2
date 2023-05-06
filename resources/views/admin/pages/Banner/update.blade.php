@@ -141,7 +141,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
-                                                        id="colorContent" oninput="changeColor()" name="content_color">
+                                                        id="colorContent" oninput="changeColor()" name="content_color" value="{{$id_banner->btn_color}}">
                                                 </div>
                                             </div>
                                             <hr>
@@ -156,11 +156,11 @@
                                                     <div style="float:left;">
                                                         <input type="color" class="form-control form-control-color"
                                                             id="colorBackgroundButton" oninput="changeColor()"
-                                                            name="btn_bg_color">
+                                                            name="btn_bg_color" value="{{$id_banner->btn_bg_color}}">
                                                     </div>
                                                     <div>
                                                         <input type="color" class="form-control form-control-color"
-                                                            id="colorButton" oninput="changeColor()" name="btn_color">
+                                                            id="colorButton" oninput="changeColor()" name="btn_color" value="{{$id_banner->btn_color}}">
                                                     </div>
                                                 </div>
                                             </div>

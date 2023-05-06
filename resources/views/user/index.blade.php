@@ -209,13 +209,13 @@
                         <div class="col">
                             <div class="px-xl-8 rounded"
                                 style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 168px; padding-left: 30px;">
-                                <div>
+                                <div class="d-flex flex-column justify-content-start flex-wrap h-75 align-items-baseline">
                                     <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
                                         {{ $banners[2]->title }}
                                     </h3>
                                     <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
                                     <a class="btn "
-                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin-top: 160px;">{{ $banners[2]->btn_content }}<i
+                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin:auto 0 ;">{{ $banners[2]->btn_content }}<i
                                             class="feather-icon icon-arrow-right ms-1"></i></a>
                                 </div>
                             </div>

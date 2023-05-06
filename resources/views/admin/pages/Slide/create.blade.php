@@ -95,9 +95,7 @@
                                                         <h3>Content</h3>
                                                         <div class="row">
                                                             <div class="col-10">
-                                                                <input type="text" class="form-control"
-                                                                    value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, fuga?"
-                                                                    id="content_text" oninput="changeText()" name="content">
+                                                                <textarea type="text" class="form-control" id="content_text" oninput="changeText()" name="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, fuga?</textarea>
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"

@@ -136,9 +136,7 @@
                                             <div class="row">
                                                 <h3>Content</h3>
                                                 <div class="col-6">
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $id_banner->content }}" id="textContent"
-                                                        oninput="changeText()" name="content">
+                                                    <textarea type="text" class="form-control"id="textContent" oninput="changeText()" name="content">{{ $id_banner->content }}</textarea>
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"

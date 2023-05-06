@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 04, 2023 lúc 04:29 AM
+-- Thời gian đã tạo: Th5 06, 2023 lúc 06:35 AM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.2.0
 
@@ -67,7 +67,7 @@ CREATE TABLE `banner` (
   `btn_content` varchar(20) DEFAULT NULL,
   `btn_bg_color` varchar(7) NOT NULL DEFAULT '#000000',
   `btn_color` varchar(7) NOT NULL DEFAULT '#ffffff',
-  `link` varchar(40) DEFAULT NULL,
+  `link` varchar(100) DEFAULT NULL,
   `attr` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -78,9 +78,9 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id_banner`, `image`, `title`, `title_color`, `content`, `content_color`, `btn_content`, `btn_bg_color`, `btn_color`, `link`, `attr`, `created_at`, `updated_at`) VALUES
-(1, 'grocery-banner.png', 'Lễ hội trái cây lớn nhất trong năm', '#2b00ff', 'Giảm giá lên đến 40%', '#ffbb00', 'Mua ngay', '#ffffff', '#00d5ff', NULL, '0', NULL, '2023-05-02 12:40:13'),
-(2, 'grocery-banner-2.jpg', 'Sầu Riêng Mới Nhập Kho', '#00ff2a', 'Giảm giá lên đến 50%', '#00aaff', 'Shop Now', '#1eff00', '#004cff', NULL, '1', NULL, '2023-05-02 12:42:00'),
-(3, 'banner-deal.jpg', '100% Organic Stawberry', '#FFFFFF', 'Get the best deal before close.', '#FFFFFF', 'Shop Now', '#099309', '#000000', 'userShowProductCatagory', '1', NULL, NULL);
+(1, 'grocery-banner.png', 'Bắp siêu ngon siêu nhiều hạt', '#dbac00', 'Giảm giá sâu lên đến 50% cho 2 loại, bắp Mỹ và bắp Nếp', '#000000', 'Click nhanh', '#ff0000', '#ffffff', 'user.pages.Products.index', NULL, NULL, '2023-05-05 20:19:39'),
+(2, 'grocery-banner-2.jpg', 'Sầu riêng Miền Tây bao ngon', '#7c83de', 'Giảm giá lên đến 50%', '#000000', 'Click mua', '#ffffff', '#ff00dd', 'products', '16', NULL, '2023-05-05 19:46:29'),
+(3, 'vai-thieu-1.jpg', 'Vải thiều đặc sản siêu ngon', '#000000', 'Giảm giá 40%', '#000000', 'Shop Now', '#ff0000', '#ffffff', 'products', '19', NULL, '2023-05-05 19:57:05');
 
 -- --------------------------------------------------------
 
@@ -436,8 +436,7 @@ INSERT INTO `cart` (`id_cart`, `order_code`, `id_user`, `id_product`, `price`, `
 (329, NULL, 4, 12, 18000, 45, 600, '2023-04-30 23:00:00', NULL),
 (330, NULL, 4, 16, 220000, 10, 900, '2023-04-30 23:00:00', NULL),
 (331, NULL, 2, 16, 220000, 10, 460, '2023-04-30 23:00:00', NULL),
-(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL),
-(335, NULL, 9, 26, 330000, 1, 200, '2023-05-03 10:58:47', '2023-05-03 10:58:47');
+(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -734,11 +733,12 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`id_coupon`, `title`, `code`, `discount`, `max`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'New Member', 'NEWMEM', 5000, 1, 1, '2022-01-28 17:00:00', NULL),
+(1, 'New Member', 'NEWMEM', 40, 1, 1, '2022-01-28 17:00:00', NULL),
 (2, 'Wednesday', 'WEDNESDAY22', 50, 1, 0, '2022-11-22 17:00:00', NULL),
 (3, 'Merry Chirstmast', 'MARRYCHIRT', 20, 1, 0, '2022-12-23 17:00:00', NULL),
 (4, 'Free Ship', 'FREESHIP423', 20000, 3, 1, '2023-03-31 17:00:00', NULL),
-(5, 'Free Ship', 'FREESHIP522', 20000, 3, 0, '2022-04-30 17:00:00', NULL);
+(5, 'Free Ship', 'FREESHIP522', 20000, 3, 0, '2022-04-30 17:00:00', NULL),
+(6, 'Happy May', 'MAYBE', 50, 3, 1, '2023-04-30 17:00:00', '2023-05-05 20:56:49');
 
 -- --------------------------------------------------------
 
@@ -930,6 +930,10 @@ CREATE TABLE `library` (
 --
 
 INSERT INTO `library` (`id_lib`, `id_product`, `image`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Corn_1.jpg', NULL, NULL),
+(2, 1, 'Corn_2.jpg', NULL, NULL),
+(3, 1, 'Corn_3.jpg', NULL, NULL),
+(4, 1, 'Corn_4.jpg', NULL, NULL),
 (5, 2, 'calabash_1.jpg', NULL, NULL),
 (6, 2, 'calabash_2.jpg', NULL, NULL),
 (7, 2, 'calabash_3.jpg', NULL, NULL),
@@ -1045,9 +1049,7 @@ INSERT INTO `library` (`id_lib`, `id_product`, `image`, `created_at`, `updated_a
 (117, 30, 'Buffalo_1.jpg', NULL, NULL),
 (118, 30, 'Buffalo_2.jpg', NULL, NULL),
 (119, 30, 'Buffalo_3.jpg', NULL, NULL),
-(120, 30, 'Buffalo_4.jpg', NULL, NULL),
-(121, 1, 'Corn_1.jpg', '2023-05-02 11:46:42', '2023-05-02 11:46:42'),
-(122, 1, 'Corn_2.jpg', '2023-05-02 11:46:42', '2023-05-02 11:46:42');
+(120, 30, 'Buffalo_4.jpg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1058,7 +1060,8 @@ INSERT INTO `library` (`id_lib`, `id_product`, `image`, `created_at`, `updated_a
 CREATE TABLE `message` (
   `id_message` bigint(20) UNSIGNED NOT NULL,
   `code_group` varchar(10) DEFAULT NULL,
-  `message` varchar(200) NOT NULL,
+  `message` varchar(200) DEFAULT NULL,
+  `link` bigint(20) UNSIGNED DEFAULT NULL,
   `id_user` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1068,19 +1071,19 @@ CREATE TABLE `message` (
 -- Đang đổ dữ liệu cho bảng `message`
 --
 
-INSERT INTO `message` (`id_message`, `code_group`, `message`, `id_user`, `created_at`, `updated_at`) VALUES
-(1, 'UCT27', 'How long does it take you to import new vegetables?', 2, '2023-03-28 17:00:00', NULL),
-(2, 'UCT27', 'about 2-3 weeks', 7, '2023-03-29 20:00:00', NULL),
-(3, 'UCT27', 'Ok thanks', 2, '2023-03-30 02:00:00', NULL),
-(4, 'UCT27', 'Is anyone here?', 2, '2023-04-12 02:00:00', NULL),
-(5, 'UCT27', 'Yes, How can I help you?', 7, '2023-04-12 04:00:00', NULL),
-(6, 'UCT31', 'Why is buffalo meat so expensive?', 3, '2023-04-29 17:00:00', NULL),
-(7, 'UCT31', 'Sorry our buffalo meat is high quality', 1, '2023-04-29 18:33:00', NULL),
-(8, 'UCT48', 'Hi', 4, '2023-03-01 17:00:00', NULL),
-(9, 'UCT48', 'How can I help you?', 8, '2023-03-01 19:00:00', NULL),
-(10, NULL, 'Do you have octopus?', 3, '2023-05-01 04:00:00', NULL),
-(11, NULL, 'do you have shrimps??', 5, '2023-05-02 11:32:49', NULL),
-(12, NULL, 'Do you have no eggs?', 6, '2023-05-02 11:32:49', NULL);
+INSERT INTO `message` (`id_message`, `code_group`, `message`, `link`, `id_user`, `created_at`, `updated_at`) VALUES
+(1, 'UCT27', 'How long does it take you to import new vegetables?', NULL, 2, '2023-03-28 17:00:00', NULL),
+(2, 'UCT27', 'about 2-3 weeks', NULL, 7, '2023-03-29 20:00:00', NULL),
+(3, 'UCT27', 'Ok thanks', NULL, 2, '2023-03-30 02:00:00', NULL),
+(4, 'UCT27', 'Is anyone here?', NULL, 2, '2023-04-12 02:00:00', NULL),
+(5, 'UCT27', 'Yes, How can I help you?', NULL, 7, '2023-04-12 04:00:00', NULL),
+(6, 'UCT31', 'Why is buffalo meat so expensive?', NULL, 3, '2023-04-29 17:00:00', NULL),
+(7, 'UCT31', 'Sorry our buffalo meat is high quality', NULL, 1, '2023-04-29 18:33:00', NULL),
+(8, 'UCT48', 'Hi', NULL, 4, '2023-03-01 17:00:00', NULL),
+(9, 'UCT48', 'How can I help you?', NULL, 8, '2023-03-01 19:00:00', NULL),
+(10, NULL, 'Do you have octopus?', NULL, 3, '2023-05-01 04:00:00', NULL),
+(11, NULL, 'do you have shrimps??', NULL, 5, '2023-05-04 09:28:56', NULL),
+(12, NULL, 'Do you have no eggs?', NULL, 6, '2023-05-04 09:28:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -1149,8 +1152,8 @@ INSERT INTO `news` (`id_news`, `order_code`, `title`, `id_user`, `link`, `attr`,
 (5, 'USR2_4', 'How do you think about your order?', 2, 'feedback', 'USR2_4', 0, '2023-04-30 17:00:00', NULL),
 (6, 'USR3_16', 'Order Cancel', 3, 'USR3_2', NULL, 1, '2023-04-18 04:00:00', NULL),
 (7, 'GUT_47', 'Order Transaction Failed', NULL, 'GUT_47', NULL, 1, '2023-05-01 01:00:00', NULL),
-(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-02 11:32:48', NULL),
-(9, NULL, 'Please take the last step to activate account', 9, 'accountsetting', NULL, 0, '2023-05-02 12:53:36', '2023-05-02 12:53:36');
+(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-04 09:28:55', NULL),
+(9, NULL, 'We have a gift for you', NULL, 'show_coupon', 'MAYBE', 0, '2023-05-04 09:28:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -1390,7 +1393,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_product`, `name`, `id_type`, `status`, `quantity`, `description`, `price`, `sale`, `created_at`, `updated_at`) VALUES
-(1, 'Corn', 1, 1, 5000, 'Maize or corn or sheath (two parts nomenclature: Zea mays L. ssp. mays) is a food crop that was domesticated in Central America and then spread throughout the Americas. Maize spread to the rest of the world after European contact with the Americas in the late 15th and early 16th centuries. Maize is the most widely grown food crop in the Americas (in the Americas alone). In the United States, production is already about 270 million tons per year). Hybrid maize varieties are preferred by farmers over conventional maize varieties due to their high yield and hybrid advantages. While some varieties of maize can grow up to 7 m (23 ft) tall in some places,[1] commercial varieties of maize have been produced with a height of only about 2.5 m (8 ft). Sweet corn (Zea mays var. rugosa or Zea mays var. saccharata) is generally lower than that of other varieties.', 12000, 10, '2022-01-28 17:00:00', '2023-05-02 11:46:42'),
+(1, 'Corn', 1, 1, 5000, 'Maize or corn or sheath (two parts nomenclature: Zea mays L. ssp. mays) is a food crop that was domesticated in Central America and then spread throughout the Americas. Maize spread to the rest of the world after European contact with the Americas in the late 15th and early 16th centuries. Maize is the most widely grown food crop in the Americas (in the Americas alone). In the United States, production is already about 270 million tons per year). Hybrid maize varieties are preferred by farmers over conventional maize varieties due to their high yield and hybrid advantages. While some varieties of maize can grow up to 7 m (23 ft) tall in some places,[1] commercial varieties of maize have been produced with a height of only about 2.5 m (8 ft). Sweet corn (Zea mays var. rugosa or Zea mays var. saccharata) is generally lower than that of other varieties.', 12000, 10, '2022-01-28 17:00:00', NULL),
 (2, 'calabash', 1, 1, 4000, '\n                Herbaceous vines have branched tendrils, covered with many soft white hairs. Leaves are broad, heart-shaped, not lobed or widely lobed, with white velvety hairs; The peduncle has 2 glands at the apex. The flowers are unisexual at the same base, large, white, with flower stalks up to 20 cm long. Berries are light green or dark green, variegated or round, straight or waist-length, aged rind hardens, white flesh. Seeds white, 1.5 cm long. <br/>\n                A long, cylindrical gourd with smooth green bark <br/>\n                There are many things grown, differing by the shape and size of the fruit, such as:  <br/>\n                - The fruit is cylindrical, long (sometimes up to 1m long), and has a spotted rind (star gourd). <br/>\n                - Has a cylindrical fruit similar to a star gourd, but the rind has no spots. This is the type that is common in Vietnam (see photo below and thumbnail 2). <br/>\n                - There are constriction fruits like wine gourds (Gourd Nam); This type can be used to make water bottles, wine bottles, and gourds. <br/>\n                - Has solid fruit. This is a new variety in Vietnam with high yield and efficiency. People can both sell tops, gourd flowers, and sell fruits <br/>\n                ', 10000, 20, '2022-01-28 17:00:00', NULL),
 (3, 'pumkin', 1, 1, 5000, '\n                Pumpkin or pumpkin (called pumpkin in Southern dialect) is a type of string plant of the genus Cucurbita, family Cucurbitaceae. This is a common name for plants of the following species: Cucurbita pepo, Cucurbita mixta, Cucurbita maxima, and Cucurbita moschata.\n                The origin of the pumpkin is unknown, but many believe that the pumpkin originated in North America. The oldest evidence of pumpkin seeds dating from 7000 to 5500 BC has been found in Mexico. This is the largest fruit in the world.\n                Pumpkins weigh 0.45 kg or more and can weigh up to more than 450 kg, as was the case with an English farmer who planted a fruit that reached 608.3 kg. Pumpkin is spherical or cylindrical, when ripe, it is orange-yellow. The outside is notched and divided into segments. Pumpkin intestines have many seeds. Flat, oval seeds contain a lot of oil. Today\'s heaviest pumpkin was weighed in 2014, 1054 kg\n                ', 18000, 45, '2022-01-28 17:00:00', NULL),
 (4, 'tomato', 1, 1, 4000, 'Tomato (two part nomenclature: Solanum lycopersicum), belonging to the Solanaceae family, is a vegetable for food. The fruit is initially green, turning yellow to red when ripe. Tomatoes have a slightly sour taste and are a nutritious food, good for the body, rich in vitamins C and A, especially rich in healthy lycopene.\n                Tomato belongs to the Ca family, plants in this family usually grow 1 to 3 meters in height, having soft stems that crawl on the ground or vines on other stems, such as grapes. This family of plants is a perennial in its native habitat, but it is now grown as an annual in temperate and tropical climates.\n                ', 16000, 36, '2022-01-28 17:00:00', NULL),
@@ -1452,8 +1455,9 @@ CREATE TABLE `slide` (
 --
 
 INSERT INTO `slide` (`id_slide`, `image`, `title`, `title_color`, `content`, `content_color`, `link`, `btn_content`, `btn_color`, `btn_bg_color`, `attr`, `alert`, `alert_size`, `alert_color`, `alert_bg`, `created_at`, `updated_at`) VALUES
-(1, 'slider_3.jpg', 'Lễ hội trái cây Miền Tây', '#ffffff', '...', '#000000', '', 'Lick ngay', '#ffffff', '#3845ff', NULL, 'Giảm đến 50%', 'fs-6', '#ff0000', '#ffffff', '2023-05-02 11:32:47', '2023-05-03 19:21:30'),
-(2, 'slider-2.jpg', 'Free Shipping', '#000000', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#5C6C75', 'signup', 'Sign Up', '#ffffff', '#000000', NULL, 'Free Shipping For New Member', 'fs-6', '#000000', '#FFC107', '2023-05-02 11:32:47', '2023-05-03 19:26:25');
+(1, 'slide-1.jpg', 'SuperMarket For Fresh Grocery', '#0040ff', 'Introduced a new model for online grocery shopping and convenient home delivery.', '#b3b3b3', 'category', 'Shop Now', '#ff0000', '#fbff00', '1', 'Opening Sale Discount 50%', 'fs-6', '#ff0000', '#ffffff', '2023-05-04 09:28:54', '2023-05-05 21:29:38'),
+(2, 'slider-2.jpg', 'Free Shipping', '#ff00dd', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#209400', 'signup', 'Sign Up', '#ff00ae', '#ffffff', NULL, 'Free Shipping For New Member', 'fs-6', '#ffffff', '#ff0000', '2023-05-04 09:28:54', '2023-05-05 21:26:51'),
+(3, 'slider_33.jpg', 'Tuần lễ trái cây, festival trái cây', '#ffffff', 'Lễ hội trái cây là một lễ hội thường niên hàng năm, với rất nhiều chủng loại trái cây như ổi, xoài, vải v.v...', '#c7c7c7', 'user.pages.Products.index', 'click ngay', '#74ba36', '#ffffff', NULL, 'Giảm giá lên đến 50%', 'fs-6', '#000000', '#ffffff', '2023-05-05 21:16:55', '2023-05-05 21:33:47');
 
 -- --------------------------------------------------------
 
@@ -1516,15 +1520,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `name`, `phone`, `avatar`, `email`, `admin`, `google_id`, `email_verified_at`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '01244345692', 'admin.png', 'admin@gmail.com', '1', NULL, NULL, '$2y$10$huiPKb4V8wrH9arMQEYRieUDbhZ.qFbYJ9xjdyjbdP4Qxoak3gaTG', 1, NULL, '2022-01-22 17:00:00', NULL),
-(2, 'User 1', '01243234568', 'avatar-1.jpg', 'guest1@gmail.com', '0', NULL, NULL, '$2y$10$c..ta66ASuxQtlu8yiIOPeA.89xZy/aO.WvDkdx0cUEOqLrw0rc8K', 1, NULL, '2022-01-28 17:00:00', NULL),
-(3, 'User 2', '01243234666', 'avatar-2.jpg', 'guest2@gmail.com', '0', NULL, NULL, '$2y$10$25qECx.HjCF5CXVeNeM8JeHeKyz7fb8C3uQd1sYUX8uqiEPktj8ni', 1, NULL, '2022-01-29 17:00:00', NULL),
-(4, 'User 3', '09199141036', 'avatar-3.jpg', 'guest3@gmail.com', '0', NULL, NULL, '$2y$10$jbBztU5.GfrXKKb/xw4dtedkkrp1zo1RJuD6kt4j8d5h3RpvPljh2', 1, NULL, '2022-01-30 17:00:00', NULL),
-(5, 'User 4', '09199141135', 'avatar-4.jpg', 'guest4@gmail.com', '0', NULL, NULL, '$2y$10$6fZE0hu6/JXfe9Lljhn9JO9Au28X1u0PWN2H0/JQBoEEwXxGLKf/a', 1, NULL, '2022-01-31 17:00:00', NULL),
-(6, 'User 5', '09199141111', 'avatar-5.jpg', 'guest5@gmail.com', '0', NULL, NULL, '$2y$10$OulI2KssxhboIfmZyoAo7eMzmAophH6X6nkHI8tqg7IP42MqMkBWG', 1, NULL, '2022-02-28 17:00:00', NULL),
-(7, 'Cat Tuong', '0919941037', 'user_0_meme-2.jpg', 'cattuongw2000@gmail.com', '1', NULL, NULL, '$2y$10$.HrtYq0mbs6/Ig3kf4ysZO/JY8drlxozn55id/JJrdrmx7CerIc0.', 1, NULL, '2022-11-22 17:00:00', NULL),
-(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$FUC1KW.YcWTTf8712puSAuV1tBygb2ShFHwCKvtpdIba8tVasF6Ea', 1, NULL, '2022-01-22 17:00:00', NULL),
-(9, 'Hiển Vũ', NULL, 'gguser_116526290178629162871.jpg', 'hienkhoca@gmail.com', '1', '116526290178629162871', '2023-05-02 12:53:36', NULL, 1, NULL, '2023-05-02 12:53:36', '2023-05-02 12:53:36');
+(1, 'admin', '01244345692', 'admin.png', 'admin@gmail.com', '1', NULL, NULL, '$2y$10$S4EedWaX1gxJzrFOE92pxuADrBzpRO5ZOs18HDTC5p1wB86wJzbHa', 1, NULL, '2022-01-22 17:00:00', NULL),
+(2, 'User 1', '01243234568', 'avatar-1.jpg', 'guest1@gmail.com', '0', NULL, NULL, '$2y$10$1InrBTLZTvCJcLeQgEGMUuaQhGF4iH5WoN7Qqq7jdLHgzLiLwjmES', 1, NULL, '2022-01-28 17:00:00', NULL),
+(3, 'User 2', '01243234666', 'avatar-2.jpg', 'guest2@gmail.com', '0', NULL, NULL, '$2y$10$zxwlJhlPvXDmOp9fAmyEcOqlb2J.SqrNaZLfOBChuk0IBT/JkCule', 1, NULL, '2022-01-29 17:00:00', NULL),
+(4, 'User 3', '09199141036', 'avatar-3.jpg', 'guest3@gmail.com', '0', NULL, NULL, '$2y$10$q0vrYNFZfJR7QEiWvGF3i.1BMbV1ABz52caC1kzLJ62x1eljY2diO', 1, NULL, '2022-01-30 17:00:00', NULL),
+(5, 'User 4', '09199141135', 'avatar-4.jpg', 'guest4@gmail.com', '0', NULL, NULL, '$2y$10$QrmkySgaKt9fH0YkdaeynOqUaIge6dZDwQSBwL.s18HjaPinkZETO', 1, NULL, '2022-01-31 17:00:00', NULL),
+(6, 'User 5', '09199141111', 'avatar-5.jpg', 'guest5@gmail.com', '0', NULL, NULL, '$2y$10$Rw4llwKP7GoAQXrRRmfjh.jT.q0kTskvX5vPD1fD4647dC1glp8C6', 1, NULL, '2022-02-28 17:00:00', NULL),
+(7, 'Cat Tuong', '0919941037', 'user_0_meme-2.jpg', 'cattuongw2000@gmail.com', '1', NULL, NULL, '$2y$10$qmx/OPd/8goI23GqgAWArOXu4TVi/esrYBLl4sj.C3VI10YjCK9pS', 1, NULL, '2022-11-22 17:00:00', NULL),
+(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$CGptBiQ8UCIXeoaoCB//LeIm2L9P.G3uc0G68KgSnFQakWnnMNr0a', 1, NULL, '2022-01-22 17:00:00', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1675,7 +1678,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
@@ -1687,7 +1690,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
-  MODIFY `id_coupon` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_coupon` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `expense`
@@ -1717,7 +1720,7 @@ ALTER TABLE `groupmessage`
 -- AUTO_INCREMENT cho bảng `library`
 --
 ALTER TABLE `library`
-  MODIFY `id_lib` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id_lib` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT cho bảng `message`
@@ -1759,7 +1762,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `slide`
 --
 ALTER TABLE `slide`
-  MODIFY `id_slide` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_slide` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `typeproduct`
@@ -1771,7 +1774,7 @@ ALTER TABLE `typeproduct`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

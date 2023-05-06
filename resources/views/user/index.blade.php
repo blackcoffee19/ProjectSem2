@@ -16,7 +16,10 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                <a href="" class="btn mt-3"
+                                <a href="@if ($slide->link != null && $slide->attr != null) {{ $slide->link . '/' . $slide->attr }}
+                                    @elseif ($slide->link != null && $slide->attr == null)
+                                    {{ $slide->link }} @endif"
+                                    class="btn mt-3"
                                     style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>

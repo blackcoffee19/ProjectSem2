@@ -436,8 +436,7 @@ INSERT INTO `cart` (`id_cart`, `order_code`, `id_user`, `id_product`, `price`, `
 (329, NULL, 4, 12, 18000, 45, 600, '2023-04-30 23:00:00', NULL),
 (330, NULL, 4, 16, 220000, 10, 900, '2023-04-30 23:00:00', NULL),
 (331, NULL, 2, 16, 220000, 10, 460, '2023-04-30 23:00:00', NULL),
-(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL),
-(335, NULL, 9, 26, 330000, 1, 200, '2023-05-03 10:58:47', '2023-05-03 10:58:47');
+(332, NULL, 3, 22, 380000, 40, 770, '2023-04-30 23:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -734,7 +733,7 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`id_coupon`, `title`, `code`, `discount`, `max`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'New Member', 'NEWMEM', 5000, 1, 1, '2022-01-28 17:00:00', NULL),
+(1, 'New Member', 'NEWMEM', 40, 1, 1, '2022-01-28 17:00:00', NULL),
 (2, 'Wednesday', 'WEDNESDAY22', 50, 1, 0, '2022-11-22 17:00:00', NULL),
 (3, 'Merry Chirstmast', 'MARRYCHIRT', 20, 1, 0, '2022-12-23 17:00:00', NULL),
 (4, 'Free Ship', 'FREESHIP423', 20000, 3, 1, '2023-03-31 17:00:00', NULL),
@@ -1679,7 +1678,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+  MODIFY `id_cart` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
@@ -1775,7 +1774,7 @@ ALTER TABLE `typeproduct`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

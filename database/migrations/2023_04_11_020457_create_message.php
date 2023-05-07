@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('message',200)->nullable();
             $table->foreignId('link')->nullable();
             $table->foreignId('id_user');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

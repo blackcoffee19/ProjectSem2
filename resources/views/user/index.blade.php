@@ -218,7 +218,7 @@
                         <div class="col">
                             <div class="px-xl-8 rounded"
                                 style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 168px; padding-left: 30px;">
-                                <div>
+                                <div class="d-flex flex-column justify-content-start flex-wrap h-75 align-items-baseline">
                                     <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
                                         {{ $banners[2]->title }}
                                     </h3>

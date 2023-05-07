@@ -100,12 +100,12 @@
 
                         <!-- row -->
                         <div class="row g-4 row-cols-xl-4 row-cols-lg-2 row-cols-2 row-cols-md-3 mt-2">
-
-                            @foreach ($prods as $pro)
-                                <!-- col -->
-
-                                <div class=" filterDiv {{ $pro->id_type }} col" data-price="{{ $pro->price }}">
-
+                           
+                                @foreach($prods as $pro)
+                            <!-- col -->
+                            
+                                <div class=" filterDiv {{$pro->id_type}} col" data-price="{{$pro->price}}" >
+                                    
                                     <!-- card -->
                                     <div class="card card-product">
                                         <div class="card-body">

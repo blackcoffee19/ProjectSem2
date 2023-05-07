@@ -28,13 +28,15 @@
                 @endforeach
                 @endif
                 @foreach ($user_message as $user)
-                <a class="ms-3 show_chat" data-groupcode="" data-iduser="{{$user->id_user}}" style="width:60px;height: 60px;">
+                <a class="ms-3 show_chat position-relative" data-groupcode="" data-iduser="{{$user->id_user}}" style="width:60px;height: 60px;">
                     @if ($user->image)
                     <img src="{{asset('images/avatar/'.$user->avatar)}}" alt="" class="img-thumbnail rounded-circle" style="width:60px;height: 60px;object-fit: cover">
                     @else
                     <img src="{{asset('images/avatar/user.png')}}" alt="" class="img-thumbnail rounded-circle" style="width:60px;height: 60px;object-fit: cover">
                     @endif
-                    
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                        !
+                    </span>
                 </a>
                 @endforeach
             </div>
@@ -78,7 +80,7 @@
                 <img src="{{asset('images/avatar/admin.png')}}" alt="" class="img-thumbnail rounded-circle" style="width:40px;height: 40px;object-fit: cover">
                 @endif
                 @if (isset($group->new_mess) && $group->new_mess)
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" >
                     !
                 </span>
                 @endif

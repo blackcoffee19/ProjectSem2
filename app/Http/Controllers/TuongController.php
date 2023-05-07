@@ -1280,8 +1280,12 @@ class TuongController extends Controller
                           <p class='card-text'>View >> </p>
                         </div></div></div></a></div>";
                         $html.=    $share_link;
-                    }
-                }
+                    };
+                };
+                if(!$chat->status){
+                    $chat->status = true;
+                    $chat->save();
+                };
                 $html.="</div><span class='text-black-50'>".$time."</span></div>";
             }else{
                 $html.= "<div class='col-2 mx-auto'></div>";
@@ -1312,9 +1316,30 @@ class TuongController extends Controller
             }
             $html.= "</div>";
         };
+        if(Auth::user()->admin != '0'){
+            $all_group = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+            $unread_mess = 0;
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+            $unread_mess += count(Message::whereNull('code_group')->get());
+        }else{
+            $all_group = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+            $unread_mess = 0;
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+        }
         $data = [
             'mess' => $html,
-            'name'=> $user->name
+            'name'=> $user->name,
+            'unread_mess' => $unread_mess
         ];
         echo implode(',',$data);
     }
@@ -1335,6 +1360,7 @@ class TuongController extends Controller
             }
             foreach(Message::where('code_group','=',null)->where('id_user','=',$req['connect_user'])->get() as $mess){
                 $mess->code_group = $code;
+                $mess->status = true;
                 $mess->save();
             };
         };
@@ -1355,6 +1381,26 @@ class TuongController extends Controller
             $new_message->name_product =$product_share->name;
             $new_message->image = count($product_share->Library)>0?"images/products/". $product_share->Library[0]->image:"images/category/". $product_share->TypeProduct->image;
         }
+        $unread_mess = 0;
+        if(Auth::user()->admin != '0'){
+            $all_group = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+            $unread_mess += count(Message::whereNull('code_group')->get());
+        }else{
+            $all_group = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+        }
+        $new_message->unread_mess = $unread_mess;
         echo $new_message;
     }
     public function remove_allnews(){

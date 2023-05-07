@@ -522,6 +522,7 @@
               // console.log(data_mess);
               $('#messages').html(data_mess[0]);
               $('#usr_contact').html(data_mess[0]?data_mess[1]:'');
+              $('.list_mess').find('span').html(data_mess[2]);
             }}
         )
       });
@@ -533,6 +534,7 @@
       $('.button-submit').click(function(){
         let message = $(this).siblings('input[name="send_message"]');
         let chatbox = $(this).parents('.input_message').prev();
+        console.log(badge_mess);
         if(message.val().length>0){
           $.ajax({
             method: "POST",
@@ -549,6 +551,7 @@
                   </div>
                 </div>`);
               }
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
             }
           });
           message.val('');
@@ -626,6 +629,7 @@
                   </div></div></div></a></div></div>`;
                 chatbox.append(share);
               };
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
             }
           });
           $( "input[name=send_message]" ).val('');

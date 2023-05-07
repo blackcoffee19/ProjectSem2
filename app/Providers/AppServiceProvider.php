@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                     $groups = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
                     foreach($groups as $gr){
                         $last_mess = $gr->Message->last();
-                        if($last_mess->id_user != Auth::user()->id_user){
+                        if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
                             $num++;
                             $gr->new_mess = true;
                         }
@@ -98,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
                     $groups = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
                     foreach($groups as $gr){
                         $last_mess = $gr->Message->last();
-                        if($last_mess->id_user != Auth::user()->id_user){
+                        if(($last_mess->id_user != Auth::user()->id_user)&&(!$last_mess->status)){
                             $num++;
                             $gr->new_mess = true;
                         }

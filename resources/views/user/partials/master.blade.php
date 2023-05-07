@@ -81,10 +81,12 @@
     <script src="{{ asset('js/slick-slider.js') }}"></script>
     <script src="{{asset('../node_modules/slick-carousel/slick/slick.js')}}"></script>
     <script src="{{asset('../node_modules/slick-carousel/slick/slick.min.js')}}"></script>
-
+    {{-- <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/min/tiny-slider.js"></script>
     <script src="{{ asset('js/zoom.js') }}"></script>
     <script src="{{ asset('js/increment-value.js') }}"></script>
+    @include('user.partials.firebase')
     @include('user.partials.message')
     @include('user.partials.script')
     @yield('script')

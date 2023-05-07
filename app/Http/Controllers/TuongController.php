@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use App\Mail\VerificationEmail;
 class TuongController extends Controller
 {
     public function home_page(){
@@ -129,8 +131,14 @@ class TuongController extends Controller
         }else{
             $new_user->avatar= null;
         };
+        $new_user->email_verification_token =Str::random(32);
         $new_user->created_at= Carbon::now()->format('Y-m-d H:i:s');
         $new_user->save();
+        $mailData = [
+            'title' => 'Mail to Verification',
+            'url' => route('verify',$new_user->email_verification_token)
+        ];
+        Mail::to($new_user->email)->send(new VerificationEmail($mailData));
         $orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
         $num=0;
         foreach($orders as $order){
@@ -173,6 +181,35 @@ class TuongController extends Controller
         }else{
             return redirect()->back()->with('error','Sign up failue. Try again');
         }
+    }
+    public function send_verifyEmail(){
+        $user = User::find(Auth::user()->id_user);
+        $user->email_verification_token =Str::random(32);
+        $user->save();
+        $mailData = [
+            'title' => 'Mail to Verification',
+            'url' => route('verify',$user->email_verification_token)
+        ];
+        try {
+            Mail::to($user->email)->send(new VerificationEmail($mailData));
+        } catch (\Throwable $th) {
+            echo "Send verify email unsuccessfully";
+        }
+        echo "Mail has been sending please check your email to verified the account";
+    }
+    public function verifyEmail($token = null){
+        if($token == null) {
+    		return redirect('signin')->with('verified_error', 'Invalid Login attempt');
+        }
+        $user = User::where('email_verification_token',$token)->first();
+        if(!$user){
+            return redirect('signin')->with('verified_error', 'Invalid Login attempt');
+        }
+        $user->email_verified = true;
+        $user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
+        $user->email_verification_token = '';
+        $user->save();
+        return redirect('/')->with('verified', 'Your account is activated, you can log in now');
     }
     public function get_signIn(){
         $site = "Signin";

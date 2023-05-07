@@ -48,6 +48,9 @@ Route::get('/signin', [TuongController::class, "get_signIn"])->name('signin');
 Route::post('/signin', [TuongController::class, "post_signIn"])->name('signin');
 Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup');
 Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
+Route::get('/verify/{token}', [TuongController::class,'verifyEmail'])->name('verify');
+Route::get('/verify-send',[TuongController::class,'send_verifyEmail'])->name('verifyEmail');
+
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
 // Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');

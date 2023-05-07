@@ -1,5 +1,7 @@
 <script>
     $(document).ready(function(){
+      
+
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
           $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
@@ -27,6 +29,10 @@
               });
           })
       });
+      @endif
+      @if(Session::has('verified'))
+        let toastverify = new bootstrap.Toast($('#toastVerified'))
+        toastverify.show();
       @endif
       @if (Session::has('order_mess') || Session::has('paypal_success'))
         $('#order_message').html("Order successful! We will delivery your order soon.");
@@ -260,7 +266,8 @@
           };
       })
       let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
-      let valiPhone = /^[0-9]{9,11}$/;
+      let valiPhone1 = /^[0-9]{9,11}$/;
+      let valiPhone = /^\(?\+84\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?$/;
       let valiEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
       $('input[name=phoneReciever]').focusout(function(e){
           e.preventDefault();
@@ -344,7 +351,11 @@
       });
       $('input[name=register_phone]').change(function(){
         if(!valiPhone.test($(this).val())){
-              $('#register_phone').text("Invaild Phone. Try again");
+              if($("#register_phone").hasClass('text-success')){
+                $("#register_phone").removeClass('text-success');
+                $("#register_phone").addClass('text-danger');
+              }
+              $('#register_phone').text("Invaild Phone. EX: +84123456789");
               $('#register_submit').attr('disabled','disabled');
               if($(this).hasClass('is-valid')){
                 $(this).removeClass('is-valid');

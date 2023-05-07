@@ -12,7 +12,7 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Slide</li>
                                     <li class="breadcrumb-item active" aria-current="page">Create</li>
                                 </ol>
@@ -95,9 +95,7 @@
                                                         <h3>Content</h3>
                                                         <div class="row">
                                                             <div class="col-10">
-                                                                <input type="text" class="form-control"
-                                                                    value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, fuga?"
-                                                                    id="content_text" oninput="changeText()" name="content">
+                                                                <textarea type="text" class="form-control" id="content_text" oninput="changeText()" name="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, fuga?</textarea>
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"

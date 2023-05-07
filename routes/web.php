@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminSlideController;
+use App\Http\Controllers\Admin\AdminCouponController;
 
 
 Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
@@ -39,7 +40,7 @@ Route::get('/contact', [App\Http\Controllers\User\UserController::class, 'Contac
 Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchPrice'])->name('product.searchPrice');
 Route::get('/product.findByNamePro', [App\Http\Controllers\User\UserController::class, 'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
-Route::get('/user.pages.Products.index/{type_name?}/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
+// Route::get('/user.pages.Products.index/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
 
 Route::get('/', [TuongController::class, 'home_page'])->name('index');
 Route::get('/cate_pr', [TuongController::class, 'admin_cate'])->name('productList');
@@ -119,10 +120,10 @@ Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
 // =============== START ROUTE USER =============== //
 
 Route::controller(IndexController::class)->group(function () {
-    Route::get('/Category',                     'allProduct')->name('allProduct');
-    Route::get('/products-details/{id?}',        'product_detail')->name('products-details');
+    Route::get('/category',                     'allProduct')->name('allProduct');
+    Route::get('/products/{id?}',               'product_detail')->name('products-details');
     Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
-    Route::get('/category/{type}', [IndexController::class, 'categoryById'])->name('userShowProductCatagory');
+    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
 });
 
 
@@ -196,7 +197,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
         Route::get('/slides/detail/{id_slide}',     'show')->name('adminShowSlides');
         Route::get('/slides/edit/{id_slide}',       'edit')->name('adminEditSlides');
         Route::put('/slides/update/{id_slide}',     'update')->name('adminUpdateSlides');
-        Route::delete('/slides/delete/{id_slide}',   'delete')->name('adminDeleteSlides');
+        Route::delete('/slides/delete/{id_slide}',  'delete')->name('adminDeleteSlides');
+    });
+
+    Route::controller(AdminCouponController::class)->group(function () {
+        Route::get('/coupon',                       'index')->name('adminCoupon');
+        Route::get('/coupon/create',                'create')->name('adminAddCoupon');
+        Route::post('/coupon/store',                'store')->name('adminStoreCoupon');
+        Route::get('/coupon/edit/{id_coupon}',       'edit')->name('adminEditCoupon');
+        Route::put('/coupon/update/{id_coupon}',     'update')->name('adminUpdateCoupon');
+        Route::delete('/coupon/delete/{id_coupon}',  'delete')->name('adminDeleteCoupon');
+        // Route::get('/coupon/detail/{id_coupon}',     'show')->name('adminShowCoupon');
     });
 
     Route::get('{path?}', [TuongController::class, 'get_admin_signin'])->where('path', '.*');
@@ -205,3 +216,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 // =============== 404 Page ===================== //
 Route::get('/{path}', [TuongController::class, 'get_404'])->where('path', '.*');
 // =============== END 404 Page ===================== //
+
+
+Route::get('/validate-input/{inputName}/{inputValue}', function ($inputName, $inputValue) {
+    $response = array('success' => true);
+
+    // Kiểm tra giá trị của input
+    if ($inputName == 'discount' && $inputValue < 0) {
+        $response = array('success' => false, 'message' => 'Discount không được nhập số âm');
+    }
+    if ($inputName == 'max' && $inputValue < 0) {
+        $response = array('success' => false, 'message' => 'Max không được nhập số âm');
+    }
+
+    return response()->json($response);
+});

@@ -12,7 +12,7 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Order Single</li>
                                 </ol>
                             </nav>
@@ -35,7 +35,9 @@
                                 <div class="d-flex align-items-center mb-2 mb-md-0">
                                     <h2 class="mb-0">
                                         Order ID: #{{ $id_order->id_order }}
-                                        <span style="padding-left: 50px">Order Name: {{ $id_order->order_code }}</span>
+                                        <span style="padding-left: 50px">
+                                            <h2>Order Name: {{ $id_order->order_code }}</h2>
+                                        </span>
                                     </h2>
                                     {{-- <span class="badge bg-light-warning text-dark-warning ms-2">Pending</span> --}}
                                     <span style="padding-left: 50px">
@@ -73,13 +75,13 @@
                                     </span>
                                 </div>
                                 <!-- select option -->
-                                <div class="d-md-flex">
+                                {{-- <div class="d-md-flex">
                                     <!-- button -->
                                     <div class="ms-md-3">
                                         <a href="#" class="btn btn-primary">Save</a>
                                         <a href="#" class="btn btn-secondary">Download Invoice</a>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="mt-8">
                                 <div class="row">

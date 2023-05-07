@@ -17,9 +17,11 @@ class UserController extends Controller
     {
         $prods = Product::all();
         $rate = Comment::all();
-
-        return view('user.pages.Products.index', compact('prods', 'rate'));
+        $cats = TypeProduct::all();
+        return view('user.pages.Products.index', compact('prods', 'rate','cats'));
     }
+
+   
 
     public function findByNamePro(Request $request)
     {
@@ -29,12 +31,30 @@ class UserController extends Controller
         return view('user.pages.Products.index', compact('prods', 'name'));
     }
 
+   
+
     public function searchPrice(Request $request)
     {
         $form = $request->form;
         $to = $request->to;
-        $prods = Product::where('price', '>=', $form)->where('price', '<=', $to)->get();
-        return view('user.pages.Products.index', compact('prods'));
+        $type = $request->type;
+        $cats = TypeProduct::all();
+        $prods = Product::where('id_type', '=', $type)
+                ->where(function($query) use ($form, $to) {
+                    $query->where(function($query) use ($form, $to) {
+                                $query->where('sale', '>', 0)
+                                      ->whereRaw('price * (1 - sale/100) >= ?', [$form])
+                                      ->whereRaw('price * (1 - sale/100) <= ?', [$to]);
+                            })
+                          ->orWhere(function($query) use ($form, $to) {
+                                $query->where('sale', '=', 0)
+                                      ->whereRaw('price >= ?', [$form])
+                                      ->whereRaw('price <= ?', [$to]);
+                            });
+                })
+                ->get();
+        
+        return view('user.pages.Products.index', compact('prods','cats'));
     }
 
     public function sendMail(Request $request)

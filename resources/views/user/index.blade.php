@@ -16,7 +16,10 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                <a href="" class="btn mt-3"
+                                <a href="@if ($slide->link != null && $slide->attr != null) {{ $slide->link . '/' . $slide->attr }}
+                                    @elseif ($slide->link != null && $slide->attr == null)
+                                    {{ $slide->link }} @endif"
+                                    class="btn mt-3"
                                     style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
@@ -77,8 +80,14 @@
                                             <p class="mb-4" style="color:{{ $banner->content_color }}">
                                                 {{ $banner->content }}
                                             </p>
-                                            <a href="#!" class="btn"
-                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}</a>
+                                            <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                                class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -214,9 +223,14 @@
                                         {{ $banners[2]->title }}
                                     </h3>
                                     <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
-                                    <a class="btn "
-                                        style="background-color: {{ $banner->btn_bg_color }};color:{{ $banners[2]->btn_color }}; margin:auto 0 ;">{{ $banners[2]->btn_content }}<i
-                                            class="feather-icon icon-arrow-right ms-1"></i></a>
+                                    <a href="
+                                            @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
+                                            @elseif ($banner->link != null && $banner->attr == null)
+                                            {{ $banner->link }} @endif
+                                            "
+                                        class="btn"
+                                        style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                    </a>
                                 </div>
                             </div>
                         </div>

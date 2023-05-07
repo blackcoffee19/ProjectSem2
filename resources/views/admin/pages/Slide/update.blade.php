@@ -12,7 +12,7 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Slide</li>
                                     <li class="breadcrumb-item active" aria-current="page">Update</li>
                                 </ol>
@@ -47,7 +47,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <span style="color: red">* Vui lòng chọn ảnh có kích thước <br />
-                                                        1660 x 625</span>
+                                                        1660 x 625 px</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -69,12 +69,14 @@
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color" id="alert_color"
-                                                                    oninput="changeColor()" name="alert_color">
+                                                                    oninput="changeColor()" name="alert_color"
+                                                                    value="{{ $id_slide->alert_color }}">
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color" id="alert_bg"
-                                                                    oninput="changeColor()" name="alert_bg">
+                                                                    oninput="changeColor()" name="alert_bg"
+                                                                    value="{{ $id_slide->alert_bg }}">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -89,7 +91,8 @@
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color" id="title_color"
-                                                                    oninput="changeColor()" name="title_color">
+                                                                    oninput="changeColor()" name="title_color"
+                                                                    value="{{ $id_slide->title_color }}">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -97,15 +100,14 @@
                                                         <h3>Content</h3>
                                                         <div class="row">
                                                             <div class="col-10">
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->content }}" id="content_text"
-                                                                    oninput="changeText()" name="content">
+                                                                <textarea type="text" class="form-control"id="content_text" oninput="changeText()" name="content">{{ $id_slide->content }}</textarea>
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color"
                                                                     id="content_color" oninput="changeColor()"
-                                                                    name="content_color">
+                                                                    name="content_color"
+                                                                    value="{{ $id_slide->content_color }}">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -120,13 +122,15 @@
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color" id="btn_color"
-                                                                    oninput="changeColor()" name="btn_color">
+                                                                    oninput="changeColor()" name="btn_color"
+                                                                    value="{{ $id_slide->btn_color }}">
                                                             </div>
                                                             <div class="col-2">
                                                                 <input type="color"
                                                                     class="form-control form-control-color"
                                                                     id="btn_bg_color" oninput="changeColor()"
-                                                                    name="btn_bg_color">
+                                                                    name="btn_bg_color"
+                                                                    value="{{ $id_slide->btn_bg_color }}">
                                                             </div>
                                                         </div>
                                                     </li>
@@ -134,15 +138,45 @@
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <h3>Link</h3>
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->link }}"name="link">
+                                                                <select name="link" class="form-control" required
+                                                                    id="link-select">
+                                                                    {{-- <option value=""selected>-- Select Type --</option> --}}
+                                                                    <option value="{{ $id_slide->link }}"
+                                                                        {{ $id_slide->link == $id_slide->id_slide ? 'selected' : '' }}>
+                                                                        {{ $id_slide->link }}
+                                                                    </option>
+                                                                    <option value="">Home</option>
+                                                                    <option value="user.pages.Products.index">All Product
+                                                                    </option>
+                                                                    <option value="category">Category By ID</option>
+                                                                    <option value="products">Product By ID</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div id="attr-div" class="col-6" style="display:none;">
                                                                 <h3>Attr</h3>
                                                                 <input type="text" class="form-control"
-                                                                    value="{{ $id_slide->attr }}"name="attr">
+                                                                    placeholder="attr" name="attr">
                                                             </div>
                                                         </div>
+
+                                                        <script>
+                                                            // Lấy phần tử select box
+                                                            var selectBox = document.getElementById("link-select");
+
+                                                            // Thêm sự kiện onchange cho select box
+                                                            selectBox.addEventListener("change", function() {
+                                                                // Lấy giá trị được chọn
+                                                                var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                                                                // Nếu giá trị là 'category' hoặc 'products'
+                                                                if (selectedValue === "category" || selectedValue === "products") {
+                                                                    // Hiển thị phần tử chứa đoạn mã HTML
+                                                                    document.getElementById("attr-div").style.display = "block";
+                                                                } else {
+                                                                    // Ẩn phần tử chứa đoạn mã HTML
+                                                                    document.getElementById("attr-div").style.display = "none";
+                                                                }
+                                                            });
+                                                        </script>
                                                     </li>
                                                 </ul>
                                             </div>

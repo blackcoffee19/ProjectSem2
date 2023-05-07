@@ -13,7 +13,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">
-                                        <a href="#" class="text-inherit">Dashboard</a>
+                                        <a href="{{ route('dashboard') }}" class="text-inherit">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item">
                                         <a href="#" class="text-inherit">Products</a>
@@ -100,7 +100,7 @@
                                                         class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                                     <div class="col-md-6">
-                                                        <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" >{{ old('description') }}</textarea>
+                                                        <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description') }}</textarea>
 
                                                         @error('description')
                                                             <span class="invalid-feedback" role="alert">
@@ -248,81 +248,86 @@
 @endsection
 @section('admin-script')
     <script>
-        $(document).ready(function(){
-            if($("input[name='name']").val().trim().length >0){
-                $.get(window.location.origin+"/public/index.php/admin/ajax/check-product?name="+$("input[name='name']").val().trim(),function(data){
-                    if(data){
-                        $('#check_name').html(`Product name <a href='${data}'>`+$("input[name='name']").val()+"</a> has existed ");
+        $(document).ready(function() {
+            if ($("input[name='name']").val().trim().length > 0) {
+                $.get(window.location.origin + "/public/index.php/admin/ajax/check-product?name=" + $(
+                    "input[name='name']").val().trim(), function(data) {
+                    if (data) {
+                        $('#check_name').html(`Product name <a href='${data}'>` + $("input[name='name']")
+                            .val() + "</a> has existed ");
                         $('#check_name').addClass('text-danger');
                         $("input[name='name']").addClass('is-invalid');
-                    }else{
+                    } else {
                         $('#check_name').html('');
                         $("input[name='name']").removeClass('is-invalid');
                     }
                 })
             }
-            $("input[name='name']").change(function(e){
+            $("input[name='name']").change(function(e) {
                 e.preventDefault();
-                $.get(window.location.origin+"/public/index.php/admin/ajax/check-product?name="+$(this).val().trim(),function(data){
-                    if(data){
-                        $('#check_name').html(`Product name <a href='${data}'>`+$("input[name='name']").val()+"</a> has existed ");
-                        $('#check_name').addClass('text-danger');
-                        $("input[name='name']").addClass('is-invalid');
-                    }else{
-                        $('#check_name').html('');
-                        $("input[name='name']").removeClass('is-invalid');
-                    }
-                })
+                $.get(window.location.origin + "/public/index.php/admin/ajax/check-product?name=" + $(this)
+                    .val().trim(),
+                    function(data) {
+                        if (data) {
+                            $('#check_name').html(`Product name <a href='${data}'>` + $(
+                                "input[name='name']").val() + "</a> has existed ");
+                            $('#check_name').addClass('text-danger');
+                            $("input[name='name']").addClass('is-invalid');
+                        } else {
+                            $('#check_name').html('');
+                            $("input[name='name']").removeClass('is-invalid');
+                        }
+                    })
             })
-            $("input[name=quantity]").on('focusout',function(e){
+            $("input[name=quantity]").on('focusout', function(e) {
                 e.preventDefault();
-                let validateNum =/^\d{1,10}$/;
+                let validateNum = /^\d{1,10}$/;
                 let currentVl = $(this).val();
-                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                if (validateNum.test(currentVl) && (parseInt(currentVl) > 0)) {
                     $(this).removeClass('is-invalid');
                     $(this).val(currentVl);
-                }else{
+                } else {
                     $(this).addClass('is-invalid');
                     $(this).val('');
                 }
             })
-            $("input[name=price]").on('focusout',function(e){
+            $("input[name=price]").on('focusout', function(e) {
                 e.preventDefault();
-                let validateNum =/^\d{1,10}$/;
+                let validateNum = /^\d{1,10}$/;
                 let currentVl = $(this).val();
-                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                if (validateNum.test(currentVl) && (parseInt(currentVl) > 0)) {
                     $(this).removeClass('is-invalid');
-                    if(currentVl<1000){
-                        currentVl *=1000;
+                    if (currentVl < 1000) {
+                        currentVl *= 1000;
                     }
                     $(this).val(currentVl);
-                }else{
+                } else {
                     $(this).addClass('is-invalid');
                     $(this).val('');
                 }
             })
-            $("input[name=original_price]").on('focusout',function(e){
+            $("input[name=original_price]").on('focusout', function(e) {
                 e.preventDefault();
-                let validateNum =/^\d{1,10}$/;
+                let validateNum = /^\d{1,10}$/;
                 let currentVl = $(this).val();
-                if(validateNum.test(currentVl) && (parseInt(currentVl) >0)){
+                if (validateNum.test(currentVl) && (parseInt(currentVl) > 0)) {
                     $(this).removeClass('is-invalid');
-                    if(currentVl<1000){
-                        currentVl *=1000;
+                    if (currentVl < 1000) {
+                        currentVl *= 1000;
                     }
                     $(this).val(currentVl);
-                }else{
+                } else {
                     $(this).addClass('is-invalid');
                     $(this).val('');
                 }
             })
-            $("input[name=sale]").on('focusout',function(e){
+            $("input[name=sale]").on('focusout', function(e) {
                 e.preventDefault();
-                let validateNum =/^\d{1,10}$/;
+                let validateNum = /^\d{1,10}$/;
                 let currentVl = $(this).val();
-                if(validateNum.test(currentVl) && (parseInt(currentVl) >=0)){
+                if (validateNum.test(currentVl) && (parseInt(currentVl) >= 0)) {
                     $(this).val(currentVl);
-                }else{
+                } else {
                     $(this).val(0);
                 }
             })

@@ -2,14 +2,7 @@
 @section('content')
     <main>
         <style>
-            .filterDiv {
-
-                display: none;
-            }
-
-            .show {
-                display: block;
-            }
+            
 
             .price1 {
 
@@ -63,7 +56,7 @@
                         <!-- list icon -->
                         <div class="d-lg-flex justify-content-between align-items-center">
                             <div class="mb-3 mb-lg-0">
-                                <p class="mb-0"> <span class="text-dark">24 </span> Products found </p>
+                                <p class="mb-0"> <span class="text-dark">{{count($prods)}} </span> Products found </p>
                             </div>
 
                             <!-- icon -->
@@ -108,9 +101,11 @@
 
 
                         <!-- row -->
-                        <div class="row g-4 row-cols-xl-4 row-cols-lg-2 row-cols-2 row-cols-md-3 mt-2"> 
+                        <div class="row g-4 row-cols-xl-4 row-cols-lg-2 row-cols-2 row-cols-md-3 mt-2">
+                           
                                 @foreach($prods as $pro)
                             <!-- col -->
+                            
                                 <div class=" filterDiv {{$pro->id_type}} col" data-price="{{$pro->price}}" >
                                     
                                     <!-- card -->
@@ -249,40 +244,7 @@
             }
             // lọc sản phẩm theo type
         }
-        filterSelection("all")
-
-        function filterSelection(c) {
-            var x, i;
-            x = document.getElementsByClassName("filterDiv");
-            if (c == "all") c = "";
-            for (i = 0; i < x.length; i++) {
-                w3RemoveClass(x[i], "show");
-                if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-            }
-        }
-
-        function w3AddClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-                if (arr1.indexOf(arr2[i]) == -1) {
-                    element.className += " " + arr2[i];
-                }
-            }
-        }
-
-        function w3RemoveClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-                while (arr1.indexOf(arr2[i]) > -1) {
-                    arr1.splice(arr1.indexOf(arr2[i]), 1);
-                }
-            }
-            element.className = arr1.join(" ");
-        }
+   
         //fiter rate
 
         $(document).ready(function() {

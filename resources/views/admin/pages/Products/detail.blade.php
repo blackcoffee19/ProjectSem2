@@ -31,7 +31,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item">
-                                        <a href="#" class="text-inherit">Dashboard</a>
+                                        <a href="{{ route('dashboard') }}" class="text-inherit">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item">
                                         <a href="#" class="text-inherit">Products</a>

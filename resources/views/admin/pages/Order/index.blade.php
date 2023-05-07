@@ -30,7 +30,7 @@
                                     <!-- form -->
                                     <form action="{{ Route('orther.findByName') }}" class="d-flex" role="search">
                                         <input class="form-control" type="search" placeholder="Search Orther Name"
-                                            aria-label="Search" name="order_code">
+                                            aria-label="Search" name="order_code" value="{{isset($search)? $search:''}}">
                                         <button class="btn btn-primary" value="Search"><i
                                                 class="fas fa-search"></i></button>
                                     </form>
@@ -67,10 +67,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $no =1;
+                                            if(app('request')->input('page')!=null && app('request')->input('page')!=1){
+                                                $no =app('request')->input('page')*10-9;
+                                            }
+                                        @endphp
                                         @foreach ($orthers as $orther)
                                             <tr>
-
-                                                <td>{{ $orther->id_order }}</td>
+                                                <td>{{$no++}}</td>
                                                 <td><a href="{{ Route('adminShowOrther', $orther->id_order) }}"
                                                         class="text-reset">{{ $orther->order_code }}</a></td>
                                                 <td>{{ $orther->receiver }}</td>
@@ -104,7 +109,7 @@
 
                                                         @case($orther->status == 'unconfirmed')
                                                             <span
-                                                                class="btn bg-light-dark text-dark-dark">{{ $orther->status }}</span>
+                                                                class="btn bg-dark-secondary text-dark">{{ $orther->status }}</span>
                                                         @break
 
                                                         @case($orther->status == 'confirmed')
@@ -115,7 +120,7 @@
                                                         @default
                                                     @endswitch
                                                 </td>
-                                                <td>{{ $orther->shipping_fee }}</td>
+                                                <td>{{ number_format($orther->total,0,'',' ') }} đ</td>
 
                                                 <td>
                                                     <div class="dropdown">
@@ -138,7 +143,7 @@
                             </div>
                         </div>
                         <div class="p-5">
-                            {{-- {{ $orthers->links('pagination::bootstrap-5') }} --}}
+                            {{ $orthers->onEachSide(1)->links('user.pagination.cus_pagination') }}
                         </div>
                     </div>
                 </div>

@@ -13,22 +13,39 @@ class AdminOrderController extends Controller
 {
     public function index()
     {
-        $orthers = Order::with('library.product')->paginate(50); //paginate(5)
+        $orthers = Order::with('library.product')->orderBy('created_at','desc')->paginate(10); //paginate(5)
         $products = Product::all();
         $status = Order::all();
+        foreach($orthers as $order){
+            $amount = 0;
+            foreach($order->Cart as $cart){
+                $amount += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
+            }
+            $amount = $order->code_coupon ?
+            ($order->Coupon->discount <=100? $amount *(1-$order->Coupon->discount/100):$amount-$order->Coupon->discount) : $amount;
+            $amount += $order->shipping_fee;
+            $order->total = $amount;
+        }
         return view('admin.pages.Order.index', compact('orthers', 'products', 'status'));
     }
 
     public function findByNameO(Request $request)
     {
-        $order_code = $request->order_code;
+        $search = $request->order_code;
         $status = $request->status;
-        $orthers = Order::where('order_code', 'like', '%' . $order_code . '%')
+        $orthers = Order::where('order_code', 'like', '%' . $search . '%')
             ->when($status, function ($query, $status) {
                 return $query->where('status', $status);
-            })->get();
+            })->paginate(10);
         $status = Order::all();
-        return view('admin.pages.Order.index', compact('orthers', 'status'));
+        foreach($orthers as $order){
+            $amount = 0;
+            foreach($order->Cart as $cart){
+                $amount += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
+            }
+            $order->total = $amount;
+        }
+        return view('admin.pages.Order.index', compact('orthers', 'status','search'));
     }
 
     public function list()

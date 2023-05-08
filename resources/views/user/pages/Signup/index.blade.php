@@ -84,16 +84,9 @@
                             <form class="{{ route('signup') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row g-3">
-                                    <div class="col">
+                                    <div class="col-12">
                                         <input type="text" class="form-control" placeholder="Full name"
                                             aria-label="Full name" name="register_name" required>
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="+84 xxx xxx xxx" aria-label="Phone number" name="register_phone" required>
-                                            <button type="button" class="btn btn-outline-primary" id="send_sms">Send Code</button>
-                                        </div>
-                                        <span id="register_phone" class="text-danger"></span>
                                     </div>
                                     <div class="col-12">
                                         <input type="email" class="form-control" id="inputEmail4" name="register_email"
@@ -109,12 +102,28 @@
                                         <span id="register_password" class="text-danger">
                                         </span>
                                     </div>
+                                    <div class="col-12 mb-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="+84 xxx xxx xxx" aria-label="Phone number" name="register_phone" required>
+                                            <button type="button" class="btn btn-outline-primary" id="send_sms">Send Code</button>
+                                        </div>
+                                        <span id="register_phone" class="text-danger"></span>
+                                    </div>
+                                    <div id="recaptcha-container" class="col-12"></div>
+                                    <div class="col-6 mb-3 d-none" id="otp_verify">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="OTP" name="phone_otp" required>
+                                            <button type="button" class="btn btn-outline-primary" id="verificationCode">Verify code</button>
+                                        </div>
+                                        <span id="otp_mess" class="text-danger"></span>
+                                    </div>
+
                                     <div class="col-12">
                                         <label for="register_avatar" class="form-label">Add Avatar</label>
                                         <input type="file" class="form-control" name="register_avatar"
                                             id="register_avatar">
                                     </div>
-                                    <div class="col-12" id="recaptcha-container"></div>
+                                    
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="accepted" id="accepted">
                                         <label class="form-check-label" for="accepted">By continuing, you agree to our
@@ -160,7 +169,6 @@
     </main>
 @endsection
 @section('script')
-    
     <script>
         $(document).ready(function(){
             let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
@@ -188,6 +196,45 @@
                     }
                 });
             };
+            let coderesult;
+            $("#send_sms").click(function() {
+                let number = $("input[name=register_phone]").val();
+                firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+                    window.confirmationResult=confirmationResult;
+                    coderesult=confirmationResult;
+                    console.log(coderesult);
+                    $("#otp_verify").removeClass('d-none');
+                    if($("#register_phone").hasClass('text-danger')){
+                        $("#register_phone").removeClass('text-danger');
+                    }
+                    $("#register_phone").addClass('text-success');
+                    $("#register_phone").text("Message Sent Successfully.");
+                }).catch(function (error) {
+                    console.log("Error: ");
+                    console.log(error);
+                    if($("#register_phone").hasClass('text-success')){
+                        $("#register_phone").removeClass('text-success');
+                    }
+                    $("#register_phone").addClass('text-danger');
+                    $("#error").text(error.message);
+                    $("#error").show();
+                });
+            });
+            $("#verificationCode").click(function(){
+            console.log(coderesult);
+                let code = $("input[name=phone_otp]").val();
+                coderesult.confirm(code).then(function (result) {
+                    let user=result.user;
+                    console.log(result);
+                    $("#successRegsiter").text("you are register Successfully.");
+                    $("#successRegsiter").show();
+                }).catch(function (error) {
+                    console.log("Error: ");
+                    console.log(error);
+                    $("#error").text(error.message);
+                    $("#error").show();
+                });
+            })
             $('input[name=register_email]').change(function(){
             $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
                 if(data == "existed"){

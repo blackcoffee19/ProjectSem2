@@ -1,7 +1,5 @@
 <script>
     $(document).ready(function(){
-      
-
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
           $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){

@@ -165,6 +165,18 @@
   </div>
 </div> --}}
 <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
+  <div role="alert"  id="toastVerified" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
+      <div class="toast-body" style=" padding:10px">
+        <div class="row">
+          <div class="col-2 mb-2 mx-auto">
+            <img src="{{asset('images/icons/verified.png')}}" height="50" class="img-fluid">
+          </div>
+          <h4 class="text-center" style="font-family: 'Quicksand', sans-serif;">{{Session::has('verified')?Session::get('verified'):''}}</h4>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastFeedback" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
       <div class="toast-body" style=" padding:10px">
         <div class="row">

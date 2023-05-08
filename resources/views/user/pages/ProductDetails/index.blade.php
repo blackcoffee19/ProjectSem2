@@ -71,17 +71,17 @@
                             <div class="fs-4">
                                 @if ($product->sale > 0)
                                     <span
-                                        class="fw-bold text-dark fs-5">{{ number_format($product->price * (1 - $product->sale / 100), 0, '.', ' ') }}
+                                        class="fw-bold text-dark fs-5">{{ number_format($product->price * (1 - $product->sale / 100), 0, '', ' ') }}
                                     </span>
                                     <span
-                                        class="text-decoration-line-through text-muted">${{ number_format($product->price, 0) }}</span><small>
+                                        class="text-decoration-line-through text-muted">{{ number_format($product->price, 0) }}</span><small>
                                         đ/kg</small>
                                     <span>
                                         <small class="fs-6 ms-2 text-danger">{{ number_format($product->sale, 0) }}%
                                             Off</small>
                                     </span>
                                 @else
-                                    <span class="fw-bold text-dark fs-5">{{ number_format($product->price, 0, '.', ' ') }}
+                                    <span class="fw-bold text-dark fs-5">{{ number_format($product->price, 0, '', ' ') }}
                                         đ/kg</span>
                                 @endif
                             </div>

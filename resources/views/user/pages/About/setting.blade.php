@@ -55,9 +55,17 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" for="new_email">Email</label>
-                                                <input type="email" class="form-control" name="new_email" id="new_email"
-                                                    value="{{ Auth::user()->email }}">
-                                                <span class="text-danger" id="invalidEmail"></span>
+                                                @if (Auth::user()->email_verified)
+                                                    <input type="email" class="form-control " name="new_email" id="new_email"
+                                                        value="{{ Auth::user()->email }}">
+                                                    <span class="text-danger" id="invalidEmail"></span>
+                                                @else
+                                                    <input type="email" class="form-control is-invalid" name="new_email" id="new_email"
+                                                        value="{{ Auth::user()->email }}">
+                                                    <span class="text-danger" id="unverifyEmail">Email need to verified</span>
+                                                    <button type="button" class="btn btn-warning my-2 mx-5" id="send_verified">Send Verified Mail</button>
+                                                    <span class="text-danger" id="invalidEmail"></span>
+                                                @endif
                                             </div>
                                             <div class="mb-5">
                                                 <label class="form-label" for="new_phone">Phone</label>
@@ -302,6 +310,16 @@
                     $(this).addClass('is-invalid');
                 }
             });
+            $("#send_verified").click(function(){
+                $.get(window.location.origin + "/public/index.php/verify-send",function(data){
+                    if(data == "Mail has been sending please check your email to verified the account"){
+                        $('#unverifyEmail').removeClass('text-danger');
+                        $('#unverifyEmail').addClass('text-success');
+                        $("#send_verified").attr('disabled','disabled');
+                    }
+                    $('#unverifyEmail').html(data);
+                })
+            })
         })
     </script>
 @endsection

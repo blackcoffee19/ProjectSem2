@@ -237,9 +237,12 @@
                                             <img src="{{ asset('images/avatar/user.png') }}" width="28"
                                                 height="28" class="img-fluid rounded-circle">
                                         @endif
-                                        <a href="#!" class="text-muted dropdown-toggle user_dropdown"
+                                        <a href="#!" class="text-muted dropdown-toggle user_dropdown "
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             {{ Auth::user()->name }}
+                                            @if (!Auth::user()->email_verified)
+                                                <img src="{{asset('images/icons/warning.png')}}" width="18" height="18" class=" my-auto ms-3 img-fluid rounded-circle">
+                                            @endif
                                         </a>
                                         <div class=" dropdown-menu pb-0 ">
                                             <div class="list-group">
@@ -247,8 +250,12 @@
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-solid fa-truck"></i> Order</a>
                                                 <a href="{{ route('accountsetting') }}"
-                                                    class="list-group-item list-group-item-action"><i
-                                                        class="fa-solid fa-gear"></i> Setting</a>
+                                                    class="list-group-item list-group-item-action d-flex flex-row justify-content-between align-items-center">
+                                                    <span><i class="fa-solid fa-gear"></i>  Setting</span>
+                                                        @if (!Auth::user()->email_verified)
+                                                        <img src="{{asset('images/icons/warning.png')}}" width="15" height="15" class=" img-fluid rounded-circle">
+                                                        @endif
+                                                </a>
                                                 <a href="{{ route('accountaddress') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-solid fa-location-pin"></i>Address</a>
@@ -564,6 +571,9 @@
                                     @endif
 
                                     {{ Auth::user()->name }}
+                                    @if (!Auth::user()->email_verified)
+                                    <img src="{{asset('images/icons/warning.png')}}" width="18" height="18" class=" my-auto ms-3 img-fluid rounded-circle">
+                                    @endif
                                 </a>
                                 <div class=" dropdown-menu pb-0 ">
                                     <div class="list-group">
@@ -574,9 +584,12 @@
                                         <a href="{{ route('accountorder') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-solid fa-truck"></i> Order</a>
-                                        <a href="{{ route('accountsetting') }}"
-                                            class="list-group-item list-group-item-action"><i
-                                                class="fa-solid fa-gear"></i> Setting</a>
+                                        <a href="{{ route('accountsetting') }}" class="list-group-item list-group-item-action d-flex flex-row justify-content-between align-items-center">
+                                            <span><i class="fa-solid fa-gear"></i> Setting</span>
+                                            @if (!Auth::user()->email_verified)
+                                                <img src="{{asset('images/icons/warning.png')}}" width="15" height="15" class="img-fluid rounded-circle">
+                                            @endif    
+                                        </a>
                                         <a href="{{ route('accountaddress') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-solid fa-location-pin"></i>Address</a>

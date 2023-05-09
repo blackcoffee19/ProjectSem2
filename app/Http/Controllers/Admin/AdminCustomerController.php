@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 
 
@@ -14,10 +16,25 @@ class AdminCustomerController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // này là cho 1 biến users tìm kiếm tát cả dữ liệu trong model Usẻ, model nó liên kết với bảng user á
-        return view('admin.pages.Customers.index', compact('users')); // này nó trả về trang index và nó đẩy biến đó ra index
-    }
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->sum = 0;
+            $user_orders = Order::where('id_user', '=', $user->id_user)->where('status', '=', 'finished')->get();
+            foreach ($user_orders as $order) {
+                $order_total = 0;
+                foreach ($order->Cart as $cart) {
+                    $order_total += $cart->price * (1 - $cart->sale / 100) * ($cart->amount / 1000);
+                }
+                $coupon_discount = optional($order->Coupon)->discount ?? 0;
+                $order_total = $coupon_discount <= 100 ? $order_total * (1 - $coupon_discount / 100) : $order_total - $coupon_discount;
+                $order_total += $order->shipment_fee;
+                $user->sum += $order_total;
+            };
+        };
 
+        // Truyền biến $users và $order_total vào view
+        return view('admin.pages.Customers.index', compact('users'));
+    }
     /**
      * Show the form for creating a new resource.
      */

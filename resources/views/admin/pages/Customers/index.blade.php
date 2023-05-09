@@ -84,7 +84,9 @@
                                                         User
                                                     @endif
                                                 </td>
-                                                <td>-</td> {{-- cái giá hơi khó để sau --}}
+                                                <td>{{-- tổng tiền khách mua  --}}
+                                                    {{ number_format($item->sum, 0, '', ' ') }}
+                                                </td>
 
                                                 <td>
                                                     @if ($item->admin != '1')

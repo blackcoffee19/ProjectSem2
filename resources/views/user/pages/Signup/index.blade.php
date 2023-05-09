@@ -196,45 +196,6 @@
                     }
                 });
             };
-            let coderesult;
-            $("#send_sms").click(function() {
-                let number = $("input[name=register_phone]").val();
-                firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
-                    window.confirmationResult=confirmationResult;
-                    coderesult=confirmationResult;
-                    console.log(coderesult);
-                    $("#otp_verify").removeClass('d-none');
-                    if($("#register_phone").hasClass('text-danger')){
-                        $("#register_phone").removeClass('text-danger');
-                    }
-                    $("#register_phone").addClass('text-success');
-                    $("#register_phone").text("Message Sent Successfully.");
-                }).catch(function (error) {
-                    console.log("Error: ");
-                    console.log(error);
-                    if($("#register_phone").hasClass('text-success')){
-                        $("#register_phone").removeClass('text-success');
-                    }
-                    $("#register_phone").addClass('text-danger');
-                    $("#error").text(error.message);
-                    $("#error").show();
-                });
-            });
-            $("#verificationCode").click(function(){
-            console.log(coderesult);
-                let code = $("input[name=phone_otp]").val();
-                coderesult.confirm(code).then(function (result) {
-                    let user=result.user;
-                    console.log(result);
-                    $("#successRegsiter").text("you are register Successfully.");
-                    $("#successRegsiter").show();
-                }).catch(function (error) {
-                    console.log("Error: ");
-                    console.log(error);
-                    $("#error").text(error.message);
-                    $("#error").show();
-                });
-            })
             $('input[name=register_email]').change(function(){
             $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
                 if(data == "existed"){

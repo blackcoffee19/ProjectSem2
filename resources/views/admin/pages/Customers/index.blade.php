@@ -10,7 +10,9 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="text-inherit">Dashboard</a>
+                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Customers
                                     </li>
@@ -18,7 +20,12 @@
                             </nav>
                         </div>
                         <div>
-                            <a href="#!" class="btn btn-primary">Add New Customer</a>
+                            <a href="{{ route('adminAddCustomers') }}" class="btn btn-primary">Add New Customer</a>
+                            {{-- em đặt tên gì thì lấy tên đó nhé --}}
+                            {{-- khi em nhấn thì nó theo tên ở trên đi vào route -> gọi hàm create() trong controller -> controller trả về
+                                trang chứ form nhập liệu
+                                trang nhập liệu khi nhấn create thì gọi thằng store xử lý em chưa viết hàm thì nó xử lý không được
+                                --}}
                         </div>
                     </div>
                 </div>
@@ -47,63 +54,76 @@
                                             <th>Email</th>
                                             <th>Purchase Date</th>
                                             <th>Phone</th>
+                                            <th>Rank</th>
                                             <th>Spent</th>
-
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customers as $customer)
+                                        {{--  Những dữ liệu cứng không cần thiết thì bỏ đi  --}}
+                                        {{--  dùng vòng lăpk @foreach để lấy dữ liệu ra  --}}
+                                        {{--  dòng foreach à vòng lặp, và ta muốn lặp từng dòng, nghĩa là lặp <tr>, vi tr là dòng  --}}
+                                        @foreach ($users as $item)
+                                            {{--  lấy cái biến ở controller bỏ vao đây, cho nó 1 cái tên mới là $item  --}}
                                             <tr>
-                                                <td>{{ $customer->id_user }}</td>
-
+                                                <td>{{ $item->id_user }}</td>
                                                 <td>
-                                                    <div class="d-flex align-items-center">
-                                                        @if ($customer->avatar != null)
-                                                            <img src="{{ asset('images/avatar/' . $customer->avatar) }}"
-                                                                alt="" class="avatar avatar-xs rounded-circle" />
-                                                        @else
-                                                            <img src="{{ asset('images/avatar/user.png') }}" alt=""
-                                                                class="avatar avatar-xs rounded-circle" />
-                                                        @endif
-
-                                                        <div class="ms-2">
-                                                            <a href="#" class="text-inherit">{{ $customer->name }}</a>
-                                                        </div>
-                                                    </div>
+                                                    <img src="{{ asset('images/avatar/' . $item->avatar) }}" alt=""
+                                                        style="width: 50px;">
+                                                    {{ $item->name }}
                                                 </td>
-                                                <td>{{ $customer->email }}</td>
-
-                                                <td>{{ $customer->created_at }}</td>
-                                                <td>{{ $customer->phone }}</td>
-                                                <td>-</td>
+                                                <td>{{ $item->email }}</td>
+                                                <td>{{ $item->created_at }}</td>
+                                                <td>{{ $item->phone }}</td>
+                                                <td>
+                                                    @if ($item->admin == 1)
+                                                        Admin
+                                                    @elseif ($item->admin == 2)
+                                                        Manager
+                                                    @else
+                                                        User
+                                                    @endif
+                                                </td>
+                                                <td>-</td> {{-- cái giá hơi khó để sau --}}
 
                                                 <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-reset" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
-                                                        </a>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <a class="dropdown-item" href="#"><i
-                                                                        class="bi bi-trash me-3"></i>Delete</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="#"><i
-                                                                        class="bi bi-pencil-square me-3"></i>Edit</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    @if ($item->admin != '1')
+                                                        <div class="dropdown">
+                                                            <a href="#" class="text-reset" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ Route('adminShowCustomers', $item->id_user) }}">
+                                                                        <i class="bi bi-eye me-3"></i>Detail</a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ Route('adminEditCustomers', $item->id_user) }}">
+                                                                        <i class="bi bi-pencil-square me-3"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <form
+                                                                        action="{{ Route('adminDeleteCustomers', $item->id_user) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="dropdown-item">
+                                                                            <i class="bi bi-trash me-3"></i>Delete
+                                                                        </button>
+                                                                    </form>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="p-5">
-                                {{ $customers->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ class GoogleAuthController extends Controller
         try {
             $google_user = Socialite::driver('google')->stateless()->user();
             $user = User::where('google_id', '=', $google_user->getId())->orWhere('email', '=', $google_user->getEmail())->first();
-            if (!$user) {   
+            if (!$user) {
                 $new_user = new User();
                 $new_user->name = $google_user->getName();
                 $new_user->email = $google_user->getEmail();
@@ -61,11 +61,11 @@ class GoogleAuthController extends Controller
                 Auth::login($new_user);
                 return redirect('/');
             } else {
-                if(!$user->google_id){
+                if (!$user->google_id) {
                     $user->google_id = $google_user->getId();
                     $user->save();
                 }
-                if(!$user->email_verified){
+                if (!$user->email_verified) {
                     $user->email_verified = true;
                     $user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
                     $user->save();

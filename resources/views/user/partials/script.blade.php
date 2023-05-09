@@ -3,7 +3,7 @@
         @if (!Auth::check() || Auth::user()->admin != '2')
             $('.btn_showcart').click(function() {
                 $.get(window.location.origin + "/ProjectSem2/public/ajax/cart/listcart", function(
-                data) {
+                    data) {
                     $('#listCartmodal').html(data);
                     $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
                     $('.btn_minus').click(function(e) {
@@ -95,7 +95,7 @@
                         $('#saleModal').html(`${dataProduct["sale"]}% Off`);
                         $('#priceAFSModal').html(
                             `${(parseInt(dataProduct["price"])*(1-dataProduct["sale"]/100))} đ/kg`
-                            )
+                        )
                     } else {
                         $('.hasSale').addClass('d-none');
                         $('#priceAFSModal').html(`${dataProduct["price"]} đ/kg`);
@@ -226,7 +226,7 @@
                 $.each(data.results, function(key, value) {
                     $('#province').append(
                         `<option value='${value.province_id}'>${value.province_name}</option>`
-                        );
+                    );
                 });
             });
         })
@@ -419,7 +419,7 @@
                 if ($('input[name=register_name]').val().length > 0 && $('input[name=register_phone]').val()
                     .length > 0 && $('input[name=register_email]').val().length > 0 && $(
                         'input[name=register_password]').val().length > 0 && $('#accepted').is(':checked')
-                    ) {
+                ) {
                     $('#register_submit').removeAttr('disabled');
                 } else {
                     $('#register_submit').attr('disabled', 'disabled');
@@ -465,10 +465,11 @@
                     list +=
                         `<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'><br>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
                     total += parseInt(dataJson['cart'][i]['sale']) > 0 ? (parseInt(dataJson[
-                            'cart'][i]['price']) * (1 - parseInt(dataJson['cart'][i][
-                            'sale']) / 100)) * (parseInt(dataJson['cart'][i]['amount']) /
+                        'cart'][i]['price']) * (1 - parseInt(dataJson['cart'][i][
+                        'sale'
+                    ]) / 100)) * (parseInt(dataJson['cart'][i]['amount']) /
                         1000) : parseInt(dataJson['cart'][i]['price']) * (parseInt(dataJson[
-                            'cart'][i]['amount']) / 1000);
+                        'cart'][i]['amount']) / 1000);
                 };
                 $('#listCart2').html(list);
                 $("#item_subtotal2").html(total + " đ");
@@ -509,10 +510,11 @@
                         list +=
                             `<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
                         total += parseInt(dataJson['cart'][i]['sale']) > 0 ? (parseInt(dataJson[
-                                'cart'][i]['price']) * (1 - parseInt(dataJson['cart'][i][
-                                'sale']) / 100)) * (parseInt(dataJson['cart'][i]['amount']) /
+                            'cart'][i]['price']) * (1 - parseInt(dataJson['cart'][i][
+                            'sale'
+                        ]) / 100)) * (parseInt(dataJson['cart'][i]['amount']) /
                             1000) : parseInt(dataJson['cart'][i]['price']) * (parseInt(dataJson[
-                                'cart'][i]['amount']) / 1000);
+                            'cart'][i]['amount']) / 1000);
                     };
                     $('#listCart').html(list);
                     $("#item_subtotal").html(total + " đ");
@@ -534,7 +536,7 @@
                     } else if (dataJson['status'] == "delivery") {
                         $("#status_order option[value='finished']").removeAttr('disabled');
                         $("#status_order option[value='transaction failed']").removeAttr(
-                        'disabled');
+                            'disabled');
                         $("#status_order option[value='unconfirmed']").attr('disabled', 'disabled');
                         $("#status_order option[value='confirmed']").attr('disabled', 'disabled');
                     } else {
@@ -618,7 +620,7 @@
         $('.button-submit').click(function() {
             let message = $(this).siblings('input[name="send_message"]');
             let chatbox = $(this).parents('.input_message').prev();
-            console.log(badge_mess);
+            // console.log(badge_mess);
             if (message.val().length > 0) {
                 $.ajax({
                     method: "POST",

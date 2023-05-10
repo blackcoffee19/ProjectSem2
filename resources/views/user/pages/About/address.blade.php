@@ -30,11 +30,18 @@
                                             <div class="card">
                                                 <div class="card-body p-6">
                                                     <div class="form-check mb-4">
-                                                        <span class="form-check-label text-dark fw-semi-bold" >
+                                                        <i class="bi bi-box-seam-fill fs-4 text-secondary"></i>
+
+                                                        <span class="ms-4 form-check-label text-dark fw-semi-bold" >
                                                             {{$add->receiver}}
                                                         </span>
                                                     </div>
-                                                    <p class="mb-6">{{$add->address}}</p>
+                                                    <address style="height: 90px">
+                                                        {{$add->address .", ".$add->ward.", ".$add->district}}<br>
+                                                        {{$add->province}}<br>
+                                                        <abbr title="Phone">P: {{$add->phone}}</abbr>
+                                                    </address>
+
                                                     @if ($add->default)
                                                     <a href="#" class="btn btn-info btn-sm">Default address</a>
                                                     @else

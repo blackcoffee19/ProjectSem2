@@ -155,7 +155,7 @@ public function successTransaction(Request $request)
             $order->receiver = $address['receiver']; 
             $order->phone = $address['phone'];
             $order->email = $address['email'];
-            $order->address = $address['address'];
+            $order->address = $address['address'].", ".$address['ward'].", ".$address['district'].", ".$address['province'];
             $order->code_coupon = Session::has('code_coupon')?Session::get('code_coupon'):null;
             $order->method = 'paypal';
             $order->instruction = Session::has('instructions')?Session::get('instructions'):null;

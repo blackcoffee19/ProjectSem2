@@ -25,6 +25,17 @@
                   }
                   $(this).parent().next().removeClass('d-none');
               });
+              $('input[name=quan]').on('focusout',function(e){
+                e.preventDefault();
+                let validateNum =/^\d{1,10}$/;
+                let currentVl = $(this).val();
+                $(this).val(validateNum.test(currentVl)?currentVl:100);
+                if(parseInt($(this).parent().data('amount')) != $(this).val()){
+                  $('#modal_save').removeClass('d-none');
+                }else{
+                  $('#modal_save').addClass('d-none');
+                }
+              });
           })
       });
       @endif
@@ -137,6 +148,10 @@
           $('.countFav').html(data);
         })
       });
+      @if(Session::has('message_addtocart'))
+        const toast = new bootstrap.Toast($('#toastAdd'))
+        toast.show();
+      @endif
       $('.addToCart').click(function(){
         @if(!Auth::check() || Auth::user()->admin == '0')
         const toast = new bootstrap.Toast($('#toastAdd'))
@@ -192,80 +207,128 @@
           $("#listAddress").html(data);
         });
       })
-      const host = "https://vapi.vnappmob.com";
-      const getProvince = host+"/api/province/";
-      $.getJSON(getProvince,function(data){
-          $('#province').append("<option selected>--Choose 1 province--</option>");
-          $.each(data.results,function(key,value){
-              $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
-          });
+      const ghn_api_province = "https://online-gateway.ghn.vn/shiip/public-api/master-data/province";
+      const ghn_api_district = "https://online-gateway.ghn.vn/shiip/public-api/master-data/district";
+      const ghn_api_ward ="https://online-gateway.ghn.vn/shiip/public-api/master-data/ward";
+      const ghn_api_dev = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province";
+      const ghn_api_service = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services";
+      const ghn_fee = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+      const ghtk_api = "https://services-staging.ghtklab.com";
+      const ghtk_token = "1830630245Ca1E494982d10B95FaFFbe6bF78641";
+      const ghn_token ="40c06a9e-ee0f-11ed-a281-3aa62a37e0a5";
+      $.ajax({
+        method: "GET",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+            xhr.setRequestHeader("Content-Type", "application/json")
+        },
+        url: ghn_api_province,
+        success: function (data) {
+            $("#province").append('<option>--Select Province --</option>');
+            data.data.forEach(el=>{
+              $("#province").append(`<option value="${el.ProvinceID}">${el.ProvinceName}</option>`)
+            })
+        },
+        error: function (request, status, error) {
+            console.log();(request.responseText);
+        }
       });
-      $('#province').click(function(){
-        $.getJSON(getProvince,function(data){
-          $.each(data.results,function(key,value){
-            $('#province').append(`<option value='${value.province_id}'>${value.province_name}</option>`);
-          });
-        });
-      })
+
       $('#province').change(function async(e){
         e.preventDefault();
-        
-          if($(this).val() != 79){
-            $('#shipment_fee').val(30000);
-            @if (!Auth::check())
-              $('#extra_ship').removeClass('d-none');
-              let totall = parseInt($("#total").data('total'))+30000;
-              $("input[name=shipment_fee]").val(30000);
-              $('#total').html(totall+ ' đ');
-              $(".totalPay").text((totall*0.000043).toFixed(2));
-            @endif
-          }else{
-            @if (!Auth::check())
-              $('#extra_ship').addClass('d-none');
-              $('#total').html((parseInt($("#total").data('total'))+20000) +" đ");
-              $(".totalPay").text(
-                ((parseInt($("#total").data('total'))+20000)*0.000043).toFixed(2)
-              );
-              $("input[name=shipment_fee]").val(20000);
-            @endif
+        $('#district').removeAttr('disabled');
+        let str = "<option selected>--Choose District--</option>";
+        let strw = '<option selected>--Choose Ward--</option>';
+        $('#ward').html(str);
+        $.ajax({
+          method: "GET",
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+              xhr.setRequestHeader("Content-Type", "application/json")
+          },
+          url: ghn_api_district,
+          data: {"province_id": $('#province').val()},
+          success: function (data) {
+            data.data.forEach(value=>{
+              str+=`<option value=${value.DistrictID}>${value.DistrictName}</option>`;
+            }) 
+            $('#district').html(str);
+          },
+          error: function (request, status, error) {
+              console.log();(request.responseText);
           }
-          let getDistric = host+"/api/province/district/"+$(this).val();
-          $('#district').removeAttr('disabled');
-          let str = "<option selected>--Choose 1 district--</option>";
-          $.getJSON(getDistric,function(data){
-              $.each(data.results,function(key,value){
-                  str+=`<option value=${value.district_id}>${value.district_name}</option>`;
-              })
-              $('#district').html(str);
-          });
+        });
       });
       $('#district').change(function(e){
           e.preventDefault();
           $('#ward').removeAttr('disabled');
-          $('#province option:selected').val($('#province option:selected').text());
-          let str = '<option selected>--Choose 1 ward--</option>';
-          let getWard = host+"/api/province/ward/"+$(this).val();
-          $.getJSON(getWard,function(data){
-              $.each(data.results,function(key,value){
-                  str+=`<option value=${value.ward_id}>${value.ward_name}</option>`;
-              });
+          // $('#province option:selected').val($('#province option:selected').text());
+          let str = '<option selected>--Choose Ward--</option>';
+          $.ajax({
+            method: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+                xhr.setRequestHeader("Content-Type", "application/json")
+            },
+            url: ghn_api_ward,
+            data: {"district_id": $('#district').val()},
+            success: function (data) {
+              data.data.forEach(value=>{
+                str+=`<option value=${value.WardCode}>${value.WardName}</option>`;
+              }) 
               $('#ward').html(str);
+            },
+            error: function (request, status, error) {
+                console.log();(request.responseText);
+            }
           });
       });
-      $('#ward').change(function(e){
-          e.preventDefault();
+      $('#ward').change(function(){
+        $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data){
+          let dataJson = jQuery.parseJSON(data);
+          console.log(dataJson);
+          if(dataJson['fee']['delivery']){
+            let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
+            if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
+              $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+              $("#total").html(totall +" đ");
+            }
+            $(".totalPay").text((totall*0.000043).toFixed(2));
+            $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
+            if(dataJson['fee']['extFees'].length>0){
+              $('#extra_ship').removeClass('d-none');
+              let total_shipfee = dataJson['fee']['fee'];
+              let ex_fee = 0;
+              dataJson['fee']['extFees'].forEach(el=>{
+                ex_fee+=el['amount'];
+              });
+              $("#extra_ship_display").html("+ "+ex_fee+" đ");
+              total_shipfee+=ex_fee;
+              totall+=ex_fee;
+              $("input[name=shipment_fee]").val(total_shipfee);
+              $(".totalPay").text((totall*0.000043).toFixed(2));
+              $('#total').html(totall+ ' đ');
+            }
+          }else{
+            $("#error_delivery").html('Sorry we can not delivery to your address.');
+          }
+        })
+        if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
+          $('#submit_order').removeAttr('disabled');
+        }else{
+          $("#submit_order").attr('disabled','disabled');
+        };
+      })
+      $("#submit_order").click(function(){
+        @if(!Auth::check())
           $('#province option:selected').val($('#province option:selected').text());
           $('#district option:selected').val($('#district option:selected').text());
           $('#ward option:selected').val($('#ward option:selected').text());
-          if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
-                $('#submit_order').removeAttr('disabled');
-          }else{
-              $("#submit_order").attr('disabled','disabled');
-          };
+        @endif
       })
       let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
-      let valiPhone1 = /^[0-9]{9,11}$/;
-      let valiPhone = /^\(?\+84\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?$/;
+      let valiPhone = /^[0-9]{9,11}$/;
+      let valiPhone1 = /^\(?\+84\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?$/;
       let valiEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
       $('input[name=phoneReciever]').focusout(function(e){
           e.preventDefault();

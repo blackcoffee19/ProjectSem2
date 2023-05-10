@@ -295,11 +295,22 @@
             });
             $('#new_email').change(function() {
                 if (valiEmail.test($(this).val().trim())) {
-                    if ($(this).hasClass('is-invalid')) {
-                        $(this).removeClass('is-invalid');
-                    };
-                    $('#invalidEmail').html('');
-                    $('#changeProfie').removeAttr('disabled');
+                    $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val().trim(), function(data){
+                        if(data == "existed"){
+                            $('#new_email').addClass('is-invalid');
+                            $('#invalidEmail').text('This email has signed.');
+                            $('#changeProfie').attr('disabled', 'disabled');
+                        }else{
+                            if($('#new_email').hasClass('is-invalid')){
+                                $('#new_email').removeClass('is-invalid');
+                            }
+                            $('#changeProfie').removeAttr('disabled');
+                            $('#new_email').addClass('is-valid');
+                            $('#invalidEmail').text('');
+                        }
+                    });
+                    $("#unverifyEmail").addClass('d-none');
+                    $("#send_verified").addClass('d-none');
                 } else if ($(this).val().trim().length == 0) {
                     $(this).val("{{ Auth::user()->email }}");
                     $('#changeProfie').attr('disabled', 'disabled');

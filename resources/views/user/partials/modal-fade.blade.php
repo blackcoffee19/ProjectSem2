@@ -286,7 +286,6 @@
           <form action="{{route('post_address')}}" method="post">
             @csrf
             <div class="row g-3">
-              <input type="hidden" name="shipment_fee" id="shipment_fee" value="2">
               <div class="col-12">
                 <input type="text" class="form-control" name="nameReciever" placeholder="Reciever name"  required="">
               </div>
@@ -603,14 +602,10 @@
         <p>Receiver Phone: <span id="phone_pay"></span></p>
         <p>Email contact: <span id="email_pay"></span></p>
         <p>Delivery instructions: <span id="intruct_pay"></span></p>
-        @if (Auth::check())
-        <p>Address: <span id="address_pay"></span></p>
-        @else
-        <p>Address: <span id="address_pay2"></span><br>
+        <p>Address: <span id="address_pay"></span><br>
           &nbsp; Ward: <span id="ward_pay"></span><br>
           &nbsp; District: <span id="district_pay"></span><br>
           &nbsp; Province: <span id="province_pay"></span></p>
-        @endif
 
       </div>
       <div class="modal-footer">

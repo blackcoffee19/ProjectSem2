@@ -28,6 +28,10 @@ fix coupon không được nhập số 0 và số âm
 fix hiển thị id với name trong order Single, ẩn 2 button save, Download Invoice
 
 fix vài thứ trong slider admin và banner update
+Merge to branch Quan -> fix page catagory
+
+fix link and attr banner update
+
 
 
 

@@ -111,7 +111,7 @@
                                                     class="text-dark">{{ $id_order->id_order }}</span><br>
                                                 Order Date: <span class="text-dark">{{ $id_order->created_at }}</span><br>
                                                 Shipping Fee: <span class="text-dark">
-                                                    {{ number_format($id_order->shipping_fee, 0 ,'',' ')}} đ</span><br>
+                                                    {{ number_format($id_order->shipping_fee, 0, '', ' ') }} đ</span><br>
                                                 Coupon: <span class="text-dark">
                                                     @if ($id_order->code_coupon != null)
                                                         {{ $id_order->Coupon->title }}
@@ -145,9 +145,9 @@
                                                 $subtotal = 0;
                                             @endphp
                                             @foreach ($cartItems as $item)
-                                                @php 
-                                                    $subtotal += $item->price*(1-$item->sale/100)*($item->amount/1000);
-                                                    $prices =$item->price;
+                                                @php
+                                                    $subtotal += $item->price * (1 - $item->sale / 100) * ($item->amount / 1000);
+                                                    $prices = $item->price;
                                                 @endphp
                                                 <tr>
                                                     <td>
@@ -160,11 +160,12 @@
                                                         </a>
                                                     </td>
                                                     <td><span class="text-body">
-                                                            {{ number_format($prices, 0,'',' ') }}
+                                                            {{ number_format($prices, 0, '', ' ') }}
                                                             đ/kg
                                                         </span></td>
                                                     <td>{{ $item->amount }} grams</td>
-                                                    <td>{{ number_format(($prices / 1000) * $item->amount,0,'', ' ') }} đ</td>
+                                                    <td>{{ number_format(($prices / 1000) * $item->amount, 0, '', ' ') }} đ
+                                                    </td>
                                                 </tr>
                                             @endforeach
 
@@ -177,7 +178,8 @@
                                                 </td>
                                                 <td class="fw-medium text-dark ">
                                                     <!-- text -->
-                                                    <strong class="text-primary">{{ number_format($subtotal,0,'',' ')}} đ</strong>
+                                                    <strong class="text-primary">{{ number_format($subtotal, 0, '', ' ') }}
+                                                        đ</strong>
                                                 </td>
                                             </tr>
 
@@ -193,11 +195,11 @@
                                                     <strong class="text-danger">
                                                         @if ($id_order->code_coupon != null)
                                                             @php
-                                                                $subtotal = $id_order->Coupon->discount <= 100 ? $subtotal*(1-$id_order->Coupon->discount/100): $subtotal - $id_order->Coupon->discount;
+                                                                $subtotal = $id_order->Coupon->discount <= 100 ? $subtotal * (1 - $id_order->Coupon->discount / 100) : $subtotal - $id_order->Coupon->discount;
                                                             @endphp
-                                                            -{{ $id_order->Coupon->discount <= 100 ? number_format($id_order->Coupon->discount,0,'',' ')."%" : number_format($id_order->coupon->discount, 0,'',' ')." đ" }}
+                                                            -{{ $id_order->Coupon->discount <= 100 ? number_format($id_order->Coupon->discount, 0, '', ' ') . '%' : number_format($id_order->coupon->discount, 0, '', ' ') . ' đ' }}
                                                         @else
-                                                            0 đ
+                                                            ---
                                                         @endif
                                                     </strong>
                                                 </td>
@@ -209,7 +211,8 @@
                                                     Shipping Cost
                                                 </td>
                                                 <td class="fw-medium text-dark  ">
-                                                    <strong class="text-primary">{{ number_format($id_order->shipping_fee, 0 ,'',' ')}}đ</strong>
+                                                    <strong
+                                                        class="text-primary">{{ number_format($id_order->shipping_fee, 0, '', ' ') }}đ</strong>
                                                     @php
                                                         $subtotal += $id_order->shipping_fee;
                                                     @endphp
@@ -226,7 +229,7 @@
                                                 <td class="fw-semi-bold text-dark ">
                                                     <!-- text -->
                                                     <h5 class="text-info">
-                                                        {{ number_format($subtotal, 0,'',' ') }} đ
+                                                        {{ number_format($subtotal, 0, '', ' ') }} đ
                                                     </h5>
                                                 </td>
                                             </tr>

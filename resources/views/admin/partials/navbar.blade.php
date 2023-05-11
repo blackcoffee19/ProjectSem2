@@ -118,6 +118,14 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ Route('adminNew') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="fa-regular fa-bell"></i></span>
+                            <span class="nav-link-text">News</span>
+                        </div>
+                    </a>
+                </li>
                 <!-- Nav item -->
                 {{-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

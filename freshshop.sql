@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 06, 2023 lúc 06:35 AM
+-- Thời gian đã tạo: Th5 07, 2023 lúc 03:33 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.2.0
 
@@ -67,7 +67,7 @@ CREATE TABLE `banner` (
   `btn_content` varchar(20) DEFAULT NULL,
   `btn_bg_color` varchar(7) NOT NULL DEFAULT '#000000',
   `btn_color` varchar(7) NOT NULL DEFAULT '#ffffff',
-  `link` varchar(100) DEFAULT NULL,
+  `link` varchar(40) DEFAULT NULL,
   `attr` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -78,9 +78,9 @@ CREATE TABLE `banner` (
 --
 
 INSERT INTO `banner` (`id_banner`, `image`, `title`, `title_color`, `content`, `content_color`, `btn_content`, `btn_bg_color`, `btn_color`, `link`, `attr`, `created_at`, `updated_at`) VALUES
-(1, 'grocery-banner.png', 'Bắp siêu ngon siêu nhiều hạt', '#dbac00', 'Giảm giá sâu lên đến 50% cho 2 loại, bắp Mỹ và bắp Nếp', '#000000', 'Click nhanh', '#ff0000', '#ffffff', 'user.pages.Products.index', NULL, NULL, '2023-05-05 20:19:39'),
-(2, 'grocery-banner-2.jpg', 'Sầu riêng Miền Tây bao ngon', '#7c83de', 'Giảm giá lên đến 50%', '#000000', 'Click mua', '#ffffff', '#ff00dd', 'products', '16', NULL, '2023-05-05 19:46:29'),
-(3, 'vai-thieu-1.jpg', 'Vải thiều đặc sản siêu ngon', '#000000', 'Giảm giá 40%', '#000000', 'Shop Now', '#ff0000', '#ffffff', 'products', '19', NULL, '2023-05-05 19:57:05');
+(1, 'grocery-banner.png', 'Fruits & Vegetables', '#000000', 'Get Upto 30% Off', '#838E94', 'Shop Now', '#000000', '#ffffff', 'userShowProductCatagory', '0', NULL, NULL),
+(2, 'grocery-banner-2.jpg', 'Freshly Baked Buns', '#000000', 'Get Upto 25% Off', '#838E94', 'Shop Now', '#000000', '#ffffff', 'userShowProductCatagory', '1', NULL, NULL),
+(3, 'banner-deal.jpg', '100% Organic Stawberry', '#FFFFFF', 'Get the best deal before close.', '#FFFFFF', 'Shop Now', '#099309', '#000000', 'userShowProductCatagory', '1', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -738,7 +738,7 @@ INSERT INTO `coupon` (`id_coupon`, `title`, `code`, `discount`, `max`, `status`,
 (3, 'Merry Chirstmast', 'MARRYCHIRT', 20, 1, 0, '2022-12-23 17:00:00', NULL),
 (4, 'Free Ship', 'FREESHIP423', 20000, 3, 1, '2023-03-31 17:00:00', NULL),
 (5, 'Free Ship', 'FREESHIP522', 20000, 3, 0, '2022-04-30 17:00:00', NULL),
-(6, 'Happy May', 'MAYBE', 50, 3, 1, '2023-04-30 17:00:00', '2023-05-05 20:56:49');
+(6, 'Happy May', 'MAYBE', 20, 3, 1, '2023-04-30 17:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -1063,6 +1063,7 @@ CREATE TABLE `message` (
   `message` varchar(200) DEFAULT NULL,
   `link` bigint(20) UNSIGNED DEFAULT NULL,
   `id_user` bigint(20) UNSIGNED NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1071,19 +1072,19 @@ CREATE TABLE `message` (
 -- Đang đổ dữ liệu cho bảng `message`
 --
 
-INSERT INTO `message` (`id_message`, `code_group`, `message`, `link`, `id_user`, `created_at`, `updated_at`) VALUES
-(1, 'UCT27', 'How long does it take you to import new vegetables?', NULL, 2, '2023-03-28 17:00:00', NULL),
-(2, 'UCT27', 'about 2-3 weeks', NULL, 7, '2023-03-29 20:00:00', NULL),
-(3, 'UCT27', 'Ok thanks', NULL, 2, '2023-03-30 02:00:00', NULL),
-(4, 'UCT27', 'Is anyone here?', NULL, 2, '2023-04-12 02:00:00', NULL),
-(5, 'UCT27', 'Yes, How can I help you?', NULL, 7, '2023-04-12 04:00:00', NULL),
-(6, 'UCT31', 'Why is buffalo meat so expensive?', NULL, 3, '2023-04-29 17:00:00', NULL),
-(7, 'UCT31', 'Sorry our buffalo meat is high quality', NULL, 1, '2023-04-29 18:33:00', NULL),
-(8, 'UCT48', 'Hi', NULL, 4, '2023-03-01 17:00:00', NULL),
-(9, 'UCT48', 'How can I help you?', NULL, 8, '2023-03-01 19:00:00', NULL),
-(10, NULL, 'Do you have octopus?', NULL, 3, '2023-05-01 04:00:00', NULL),
-(11, NULL, 'do you have shrimps??', NULL, 5, '2023-05-04 09:28:56', NULL),
-(12, NULL, 'Do you have no eggs?', NULL, 6, '2023-05-04 09:28:56', NULL);
+INSERT INTO `message` (`id_message`, `code_group`, `message`, `link`, `id_user`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'UCT27', 'How long does it take you to import new vegetables?', NULL, 2, 1, '2023-03-28 17:00:00', NULL),
+(2, 'UCT27', 'about 2-3 weeks', NULL, 7, 1, '2023-03-29 20:00:00', NULL),
+(3, 'UCT27', 'Ok thanks', NULL, 2, 1, '2023-03-30 02:00:00', NULL),
+(4, 'UCT27', 'Is anyone here?', NULL, 2, 1, '2023-04-12 02:00:00', NULL),
+(5, 'UCT27', 'Yes, How can I help you?', NULL, 7, 1, '2023-04-12 04:00:00', NULL),
+(6, 'UCT31', 'Why is buffalo meat so expensive?', NULL, 3, 1, '2023-04-29 17:00:00', NULL),
+(7, 'UCT31', 'Sorry our buffalo meat is high quality', NULL, 1, 0, '2023-04-29 18:33:00', NULL),
+(8, 'UCT48', 'Hi', NULL, 4, 1, '2023-03-01 17:00:00', NULL),
+(9, 'UCT48', 'How can I help you?', NULL, 8, 0, '2023-03-01 19:00:00', NULL),
+(10, NULL, 'Do you have octopus?', NULL, 3, 0, '2023-05-01 04:00:00', NULL),
+(11, NULL, 'do you have shrimps??', NULL, 5, 0, '2023-05-07 06:33:04', NULL),
+(12, NULL, 'Do you have no eggs?', NULL, 6, 0, '2023-05-07 06:33:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -1152,8 +1153,8 @@ INSERT INTO `news` (`id_news`, `order_code`, `title`, `id_user`, `link`, `attr`,
 (5, 'USR2_4', 'How do you think about your order?', 2, 'feedback', 'USR2_4', 0, '2023-04-30 17:00:00', NULL),
 (6, 'USR3_16', 'Order Cancel', 3, 'USR3_2', NULL, 1, '2023-04-18 04:00:00', NULL),
 (7, 'GUT_47', 'Order Transaction Failed', NULL, 'GUT_47', NULL, 1, '2023-05-01 01:00:00', NULL),
-(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-04 09:28:55', NULL),
-(9, NULL, 'We have a gift for you', NULL, 'show_coupon', 'MAYBE', 0, '2023-05-04 09:28:55', NULL);
+(8, NULL, 'New Product', NULL, 'products-details', '30', 0, '2023-05-07 06:33:03', NULL),
+(9, NULL, 'We have a gift for you', NULL, 'show_coupon', 'MAYBE', 0, '2023-05-07 06:33:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -1455,9 +1456,8 @@ CREATE TABLE `slide` (
 --
 
 INSERT INTO `slide` (`id_slide`, `image`, `title`, `title_color`, `content`, `content_color`, `link`, `btn_content`, `btn_color`, `btn_bg_color`, `attr`, `alert`, `alert_size`, `alert_color`, `alert_bg`, `created_at`, `updated_at`) VALUES
-(1, 'slide-1.jpg', 'SuperMarket For Fresh Grocery', '#0040ff', 'Introduced a new model for online grocery shopping and convenient home delivery.', '#b3b3b3', 'category', 'Shop Now', '#ff0000', '#fbff00', '1', 'Opening Sale Discount 50%', 'fs-6', '#ff0000', '#ffffff', '2023-05-04 09:28:54', '2023-05-05 21:29:38'),
-(2, 'slider-2.jpg', 'Free Shipping', '#ff00dd', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#209400', 'signup', 'Sign Up', '#ff00ae', '#ffffff', NULL, 'Free Shipping For New Member', 'fs-6', '#ffffff', '#ff0000', '2023-05-04 09:28:54', '2023-05-05 21:26:51'),
-(3, 'slider_33.jpg', 'Tuần lễ trái cây, festival trái cây', '#ffffff', 'Lễ hội trái cây là một lễ hội thường niên hàng năm, với rất nhiều chủng loại trái cây như ổi, xoài, vải v.v...', '#c7c7c7', 'user.pages.Products.index', 'click ngay', '#74ba36', '#ffffff', NULL, 'Giảm giá lên đến 50%', 'fs-6', '#000000', '#ffffff', '2023-05-05 21:16:55', '2023-05-05 21:33:47');
+(1, 'slide-1.jpg', 'SuperMarket For Fresh Grocery', '#000000', 'Introduced a new model for online grocery shopping and convenient home delivery.', '#5C6C75', 'allProduct', 'Shop Now', '#ffffff', '#000000', NULL, 'Opening Sale Discount 50%', 'fs-6', '#000000', '#FFC107', '2023-05-07 06:33:02', NULL),
+(2, 'slider-2.jpg', 'Free Shipping', '#000000', 'Free Shipping to First-Time Customers Only, After promotions and discounts are applied.', '#5C6C75', 'signup', 'Sign Up', '#ffffff', '#000000', NULL, 'Free Shipping For New Member', 'fs-6', '#000000', '#FFC107', '2023-05-07 06:33:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -1520,14 +1520,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `name`, `phone`, `avatar`, `email`, `admin`, `google_id`, `email_verified_at`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '01244345692', 'admin.png', 'admin@gmail.com', '1', NULL, NULL, '$2y$10$S4EedWaX1gxJzrFOE92pxuADrBzpRO5ZOs18HDTC5p1wB86wJzbHa', 1, NULL, '2022-01-22 17:00:00', NULL),
-(2, 'User 1', '01243234568', 'avatar-1.jpg', 'guest1@gmail.com', '0', NULL, NULL, '$2y$10$1InrBTLZTvCJcLeQgEGMUuaQhGF4iH5WoN7Qqq7jdLHgzLiLwjmES', 1, NULL, '2022-01-28 17:00:00', NULL),
-(3, 'User 2', '01243234666', 'avatar-2.jpg', 'guest2@gmail.com', '0', NULL, NULL, '$2y$10$zxwlJhlPvXDmOp9fAmyEcOqlb2J.SqrNaZLfOBChuk0IBT/JkCule', 1, NULL, '2022-01-29 17:00:00', NULL),
-(4, 'User 3', '09199141036', 'avatar-3.jpg', 'guest3@gmail.com', '0', NULL, NULL, '$2y$10$q0vrYNFZfJR7QEiWvGF3i.1BMbV1ABz52caC1kzLJ62x1eljY2diO', 1, NULL, '2022-01-30 17:00:00', NULL),
-(5, 'User 4', '09199141135', 'avatar-4.jpg', 'guest4@gmail.com', '0', NULL, NULL, '$2y$10$QrmkySgaKt9fH0YkdaeynOqUaIge6dZDwQSBwL.s18HjaPinkZETO', 1, NULL, '2022-01-31 17:00:00', NULL),
-(6, 'User 5', '09199141111', 'avatar-5.jpg', 'guest5@gmail.com', '0', NULL, NULL, '$2y$10$Rw4llwKP7GoAQXrRRmfjh.jT.q0kTskvX5vPD1fD4647dC1glp8C6', 1, NULL, '2022-02-28 17:00:00', NULL),
-(7, 'Cat Tuong', '0919941037', 'user_0_meme-2.jpg', 'cattuongw2000@gmail.com', '1', NULL, NULL, '$2y$10$qmx/OPd/8goI23GqgAWArOXu4TVi/esrYBLl4sj.C3VI10YjCK9pS', 1, NULL, '2022-11-22 17:00:00', NULL),
-(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$CGptBiQ8UCIXeoaoCB//LeIm2L9P.G3uc0G68KgSnFQakWnnMNr0a', 1, NULL, '2022-01-22 17:00:00', NULL);
+(1, 'admin', '01244345692', 'admin.png', 'admin@gmail.com', '1', NULL, NULL, '$2y$10$wslsw9LWqoR7vxEXXzYcwOQ7EI4WVNLI76tn7cjG9.j3.wg8wl6L6', 1, NULL, '2022-01-22 17:00:00', NULL),
+(2, 'User 1', '01243234568', 'avatar-1.jpg', 'guest1@gmail.com', '0', NULL, NULL, '$2y$10$G6gEAxAY3bYWJ/76bH2Lvu6Nn0O..efA6QVt/S2i0l2LSzeOfssgC', 1, NULL, '2022-01-28 17:00:00', NULL),
+(3, 'User 2', '01243234666', 'avatar-2.jpg', 'guest2@gmail.com', '0', NULL, NULL, '$2y$10$8d1SJg7OplK3f0qgTxRbuuXUkwuuDfT65NQrM6U7fn6f6b33mT5Li', 1, NULL, '2022-01-29 17:00:00', NULL),
+(4, 'User 3', '09199141036', 'avatar-3.jpg', 'guest3@gmail.com', '0', NULL, NULL, '$2y$10$Dm9g62JUtJnif6k9tn0jp.O2H27BSfxsLZBC/kvorR0749MfOG0ky', 1, NULL, '2022-01-30 17:00:00', NULL),
+(5, 'User 4', '09199141135', 'avatar-4.jpg', 'guest4@gmail.com', '0', NULL, NULL, '$2y$10$urFi/PEkVJsy3CD9jAyVYuki.XKwgzYDlOX0E3r44ttg04ip9J3ou', 1, NULL, '2022-01-31 17:00:00', NULL),
+(6, 'User 5', '09199141111', 'avatar-5.jpg', 'guest5@gmail.com', '0', NULL, NULL, '$2y$10$CkYQmr9i2UwQwAteebMa/uzH0EeZGlkTo3rZ.BxhCBCuecs7guE2S', 1, NULL, '2022-02-28 17:00:00', NULL),
+(7, 'Cat Tuong', '0919941037', 'user_0_meme-2.jpg', 'cattuongw2000@gmail.com', '1', NULL, NULL, '$2y$10$zvKEYiY36BV9/rBN.Mebd.JEBAPmn.B3tUvENt0oAulEvntm43h.O', 1, NULL, '2022-11-22 17:00:00', NULL),
+(8, 'host', NULL, NULL, 'host@gmail.com', '2', NULL, NULL, '$2y$10$W2qqHBJp7Wb.UqmdbTdR.OTKNCBNRgLV3BE3wQUqgf0taMxfhae6y', 1, NULL, '2022-01-22 17:00:00', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1690,7 +1690,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
-  MODIFY `id_coupon` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_coupon` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `expense`
@@ -1762,7 +1762,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `slide`
 --
 ALTER TABLE `slide`
-  MODIFY `id_slide` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_slide` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `typeproduct`

@@ -172,39 +172,168 @@
                                                     <h3>Link</h3>
                                                     <select name="link" class="form-control" required
                                                         id="link-select">
-                                                        {{-- <option value=""selected>-- Select Type --</option> --}}
                                                         <option value="{{ $id_banner->link }}"
                                                             {{ $id_banner->link == $id_banner->id_banner ? 'selected' : '' }}>
                                                             {{ $id_banner->link }}
                                                         </option>
                                                         <option value="">Home</option>
                                                         <option value="user.pages.Products.index">All Product</option>
-                                                        <option value="category">Category By ID</option>
-                                                        <option value="products">Product By ID</option>
+                                                        <option value="category">Category By Name</option>
+                                                        <option value="products">Product By Name</option>
                                                     </select>
                                                 </div>
                                                 <div id="attr-div" class="col-6" style="display:none;">
                                                     <h3>Attr</h3>
-                                                    <input type="text" class="form-control" placeholder="attr"
-                                                        name="attr">
+                                                    <select name="attr" class="form-control" required
+                                                        id="attr-select">
+                                                        <option value="">--Select--</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
                                             <script>
-                                                // Lấy phần tử select box
                                                 var selectBox = document.getElementById("link-select");
+                                                var attrBox = document.getElementById("attr-div");
+                                                var attrSelect = document.getElementById("attr-select");
 
-                                                // Thêm sự kiện onchange cho select box
+                                                // Khởi tạo mảng categoryOptions
+                                                var categoryOptions = [{
+                                                        value: '1',
+                                                        text: 'vegetable'
+                                                    },
+                                                    {
+                                                        value: '2',
+                                                        text: 'fruit'
+                                                    },
+                                                    {
+                                                        value: '3',
+                                                        text: 'meat'
+                                                    }
+                                                ];
+
+                                                // Khởi tạo mảng productOptions
+                                                var productOptions = [{
+                                                        value: '1',
+                                                        text: 'Corn'
+                                                    }, {
+                                                        value: '2',
+                                                        text: 'calabash'
+                                                    }, {
+                                                        value: '3',
+                                                        text: 'pumkin'
+                                                    }, {
+                                                        value: '4',
+                                                        text: 'tomato'
+                                                    }, {
+                                                        value: '5',
+                                                        text: 'carrot'
+                                                    },
+                                                    {
+                                                        value: '6',
+                                                        text: 'eggplant'
+                                                    }, {
+                                                        value: '7',
+                                                        text: 'White radish'
+                                                    }, {
+                                                        value: '8',
+                                                        text: 'onion'
+                                                    }, {
+                                                        value: '9',
+                                                        text: 'bell pepper'
+                                                    }, {
+                                                        value: '10',
+                                                        text: 'Lettuce'
+                                                    },
+                                                    {
+                                                        value: '11',
+                                                        text: 'coconut'
+                                                    }, {
+                                                        value: '12',
+                                                        text: 'watermelon'
+                                                    }, {
+                                                        value: '13',
+                                                        text: 'pear'
+                                                    }, {
+                                                        value: '14',
+                                                        text: 'plum'
+                                                    }, {
+                                                        value: '15',
+                                                        text: 'mangosteen'
+                                                    },
+                                                    {
+                                                        value: '16',
+                                                        text: 'durian'
+                                                    }, {
+                                                        value: '17',
+                                                        text: 'apple'
+                                                    }, {
+                                                        value: '18',
+                                                        text: 'pinapple'
+                                                    }, {
+                                                        value: '19',
+                                                        text: 'litchi'
+                                                    }, {
+                                                        value: '20',
+                                                        text: 'mango'
+                                                    },
+                                                    {
+                                                        value: '21',
+                                                        text: 'beef'
+                                                    }, {
+                                                        value: '22',
+                                                        text: 'plaice'
+                                                    }, {
+                                                        value: '23',
+                                                        text: 'Snakehead fish'
+                                                    }, {
+                                                        value: '24',
+                                                        text: 'tuna'
+                                                    }, {
+                                                        value: '25',
+                                                        text: 'mackerel'
+                                                    },
+                                                    {
+                                                        value: '26',
+                                                        text: 'goat'
+                                                    }, {
+                                                        value: '27',
+                                                        text: 'chicken'
+                                                    }, {
+                                                        value: '28',
+                                                        text: 'pork'
+                                                    }, {
+                                                        value: '29',
+                                                        text: 'lamb'
+                                                    }, {
+                                                        value: '30',
+                                                        text: 'Buffalo'
+                                                    },
+                                                ];
+
+                                                // Lắng nghe sự kiện thay đổi trên selectBox
                                                 selectBox.addEventListener("change", function() {
-                                                    // Lấy giá trị được chọn
                                                     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                                                    // Nếu giá trị là 'category' hoặc 'products'
-                                                    if (selectedValue === "category" || selectedValue === "products") {
-                                                        // Hiển thị phần tử chứa đoạn mã HTML
-                                                        document.getElementById("attr-div").style.display = "block";
+
+                                                    if (selectedValue === "category") {
+                                                        attrSelect.innerHTML = '';
+                                                        categoryOptions.forEach(function(option) {
+                                                            var newOption = document.createElement('option');
+                                                            newOption.value = option.value;
+                                                            newOption.text = option.text;
+                                                            attrSelect.add(newOption);
+                                                        });
+                                                        attrBox.style.display = "block";
+                                                    } else if (selectedValue === "products") {
+                                                        attrSelect.innerHTML = '';
+                                                        productOptions.forEach(function(option) {
+                                                            var newOption = document.createElement('option');
+                                                            newOption.value = option.value;
+                                                            newOption.text = option.text;
+                                                            attrSelect.add(newOption);
+                                                        });
+                                                        attrBox.style.display = "block";
                                                     } else {
-                                                        // Ẩn phần tử chứa đoạn mã HTML
-                                                        document.getElementById("attr-div").style.display = "none";
+                                                        attrBox.style.display = "none";
                                                     }
                                                 });
                                             </script>

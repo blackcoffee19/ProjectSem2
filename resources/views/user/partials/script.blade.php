@@ -739,74 +739,84 @@
                     </div>
                   </div>
                 </div>`);
-              }
-              $('.list_mess').find('span').html(mess_data['unread_mess']);
-            }
-          });
-          message.val('');
-        };
-      });
-      $('.show_listchat').click(function(){
-        let nextDD = $(this).next();
-        $('.chatbox').not(nextDD).removeClass('show');
-      })
-      function split(val) {
-          return val.split(/@\s*/);
-      }
+                                    }
+                                    $('.list_mess').find('span').html(mess_data[
+                                        'unread_mess']);
+                                }
+                            });
+                            message.val('');
+                        };
+                    });
+                    $('.show_listchat').click(function() {
+                        let nextDD = $(this).next();
+                        $('.chatbox').not(nextDD).removeClass('show');
+                    })
 
-      function extractLast(term) {
-          return split(term).pop();
-      }
-      let availableTags = [];
-      @if(isset($name_products))
-        @foreach($name_products as $key=> $value)
-            var object = new Object();
-            @foreach ($value as $key2=>$value2)
-                object['{{$key2}}']= "{{$value2}}";
-            @endforeach    
-            availableTags.push(object);
-        @endforeach
-      @endif
-      $( "input[name=send_message]" ).autocomplete({
-        minLength: 0,
-        source: function(request, response) {
-          var results,term = request.term;
-          var aData = $.map(availableTags, function(value, key) {
-            return {
-              label: value.name,
-              value: value.id
-            }
-          });
-          if (term.indexOf("@") >= 0) {
-              term = extractLast(request.term);
-              /* If they've typed anything after the "@": */
-              if (term.length > 0) {
-                  results = $.ui.autocomplete.filter(
-                    aData, term);
-              /* Otherwise, tell them to start typing! */
-              } else {
-                  results = ['Start typing...'];
-              }
-          }
-            /* Call the callback with the results: */
-            response(results);
-        },
-        focus: function(event, ui) {
-          // $('input[name=send_message]').val(ui.item.name);
-            // prevent value inserted on focus
-            return false;
-        },
-        select: function( event, ui ) {
-          let chatbox = $(this).parents('.input_message').prev();
-          $.ajax({
-            method: "POST",
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/public/index.php/ajax-post/message',
-            data: {'send_link':ui.item.value,'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
-            success: function (data) {
-              let mess_data = jQuery.parseJSON(data);
-              if(mess_data['link']){
-                let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
+                    function split(val) {
+                        return val.split(/@\s*/);
+                    }
+
+                    function extractLast(term) {
+                        return split(term).pop();
+                    }
+                    let availableTags = [];
+                    @if (isset($name_products))
+                        @foreach ($name_products as $key => $value)
+                            var object = new Object();
+                            @foreach ($value as $key2 => $value2)
+                                object['{{ $key2 }}'] = "{{ $value2 }}";
+                            @endforeach
+                            availableTags.push(object);
+                        @endforeach
+                    @endif
+                    $("input[name=send_message]").autocomplete({
+                        minLength: 0,
+                        source: function(request, response) {
+                            var results, term = request.term;
+                            var aData = $.map(availableTags, function(value, key) {
+                                return {
+                                    label: value.name,
+                                    value: value.id
+                                }
+                            });
+                            if (term.indexOf("@") >= 0) {
+                                term = extractLast(request.term);
+                                /* If they've typed anything after the "@": */
+                                if (term.length > 0) {
+                                    results = $.ui.autocomplete.filter(
+                                        aData, term);
+                                    /* Otherwise, tell them to start typing! */
+                                } else {
+                                    results = ['Start typing...'];
+                                }
+                            }
+                            /* Call the callback with the results: */
+                            response(results);
+                        },
+                        focus: function(event, ui) {
+                            // $('input[name=send_message]').val(ui.item.name);
+                            // prevent value inserted on focus
+                            return false;
+                        },
+                        select: function(event, ui) {
+                            let chatbox = $(this).parents('.input_message').prev();
+                            $.ajax({
+                                method: "POST",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                        'content')
+                                },
+                                url: window.location.origin +
+                                    '/ProjectSem2/public/ajax-post/message',
+                                data: {
+                                    'send_link': ui.item.value,
+                                    'code_group': chatbox.data('chat'),
+                                    'connect_user': chatbox.data('iduser')
+                                },
+                                success: function(data) {
+                                    let mess_data = jQuery.parseJSON(data);
+                                    if (mess_data['link']) {
+                                        let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
                   <div class='row g-0'>
                     <div class='col-4'>
                       <img src='${mess_data['image']}' class='img-fluid rounded-start' >
@@ -816,14 +826,15 @@
                     <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
                     <p class="card-text">View >> </p>
                   </div></div></div></a></div></div>`;
-                chatbox.append(share);
-              };
-              $('.list_mess').find('span').html(mess_data['unread_mess']);
-            }
-          });
-          $( "input[name=send_message]" ).val('');
-            return false;
-        }
-      })
-  })  
+                                        chatbox.append(share);
+                                    };
+                                    $('.list_mess').find('span').html(mess_data[
+                                        'unread_mess']);
+                                }
+                            });
+                            $("input[name=send_message]").val('');
+                            return false;
+                        }
+                    })
+                })
 </script>

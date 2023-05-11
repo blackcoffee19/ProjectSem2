@@ -152,6 +152,14 @@
                       data-bs-parent="#accordionFlushExample">
                       <div class="mt-5">
                         <div>
+                          <div class="mb-5">
+                            <select name="delivery_method" id="delivery_method" class="form-select" >
+                              <optgroup label="Giao Hang Tiet Kiem" id="ghtk_service">
+                              </optgroup>
+                              <optgroup label="Giao Hang Nhanh" id="ghn_services">
+                              </optgroup>
+                            </select>
+                          </div>
                           <div class="card card-bordered shadow-none mb-2">
                             <div class="card card-bordered shadow-none">
                               <div class="card-body p-6">
@@ -164,6 +172,7 @@
                                   <div>
                                     <h5 class="mb-1 h6"> Cash on Delivery</h5>
                                     <p class="mb-0 small">Pay with cash when your order is delivered.</p>
+                                    <img src="{{asset('images/icons/ghtk.png')}}" width="130" class="img-fluid" id="img_logictic" alt="">
                                   </div>
                                 </div>
                               </div>
@@ -310,19 +319,23 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
-                        Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
-                          title="Shipment Fee"></i>
+                        Service Fee <i class="bi bi-exclamation-circle text-muted" data-bs-toggle="tooltip"
+                          title="Shipping fee depends on the shipping address"></i>
                       </div>
                       <div class="fw-bold" id="shippment_fee">
                         {{number_format($shipment_fee,0,'',' ')}} đ
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
-                      <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
+                    <div class=" d-flex flex-column d-none mb-2 " >
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          Extra Shipment fee
+                          <img src="{{asset('images/icons/GHTK.svg')}}" alt="" width="30" height="30">
+                        </div>
+                        <div class="fw-bold text-danger" id="extra_ship_display">
+                        </div>
                       </div>
-                      <div class="fw-bold text-danger" id="extra_ship_display">
-                        + 10000đ
-                      </div>
+                      <div id="extra_ship"></div>
                     </div>
                     @if (Session::has('coupon'))
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
@@ -411,6 +424,12 @@
                 }
               });
             @endif
+            $("#get_ninjavan").click(function(){
+              console.log(window.location.origin+'/public/index.php/ajax/ghtk_service/order');
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/order',function(data){
+                console.log(data);
+              })
+            })
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
               $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){

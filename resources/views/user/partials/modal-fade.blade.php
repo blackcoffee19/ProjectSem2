@@ -468,7 +468,7 @@
       </div>
       <div class=" modal-footer me-3 mt-3">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-warning" id="save_order" >Close and Remove Notifications</button>
+        <button type="submit" class="btn btn-warning" id="save_order2" >Close and Remove Notifications</button>
       </div>
       </form> 
     </div>

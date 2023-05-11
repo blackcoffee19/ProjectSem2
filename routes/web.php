@@ -100,7 +100,12 @@ Route::get('/ajax/check-phone/{phone}', [TuongController::class, 'check_phone'])
 Route::get('/ajax/add-favourite/{id}', [TuongController::class, 'add_favourite']);
 Route::get('/ajax/add-compare/{id}', [TuongController::class, 'addCompare']);
 Route::get('/ajax/compare/showcompare', [TuongController::class, 'showCompare']);
+// AJAX GET API GHTK- GHN
 Route::get('/ajax/ghtk_service/fee',[TuongController::class,'ghtk_servicefee']);
+Route::get('/ajax/ghn_service/service',[TuongController::class,'ghn_getservice']);
+Route::get('/ajax/ghn_service/fee',[TuongController::class,'gtn_servicefee']);
+Route::get('/ajax/ghtk_service/order',[TuongController::class,'ghtk_order'])->name('ghtk_order');
+
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User

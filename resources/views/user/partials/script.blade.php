@@ -17,7 +17,6 @@
               $('.btn_plus').click(function(e){
                   e.preventDefault();
                   let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
-                  console.log(max);
                   let current = parseInt($(this).prev().val());
                   if(max>current){
                     current++;
@@ -175,7 +174,6 @@
       $('.btn_plus').click(function(e){
           e.preventDefault();
           let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
-          console.log(max);
           let current = parseInt($(this).prev().val());
           if(max>current){
             current++;
@@ -216,6 +214,8 @@
       const ghtk_api = "https://services-staging.ghtklab.com";
       const ghtk_token = "1830630245Ca1E494982d10B95FaFFbe6bF78641";
       const ghn_token ="40c06a9e-ee0f-11ed-a281-3aa62a37e0a5";
+      const ghn_token2 ="ea19c297-efa4-11ed-943b-f6b926345ef9";
+      const id_shop = 124157;
       $.ajax({
         method: "GET",
         beforeSend: function (xhr) {
@@ -286,39 +286,159 @@
       $('#ward').change(function(){
         $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data){
           let dataJson = jQuery.parseJSON(data);
-          console.log(dataJson);
-          if(dataJson['fee']['delivery']){
-            let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
-            if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
-              $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+          let check = 0;
+          let deliver_method = jQuery.parseJSON(dataJson[1]);
+          if(deliver_method['fee']['delivery']){
+            let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+            if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+              $("#shippment_fee").html(deliver_method['fee']['ship_fee_only']+" đ");
               $("#total").html(totall +" đ");
             }
             $(".totalPay").text((totall*0.000043).toFixed(2));
-            $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-            if(dataJson['fee']['extFees'].length>0){
-              $('#extra_ship').removeClass('d-none');
-              let total_shipfee = dataJson['fee']['fee'];
+            $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+            if(deliver_method['fee']['extFees'].length>0){
+              $('#extra_ship').parent().removeClass('d-none');
               let ex_fee = 0;
-              dataJson['fee']['extFees'].forEach(el=>{
+              let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+              deliver_method['fee']['extFees'].forEach(el=>{
                 ex_fee+=el['amount'];
+                $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
               });
               $("#extra_ship_display").html("+ "+ex_fee+" đ");
-              total_shipfee+=ex_fee;
-              totall+=ex_fee;
-              $("input[name=shipment_fee]").val(total_shipfee);
-              $(".totalPay").text((totall*0.000043).toFixed(2));
-              $('#total').html(totall+ ' đ');
+            }else{
+              $('#extra_ship').parent().addClass('d-none');
             }
-          }else{
+          };
+          let str1 = "";
+          for (let i = 0; i < dataJson.length; i++) {
+            var method = jQuery.parseJSON(dataJson[i]);
+            if(!method['fee']['delivery']){
+              check++;
+            }
+            let name=["Air Transport","Road Transport","Xfast"]
+            str1+=`<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;  
+          }
+          $("#ghtk_service").html(str1);
+          if(check == 3){
             $("#error_delivery").html('Sorry we can not delivery to your address.');
           }
-        })
+
+          $('#delivery_method').change(function(){
+            if(parseInt($('#delivery_method option:selected').val()) <10){
+              $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
+
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data4){
+                  let dataJson3 = jQuery.parseJSON(data4);
+                  let deliver_method4 = jQuery.parseJSON(dataJson3[$('#delivery_method option:selected').val()]);
+                  if(deliver_method4['fee']['delivery']){
+                    let totall3 = parseInt($("#total").data('subtotal'))+deliver_method4['fee']['fee'];
+                    if(deliver_method4['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                      $("#shippment_fee").html(deliver_method4['fee']['ship_fee_only']+" đ");
+                      $("#total").html(totall3 +" đ");
+                    }
+                    $(".totalPay").text((totall3*0.000043).toFixed(2));
+                    $("input[name=shipment_fee]").val(deliver_method4['fee']['fee']);
+                    if(parseInt($('#delivery_method').val()) == 2){
+                      $('#extra_ship').parent().addClass('d-none');
+                    }else{
+                      $('#extra_ship').parent().removeClass('d-none');
+                    }
+                    if(deliver_method4['fee']['extFees'].length>0){
+                      let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
+                      let ex_fee3 = 0;
+                      deliver_method4['fee']['extFees'].forEach(el=>{
+                        ex_fee3+=el['amount'];
+                      });
+                      $("#extra_ship_display").html("+ "+ex_fee3+" đ");
+                    }
+                  };
+                })   
+            }else{
+              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
+                let newdata3 = data3.slice(0,data3.length-1);
+                let dataJs3 = jQuery.parseJSON(newdata3);
+                let shipping =dataJs3['data']['total']- parseInt($("#total").data('subtotal'));
+                if(shipping!=$("input[name=shipment_fee]").val()){
+                  $("#shippment_fee").html(shipping+" đ");
+                  $("#total").html(dataJs3['data']['total'] +" đ");
+                }
+                $(".totalPay").text((dataJs3['data']['total']*0.000043).toFixed(2));
+                $("input[name=shipment_fee]").val(shipping);
+              });
+              $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
+              $('#extra_ship').parent().addClass('d-none');
+            };
+          });
+        });
         if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
           $('#submit_order').removeAttr('disabled');
         }else{
           $("#submit_order").attr('disabled','disabled');
         };
-      })
+        $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
+            let newdata = data.slice(0,data.length-1);
+            let dataJs = jQuery.parseJSON(newdata); 
+            let str2 = "";
+            dataJs['data'].forEach(service =>{
+              let translate = {"Chuyển phát thương mại điện tử": "E-commerce delivery","Chuyển phát truyền thống":"Traditional delivery","Tiết kiệm":"Saving delivery"};
+              str2+=`<option value='${service['service_id']}'>${translate[service['short_name']]}</option>`;
+              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
+                let newdata2 = data2.slice(0,data2.length-1);
+                let dataJs2 = jQuery.parseJSON(newdata2);
+                //Change method
+                $('#delivery_method').change(function(){
+                  if(parseInt($('#delivery_method option:selected').val()) <10){
+                    $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
+
+                    $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data){
+                        let dataJson2 = jQuery.parseJSON(data);
+                        let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
+                        if(deliver_method2['fee']['delivery']){
+                          let totall2 = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+                          if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                            $("#shippment_fee").html(deliver_method2['fee']['ship_fee_only']+" đ");
+                            $("#total").html(totall2 +" đ");
+                          }
+                          $(".totalPay").text((totall2*0.000043).toFixed(2));
+                          $("input[name=shipment_fee]").val(deliver_method2['fee']['fee']);
+                          if(parseInt($('#delivery_method').val()) == 2){
+                            $('#extra_ship').parent().addClass('d-none');
+                          }else {
+                            $('#extra_ship').parent().removeClass('d-none');
+                          }
+                          if(deliver_method2['fee']['extFees'].length>0 ){
+                            let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                            $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
+                            let ex_fee2 = 0;
+                            deliver_method2['fee']['extFees'].forEach(el=>{
+                              ex_fee2+=el['amount'];
+                            });
+                            $("#extra_ship_display").html("+ "+ex_fee2+" đ");
+                          }
+                        };
+                      })   
+                  }else{
+                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
+                      let newdata3 = data3.slice(0,data3.length-1);
+                      let dataJs3 = jQuery.parseJSON(newdata3);
+                      let shipping =dataJs3['data']['total']- parseInt($("#total").data('subtotal'));
+                      if(shipping!=$("input[name=shipment_fee]").val()){
+                        $("#shippment_fee").html(shipping+" đ");
+                        $("#total").html(dataJs3['data']['total'] +" đ");
+                      }
+                      $(".totalPay").text((dataJs3['data']['total']*0.000043).toFixed(2));
+                      $("input[name=shipment_fee]").val(shipping);
+                    });
+                    $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
+                    $('#extra_ship').parent().addClass('d-none');
+                  };
+                });
+              })
+            })
+            $('#ghn_services').html(str2);
+          });
+      });
       $("#submit_order").click(function(){
         @if(!Auth::check())
           $('#province option:selected').val($('#province option:selected').text());
@@ -460,7 +580,6 @@
       $(".manager_notificate").click(function(){
         $.get(window.location.origin+"/public/index.php/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
           let dataJson = jQuery.parseJSON(data);
-          // console.log(dataJson);
           $('input[name=id_notificate]').val(dataJson['news']);
           $("#receiver2").html(dataJson['receiver']);
           $("#address2").html(dataJson['address']);
@@ -591,7 +710,6 @@
             data: {'codegroup':$(this).data('groupcode'),'id_user':$(this).data('iduser')},
             success: function (data) {
               let data_mess  = data.split(',');
-              // console.log(data_mess);
               $('#messages').html(data_mess[0]);
               $('#usr_contact').html(data_mess[0]?data_mess[1]:'');
               $('.list_mess').find('span').html(data_mess[2]);
@@ -606,7 +724,6 @@
       $('.button-submit').click(function(){
         let message = $(this).siblings('input[name="send_message"]');
         let chatbox = $(this).parents('.input_message').prev();
-        console.log(badge_mess);
         if(message.val().length>0){
           $.ajax({
             method: "POST",

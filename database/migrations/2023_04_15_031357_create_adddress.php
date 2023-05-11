@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('id_user');
             $table->string('receiver');
             $table->string('address');
-            $table->bigInteger('shipment_fee')->default(20000);
+            $table->string('province');
+            $table->string('district');
+            $table->string('ward');
             $table->string('phone');
             $table->string('email');
             $table->boolean('default')->default(false);

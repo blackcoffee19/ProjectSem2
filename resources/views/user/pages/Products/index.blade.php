@@ -2,8 +2,6 @@
 @section('content')
     <main>
         <style>
-            
-
             .price1 {
 
                 border: 2px solid #dfe2e1;
@@ -22,6 +20,18 @@
                 border-radius: .5rem;
                 background-color: #0aad0a;
                 color: white;
+            }
+            .searchProduct{
+                position: relative;
+                margin-top: 30px;
+            }
+            .inputProduct{
+                position: relative;
+                margin-top: 15px;
+            }
+            .formProduct{
+                position: relative;
+                padding: 5px 10px 0px 0px;
             }
         </style>
 
@@ -56,7 +66,7 @@
                         <!-- list icon -->
                         <div class="d-lg-flex justify-content-between align-items-center">
                             <div class="mb-3 mb-lg-0">
-                                <p class="mb-0"> <span class="text-dark">{{count($prods)}} </span> Products found </p>
+                                <p class="mb-0"> <span class="text-dark">{{ count($prods) }} </span> Products found </p>
                             </div>
 
                             <!-- icon -->
@@ -114,70 +124,88 @@
 
                                             <div class="text-center position-relative ">
                                                 <div class=" position-absolute top-0 start-0">
-                                                    @if ($pro->sale !=0)
-                                                        <span class="badge bg-danger">{{number_format($pro->sale,0)}}%</span>
+                                                    @if ($pro->sale != 0)
+                                                        <span
+                                                            class="badge bg-danger">{{ number_format($pro->sale, 0) }}%</span>
                                                     @endif
                                                 </div>
-                                                <a href="{{route('products-details',$pro->id_product)}}"> 
-                                                    @if (count($pro->Library)>0)
-                                                    <img src="{{ asset('/images/products/'.$pro->Library[0]->image) }}" class="mb-3 img-fluid">                                                    
+                                                <a href="{{ route('products-details', $pro->id_product) }}">
+                                                    @if (count($pro->Library) > 0)
+                                                        <img src="{{ asset('/images/products/' . $pro->Library[0]->image) }}"
+                                                            class="mb-3 img-fluid">
                                                     @else
-                                                    <img src="{{ asset('/images/category/'.$pro->TypeProduct->image) }}" class="mb-3 img-fluid">
-
+                                                        <img src="{{ asset('/images/category/' . $pro->TypeProduct->image) }}"
+                                                            class="mb-3 img-fluid">
                                                     @endif
                                                 </a>
                                                 <div class="card-product-action">
                                                     <a class="btn-action btn_modal" data-bs-toggle="modal"
-                                                        data-bs-target="#quickViewModal" data-product="{{$pro->id_product}}"><i class="bi bi-eye"
-                                                            data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                                    <a class="btn-action {{Auth::check()? 'addFav':''}}" data-bs-toggle="tooltip"
-                                                    {{!Auth::check() ?'data-bs-toggle=modal data-bs-target=#userModal href=#!': "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product"}} ><i class="bi {{Auth::check() ? (count(Auth::user()->Favourite->where('id_product','=',$pro->id_product))>0 ? 'bi-heart-fill text-danger' : 'bi-heart'): 'bi-heart'}}"></i></a>
-                                                    <a class="btn-action compare_product" data-bs-toggle="tooltip" 
-                                                        data-bs-html="true" title="Compare" data-bs-product="{{$pro->id_product}}"><i
+                                                        data-bs-target="#quickViewModal"
+                                                        data-product="{{ $pro->id_product }}"><i class="bi bi-eye"
+                                                            data-bs-toggle="tooltip" data-bs-html="true"
+                                                            title="Quick View"></i></a>
+                                                    <a class="btn-action {{ Auth::check() ? 'addFav' : '' }}"
+                                                        data-bs-toggle="tooltip"
+                                                        {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$pro->id_product" }}><i
+                                                            class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $pro->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i></a>
+                                                    <a class="btn-action compare_product" data-bs-toggle="tooltip"
+                                                        data-bs-html="true" title="Compare"
+                                                        data-bs-product="{{ $pro->id_product }}"><i
                                                             class="bi bi-arrow-left-right"></i></a>
                                                 </div>
-        
+
                                             </div>
+                                            
                                             <div class="text-small mb-1"><a href="#!"
-                                                    class="text-decoration-none text-muted"><small>{{$pro->TypeProduct->name}}</small></a></div>
+                                                    class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
+                                            </div>
+                                            
                                             <h2 class="fs-6">
-                                                <a href="{{ route('products-details',$pro->id_product) }}" class="text-inherit text-decoration-none">{{$pro->name}}</a>
+                                                <a href="{{ route('products-details', $pro->id_product) }}"
+                                                    class="text-inherit text-decoration-none">{{ $pro->name }}</a>
                                             </h2>
                                             <div>
-                                            <p class="rate10">    
-                                                @php
-                                                  $rating = 0;
-                                                  if (count($pro->Comment->where('rating','!=',null)) >0) {
-                                                    foreach ($pro->Comment->where('rating','!=',null) as $cmt) {
-                                                      $rating += $cmt->rating;
-                                                    }
-                                                    $rating /= count($pro->Comment->where('rating','!=',null));
-                                                  }
-                                              @endphp
-                                                @for ($i = 0; $i < floor($rating); $i++)
-                                                <i class="bi bi-star-fill fs-4 text-warning"></i>
-                                                @endfor
-                                                @if (is_float($rating))
-                                                <i class="bi bi-star-half fs-4 text-warning"></i>
-                                                @endif
-                                                @for ($i = 0; $i < 5-ceil($rating); $i++)
-                                                <i class="bi bi-star fs-4 text-warning"></i>
-                                                @endfor
-                                                <span class="text-black-50 ms-3">{{number_format($rating,1,'.',' ')}}({{count($pro->Comment->where('rating','!=',null))}})</span>
-                                            </p>
-                                            <input type="hidden" class="rating-value" value="{{ceil($rating)}}" /> 
+                                                <p class="rate10">
+                                                    @php
+                                                        $rating = 0;
+                                                        if (count($pro->Comment->where('rating', '!=', null)) > 0) {
+                                                            foreach ($pro->Comment->where('rating', '!=', null) as $cmt) {
+                                                                $rating += $cmt->rating;
+                                                            }
+                                                            $rating /= count($pro->Comment->where('rating', '!=', null));
+                                                        }
+                                                    @endphp
+                                                    @for ($i = 0; $i < floor($rating); $i++)
+                                                        <i class="bi bi-star-fill fs-4 text-warning"></i>
+                                                    @endfor
+                                                    @if (is_float($rating))
+                                                        <i class="bi bi-star-half fs-4 text-warning"></i>
+                                                    @endif
+                                                    @for ($i = 0; $i < 5 - ceil($rating); $i++)
+                                                        <i class="bi bi-star fs-4 text-warning"></i>
+                                                    @endfor
+                                                    <span
+                                                        class="text-black-50 ms-3">{{ number_format($rating, 1, '.', ' ') }}({{ count($pro->Comment->where('rating', '!=', null)) }})</span>
+                                                </p>
+                                                <input type="hidden" class="rating-value" value="{{ ceil($rating) }}" />
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center mt-3">
                                                 <div>
-                                                    @if ($pro->sale >0)
-                                                    <span class="text-dark fs-5">{{number_format($pro->price*(1-$pro->sale/100),0,'',' ')}}</span>
-                                                    <span class="text-decoration-line-through text-muted">{{number_format($pro->price,0,'',' ')}}</span> <small> đ/kg</small>
+                                                    @if ($pro->sale > 0)
+                                                        <span
+                                                            class="text-dark fs-5">{{ number_format($pro->price * (1 - $pro->sale / 100), 0, '', ' ') }}</span>
+                                                        <span
+                                                            class="text-decoration-line-through text-muted">{{ number_format($pro->price, 0, '', ' ') }}</span>
+                                                        <small> đ/kg</small>
                                                     @else
-                                                    <span class="text-dark fs-5">{{number_format($pro->price,0,'',' ')}}</span><small> đ/kg</small>
+                                                        <span
+                                                            class="text-dark fs-5">{{ number_format($pro->price, 0, '', ' ') }}</span><small>
+                                                            đ/kg</small>
                                                     @endif
                                                 </div>
-                                                <div><button data-bs-id="{{$pro->id_product}}" type="button" class="btn btn-primary btn addToCart">
-                                                    <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
+                                                <div><button data-bs-id="{{ $pro->id_product }}" type="button"
+                                                        class="btn btn-primary btn addToCart">
+                                                        <i class="fa-solid fa-cart-shopping fa-xl"></i></button></div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,22 +222,7 @@
     </main>
 
     <script>
-        //hiển thị số sao từng sản phẩm
-        const ratingValues = document.querySelectorAll(".rating-value");
-        ratingValues.forEach(function(ratingValue) {
-            const ratingInputs = ratingValue.parentNode.querySelectorAll(".rate10 i");
-            const value = Number(ratingValue.value);
-            if (value <= 5 && value >= 1) {
-                ratingInputs[ratingInputs.length - value].checked = true;
-            }
-
-            ratingValue.addEventListener(" i", function() {
-                const value = Number(ratingValue.value);
-                if (value <= 5 && value >= 1) {
-                    ratingInputs[ratingInputs.length - value].checked = true;
-                }
-            });
-        });
+        
 
         //sắp xếp theo giá
         function sortProductsByPrice() {
@@ -244,7 +257,7 @@
             }
             // lọc sản phẩm theo type
         }
-   
+
         //fiter rate
 
         $(document).ready(function() {
@@ -270,7 +283,7 @@
                     visibleCols.each(function() {
                         if ($.inArray($(this).find(".rating-value").val(), selectedValues) !== -1) {
                             $(this)
-                        .show(); // Nếu giá trị của cột nằm trong danh sách giá trị được chọn, hiển thị cột đó
+                                .show(); // Nếu giá trị của cột nằm trong danh sách giá trị được chọn, hiển thị cột đó
                         }
                     });
                     filterOn = true; // Đặt biến cờ là true

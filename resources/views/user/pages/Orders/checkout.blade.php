@@ -23,7 +23,7 @@
       @endif
       
       @php
-          $shipment_fee = 20000;
+          $shipment_fee = 16500;
       @endphp
       <div>
         <form action="{{route('checkout')}}" method="post">
@@ -58,14 +58,10 @@
                                         </label>
                                       </div>
                                       <p class="text-muted">{{$add->email}}</p>
-                                      <address style="height: 90px">
-                                        {{$add->address}}<br>
+                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-province="{{$add->province}}">
+                                        {{$add->address .", ".$add->ward.", ".$add->district}}<br>
+                                        {{$add->province}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
-                                      @php
-                                        if($add->default){
-                                          $shipment_fee = $add->shipment_fee;
-                                        }
-                                      @endphp
                                       @if ($add->default)
                                       <span class="text-danger">Default address </span>
                                       @endif
@@ -115,6 +111,7 @@
                             <div class="col-12">
                               <select class="form-select" name="ward" id="ward" disabled>
                               </select>
+                              <span class="text-danger" id="error_delivery"></span>
                             </div>
                           </div>
                         </div>
@@ -316,14 +313,14 @@
                         Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
                           title="Shipment Fee"></i>
                       </div>
-                      <div class="fw-bold" id="shippment_fee" data-ship="{{$shipment_fee}}">
+                      <div class="fw-bold" id="shippment_fee">
                         {{number_format($shipment_fee,0,'',' ')}} đ
                       </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
                       <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
                       </div>
-                      <div class="fw-bold text-danger" >
+                      <div class="fw-bold text-danger" id="extra_ship_display">
                         + 10000đ
                       </div>
                     </div>
@@ -354,10 +351,10 @@
                           }else if(Session::has('coupon')){
                             $subtotal *=(1- $coupon->discount/100);
                           }
-                          $subtotal += $shipment_fee;
+                          $total_order = $subtotal+$shipment_fee;
                       @endphp
-                      <div id="total" data-total="{{$subtotal-$shipment_fee}}">
-                        {{number_format($subtotal,0,'',' ') }} đ
+                      <div id="total" data-subtotal="{{$subtotal}}">
+                        {{number_format($total_order,0,'',' ') }} đ
                       </div>
                     </div>
                   </li>
@@ -380,24 +377,71 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(
-                    this).data('idadd'));
+                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(this).data('idadd'));
             });
-            $('input[name="select_address"]').change(function(){
-              if(parseInt($('input[name="select_address"]:checked').data('shipment')) > parseInt($("input[name=shipment_fee]").val())){
-                  $('#extra_ship').removeClass('d-none');
-                  let totall = parseInt($("#total").data('total'))+parseInt($('input[name="select_address"]:checked').data('shipment'));
-                  $('#total').html(totall+' đ');
+            @if(Auth::check())
+              let addr = $('input[name="select_address"]:checked').parent().next().next();
+              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+                let dataJson = jQuery.parseJSON(data);
+                // console.log(dataJson);
+                if(dataJson['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
+                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                    $("#total").html(totall +" đ");
+                  }
                   $(".totalPay").text((totall*0.000043).toFixed(2));
-                }else if(parseInt($('input[name="select_address"]:checked').data('shipment')) < parseInt($("input[name=shipment_fee]").val())){
-                  console.log("SECOND");
-                  $('#extra_ship').addClass('d-none');
-                  $("#shippment_fee").html('20 000 đ');
-                  let totall = parseInt($("#total").data('total'))+parseInt($('input[name="select_address"]:checked').data('shipment'));
-                  $('#total').html(totall+" đ");
-                  $(".totalPay").text((totall*0.000043).toFixed(2));
+                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
+                  if(dataJson['fee']['extFees'].length>0){
+                    $('#extra_ship').removeClass('d-none');
+                    let total_shipfee = dataJson['fee']['fee'];
+                    let ex_fee = 0;
+                    dataJson['fee']['extFees'].forEach(el=>{
+                      ex_fee+=el['amount'];
+                    });
+                    $("#extra_ship_display").html("+ "+ex_fee+" đ");
+                    total_shipfee+=ex_fee;
+                    totall+=ex_fee;
+                    $("input[name=shipment_fee]").val(total_shipfee);
+                    $(".totalPay").text((totall*0.000043).toFixed(2));
+                    $('#total').html(totall+ ' đ');
+                  }
+                }else{
+                  $("#error_delivery").html('Sorry we can not delivery to your address.');
                 }
-                $("input[name=shipment_fee]").val(parseInt($('input[name="select_address"]:checked').data('shipment')));
+              });
+            @endif
+            $('input[name="select_address"]').change(function(){
+              addr =  $(this).parent().next().next();
+              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+                let dataJson = jQuery.parseJSON(data);
+                // console.log(dataJson);
+                if(dataJson['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
+                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                    $("#total").html(totall +" đ");
+                  }
+                  $(".totalPay").text((totall*0.000043).toFixed(2));
+                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
+                  if(dataJson['fee']['extFees'].length>0){
+                    $('#extra_ship').removeClass('d-none');
+                    let total_shipfee = dataJson['fee']['fee'];
+                    let ex_fee = 0;
+                    dataJson['fee']['extFees'].forEach(el=>{
+                      ex_fee+=el['amount'];
+                    });
+                    $("#extra_ship_display").html("+ "+ex_fee+" đ");
+                    total_shipfee+=ex_fee;
+                    totall+=ex_fee;
+                    $("input[name=shipment_fee]").val(total_shipfee);
+                    $(".totalPay").text((totall*0.000043).toFixed(2));
+                    $('#total').html(totall+ ' đ');
+                  }
+                }else{
+                  $("#error_delivery").html('Sorry we can not delivery to your address.');
+                }
+              });
             });
             $(".totalPay").text(((parseInt($('#total').data('total'))+parseInt($("input[name=shipment_fee]").val()))*0.000043).toFixed(2));
             $("input[name=order_method]").change(function(){
@@ -409,15 +453,18 @@
             });
             $("#paypal_btn").click(function(){
               @if(Auth::check())
-                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                $.get(window.location.origin+"/ProjectSem2/public/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
                   let dataAddress = jQuery.parseJSON(data);
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);
+                  $("#ward_pay").html(dataAddress['ward']);
+                  $('#district_pay').html(dataAddress['district']);
+                  $("#province_pay").html(dataAddress['province']);
                   $('#name_pay').html(dataAddress['receiver']);
                   $('#phone_pay').html(dataAddress['phone']);
                   $('#email_pay').html(dataAddress['email']);
                   $("#confirm_paypal").click(function(){
-                    window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
+                    window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
                   });
                 })
               @else
@@ -446,8 +493,11 @@
                     $('#email_pay').html($('input[name=emailReciever]').val());
                   }
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
-                  $("#address_pay2").html($('input[name=addressReciever]').val());
+                  $("#address_pay").html($('input[name=addressReciever]').val());
                   let checkAddr= false;
+                  $('#province option:selected').val($('#province option:selected').text());
+                  $('#district option:selected').val($('#district option:selected').text());
+                  $('#ward option:selected').val($('#ward option:selected').text());
                   if($('#ward option:selected').val() == null || 
                   $('#district option:selected').val() == null||
                   $('#province option:selected').val() == null || 
@@ -459,6 +509,7 @@
                     $("#ward_pay").addClass("text-danger");
                     $("#confirm_paypal").attr("disabled","disabled");
                   }else{
+                    
                     $("#ward_pay").removeClass('text-danger');
                     $("#ward_pay").html($('#ward option:selected').val());
                     $('#district_pay').html($('#district option:selected').val());
@@ -471,7 +522,7 @@
                 @endif
             })
             $("#confirm_paypal").click(function(){
-                window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
+                window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
             })
         })
     </script>

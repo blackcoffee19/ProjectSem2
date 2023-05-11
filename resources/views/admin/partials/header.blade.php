@@ -33,8 +33,8 @@
                                     <h5 class="mb-1">Notifications</h5>
                                     <p class="mb-0 small">You have {{isset($notificates)?count($notificates):0}} unread messages</p>
                                 </div>
-                                <a href="#!" class="text-muted">
-                                    <a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle"
+                                <a href="{{route('remove-allnews')}}" class="text-muted">
+                                    <a href="{{route('remove-allnews')}}" class="btn btn-ghost-secondary btn-icon rounded-circle"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
                                         data-bs-title="Mark all as read">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
@@ -52,8 +52,8 @@
                                 <ul class="list-group list-group-flush notification-list-scroll fs-6">
                                     <!-- List group item -->
                                     @foreach ($notificates as $noti)
-                                    <li class="list-group-item px-5 py-4 list-group-item-action active">
-                                        <a href="javascript:void(0)" class="text-muted manager_notificate" data-bs-toggle="modal" data-bs-target="#viewModalOrder2" data-order="{{$noti->id_news}}">
+                                    <li class="list-group-item px-5 py-4 list-group-item-action ">
+                                        <a href="{{route('showOrderDetail',$noti->order_code)}}" class="text-muted" >
                                             <div class="d-flex">
                                                 <img src="{{ asset('images/avatar/'.$noti->image) }}" alt="" class="avatar avatar-md rounded-circle" />
                                                 <div class="ms-4">
@@ -137,72 +137,3 @@
         </div>
     </div>
 </nav>
-<div class="modal fade" id="viewModalOrder2" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl  modal-dialog-scrollable" style="margin: 20px 100px 20px 300px ">
-      <div class="modal-content ">
-        <form action="{{route('remove_notificate')}}" method="POST">
-          @csrf
-        <div class="modal-body p-8" >
-          <div class="position-absolute top-0 end-0 me-3 mt-3">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-          </div>
-          <div class="row">
-            <div class="col-6 col-md-4 col-lg-6 ">
-              <table class="table table-responsive">
-                <thead>
-                  <tr>
-                    <th rowspan="2" >No</th>
-                    <th rowspan="2">Item</th>
-                    <th colspan="2"class="text-center">Price</th>
-                    <th  rowspan="2" >Amount</th>
-                  </tr>
-                  <tr>
-                    <th>Price (1kg)</th>
-                    <th>Sale</th>
-                  </tr>
-                </thead>
-                <tbody id="listCart2">
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="2">Item Subtotal</td>
-                    <td colspan="3" class="text-center" id="item_subtotal2"></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">Shipping Fee</td>
-                    <td colspan="3" class="text-center" id="shipment_fee_modal2"></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">Discount</td>
-                    <td colspan="3" class="text-center" id="discount2"></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">Total</td>
-                    <td class="3" class="text-center h5" id="total_order2"></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <div class="col-5 col-md-6 col-lg-5 mx-auto d-flex flex-column align-items-end h-100 ">
-              <div>
-                  <p>Reciever: <span id="receiver2"></span></p>
-                  <p>Address: <span id="address2"></span></p>
-                  <p>Phone: <span id="phone2"></span></p>
-                  <p>Email: <span id="email_order2"></span></p>
-                  <p>Instruction: <small id="instruction2"></small></p>
-                  <p>Payment Method: <span id="payment_method2"></span></p>
-                  <p>Coupon: <span id="coupon_title2"></span></p>
-                  <input type="hidden" name="id_notificate">
-                  <p class="col-form-label col-4">Status: <span id="status_order2" class="fs-5 fw-bold"></span></p>
-                </div>
-                <div class="me-3 mt-auto">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-warning" id="save_order" >Close and Remove Notifications</button>
-                </div>
-            </div>
-          </div>
-        </div>
-        </form> 
-      </div>
-    </div>
-  </div>

@@ -33,6 +33,7 @@ class GoogleAuthController extends Controller
                     File::put("images/avatar/gguser_" . $google_user->getId() . ".jpg", $file);
                     $new_user->avatar = "gguser_" . $google_user->getId() . ".jpg";
                 }
+                $new_user->email_verified = true;
                 $new_user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
                 $new_user->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $new_user->save();
@@ -60,6 +61,15 @@ class GoogleAuthController extends Controller
                 Auth::login($new_user);
                 return redirect('/');
             } else {
+                if (!$user->google_id) {
+                    $user->google_id = $google_user->getId();
+                    $user->save();
+                }
+                if (!$user->email_verified) {
+                    $user->email_verified = true;
+                    $user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $user->save();
+                };
                 if (Session::has("cart")) {
                     $cart_session = Session::get("cart");
                     foreach ($cart_session as $key => $value) {

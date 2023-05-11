@@ -86,7 +86,7 @@
                             <div class="mt-8">
                                 <div class="row">
                                     <!-- address -->
-                                    <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="col-lg-3 col-md-3 col-12">
                                         <div class="mb-6">
                                             <h6>Customer Details</h6>
                                             <p class="mb-1 lh-lg">{{ $id_order->receiver }}<br>
@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <!-- address -->
-                                    <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="col-lg-5 col-md-5 col-12">
                                         <div class="mb-6">
                                             <h6>Shipping Address</h6>
                                             <p class="mb-1 lh-lg">{{ $id_order->address }}
@@ -111,10 +111,10 @@
                                                     class="text-dark">{{ $id_order->id_order }}</span><br>
                                                 Order Date: <span class="text-dark">{{ $id_order->created_at }}</span><br>
                                                 Shipping Fee: <span class="text-dark">
-                                                    {{ number_format($id_order->shipping_fee), 0 }} đ</span><br>
+                                                    {{ number_format($id_order->shipping_fee, 0, '', ' ') }} đ</span><br>
                                                 Coupon: <span class="text-dark">
                                                     @if ($id_order->code_coupon != null)
-                                                        {{ $id_order->code_coupon }}
+                                                        {{ $id_order->Coupon->title }}
                                                     @else
                                                         No Coupon
                                                     @endif
@@ -141,10 +141,14 @@
                                         </thead>
                                         <!-- tbody -->
                                         <tbody>
-                                            <span style="color:white">{{ $total = 0 }}</span>
+                                            @php
+                                                $subtotal = 0;
+                                            @endphp
                                             @foreach ($cartItems as $item)
-                                                <span
-                                                    style="color:white">{{ $prices = $item->product->price - ($item->product->price * $item->product->sale) / 100 }}</span>
+                                                @php
+                                                    $subtotal += $item->price * (1 - $item->sale / 100) * ($item->amount / 1000);
+                                                    $prices = $item->price;
+                                                @endphp
                                                 <tr>
                                                     <td>
                                                         <a href="{{ route('products-details', $item->id_product) }}">
@@ -156,14 +160,13 @@
                                                         </a>
                                                     </td>
                                                     <td><span class="text-body">
-                                                            {{ number_format($prices), 0 }}
+                                                            {{ number_format($prices, 0, '', ' ') }}
                                                             đ/kg
                                                         </span></td>
-                                                    <td>{{ $item->amount }} g</td>
-                                                    <td>{{ number_format(($prices / 1000) * $item->amount), 0 }} đ</td>
+                                                    <td>{{ $item->amount }} grams</td>
+                                                    <td>{{ number_format(($prices / 1000) * $item->amount, 0, '', ' ') }} đ
+                                                    </td>
                                                 </tr>
-                                                <span
-                                                    style="color:white">{{ $total += ($prices / 1000) * $item->amount }}</span>
                                             @endforeach
 
                                             <tr>
@@ -175,20 +178,7 @@
                                                 </td>
                                                 <td class="fw-medium text-dark ">
                                                     <!-- text -->
-                                                    <strong class="text-primary">{{ number_format($total), 0 }} đ</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-bottom-0 pb-0"></td>
-                                                <td class="border-bottom-0 pb-0"></td>
-                                                <td colspan="1" class="fw-medium text-dark ">
-                                                    <!-- text -->
-                                                    Shipping Cost
-                                                </td>
-                                                <td class="fw-medium text-dark  ">
-                                                    <!-- text -->
-                                                    <strong
-                                                        class="text-primary">{{ number_format($id_order->shipping_fee), 0 }}
+                                                    <strong class="text-primary">{{ number_format($subtotal, 0, '', ' ') }}
                                                         đ</strong>
                                                 </td>
                                             </tr>
@@ -204,11 +194,28 @@
                                                     <!-- text -->
                                                     <strong class="text-danger">
                                                         @if ($id_order->code_coupon != null)
-                                                            -{{ number_format($id_order->coupon->discount), 0 }} đ
+                                                            @php
+                                                                $subtotal = $id_order->Coupon->discount <= 100 ? $subtotal * (1 - $id_order->Coupon->discount / 100) : $subtotal - $id_order->Coupon->discount;
+                                                            @endphp
+                                                            -{{ $id_order->Coupon->discount <= 100 ? number_format($id_order->Coupon->discount, 0, '', ' ') . '%' : number_format($id_order->coupon->discount, 0, '', ' ') . ' đ' }}
                                                         @else
-                                                            0 đ
+                                                            ---
                                                         @endif
                                                     </strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td colspan="1" class="fw-medium text-dark ">
+                                                    Shipping Cost
+                                                </td>
+                                                <td class="fw-medium text-dark  ">
+                                                    <strong
+                                                        class="text-primary">{{ number_format($id_order->shipping_fee, 0, '', ' ') }}đ</strong>
+                                                    @php
+                                                        $subtotal += $id_order->shipping_fee;
+                                                    @endphp
                                                 </td>
                                             </tr>
 
@@ -222,13 +229,7 @@
                                                 <td class="fw-semi-bold text-dark ">
                                                     <!-- text -->
                                                     <h5 class="text-info">
-                                                        @if ($id_order->code_coupon != null)
-                                                            {{ number_format($total + $id_order->shipping_fee - $id_order->coupon->discount), 0 }}
-                                                            đ
-                                                        @else
-                                                            {{ number_format($total + $id_order->shipping_fee), 0 }} đ
-                                                        @endif
-
+                                                        {{ number_format($subtotal, 0, '', ' ') }} đ
                                                     </h5>
                                                 </td>
                                             </tr>

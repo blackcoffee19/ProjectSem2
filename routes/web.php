@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminSlideController;
 use App\Http\Controllers\Admin\AdminCouponController;
+use App\Http\Controllers\Admin\AdminNewController;
 
 
 Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
@@ -38,6 +39,7 @@ Route::post('/user/send-mail', [UserController::class, 'sendMail'])->name('user.
 Route::get('/aboutUs', [App\Http\Controllers\User\UserController::class, 'AboutUs'])->name('user.pages.AboutUs.index');
 Route::get('/contact', [App\Http\Controllers\User\UserController::class, 'Contact'])->name('user.pages.Contact.index');
 Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchPrice'])->name('product.searchPrice');
+Route::get('/searchproduct', [App\Http\Controllers\User\UserController::class, 'categoryById'])->name('ShowProductCatagory');
 Route::get('/product.findByNamePro', [App\Http\Controllers\User\UserController::class, 'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
 // Route::get('/user.pages.Products.index/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
@@ -48,6 +50,9 @@ Route::get('/signin', [TuongController::class, "get_signIn"])->name('signin');
 Route::post('/signin', [TuongController::class, "post_signIn"])->name('signin');
 Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup');
 Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
+Route::get('/verify/{token}', [TuongController::class, 'verifyEmail'])->name('verify');
+Route::get('/verify-send', [TuongController::class, 'send_verifyEmail'])->name('verifyEmail');
+
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
 // Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
@@ -72,7 +77,7 @@ Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('goo
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
-    Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('products-details');
+    Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('post_products_details');
     Route::get('/checkout', [TuongController::class, 'get_checkout'])->name('checkout');
     Route::post('/checkout', [TuongController::class, 'post_checkout'])->name('checkout');
     Route::get('/order', [TuongController::class, 'get_order'])->name('order');
@@ -97,6 +102,7 @@ Route::get('/ajax/check-phone/{phone}', [TuongController::class, 'check_phone'])
 Route::get('/ajax/add-favourite/{id}', [TuongController::class, 'add_favourite']);
 Route::get('/ajax/add-compare/{id}', [TuongController::class, 'addCompare']);
 Route::get('/ajax/compare/showcompare', [TuongController::class, 'showCompare']);
+Route::get('/ajax/ghtk_service/fee',[TuongController::class,'ghtk_servicefee']);
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User
@@ -139,7 +145,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
+    Route::get('/news/order/{code}', [AdminDashboardController::class, 'get_orderdetail'])->name('showOrderDetail');
     Route::controller(AdminCategoryController::class)->group(function () {
         Route::get('/category',                       'index')->name('adminCategories');
         Route::get('/category/find-by-name',          'findByName')->name('category.findByName');
@@ -172,8 +178,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     });
 
 
+    // Route::controller(AdminCustomerController::class)->group(function () {
+    //     Route::get('/customer',   'index')->name('adminCustomers');
+    // });
     Route::controller(AdminCustomerController::class)->group(function () {
-        Route::get('/customer',   'index')->name('adminCustomers');
+        Route::get('/admin/customer',                       'index')->name('adminCustomers');
+        Route::get('/admin/customer/find-by-name',          'findByName')->name('customer.findByName');
+        Route::get('/admin/customer/create',                'create')->name('adminAddCustomers');
+        Route::post('/admin/customer/store',                'store')->name('adminStoreCustomers');
+        Route::get('/admin/customer/detail/{id_user}',      'show')->name('adminShowCustomers');
+        Route::get('/admin/customer/edit/{id_user}',        'edit')->name('adminEditCustomers');
+        Route::put('/admin/customer/update/{id_user}',      'update')->name('adminUpdateCustomers');
+        Route::delete('/admin/customer/delete/{id_user}',   'delete')->name('adminDeleteCustomers');
     });
 
 
@@ -208,6 +224,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
         Route::put('/coupon/update/{id_coupon}',     'update')->name('adminUpdateCoupon');
         Route::delete('/coupon/delete/{id_coupon}',  'delete')->name('adminDeleteCoupon');
         // Route::get('/coupon/detail/{id_coupon}',     'show')->name('adminShowCoupon');
+    });
+
+    Route::controller(AdminNewController::class)->group(function () {
+        Route::get('/new',                       'index')->name('adminNew');
+        Route::get('/new/create',                'create')->name('adminCreateNew');
+        Route::post('/new/store',                'store')->name('adminStoreNew');
+        Route::get('/new/edit/{id_news}',       'edit')->name('adminEditNew');
+        Route::put('/new/update/{id_news}',     'update')->name('adminUpdateNew');
+        Route::delete('/new/delete/{id_news}',  'delete')->name('adminDeleteNew');
+        // Route::get('/new/detail/{id_news}',     'show')->name('adminShowNew');
     });
 
     Route::get('{path?}', [TuongController::class, 'get_admin_signin'])->where('path', '.*');

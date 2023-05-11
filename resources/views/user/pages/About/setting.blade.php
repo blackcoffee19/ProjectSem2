@@ -55,9 +55,17 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" for="new_email">Email</label>
-                                                <input type="email" class="form-control" name="new_email" id="new_email"
-                                                    value="{{ Auth::user()->email }}">
-                                                <span class="text-danger" id="invalidEmail"></span>
+                                                @if (Auth::user()->email_verified)
+                                                    <input type="email" class="form-control " name="new_email" id="new_email"
+                                                        value="{{ Auth::user()->email }}">
+                                                    <span class="text-danger" id="invalidEmail"></span>
+                                                @else
+                                                    <input type="email" class="form-control is-invalid" name="new_email" id="new_email"
+                                                        value="{{ Auth::user()->email }}">
+                                                    <span class="text-danger" id="unverifyEmail">Email need to verified</span>
+                                                    <button type="button" class="btn btn-warning my-2 mx-5" id="send_verified">Send Verified Mail</button>
+                                                    <span class="text-danger" id="invalidEmail"></span>
+                                                @endif
                                             </div>
                                             <div class="mb-5">
                                                 <label class="form-label" for="new_phone">Phone</label>
@@ -287,11 +295,22 @@
             });
             $('#new_email').change(function() {
                 if (valiEmail.test($(this).val().trim())) {
-                    if ($(this).hasClass('is-invalid')) {
-                        $(this).removeClass('is-invalid');
-                    };
-                    $('#invalidEmail').html('');
-                    $('#changeProfie').removeAttr('disabled');
+                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val().trim(), function(data){
+                        if(data == "existed"){
+                            $('#new_email').addClass('is-invalid');
+                            $('#invalidEmail').text('This email has signed.');
+                            $('#changeProfie').attr('disabled', 'disabled');
+                        }else{
+                            if($('#new_email').hasClass('is-invalid')){
+                                $('#new_email').removeClass('is-invalid');
+                            }
+                            $('#changeProfie').removeAttr('disabled');
+                            $('#new_email').addClass('is-valid');
+                            $('#invalidEmail').text('');
+                        }
+                    });
+                    $("#unverifyEmail").addClass('d-none');
+                    $("#send_verified").addClass('d-none');
                 } else if ($(this).val().trim().length == 0) {
                     $(this).val("{{ Auth::user()->email }}");
                     $('#changeProfie').attr('disabled', 'disabled');
@@ -302,6 +321,16 @@
                     $(this).addClass('is-invalid');
                 }
             });
+            $("#send_verified").click(function(){
+                $.get(window.location.origin + "/ProjectSem2/public/verify-send",function(data){
+                    if(data == "Mail has been sending please check your email to verified the account"){
+                        $('#unverifyEmail').removeClass('text-danger');
+                        $('#unverifyEmail').addClass('text-success');
+                        $("#send_verified").attr('disabled','disabled');
+                    }
+                    $('#unverifyEmail').html(data);
+                })
+            })
         })
     </script>
 @endsection

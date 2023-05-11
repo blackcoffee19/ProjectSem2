@@ -29,37 +29,33 @@
                     <!-- card -->
                     <div class="card h-100 card-lg">
                         <div class="px-6 py-6 ">
-                            <div class="row justify-content-between">
-                                <!-- form -->
-                                <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                                    <form action="{{ Route('product.findByName') }}" class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="Search Product"
-                                            aria-label="Search" name="name">
-                                        <button class="btn btn-primary" value="Search"><i
-                                                class="fas fa-search"></i></button>
-                                    </form>
-                                </div>
-                                <div class="col-xl-2 col-md-2 col-12">
-                                    <form action="{{ route('product.findByName') }}">
+                            <form action="{{ Route('product.findByName') }}" class="container-fluid" role="search">
+                                <div class="row justify-content-between">
+                                    <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0 ">
+                                        <div class="input-group">
+                                            <input class="form-control" type="search" placeholder="Search Product"
+                                                aria-label="Search" name="name">
+                                            <button class="btn btn-primary" value="Search"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-md-2 col-12">
                                         <select class="form-select" name="status_sl" id="status_sl" onchange="this.form.submit()">
-                                            <option value="true" {{isset($status_sl) && $status_sl == true?"selected":''}}>Active</option>
-                                            <option value="false" {{isset($status_sl) && $status_sl == false?"selected":''}}>Deactivate</option>
+                                            <option value="desc" {{isset($status_sl) && $status_sl == 'desc'?"selected":''}}>Active</option>
+                                            <option value="asc" {{isset($status_sl) && $status_sl == 'asc'?"selected":''}}>Deactivate</option>
                                         </select>
-                                    </form>
-                                </div>
-                                <div class="col-xl-2 col-md-4 col-12">
-                                    <form action="{{ route('product.findByName') }}" class="d-flex">
+                                    </div>
+                                    <div class="col-xl-2 col-md-4 col-12">
                                         <select class="form-select" name="type_product" onchange="this.form.submit()">
-                                            <option value="">Type</option>
+                                            <option value="">All</option>
                                             @foreach ($types as $type)
                                                 @if ($type->status == 'Active')
                                                     <option value="{{ $type->id_type }}" {{(isset($type_product) && $type_product == $type->id_type) ? "selected":''}}>{{ $type->type }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <!-- card body -->
                         <div class="card-body p-0">
@@ -144,9 +140,7 @@
                                 </table>
                             </div>
                             <div class="p-5">
-                                @if (isset($pagination))
                                 {{ $prods->links('user.pagination.cus_pagination') }}
-                                @endif
                             </div>
                         </div>
                     </div>

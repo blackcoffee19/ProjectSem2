@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                     $groups = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
                     foreach($groups as $gr){
                         $last_mess = $gr->Message->last();
-                        if($last_mess->id_user != Auth::user()->id_user){
+                        if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
                             $num++;
                             $gr->new_mess = true;
                         }
@@ -98,13 +98,14 @@ class AppServiceProvider extends ServiceProvider
                     $groups = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
                     foreach($groups as $gr){
                         $last_mess = $gr->Message->last();
-                        if($last_mess->id_user != Auth::user()->id_user){
+                        if(($last_mess->id_user != Auth::user()->id_user)&&(!$last_mess->status)){
                             $num++;
                             $gr->new_mess = true;
                         }
                     }
                     // GET ALL USER MESSAGE TO ADMIN THAT STILL NOT REPLY 
                     $user_mess=  User::whereIn('id_user',Message::select('id_user')->where('code_group','=',null)->distinct()->get())->get();
+                    $num += count($user_mess);
                     $view->with('num_new',$num);
                     $view->with('groups',$groups);
                     $view->with('user_message',$user_mess);

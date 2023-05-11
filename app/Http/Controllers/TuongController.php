@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use App\Mail\VerificationEmail;
 class TuongController extends Controller
 {
     public function home_page(){
@@ -62,8 +64,10 @@ class TuongController extends Controller
         $newAdd = new Address();
         $newAdd->id_user =Auth::user()->id_user;
         $newAdd->receiver = $req['nameReciever'];
-        $newAdd->address = $req['addressReciever'].", ". $req['ward'].', '.$req['district'].", ".$req['province'];
-        $newAdd->shipment_fee = $req['province'] != "Thành phố Hồ Chí Minh" ? 30000:20000;
+        $newAdd->address = $req['addressReciever'];
+        $newAdd->ward = $req['ward'];
+        $newAdd->district = $req['district']; 
+        $newAdd->province = $req['province'];
         $newAdd->phone = $req['phoneReciever'];
         $newAdd->email = $req['emailReciever'];
         if(isset($req['saveAddress'])){
@@ -129,8 +133,14 @@ class TuongController extends Controller
         }else{
             $new_user->avatar= null;
         };
+        $new_user->email_verification_token =Str::random(32);
         $new_user->created_at= Carbon::now()->format('Y-m-d H:i:s');
         $new_user->save();
+        $mailData = [
+            'title' => 'Mail to Verification',
+            'url' => route('verify',$new_user->email_verification_token)
+        ];
+        Mail::to($new_user->email)->send(new VerificationEmail($mailData));
         $orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
         $num=0;
         foreach($orders as $order){
@@ -173,6 +183,35 @@ class TuongController extends Controller
         }else{
             return redirect()->back()->with('error','Sign up failue. Try again');
         }
+    }
+    public function send_verifyEmail(){
+        $user = User::find(Auth::user()->id_user);
+        $user->email_verification_token =Str::random(32);
+        $user->save();
+        $mailData = [
+            'title' => 'Mail to Verification',
+            'url' => route('verify',$user->email_verification_token)
+        ];
+        try {
+            Mail::to($user->email)->send(new VerificationEmail($mailData));
+        } catch (\Throwable $th) {
+            echo "Send verify email unsuccessfully";
+        }
+        echo "Mail has been sending please check your email to verified the account";
+    }
+    public function verifyEmail($token = null){
+        if($token == null) {
+    		return redirect('signin')->with('verified_error', 'Invalid Login attempt');
+        }
+        $user = User::where('email_verification_token',$token)->first();
+        if(!$user){
+            return redirect('signin')->with('verified_error', 'Invalid Login attempt');
+        }
+        $user->email_verified = true;
+        $user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
+        $user->email_verification_token = '';
+        $user->save();
+        return redirect('/')->with('verified', 'Your account is activated, you can log in now');
     }
     public function get_signIn(){
         $site = "Signin";
@@ -274,6 +313,57 @@ class TuongController extends Controller
         // dd(Session::get('select_add'));
         return view('user.pages.Orders.checkout',compact('cart','address','coupon'));
     }
+    public function ghtk_servicefee(Request $req){
+        $province = $req['province'];
+        $district = $req['district'];
+        if(Session::has('coupon')){
+            $coupon =Coupon::find(Session::get('coupon')); 
+            $coupon->freeship = Coupon::where('id_coupon','=',Session::get('coupon'))->where('code','LIKE','%FREESHIP%')->first() ? true :false;
+        }else{
+            $coupon = null;
+        }
+        $total_weight = 0;
+        $subtotal=0;
+        if(Auth::check()){
+            $carts = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
+            $address = Auth::user()->Address->sortByDesc('default');
+            foreach($carts as $cart){
+                $total_weight+=$cart->amount;
+                $subtotal += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
+            }
+            $subtotal = $coupon? ($coupon->discount<=100? $subtotal*(1-$coupon->discount/100):$subtotal-$coupon->discount):$subtotal+0;
+        }else{
+            $carts = Session::get('cart');
+            foreach($carts as$cart){
+                $total_weight+=$cart['amount'];
+                $subtotal += $cart['per_price']*(1-$cart['sale']/100)*($cart['amount']/1000);
+            }
+        }
+        //api GHTK
+        $data = array(
+            "pick_province" => $province,
+            "pick_district" => $district,
+            "province" => $province,
+            "district" => $district,
+            "weight" => $total_weight,
+            "value" => $subtotal,
+            "transport" => "road",
+            "deliver_option" => "none"
+        );
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/fee?" . http_build_query($data),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_HTTPHEADER => array(
+                "Token: 1830630245Ca1E494982d10B95FaFFbe6bF78641",
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+    }
     public function post_checkout(Request $req){
         $order = new Order();
         if(Auth::check()){
@@ -284,7 +374,7 @@ class TuongController extends Controller
             $order->receiver = $address['receiver']; 
             $order->phone = $address['phone'];
             $order->email = $address['email'];
-            $order->address = $address['address'];
+            $order->address = $address['address'].", ".$address['ward'].", ".$address['district'].", ".$address['province'];
             $order->code_coupon = $req['code_coupon'];
             $order->method = $req['order_method'];
             $order->instruction = $req['delivery_instructions'];
@@ -335,7 +425,6 @@ class TuongController extends Controller
         $order->status = 'unconfirmed';
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
-        // dd($order);
         $order->save();
         Session::forget("cart");
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
@@ -404,7 +493,7 @@ class TuongController extends Controller
             $cart_session = ["id_product"=>$req["id_pro"],"amount"=>$amount,"per_price"=>$price,"name"=>$name,"max"=>$maxQuan,"image"=>$imgPro,'sale'=>$product->sale];
             Session::push("cart",$cart_session);
         };
-        return redirect()->back()->with(["message"=>"Add to cart successfull"]);
+        return redirect()->back()->with(["message_addtocart"=>"Add to cart successfull"]);
     }
     public function addToCart2($id){
         $product= Product::find($id);
@@ -534,19 +623,19 @@ class TuongController extends Controller
                                 </a>
                             </div>
                         </div>
-                        <div class='col-4 col-md-4 col-lg-5 '>
+                        <div class='col-4 col-md-5 col-lg-5 '>
                         <form method='POST' action='".route('cartadd',$cart->id_cart)."'>
                         <input type='hidden' name='_token' >
                         <input type='hidden' name='max_quan' value='".$cart->Product->quantity."'>
                             <div class='col-6 d-flex flex-column justify-content-center align-items-center'>
-                            <div class='input-group input-spinner input-group-sm'>
+                            <div class='input-group input-spinner input-group-sm' data-amount=".$cart->amount.">
                             <button type='button' class='btn btn_minus' style='border-radius: 10px 0 0 10px;'  data-field='quantity'>
                                 <i class='bi bi-dash-lg'></i>
                             </button>
-                            <input type='text' value='".number_format($cart->amount,0)."' name='quan'  class='form-control form-input'>
+                            <input type='text' value='".number_format($cart->amount,0,'','')."' name='quan'  class='form-control form-input'>
                             <button type='button' class='btn btn_plus' style='border-radius: 0 10px 10px 0;'><i class='bi bi-plus-lg'></i></button>
                             </div>
-                            <input type='submit'class='text-primary text-center border-0 bg-white d-none' value='Save'>
+                            <input type='submit'class='text-primary text-center border-0 bg-white d-none' id='modal_save' value='Save'>
                             </div>
                             </form></div><div class='col-2 text-lg-end text-start text-md-end col-md-2'>";
                     if($cart->sale > 0 ){
@@ -962,12 +1051,10 @@ class TuongController extends Controller
     public function post_editprofie(Request $req){
         $user = User::find(Auth::user()->id_user);
         $user->name = $req['new_name'];
-        $checkEmail = User::where('email','=',$req['new_email'])->where('id_user','!=',Auth::user()->id_user)->get();
-        if(count($checkEmail) == 0){
+        if($req['new_email'] != $user->email){
             $user->email = $req['new_email'];
-        }else{
-            return redirect()->back()->with('error','Error: Email has signed by another account');
-        }
+            $user->email_verified = false;
+        };
         $checkPhone = User::where('phone','=',$req['new_phone'])->where('id_user','!=',Auth::user()->id_user)->get();
         if(count($checkPhone) == 0 && !$user->phone){
             $user->phone = $req['new_phone'];
@@ -1280,8 +1367,12 @@ class TuongController extends Controller
                           <p class='card-text'>View >> </p>
                         </div></div></div></a></div>";
                         $html.=    $share_link;
-                    }
-                }
+                    };
+                };
+                if(!$chat->status){
+                    $chat->status = true;
+                    $chat->save();
+                };
                 $html.="</div><span class='text-black-50'>".$time."</span></div>";
             }else{
                 $html.= "<div class='col-2 mx-auto'></div>";
@@ -1312,9 +1403,30 @@ class TuongController extends Controller
             }
             $html.= "</div>";
         };
+        if(Auth::user()->admin != '0'){
+            $all_group = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+            $unread_mess = 0;
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+            $unread_mess += count(Message::whereNull('code_group')->get());
+        }else{
+            $all_group = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+            $unread_mess = 0;
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+        }
         $data = [
             'mess' => $html,
-            'name'=> $user->name
+            'name'=> $user->name,
+            'unread_mess' => $unread_mess
         ];
         echo implode(',',$data);
     }
@@ -1335,6 +1447,7 @@ class TuongController extends Controller
             }
             foreach(Message::where('code_group','=',null)->where('id_user','=',$req['connect_user'])->get() as $mess){
                 $mess->code_group = $code;
+                $mess->status = true;
                 $mess->save();
             };
         };
@@ -1355,6 +1468,26 @@ class TuongController extends Controller
             $new_message->name_product =$product_share->name;
             $new_message->image = count($product_share->Library)>0?"images/products/". $product_share->Library[0]->image:"images/category/". $product_share->TypeProduct->image;
         }
+        $unread_mess = 0;
+        if(Auth::user()->admin != '0'){
+            $all_group = Groupmessage::where('id_admin','=',Auth::user()->id_user)->get();
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+            $unread_mess += count(Message::whereNull('code_group')->get());
+        }else{
+            $all_group = Groupmessage::where('id_user','=',Auth::user()->id_user)->get();
+            foreach ($all_group as $gr){
+                $last_mess = $gr->Message->last();
+                if(($last_mess->id_user != Auth::user()->id_user) && (!$last_mess->status)){
+                    $unread_mess++;
+                }
+            }
+        }
+        $new_message->unread_mess = $unread_mess;
         echo $new_message;
     }
     public function remove_allnews(){

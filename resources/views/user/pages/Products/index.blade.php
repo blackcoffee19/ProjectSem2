@@ -21,6 +21,18 @@
                 background-color: #0aad0a;
                 color: white;
             }
+            .searchProduct{
+                position: relative;
+                margin-top: 30px;
+            }
+            .inputProduct{
+                position: relative;
+                margin-top: 15px;
+            }
+            .formProduct{
+                position: relative;
+                padding: 5px 10px 0px 0px;
+            }
         </style>
 
         <!-- breadcrumb -->
@@ -59,25 +71,7 @@
 
                             <!-- icon -->
                             <div class="d-md-flex justify-content-between align-items-center">
-                                {{-- <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-
-                                        <a href="shop-list.html" class="text-muted me-3"><i class="bi bi-list-ul"></i></a>
-                                        <a href="shop-grid.html" class=" me-3 active"><i class="bi bi-grid"></i></a>
-                                        <a href="shop-grid-3-column.html" class="me-3 text-muted"><i
-                                                class="bi bi-grid-3x3-gap"></i></a>
-                                    </div>
-                                    <div class="ms-2 d-lg-none">
-                                        <a class="btn btn-outline-gray-400 text-muted" data-bs-toggle="offcanvas"
-                                            href="#offcanvasCategory" role="button" aria-controls="offcanvasCategory"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-filter me-2">
-                                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                                            </svg> Filters</a>
-                                    </div>
-                                </div> --}}
+         
 
                                 <div class="d-flex mt-2 mt-lg-0">
 
@@ -143,9 +137,11 @@
                                                 </div>
 
                                             </div>
+                                            
                                             <div class="text-small mb-1"><a href="#!"
-                                                    class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->name }}</small></a>
+                                                    class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
                                             </div>
+                                            
                                             <h2 class="fs-6">
                                                 <a href="{{ route('products-details', $pro->id_product) }}"
                                                     class="text-inherit text-decoration-none">{{ $pro->name }}</a>
@@ -208,22 +204,7 @@
     </main>
 
     <script>
-        //hiển thị số sao từng sản phẩm
-        const ratingValues = document.querySelectorAll(".rating-value");
-        ratingValues.forEach(function(ratingValue) {
-            const ratingInputs = ratingValue.parentNode.querySelectorAll(".rate10 i");
-            const value = Number(ratingValue.value);
-            if (value <= 5 && value >= 1) {
-                ratingInputs[ratingInputs.length - value].checked = true;
-            }
-
-            ratingValue.addEventListener(" i", function() {
-                const value = Number(ratingValue.value);
-                if (value <= 5 && value >= 1) {
-                    ratingInputs[ratingInputs.length - value].checked = true;
-                }
-            });
-        });
+        
 
         //sắp xếp theo giá
         function sortProductsByPrice() {

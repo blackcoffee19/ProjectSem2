@@ -459,6 +459,23 @@
                   }
                 }else{
                   $("#error_delivery").html('Sorry we can not delivery to your address.');
+                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
+                  if(dataJson['fee']['extFees'].length>0){
+                    $('#extra_ship').removeClass('d-none');
+                    let total_shipfee = dataJson['fee']['fee'];
+                    let ex_fee = 0;
+                    dataJson['fee']['extFees'].forEach(el=>{
+                      ex_fee+=el['amount'];
+                    });
+                    $("#extra_ship_display").html("+ "+ex_fee+" đ");
+                    total_shipfee+=ex_fee;
+                    totall+=ex_fee;
+                    $("input[name=shipment_fee]").val(total_shipfee);
+                    $(".totalPay").text((totall*0.000043).toFixed(2));
+                    $('#total').html(totall+ ' đ');
+                  }
+                }else{
+                  $("#error_delivery").html('Sorry we can not delivery to your address.');
                 }
               });
             });
@@ -472,7 +489,7 @@
             });
             $("#paypal_btn").click(function(){
               @if(Auth::check())
-                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                $.get(window.location.origin+"/ProjectSem2/public/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
                   let dataAddress = jQuery.parseJSON(data);
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);
@@ -483,7 +500,7 @@
                   $('#phone_pay').html(dataAddress['phone']);
                   $('#email_pay').html(dataAddress['email']);
                   $("#confirm_paypal").click(function(){
-                    window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
+                    window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
                   });
                 })
               @else
@@ -541,7 +558,7 @@
                 @endif
             })
             $("#confirm_paypal").click(function(){
-                window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
+                window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
             })
         })
     </script>

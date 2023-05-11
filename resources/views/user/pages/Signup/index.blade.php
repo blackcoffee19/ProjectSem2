@@ -37,9 +37,7 @@
                                         </div>
                                         <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
                                     </div>
-                                    <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">Sign
-                                            In</button>
-                                    </div>
+                                    
                                     <div>Don’t have an account? <a href="{{ route('signup') }}"> Sign Up</a></div>
                                 </div>
                             </form>

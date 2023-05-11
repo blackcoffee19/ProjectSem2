@@ -11,37 +11,48 @@
                 <!-- title -->
                  <a href="{{route('user.pages.Products.index')}}" ><h3 class="mb-3" onclick="filterSelection('all')">Categories</h3></a> 
                 <!-- nav -->
-
-                @foreach ($cats as $item)
-                @if ($item->status == 'Active')
-                 <ul class="nav nav-category" id="categoryCollapseMenu" >
-                    <li class="nav-item border-bottom w-100 collapsed" 
-                        data-bs-target="" aria-expanded="false" aria-controls="categoryFlushOne"><a
-                        href="{{ route('userShowProductCatagory', $item->id_type) }}" class="nav-link"  >{{$item->type}}
-                            <i class="feather-icon icon-chevron-right"></i></a>
-                        <!-- accordion collapse -->
-                     
-
-                    </li>
-                   
-                </ul> 
-                @endif
-                @endforeach
+            <div class="formProduct">
+                <form action="{{ route('ShowProductCatagory', ['type' => 'all']) }}" method="GET">
+                    @foreach ($cats as $item)
+                        @if ($item->status == 'Active')
+                            <div class="form-check">
+                                <input class="form-check-input category-checkbox" type="checkbox" name="category[]" value="{{ $item->id_type }}" id="category-{{ $item->id_type }}">
+                                <label class="form-check-label" for="category-{{ $item->id_type }}">
+                                    {{ $item->type }}
+                                    <i class="feather-icon icon-chevron-right"></i>
+                                </label>
+                            </div>
+                            <hr>
+                        @endif
+                    @endforeach
+                    <div class="">
+                        <button type="submit" class=" searchPrice inputProduct">Search</button>
+                    </div>
+                </form>
             </div>
-
 
             <div class="mb-8">
                 <!-- price -->
                 <form action="{{Route('product.searchPrice')}}">
                     
-                <h3 class="mb-3">Price</h3>
+                <h3 class="mb-3 searchProduct">Price</h3>
                 <div>
                     <!-- range -->
                     <div id="priceRange" class="mb-3"></div>
                     <small class="text-muted ">Form: <br> </small> <input name="form" id="priceRange-value" class="small price1"> <br>
                     <small class="text-muted "> To: <br> </small> <input name="to" id="priceRange-value" class="small price1"><br>
-                    @forEach($prods as $pro)
-                    <input type="hidden" name="type" value="{{$pro->id_type}}">
+                    @php
+                    $previousType = null;
+                    @endphp
+
+                    @foreach($prods as $pro)
+                        @if($pro->id_type != $previousType)
+                            <input type="hidden" name="type[]" value="{{$pro->id_type}}">
+                           
+                        @endif
+                        @php
+                        $previousType = $pro->id_type;
+                        @endphp
                     @endforeach 
                     <input class="searchPrice" type="submit"value="Search"/>
                 </div>

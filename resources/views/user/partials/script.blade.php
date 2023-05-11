@@ -345,10 +345,10 @@
                     }
                     if(deliver_method4['fee']['extFees'].length>0){
                       let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
-                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                       let ex_fee3 = 0;
                       deliver_method4['fee']['extFees'].forEach(el=>{
                         ex_fee3+=el['amount'];
+                        $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                       });
                       $("#extra_ship_display").html("+ "+ex_fee3+" đ");
                     }
@@ -395,8 +395,8 @@
                         let dataJson2 = jQuery.parseJSON(data);
                         let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                         if(deliver_method2['fee']['delivery']){
-                          let totall2 = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
-                          if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                          let totall2 = parseInt($("#total").data('subtotal'))+deliver_method2['fee']['fee'];
+                          if(deliver_method2['fee']['fee']!=$("input[name=shipment_fee]").val()){
                             $("#shippment_fee").html(deliver_method2['fee']['ship_fee_only']+" đ");
                             $("#total").html(totall2 +" đ");
                           }
@@ -409,10 +409,10 @@
                           }
                           if(deliver_method2['fee']['extFees'].length>0 ){
                             let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
-                            $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                             let ex_fee2 = 0;
                             deliver_method2['fee']['extFees'].forEach(el=>{
                               ex_fee2+=el['amount'];
+                              $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                             });
                             $("#extra_ship_display").html("+ "+ex_fee2+" đ");
                           }
@@ -437,7 +437,7 @@
               })
             })
             $('#ghn_services').html(str2);
-          });
+        });
       });
       $("#submit_order").click(function(){
         @if(!Auth::check())

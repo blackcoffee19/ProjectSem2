@@ -397,84 +397,81 @@
               $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 // console.log(dataJson);
-                if(dataJson['fee']['delivery']){
-                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
-                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
-                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                let deliver_method = jQuery.parseJSON(dataJson[1]);
+                if(deliver_method['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+                  if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only']+" đ");
                     $("#total").html(totall +" đ");
                   }
                   $(".totalPay").text((totall*0.000043).toFixed(2));
-                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-                  if(dataJson['fee']['extFees'].length>0){
-                    $('#extra_ship').removeClass('d-none');
-                    let total_shipfee = dataJson['fee']['fee'];
+                  $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                  if(deliver_method['fee']['extFees'].length>0){
+                    $('#extra_ship').parent().removeClass('d-none');
                     let ex_fee = 0;
-                    dataJson['fee']['extFees'].forEach(el=>{
+                    let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                    deliver_method['fee']['extFees'].forEach(el=>{
                       ex_fee+=el['amount'];
+                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
-                    total_shipfee+=ex_fee;
-                    totall+=ex_fee;
-                    $("input[name=shipment_fee]").val(total_shipfee);
-                    $(".totalPay").text((totall*0.000043).toFixed(2));
-                    $('#total').html(totall+ ' đ');
+                  }else{
+                    $('#extra_ship').parent().addClass('d-none');
                   }
-                }else{
+                };
+                let str1 = "";
+                for (let i = 0; i < dataJson.length; i++) {
+                  var method = jQuery.parseJSON(dataJson[i]);
+                  if(!method['fee']['delivery']){
+                    check++;
+                  }
+                  let name=["Air Transport","Road Transport","Xfast"]
+                  str1+=`<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;  
+                }
+                $("#ghtk_service").html(str1);
+                if(check == 3){
                   $("#error_delivery").html('Sorry we can not delivery to your address.');
                 }
               });
             @endif
-            $("#get_ninjavan").click(function(){
-              console.log(window.location.origin+'/public/index.php/ajax/ghtk_service/order');
-              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/order',function(data){
-                console.log(data);
-              })
-            })
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
               $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 // console.log(dataJson);
-                if(dataJson['fee']['delivery']){
-                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
-                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
-                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                let deliver_method = jQuery.parseJSON(dataJson[1]);
+                if(deliver_method['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+                  if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only']+" đ");
                     $("#total").html(totall +" đ");
                   }
                   $(".totalPay").text((totall*0.000043).toFixed(2));
-                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-                  if(dataJson['fee']['extFees'].length>0){
-                    $('#extra_ship').removeClass('d-none');
-                    let total_shipfee = dataJson['fee']['fee'];
+                  $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                  if(deliver_method['fee']['extFees'].length>0){
+                    $('#extra_ship').parent().removeClass('d-none');
                     let ex_fee = 0;
-                    dataJson['fee']['extFees'].forEach(el=>{
+                    let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                    deliver_method['fee']['extFees'].forEach(el=>{
                       ex_fee+=el['amount'];
+                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
-                    total_shipfee+=ex_fee;
-                    totall+=ex_fee;
-                    $("input[name=shipment_fee]").val(total_shipfee);
-                    $(".totalPay").text((totall*0.000043).toFixed(2));
-                    $('#total').html(totall+ ' đ');
+                  }else{
+                    $('#extra_ship').parent().addClass('d-none');
                   }
-                }else{
-                  $("#error_delivery").html('Sorry we can not delivery to your address.');
-                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-                  if(dataJson['fee']['extFees'].length>0){
-                    $('#extra_ship').removeClass('d-none');
-                    let total_shipfee = dataJson['fee']['fee'];
-                    let ex_fee = 0;
-                    dataJson['fee']['extFees'].forEach(el=>{
-                      ex_fee+=el['amount'];
-                    });
-                    $("#extra_ship_display").html("+ "+ex_fee+" đ");
-                    total_shipfee+=ex_fee;
-                    totall+=ex_fee;
-                    $("input[name=shipment_fee]").val(total_shipfee);
-                    $(".totalPay").text((totall*0.000043).toFixed(2));
-                    $('#total').html(totall+ ' đ');
+                };
+                let str1 = "";
+                for (let i = 0; i < dataJson.length; i++) {
+                  var method = jQuery.parseJSON(dataJson[i]);
+                  if(!method['fee']['delivery']){
+                    check++;
                   }
-                }else{
+                  let name=["Air Transport","Road Transport","Xfast"]
+                  str1+=`<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;  
+                }
+                $("#ghtk_service").html(str1);
+                if(check == 3){
                   $("#error_delivery").html('Sorry we can not delivery to your address.');
                 }
               });

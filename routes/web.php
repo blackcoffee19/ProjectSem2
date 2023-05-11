@@ -76,7 +76,7 @@ Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('goo
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
-    Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('products-details');
+    Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('post_products_details');
     Route::get('/checkout', [TuongController::class, 'get_checkout'])->name('checkout');
     Route::post('/checkout', [TuongController::class, 'post_checkout'])->name('checkout');
     Route::get('/order', [TuongController::class, 'get_order'])->name('order');
@@ -101,6 +101,7 @@ Route::get('/ajax/check-phone/{phone}', [TuongController::class, 'check_phone'])
 Route::get('/ajax/add-favourite/{id}', [TuongController::class, 'add_favourite']);
 Route::get('/ajax/add-compare/{id}', [TuongController::class, 'addCompare']);
 Route::get('/ajax/compare/showcompare', [TuongController::class, 'showCompare']);
+Route::get('/ajax/ghtk_service/fee',[TuongController::class,'ghtk_servicefee']);
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User

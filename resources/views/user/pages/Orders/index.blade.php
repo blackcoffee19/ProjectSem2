@@ -17,12 +17,9 @@
                 </div>
                 <!-- row -->
                 <div class="row">
-                    <div class="col-lg-8 col-md-7">
+                    <div class="col-lg-8 col-md-12">
 
                         <div class="py-3">
-                            <div class="alert alert-danger p-2" role="alert">
-                                You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
-                            </div>
                             <ul class="list-group list-group-flush">
                                 @php
                                     $sum = 0;
@@ -192,8 +189,7 @@
                                                                     <p class="ms-5 fw-bold align-self-end mb-1">g</p>
                                                                 </div>
                                                                 @if ($errors->has('quan'))
-                                                                    <span
-                                                                        class="text-danger">{{ $errors->first('cart_quant') }}</span>
+                                                                    <span class="text-danger">{{ $errors->first('cart_quant') }}</span>
                                                                 @endif
                                                             </div>
                                                             <div class="col-3 mx-auto">
@@ -235,9 +231,8 @@
 
                         </div>
                     </div>
-
-                    <!-- sidebar -->
-                    <div class="col-12 col-lg-4 col-md-5">
+                    <div class="col-12 col-lg-4 col-md-12">
+                        <hr class="d-lg-none">
                         <div class="mb-5 card mt-6">
                             <div class="card-body p-6">
                                 <h2 class="h5 mb-4">Summary</h2>
@@ -255,7 +250,7 @@
                                             <div class="me-auto">
                                                 <div>Service Fee</div>
                                             </div>
-                                            <span>20 000 đ</span>
+                                            <span>16 500 đ</span>
                                         </li>
 
                                         <li id="added_coupon"
@@ -274,7 +269,7 @@
                                                 <div class="fw-bold">Total</div>
                                             </div>
                                             <span class="fw-bold" id="total_items"
-                                                data-total="{{ $sum + 20000 }}">{{ $coupon == null ? number_format($sum + 20000, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 20000, 0, '', '') : number_format(($sum + 20000) * (1 - $coupon->discount / 100), 0, '', '')) }}
+                                                data-total="{{ $sum}}">{{ $coupon == null ? number_format($sum + 16500, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 16500, 0, '', '') : number_format(($sum + 16500) * (1 - $coupon->discount / 100), 0, '', '')) }}
                                                 đ</span>
                                         </li>
                                     </ul>
@@ -283,7 +278,7 @@
                                     <a href="{{ route('checkout') }}"
                                         class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go
                                         to Checkout <span class="fw-bold"
-                                            id="total_cart">{{ $coupon == null ? number_format($sum + 20000, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 20000, 0, '', '') : number_format(($sum + 20000) * (1 - $coupon->discount / 100), 0, '', '')) }}
+                                            id="total_cart">{{ $coupon == null ? number_format($sum + 16500, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 20000, 0, '', '') : number_format(($sum + 20000) * (1 - $coupon->discount / 100), 0, '', '')) }}
                                             đ</span></a>
                                 </div>
                                 <p><small>By placing your order, you agree to be bound by the Freshcart <a
@@ -337,9 +332,11 @@
                                         $('#discount').html('- ' + dataJson['discount'] + '%');
                                         total *= (1 - parseFloat(dataJson['discount']) / 100);
                                     };
+                                    total += 16500;
                                     $('#total_items').html(Math.floor(total) + ' đ');
                                     $('#total_cart').html(Math.floor(total) + ' đ');
                                 } else {
+                                    total += 16500;
                                     $('#total_items').html(Math.floor(total) + ' đ');
                                     $('#total_cart').html(Math.floor(total) + ' đ');
                                     $('#added_coupon').addClass('d-none');
@@ -348,6 +345,7 @@
                                     $('#wrong_code').removeClass('d-none').html(dataJson['error']);
                                 }
                             } else {
+                                total += 16500;
                                 $('#total_items').html(Math.floor(total) + ' đ');
                                 $('#total_cart').html(Math.floor(total) + ' đ');
                                 $('#added_coupon').addClass('d-none');

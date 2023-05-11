@@ -89,7 +89,7 @@
                             <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left:
                                     {{ number_format($product->quantity, 0, '', ' ') }} grams</button>
                             </div>
-                            <form action="{{ route('products-details', [$product->id_product]) }}" method="post">
+                            <form action="{{ route('post_products_details', [$product->id_product]) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
                                 <input type="hidden" name="max_quan" value="{{ $product->quantity }}">

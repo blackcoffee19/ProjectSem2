@@ -71,25 +71,7 @@
 
                             <!-- icon -->
                             <div class="d-md-flex justify-content-between align-items-center">
-                                {{-- <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-
-                                        <a href="shop-list.html" class="text-muted me-3"><i class="bi bi-list-ul"></i></a>
-                                        <a href="shop-grid.html" class=" me-3 active"><i class="bi bi-grid"></i></a>
-                                        <a href="shop-grid-3-column.html" class="me-3 text-muted"><i
-                                                class="bi bi-grid-3x3-gap"></i></a>
-                                    </div>
-                                    <div class="ms-2 d-lg-none">
-                                        <a class="btn btn-outline-gray-400 text-muted" data-bs-toggle="offcanvas"
-                                            href="#offcanvasCategory" role="button" aria-controls="offcanvasCategory"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-filter me-2">
-                                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                                            </svg> Filters</a>
-                                    </div>
-                                </div> --}}
+         
 
                                 <div class="d-flex mt-2 mt-lg-0">
 

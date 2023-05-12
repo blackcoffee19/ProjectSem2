@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id('id_address');
             $table->foreignId('id_user');
             $table->string('receiver');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('province');
             $table->string('district');
+            $table->integer('district_id');
             $table->string('ward');
+            $table->integer('ward_id');
             $table->string('phone');
             $table->string('email');
             $table->boolean('default')->default(false);

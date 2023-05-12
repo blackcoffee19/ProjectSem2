@@ -152,18 +152,6 @@
     </div>
   </div>
 </div>
-{{-- <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
-  <div role="alert"  id="toastAdd" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
-      <div class="toast-body" style="height: 100px; padding:30px 0">
-        <div class="row">
-          <div class="col-2 mb-3 mx-auto">
-            <i class="fa-solid fa-cart-circle-check" style="color: #2ec27e; font-size: 2.3rem"></i>
-          </div>
-          <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" >Add pet to cart successully</h4>
-        </div>
-      </div>
-  </div>
-</div> --}}
 <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastVerified" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
       <div class="toast-body" style=" padding:10px">
@@ -310,6 +298,8 @@
                 <select class="form-select" id="ward" name="ward" disabled>
                 </select>
               </div>
+              <input type="hidden" name="district_id">
+              <input type="hidden" name="ward_id">
               <div class="col-12">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" name="saveAddress" id="saveAddress"> 
@@ -605,8 +595,9 @@
         <p>Address: <span id="address_pay"></span><br>
           &nbsp; Ward: <span id="ward_pay"></span><br>
           &nbsp; District: <span id="district_pay"></span><br>
-          &nbsp; Province: <span id="province_pay"></span></p>
-
+          &nbsp; Province: <span id="province_pay"></span>
+        </p>
+        <p>Delivery Method: <span id="delivery_by"></span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

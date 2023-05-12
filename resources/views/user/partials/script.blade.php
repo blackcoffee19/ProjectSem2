@@ -284,8 +284,12 @@
           });
       });
       $('#ward').change(function(){
-        $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data){
-          let dataJson = jQuery.parseJSON(data);
+        @if(Auth::check())
+          $("input[name=district_id]").val($('#district option:selected').val());
+          $("input[name=ward_id]").val($('#ward option:selected').val());
+        @endif
+        $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
+          let dataJson = jQuery.parseJSON(data6);
           let check = 0;
           let deliver_method = jQuery.parseJSON(dataJson[1]);
           if(deliver_method['fee']['delivery']){
@@ -327,8 +331,8 @@
             if(parseInt($('#delivery_method option:selected').val()) <10){
               $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
-              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data4){
-                  let dataJson3 = jQuery.parseJSON(data4);
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data1){
+                  let dataJson3 = jQuery.parseJSON(data1);
                   let deliver_method4 = jQuery.parseJSON(dataJson3[$('#delivery_method option:selected').val()]);
                   if(deliver_method4['fee']['delivery']){
                     let totall3 = parseInt($("#total").data('subtotal'))+deliver_method4['fee']['fee'];
@@ -355,15 +359,16 @@
                   };
                 })   
             }else{
-              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
-                let newdata3 = data3.slice(0,data3.length-1);
-                let dataJs3 = jQuery.parseJSON(newdata3);
-                let shipping =dataJs3['data']['total']- parseInt($("#total").data('subtotal'));
+              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
+                let newdata4 = data5.slice(0,data5.length-1);
+                let dataJs4 = jQuery.parseJSON(newdata4);
+                let total_ghn =dataJs4['data']['total']+ parseInt($("#total").data('subtotal'));
+                let shipping = dataJs4['data']['total'];
                 if(shipping!=$("input[name=shipment_fee]").val()){
                   $("#shippment_fee").html(shipping+" đ");
-                  $("#total").html(dataJs3['data']['total'] +" đ");
+                  $("#total").html(total_ghn +" đ");
                 }
-                $(".totalPay").text((dataJs3['data']['total']*0.000043).toFixed(2));
+                $(".totalPay").text((total_ghn*0.000043).toFixed(2));
                 $("input[name=shipment_fee]").val(shipping);
               });
               $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
@@ -381,8 +386,21 @@
             let dataJs = jQuery.parseJSON(newdata); 
             let str2 = "";
             dataJs['data'].forEach(service =>{
-              let translate = {"Chuyển phát thương mại điện tử": "E-commerce delivery","Chuyển phát truyền thống":"Traditional delivery","Tiết kiệm":"Saving delivery"};
-              str2+=`<option value='${service['service_id']}'>${translate[service['short_name']]}</option>`;
+              let translate = "";
+              switch(service['short_name']){
+                      case "Chuyển phát thương mại điện tử":
+                      translate= "E-commerce delivery";
+                        break;
+                      case "Chuyển phát truyền thống": 
+                      translate ="Traditional delivery";
+                        break;
+                        case "Tiết kiệm":
+                        translate= "Saving delivery";
+                          break;
+                        default:
+                        translate =service['short_name'];
+                    };
+              str2+=`<option value='${service['service_id']}'>${translate}</option>`;
               $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
                 let newdata2 = data2.slice(0,data2.length-1);
                 let dataJs2 = jQuery.parseJSON(newdata2);
@@ -391,9 +409,9 @@
                   if(parseInt($('#delivery_method option:selected').val()) <10){
                     $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
-                    $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data){
-                        let dataJson2 = jQuery.parseJSON(data);
-                        let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
+                    $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+                        let dataJson2 = jQuery.parseJSON(data3);
+                        let deliver_method2 =  jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                         if(deliver_method2['fee']['delivery']){
                           let totall2 = parseInt($("#total").data('subtotal'))+deliver_method2['fee']['fee'];
                           if(deliver_method2['fee']['fee']!=$("input[name=shipment_fee]").val()){
@@ -419,15 +437,16 @@
                         };
                       })   
                   }else{
-                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
-                      let newdata3 = data3.slice(0,data3.length-1);
+                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data4){
+                      let newdata3 = data4.slice(0,data4.length-1);
                       let dataJs3 = jQuery.parseJSON(newdata3);
-                      let shipping =dataJs3['data']['total']- parseInt($("#total").data('subtotal'));
+                      let total_ghn =dataJs3['data']['total']+ parseInt($("#total").data('subtotal'));
+                      let shipping = dataJs3['data']['total'];
                       if(shipping!=$("input[name=shipment_fee]").val()){
                         $("#shippment_fee").html(shipping+" đ");
-                        $("#total").html(dataJs3['data']['total'] +" đ");
+                        $("#total").html(total_ghn +" đ");
                       }
-                      $(".totalPay").text((dataJs3['data']['total']*0.000043).toFixed(2));
+                      $(".totalPay").text((total_ghn*0.000043).toFixed(2));
                       $("input[name=shipment_fee]").val(shipping);
                     });
                     $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
@@ -440,6 +459,7 @@
         });
       });
       $("#submit_order").click(function(){
+        $('#delivery_method option:selected').val($('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text());
         @if(!Auth::check())
           $('#province option:selected').val($('#province option:selected').text());
           $('#district option:selected').val($('#district option:selected').text());

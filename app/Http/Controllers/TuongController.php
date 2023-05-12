@@ -70,6 +70,8 @@ class TuongController extends Controller
         $newAdd->province = $req['province'];
         $newAdd->phone = $req['phoneReciever'];
         $newAdd->email = $req['emailReciever'];
+        $newAdd->district_id = intval($req['district_id']);
+        $newAdd->ward_id = intval($req['ward_id']);
         if(isset($req['saveAddress'])){
             $defautlAddress = Address::where('id_user','=',Auth::user()->id_user)->where('default','=',true)->first();
             if($defautlAddress){
@@ -338,26 +340,16 @@ class TuongController extends Controller
         $ward = $req['ward'];
         $service_id = intval($req['service_id']);
         $district = intval($req['district']);
-        if(Session::has('coupon')){
-            $coupon =Coupon::find(Session::get('coupon')); 
-            $coupon->freeship = Coupon::where('id_coupon','=',Session::get('coupon'))->where('code','LIKE','%FREESHIP%')->first() ? true :false;
-        }else{
-            $coupon = null;
-        }
         $total_weight = 0;
-        $subtotal=0;
         if(Auth::check()){
             $carts = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
             foreach($carts as $cart){
                 $total_weight+=$cart->amount;
-                $subtotal += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
             }
-            $subtotal = $coupon? ($coupon->discount<=100? $subtotal*(1-$coupon->discount/100):$subtotal-$coupon->discount):$subtotal+0;
         }else{
             $carts = Session::get('cart');
-            foreach($carts as$cart){
+            foreach($carts as $cart){
                 $total_weight+=$cart['amount'];
-                $subtotal += $cart['per_price']*(1-$cart['sale']/100)*($cart['amount']/1000);
             }
         }
         $data = array(
@@ -387,12 +379,6 @@ class TuongController extends Controller
     public function ghtk_servicefee(Request $req){
         $province = $req['province'];
         $district = $req['district'];
-        if(Session::has('coupon')){
-            $coupon =Coupon::find(Session::get('coupon')); 
-            $coupon->freeship = Coupon::where('id_coupon','=',Session::get('coupon'))->where('code','LIKE','%FREESHIP%')->first() ? true :false;
-        }else{
-            $coupon = null;
-        }
         $total_weight = 0;
         $subtotal=0;
         if(Auth::check()){
@@ -401,7 +387,6 @@ class TuongController extends Controller
                 $total_weight+=$cart->amount;
                 $subtotal += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
             }
-            $subtotal = $coupon? ($coupon->discount<=100? $subtotal*(1-$coupon->discount/100):$subtotal-$coupon->discount):$subtotal+0;
         }else{
             $carts = Session::get('cart');
             foreach($carts as$cart){
@@ -502,7 +487,6 @@ class TuongController extends Controller
             $order->email = $address['email'];
             $order->address = $address['address'].", ".$address['ward'].", ".$address['district'].", ".$address['province'];
             $order->code_coupon = $req['code_coupon'];
-            $order->method = $req['order_method'];
             $order->instruction = $req['delivery_instructions'];
             foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
                 $cart->Product->quantity-=$cart->amount;
@@ -544,9 +528,10 @@ class TuongController extends Controller
             $order->phone = $req['phoneReciever'];
             $order->email = $req['emailReciever'];
             $order->address = $req['addressReciever'].", ".$req['ward'].", ".$req['district']. ", ".$req['province'];
-            $order->method = $req['order_method'];
             $order->code_coupon = $req['code_coupon'];
         }
+        $order->method = $req['order_method'];
+        $order->delivery_method = $req['delivery_method'];
         $order->shipping_fee = $req['shipment_fee'];
         $order->status = 'unconfirmed';
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');

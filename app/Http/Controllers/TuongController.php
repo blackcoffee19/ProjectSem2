@@ -72,6 +72,7 @@ class TuongController extends Controller
         $newAdd->email = $req['emailReciever'];
         $newAdd->district_id = intval($req['district_id']);
         $newAdd->ward_id = intval($req['ward_id']);
+        $newAdd->province_id = intval($req['province_id']);
         if(isset($req['saveAddress'])){
             $defautlAddress = Address::where('id_user','=',Auth::user()->id_user)->where('default','=',true)->first();
             if($defautlAddress){
@@ -1277,6 +1278,23 @@ class TuongController extends Controller
             echo "Wrong way bro";
         }else{
             $order = Order::find($id);
+            $name =[];
+            $images =[];
+            $order->cart = $order->Cart->toArray();
+            foreach($order->Cart as $cart){
+                array_push($images,$cart->Product->Library[0]->image);
+                array_push($name,$cart->Product->name);          
+            };
+            $order->image = $images;
+            $order->product = $name;
+            $order->discount = $order->code_coupon?$order->Coupon->discount: 0;
+            $order->coupon_title = $order->code_coupon?$order->Coupon->title: '';
+            echo $order;
+        }
+    }
+    public function user_orderdetail($id){
+        $order = Order::find($id);
+        if($order->id_user == Auth::user()->id_user){
             $name =[];
             $images =[];
             $order->cart = $order->Cart->toArray();

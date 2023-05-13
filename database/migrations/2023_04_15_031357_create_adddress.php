@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('receiver');
             $table->string('address')->nullable();
             $table->string('province');
+            $table->integer('province_id');
             $table->string('district');
             $table->integer('district_id');
             $table->string('ward');

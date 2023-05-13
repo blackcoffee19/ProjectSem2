@@ -287,6 +287,7 @@
         @if(Auth::check())
           $("input[name=district_id]").val($('#district option:selected').val());
           $("input[name=ward_id]").val($('#ward option:selected').val());
+          $("input[name=province_id]").val($("#province option:selected").val());
         @endif
         $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
           let dataJson = jQuery.parseJSON(data6);
@@ -385,6 +386,7 @@
             let newdata = data.slice(0,data.length-1);
             let dataJs = jQuery.parseJSON(newdata); 
             let str2 = "";
+            console.log($('#province option:selected').val());
             dataJs['data'].forEach(service =>{
               let translate = "";
               switch(service['short_name']){
@@ -644,6 +646,7 @@
           $("#phone").html(dataJson['phone']);
           $('#email_order').html(dataJson['email']);
           $("#payment_method").html(dataJson['method']);
+          $("#delivery_method").html(dataJson['delivery_method'])
           if(dataJson['coupon']){
             $("#coupon_title").html(dataJson['coupon_title']);
             if(dataJson['discount'] <= 100){
@@ -687,6 +690,51 @@
           $('#order_token').val($('meta[name="csrf-token"]').attr('content'));
           $('#status_order').change(function(){
             $('#save_order').removeAttr('disabled');
+          })
+        })
+      })
+      $('.check_order2').click(function(){
+        console.log(window.location.origin+"/public/index.php/ajax/check-order/"+$(this).data('order'));
+        $.get(window.location.origin+"/public/index.php/ajax/check-order/"+$(this).data('order'),function(data){
+          let dataJson = jQuery.parseJSON(data);
+          console.log(dataJson);
+          $('input[name=id_order2]').val(dataJson['id_order']);
+          $("#receiver2").html(dataJson['receiver']);
+          $("#address2").html(dataJson['address']+","+dataJson['ward']+","+dataJson['district']+","+dataJson['province']);
+          $('#instruction2').html(dataJson['instruction']);
+          $("#phone2").html(dataJson['phone']);
+          $('#email_order2').html(dataJson['email']);
+          $("#payment_method2").html(dataJson['method']);
+          $("#delivery_method2").html(dataJson['delivery_method'])
+          if(dataJson['coupon']){
+            $("#coupon_title2").html(dataJson['coupon_title']);
+            if(dataJson['discount'] <= 100){
+              $('#discount2').html("- "+dataJson['discount']+"%");
+            }else{
+              $('#discount2').html("- "+dataJson['discount']+" đ");
+            }
+          }
+          let list ="";
+          let total = 0;
+            for (let i = 0; i < dataJson['cart'].length; i++) {
+              list+=`<tr><td>${i+1}</td><td><img class='icon-shape icon-xl' src='images/products/${dataJson['image'][i]}'></td><td>${dataJson['product'][i]}</td><td>${dataJson['cart'][i]['price']} đ</td><td>${dataJson['cart'][i]['sale']}%</td><td>${dataJson["cart"][i]['amount']}g</td></tr>`;
+              total+=parseInt(dataJson['cart'][i]['sale']) >0 ?(parseInt(dataJson['cart'][i]['price'])*(1- parseInt(dataJson['cart'][i]['sale'])/100))*(parseInt(dataJson['cart'][i]['amount'])/1000):parseInt(dataJson['cart'][i]['price'])*(parseInt(dataJson['cart'][i]['amount'])/1000);
+            };
+          $('#listCart2').html(list);
+          $("#item_subtotal2").html(total+" đ");
+          $('#shipment_fee_modal2').html(dataJson['shipping_fee']+" đ");
+          if(parseInt(dataJson['discount']) >100){
+            total-= parseInt(dataJson['discount']);
+          }else{
+            total*=(1- parseInt(dataJson['discount'])/100);
+          }
+          total+=parseInt(dataJson['shipping_fee']);
+          $('#total_order2').html(total+" đ");
+          $("#status_order2 option[value="+dataJson['status']+"]").attr("selected", true);
+          
+          $('#order_token2').val($('meta[name="csrf-token"]').attr('content'));
+          $('#status_order2').change(function(){
+            $('#save_order2').removeAttr('disabled');
           })
         })
       })

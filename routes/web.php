@@ -63,6 +63,7 @@ Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_c
 Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
 Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
 Route::get('/ajax/modal/show-product/{id}', [TuongController::class, 'modal_product']);
+Route::get('/ajax/check-order/{id}',[TuongController::class,'user_orderdetail']);
 Route::group(['prefix' => 'manager'], function () {
     Route::get('/ajax/check-order/{id}', [TuongController::class, 'modal_order']);
     Route::get('/ajax/check-notificate/{code}', [TuongController::class, 'modal_notificate']);

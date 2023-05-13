@@ -250,7 +250,7 @@
     <script>
         $(document).ready(function() {
             if ($("input[name='name']").val().trim().length > 0) {
-                $.get(window.location.origin + "/public/index.php/admin/ajax/check-product?name=" + $(
+                $.get(window.location.origin + "/ProjectSem2/public/admin/ajax/check-product?name=" + $(
                     "input[name='name']").val().trim(), function(data) {
                     if (data) {
                         $('#check_name').html(`Product name <a href='${data}'>` + $("input[name='name']")
@@ -265,7 +265,7 @@
             }
             $("input[name='name']").change(function(e) {
                 e.preventDefault();
-                $.get(window.location.origin + "/public/index.php/admin/ajax/check-product?name=" + $(this)
+                $.get(window.location.origin + "/ProjectSem2/public/admin/ajax/check-product?name=" + $(this)
                     .val().trim(),
                     function(data) {
                         if (data) {

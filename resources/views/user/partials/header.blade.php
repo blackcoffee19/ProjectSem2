@@ -856,7 +856,7 @@
                                             $sum -= $order->Coupon->discount;
                                         }
                                     }
-                                    echo "Total: $".number_format($sum,2,'.',' ');
+                                    echo number_format($sum,0,'',' ')."đ";
                                     @endphp
                                 </div>
                                 <div class="col-2">

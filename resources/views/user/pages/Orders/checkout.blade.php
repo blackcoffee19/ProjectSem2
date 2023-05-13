@@ -52,13 +52,13 @@
                                   <div class="col-lg-6 col-12 mb-4">
                                     <div class="card card-body p-6 " style="height: 240px">
                                       <div class="form-check mb-4">
-                                        <input class="form-check-input" type="radio" name="select_address" data-shipment="{{$add->shipment_fee}}" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
+                                        <input class="form-check-input" type="radio" name="select_address" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
                                         <label class="form-check-label text-dark" >
                                           Reciver : {{$add->receiver}}
                                         </label>
                                       </div>
                                       <p class="text-muted">{{$add->email}}</p>
-                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-province="{{$add->province}}">
+                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-districtid="{{$add->district_id}}" data_wardid="{{$add->ward_id}}" data-province="{{$add->province}}">
                                         {{$add->address .", ".$add->ward.", ".$add->district}}<br>
                                         {{$add->province}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
@@ -152,6 +152,14 @@
                       data-bs-parent="#accordionFlushExample">
                       <div class="mt-5">
                         <div>
+                          <div class="mb-5">
+                            <select name="delivery_method" id="delivery_method" class="form-select" >
+                              <optgroup label="Giao Hang Tiet Kiem" id="ghtk_service">
+                              </optgroup>
+                              <optgroup label="Giao Hang Nhanh" id="ghn_services">
+                              </optgroup>
+                            </select>
+                          </div>
                           <div class="card card-bordered shadow-none mb-2">
                             <div class="card card-bordered shadow-none">
                               <div class="card-body p-6">
@@ -164,6 +172,7 @@
                                   <div>
                                     <h5 class="mb-1 h6"> Cash on Delivery</h5>
                                     <p class="mb-0 small">Pay with cash when your order is delivered.</p>
+                                    <img src="{{asset('images/icons/ghtk.png')}}" width="130" class="img-fluid" id="img_logictic" alt="">
                                   </div>
                                 </div>
                               </div>
@@ -310,19 +319,23 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
-                        Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
-                          title="Shipment Fee"></i>
+                        Service Fee <i class="bi bi-exclamation-circle text-muted" data-bs-toggle="tooltip"
+                          title="Shipping fee depends on the shipping address"></i>
                       </div>
                       <div class="fw-bold" id="shippment_fee">
                         {{number_format($shipment_fee,0,'',' ')}} đ
                       </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between d-none mb-2 " id="extra_ship">
-                      <div>Extra Shipment fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Shipment Fee"></i>
+                    <div class=" d-flex flex-column d-none mb-2 " >
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          Extra Shipment fee
+                          <img src="{{asset('images/icons/GHTK.svg')}}" alt="" width="30" height="30">
+                        </div>
+                        <div class="fw-bold text-danger" id="extra_ship_display">
+                        </div>
                       </div>
-                      <div class="fw-bold text-danger" id="extra_ship_display">
-                        + 10000đ
-                      </div>
+                      <div id="extra_ship"></div>
                     </div>
                     @if (Session::has('coupon'))
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
@@ -384,63 +397,145 @@
               $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 // console.log(dataJson);
-                if(dataJson['fee']['delivery']){
-                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
-                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
-                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                let deliver_method = jQuery.parseJSON(dataJson[1]);
+                if(deliver_method['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+                  if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only']+" đ");
                     $("#total").html(totall +" đ");
                   }
                   $(".totalPay").text((totall*0.000043).toFixed(2));
-                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-                  if(dataJson['fee']['extFees'].length>0){
-                    $('#extra_ship').removeClass('d-none');
-                    let total_shipfee = dataJson['fee']['fee'];
+                  $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                  if(deliver_method['fee']['extFees'].length>0){
+                    $('#extra_ship').parent().removeClass('d-none');
                     let ex_fee = 0;
-                    dataJson['fee']['extFees'].forEach(el=>{
+                    let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                    deliver_method['fee']['extFees'].forEach(el=>{
                       ex_fee+=el['amount'];
+                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
-                    total_shipfee+=ex_fee;
-                    totall+=ex_fee;
-                    $("input[name=shipment_fee]").val(total_shipfee);
-                    $(".totalPay").text((totall*0.000043).toFixed(2));
-                    $('#total').html(totall+ ' đ');
+                  }else{
+                    $('#extra_ship').parent().addClass('d-none');
                   }
-                }else{
-                  $("#error_delivery").html('Sorry we can not delivery to your address.');
+                };
+                let str1 = "";
+                for (let i = 0; i < dataJson.length; i++) {
+                  let name=["Air Transport","Road Transport","Xfast"]
+                  str1+=`<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;  
                 }
+                $("#ghtk_service").html(str1);
               });
+              $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+addr.data('districtid'),function(data){
+                  let newdata = data.slice(0,data.length-1);
+                  let dataJs = jQuery.parseJSON(newdata); 
+                  let str = "";
+                  dataJs['data'].forEach(service =>{
+                    let translate =""; 
+                    switch(service['short_name']){
+                      case "Chuyển phát thương mại điện tử":
+                      translate = "E-commerce delivery";
+                        break;
+                      case "Chuyển phát truyền thống": 
+                      translate ="Traditional delivery";
+                        break;
+                        case "Tiết kiệm":
+                        translate ="Saving delivery";
+                          break;
+                        default:
+                        translate = service['short_name'];
+                    };
+                    str+=`<option value='${service['service_id']}'>${translate}</option>`;
+                    $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
+                      let newdata2 = data2.slice(0,data2.length-1);
+                      let dataJs2 = jQuery.parseJSON(newdata2);
+                      //Change method
+                      $('#delivery_method').change(function(){
+                        if(parseInt($('#delivery_method option:selected').val()) <10){
+                          $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
+                          $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+                              let dataJson2 = jQuery.parseJSON(data3);
+                              let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
+                              if(deliver_method2['fee']['delivery']){
+                                let totall2 = parseInt($("#total").data('subtotal'))+deliver_method2['fee']['fee'];
+                                if(deliver_method2['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                                  $("#shippment_fee").html(deliver_method2['fee']['ship_fee_only']+" đ");
+                                  $("#total").html(totall2 +" đ");
+                                }
+                                $(".totalPay").text((totall2*0.000043).toFixed(2));
+                                $("input[name=shipment_fee]").val(deliver_method2['fee']['fee']);
+                                if(parseInt($('#delivery_method').val()) == 2){
+                                  $('#extra_ship').parent().addClass('d-none');
+                                }else {
+                                  $('#extra_ship').parent().removeClass('d-none');
+                                }
+                                if(deliver_method2['fee']['extFees'].length>0 ){
+                                  let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                                  let ex_fee2 = 0;
+                                  deliver_method2['fee']['extFees'].forEach(el=>{
+                                    ex_fee2+=el['amount'];
+                                    $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
+                                  });
+                                  $("#extra_ship_display").html("+ "+ex_fee2+" đ");
+                                }
+                              };
+                            })   
+                        }else{
+                          $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
+                            let newdata3 = data3.slice(0,data3.length-1);
+                            let dataJs6 = jQuery.parseJSON(newdata3);
+                            
+                            let shipping =dataJs6['data']['total'];
+                            let total_ghn  = dataJs6['data']['total']+parseInt($("#total").data('subtotal'));
+                            if(shipping!=$("input[name=shipment_fee]").val()){
+                              $("#shippment_fee").html(shipping+" đ");
+                              $("#total").html(total_ghn +" đ");
+                            }
+                            $(".totalPay").text((total_ghn*0.000043).toFixed(2));
+                            $("input[name=shipment_fee]").val(shipping);
+                          });
+                          $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
+                          $('#extra_ship').parent().addClass('d-none');
+                        };
+                      });
+                    })
+                  })
+                  $('#ghn_services').html(str);
+                });
             @endif
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
               $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
-                // console.log(dataJson);
-                if(dataJson['fee']['delivery']){
-                  let totall = parseInt($("#total").data('subtotal'))+dataJson['fee']['fee'];
-                  if(dataJson['fee']['fee']!=$("input[name=shipment_fee]").val()){
-                    $("#shippment_fee").html(dataJson['fee']['fee']+" đ");
+                let deliver_method = jQuery.parseJSON(dataJson[1]);
+                if(deliver_method['fee']['delivery']){
+                  let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
+                  if(deliver_method['fee']['fee']!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only']+" đ");
                     $("#total").html(totall +" đ");
                   }
                   $(".totalPay").text((totall*0.000043).toFixed(2));
-                  $("input[name=shipment_fee]").val(dataJson['fee']['fee']);
-                  if(dataJson['fee']['extFees'].length>0){
-                    $('#extra_ship').removeClass('d-none');
-                    let total_shipfee = dataJson['fee']['fee'];
+                  $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                  if(deliver_method['fee']['extFees'].length>0){
+                    $('#extra_ship').parent().removeClass('d-none');
                     let ex_fee = 0;
-                    dataJson['fee']['extFees'].forEach(el=>{
+                    let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
+                    deliver_method['fee']['extFees'].forEach(el=>{
                       ex_fee+=el['amount'];
+                      $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
-                    total_shipfee+=ex_fee;
-                    totall+=ex_fee;
-                    $("input[name=shipment_fee]").val(total_shipfee);
-                    $(".totalPay").text((totall*0.000043).toFixed(2));
-                    $('#total').html(totall+ ' đ');
+                  }else{
+                    $('#extra_ship').parent().addClass('d-none');
                   }
-                }else{
-                  $("#error_delivery").html('Sorry we can not delivery to your address.');
+                };
+                let str1 = "";
+                for (let i = 0; i < dataJson.length; i++) {
+                  var method = jQuery.parseJSON(dataJson[i]);
+                  let name=["Air Transport","Road Transport","Xfast"]
+                  str1+=`<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;  
                 }
+                $("#ghtk_service").html(str1);
               });
             });
             $(".totalPay").text(((parseInt($('#total').data('total'))+parseInt($("input[name=shipment_fee]").val()))*0.000043).toFixed(2));
@@ -458,13 +553,15 @@
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);
                   $("#ward_pay").html(dataAddress['ward']);
+                  $("#delivery_by").html($('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text());
                   $('#district_pay').html(dataAddress['district']);
                   $("#province_pay").html(dataAddress['province']);
                   $('#name_pay').html(dataAddress['receiver']);
                   $('#phone_pay').html(dataAddress['phone']);
                   $('#email_pay').html(dataAddress['email']);
                   $("#confirm_paypal").click(function(){
-                    window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
+                    let delivery_met= $('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text();
+                    window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&delivery_method="+delivery_met+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
                   });
                 })
               @else
@@ -497,6 +594,7 @@
                   let checkAddr= false;
                   $('#province option:selected').val($('#province option:selected').text());
                   $('#district option:selected').val($('#district option:selected').text());
+                  $("#delivery_by").html($('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text());
                   $('#ward option:selected').val($('#ward option:selected').text());
                   if($('#ward option:selected').val() == null || 
                   $('#district option:selected').val() == null||
@@ -522,7 +620,8 @@
                 @endif
             })
             $("#confirm_paypal").click(function(){
-                window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val());
+              let delivery = $('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text();
+                window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&delivery_method="+delivery+"&shipfee="+$('input[name=shipment_fee]').val());
             })
         })
     </script>

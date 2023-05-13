@@ -152,18 +152,6 @@
     </div>
   </div>
 </div>
-{{-- <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
-  <div role="alert"  id="toastAdd" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
-      <div class="toast-body" style="height: 100px; padding:30px 0">
-        <div class="row">
-          <div class="col-2 mb-3 mx-auto">
-            <i class="fa-solid fa-cart-circle-check" style="color: #2ec27e; font-size: 2.3rem"></i>
-          </div>
-          <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;" >Add pet to cart successully</h4>
-        </div>
-      </div>
-  </div>
-</div> --}}
 <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastVerified" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
       <div class="toast-body" style=" padding:10px">
@@ -310,6 +298,9 @@
                 <select class="form-select" id="ward" name="ward" disabled>
                 </select>
               </div>
+              <input type="hidden" name="district_id">
+              <input type="hidden" name="ward_id">
+              <input type="hidden" name="province_id">
               <div class="col-12">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" name="saveAddress" id="saveAddress"> 
@@ -383,6 +374,7 @@
             <p>Email: <span id="email_order"></span></p>
             <p>Instruction: <small id="instruction"></small></p>
             <p>Payment Method: <span id="payment_method"></span></p>
+            <p>Delivery Method: <span id="delivery_method"></span></p>
             <p>Coupon: <span id="coupon_title"></span></p>
             <input type="hidden" name="id_order">
             <div class="row">
@@ -468,9 +460,74 @@
       </div>
       <div class=" modal-footer me-3 mt-3">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-warning" id="save_order" >Close and Remove Notifications</button>
+        <button type="submit" class="btn btn-warning" id="save_order2" >Close and Remove Notifications</button>
       </div>
       </form> 
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="viewModalOrder3" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content ">
+      <div class="modal-body p-8" >
+        <div class="position-absolute top-0 end-0 me-3 mt-3">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-4 col-lg-6 ">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th rowspan="2" >No</th>
+                  <th rowspan="2" >&nbsp;</th>
+                  <th rowspan="2">Item</th>
+                  <th colspan="2"class="text-center">Price</th>
+                  <th  rowspan="2" >Amount</th>
+                </tr>
+                <tr>
+                  <th>Price (1kg)</th>
+                  <th>Sale</th>
+                </tr>
+              </thead>
+              <tbody id="listCart2">
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">Item Subtotal</td>
+                  <td colspan="3" class="text-center" id="item_subtotal2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Shipping Fee</td>
+                  <td colspan="3" class="text-center" id="shipment_fee_modal2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Discount</td>
+                  <td colspan="3" class="text-center" id="discount2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">Total</td>
+                  <td class="3" class="text-center h5" id="total_order2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="col-5 col-md-6 col-lg-5 mx-auto">
+            <p>Reciever: <span id="receiver2"></span></p>
+            <p>Address: <span id="address2"></span></p>
+            <p>Phone: <span id="phone2"></span></p>
+            <p>Email: <span id="email_order2"></span></p>
+            <p>Instruction: <small id="instruction2"></small></p>
+            <p>Payment Method: <span id="payment_method2"></span></p>
+            <p>Delivery Method: <span id="delivery_method2"></span></p>
+            <p>Coupon: <span id="coupon_title2"></span></p>
+            <input type="hidden" name="id_order2">
+            
+          </div>
+        </div>
+      </div>
+      <div class=" modal-footer me-3 mt-3">
+        <button type="submit" class="btn btn-warning" id="save_order3" disabled>Save Change</button>
+      </div>
     </div>
   </div>
 </div>
@@ -605,8 +662,9 @@
         <p>Address: <span id="address_pay"></span><br>
           &nbsp; Ward: <span id="ward_pay"></span><br>
           &nbsp; District: <span id="district_pay"></span><br>
-          &nbsp; Province: <span id="province_pay"></span></p>
-
+          &nbsp; Province: <span id="province_pay"></span>
+        </p>
+        <p>Delivery Method: <span id="delivery_by"></span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

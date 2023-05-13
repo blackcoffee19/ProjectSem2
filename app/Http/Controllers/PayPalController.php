@@ -41,6 +41,7 @@ class PayPalController extends Controller
             Session::put('instructions',$req['instruction']);
         };
         Session::put('shipfee',$req['shipfee']);
+        Session::put('delivery_method',$req['delivery_method']);
         if(Auth::check()){
             Session::put('select_add',intval($req['select_address']));
             $total = 0;
@@ -158,6 +159,7 @@ public function successTransaction(Request $request)
             $order->address = $address['address'].", ".$address['ward'].", ".$address['district'].", ".$address['province'];
             $order->code_coupon = Session::has('code_coupon')?Session::get('code_coupon'):null;
             $order->method = 'paypal';
+            $order->delivery_method = Session::get('delivery_method');
             $order->instruction = Session::has('instructions')?Session::get('instructions'):null;
             foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
                 $cart->Product->quantity-=$cart->amount;
@@ -218,6 +220,7 @@ public function successTransaction(Request $request)
             $order->email = Session::get('email');
             $order->address = Session::get('address').", ".Session::get('ward').", ".Session::get('district'). ", ".Session::get('province');
             $order->method = 'paypal';
+            $order->delivery_method = Session::get('delivery_method');
             $order->instruction = Session::has('instructions')?Session::get('instructions'):null;
             $order->shipping_fee = intval(Session::get('shipfee'));
             $order->status = 'unconfirmed';
@@ -233,6 +236,7 @@ public function successTransaction(Request $request)
             Session::forget('district');
             Session::forget('address');
             Session::forget('ward');
+            Session::forget('delivery_method');
             Session::forget('shipfee');
             return redirect()
                 ->route('index')

@@ -112,7 +112,7 @@
                                         <input class="form-check-input" type="checkbox" name="accepted" id="accepted">
                                         <label class="form-check-label" for="accepted">By continuing, you agree to our
                                             <a href="#!"> Terms of Service</a> &
-                                            <a href="#!">Privacy Policy</a></label>
+                                            <a href="{{route('privacy')}}">Privacy Policy</a></label>
                                     </div>
                                     <div class="col-12 d-grid">
                                         <button type="submit" class="btn btn-primary" id="register_submit"
@@ -167,7 +167,7 @@
                 }
                 $('input[name=register_email]').addClass('is-invalid');      
             }else if($('input[name=register_email]').val().length > 0){
-                $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
                     if(data == "existed"){
                     $('input[name=register_email]').addClass('is-invalid');
                     $('#register_email').text('This email has signed. Choose another one or signin');
@@ -181,7 +181,7 @@
                 });
             };
             $('input[name=register_email]').change(function(){
-                $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
                     if(data == "existed"){
                     $(this).addClass('is-invalid');
                     $('#register_email').text('This email has signed.');
@@ -202,7 +202,7 @@
                 }
                 $('input[name=register_phone]').addClass('is-invalid');      
             }else if($('input[name=register_phone]').val().length >0){
-                $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
                 if(data == "existed"){
                     $('input[name=register_phone]').addClass('is-invalid');
                     $('#register_phone').text('This phone has used by another account.');
@@ -216,7 +216,7 @@
                 });
             };
             $('input[name=register_phone]').change(function(){
-                $.get(window.location.origin + '/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$(this).val(), function(data){
                     if(data == "existed"){
                         if($('input[name=register_phone]').hasClass('is-valid')){
                             $('input[name=register_phone]').removeClass('is-valid');

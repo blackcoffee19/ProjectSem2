@@ -70,6 +70,9 @@ class TuongController extends Controller
         $newAdd->province = $req['province'];
         $newAdd->phone = $req['phoneReciever'];
         $newAdd->email = $req['emailReciever'];
+        $newAdd->district_id = intval($req['district_id']);
+        $newAdd->ward_id = intval($req['ward_id']);
+        $newAdd->province_id = intval($req['province_id']);
         if(isset($req['saveAddress'])){
             $defautlAddress = Address::where('id_user','=',Auth::user()->id_user)->where('default','=',true)->first();
             if($defautlAddress){
@@ -310,28 +313,81 @@ class TuongController extends Controller
             $cart = Session::get('cart');
             $address = null;
         }
-        // dd(Session::get('select_add'));
         return view('user.pages.Orders.checkout',compact('cart','address','coupon'));
+    }
+    public function ghn_getservice(Request $req){
+        $district = $req['district'];
+        $data = array(
+            "shop_id" => 124157,
+            "from_district" => 1444,
+            "to_district"=>intval($district)
+        );
+        $payload = json_encode( $data );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Token: ea19c297-efa4-11ed-943b-f6b926345ef9", 
+            ),
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS     => $payload, 
+        ));        
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+    }
+    public function gtn_servicefee (Request $req){
+        $ward = $req['ward'];
+        $service_id = intval($req['service_id']);
+        $district = intval($req['district']);
+        $total_weight = 0;
+        if(Auth::check()){
+            $carts = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
+            foreach($carts as $cart){
+                $total_weight+=$cart->amount;
+            }
+        }else{
+            $carts = Session::get('cart');
+            foreach($carts as $cart){
+                $total_weight+=$cart['amount'];
+            }
+        }
+        $data = array(
+            "from_district_id" => 1444,
+            "service_id" => $service_id,
+            "service_type_id"=> null,
+            "to_district_id" => $district,
+            "to_ward_code"=>$ward,
+            "weight" => $total_weight,
+        );
+        $payload = json_encode( $data );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Token: ea19c297-efa4-11ed-943b-f6b926345ef9", 
+                "ShopId: 124157",
+            ),
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS     => $payload, 
+        ));        
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
     }
     public function ghtk_servicefee(Request $req){
         $province = $req['province'];
         $district = $req['district'];
-        if(Session::has('coupon')){
-            $coupon =Coupon::find(Session::get('coupon')); 
-            $coupon->freeship = Coupon::where('id_coupon','=',Session::get('coupon'))->where('code','LIKE','%FREESHIP%')->first() ? true :false;
-        }else{
-            $coupon = null;
-        }
         $total_weight = 0;
         $subtotal=0;
         if(Auth::check()){
             $carts = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
-            $address = Auth::user()->Address->sortByDesc('default');
             foreach($carts as $cart){
                 $total_weight+=$cart->amount;
                 $subtotal += $cart->price*(1-$cart->sale/100)*($cart->amount/1000);
             }
-            $subtotal = $coupon? ($coupon->discount<=100? $subtotal*(1-$coupon->discount/100):$subtotal-$coupon->discount):$subtotal+0;
         }else{
             $carts = Session::get('cart');
             foreach($carts as$cart){
@@ -340,15 +396,18 @@ class TuongController extends Controller
             }
         }
         //api GHTK
+        $arr_deliver = array();
         $data = array(
-            "pick_province" => $province,
-            "pick_district" => $district,
+            "pick_province" => "Hồ Chí Minh",
+            "pick_district" => "Quận 3",
+            "pick_ward"=> "Phường 14",
             "province" => $province,
             "district" => $district,
             "weight" => $total_weight,
             "value" => $subtotal,
-            "transport" => "road",
-            "deliver_option" => "none"
+            "transport" => "fly",
+            "deliver_option" => "none",
+            "tags"=>[7]
         );
         $curl = curl_init();
 
@@ -362,7 +421,60 @@ class TuongController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
+        array_push($arr_deliver,$response);
+
+        $data2 = array(
+            "pick_province" => "Hồ Chí Minh",
+            "pick_district" => "Quận 3",
+            "pick_ward"=> "Phường 14",
+            "province" => $province,
+            "district" => $district,
+            "weight" => $total_weight,
+            "value" => $subtotal,
+            "transport" => "road",
+            "deliver_option" => "none",
+            "tags"=>[7]
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/fee?" . http_build_query($data2),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_HTTPHEADER => array(
+                "Token: 1830630245Ca1E494982d10B95FaFFbe6bF78641",
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        array_push($arr_deliver,$response);
+
+        $data3 = array(
+            "pick_province" => "Hồ Chí Minh",
+            "pick_district" => "Quận 3",
+            "pick_ward"=> "Phường 14",
+            "province" => $province,
+            "district" => $district,
+            "weight" => $total_weight,
+            "value" => $subtotal,
+            "transport" => "road",
+            "deliver_option" => "xteam",
+            "tags"=>[7]
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/fee?" . http_build_query($data3),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_HTTPHEADER => array(
+                "Token: 1830630245Ca1E494982d10B95FaFFbe6bF78641",
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        array_push($arr_deliver,$response);
+        
+        echo json_encode($arr_deliver);
+        // dd($data,$response);
     }
     public function post_checkout(Request $req){
         $order = new Order();
@@ -376,7 +488,6 @@ class TuongController extends Controller
             $order->email = $address['email'];
             $order->address = $address['address'].", ".$address['ward'].", ".$address['district'].", ".$address['province'];
             $order->code_coupon = $req['code_coupon'];
-            $order->method = $req['order_method'];
             $order->instruction = $req['delivery_instructions'];
             foreach(Cart::where('order_code','=',null)->where('id_user','=',Auth::user()->id_user)->get() as $cart){
                 $cart->Product->quantity-=$cart->amount;
@@ -418,9 +529,10 @@ class TuongController extends Controller
             $order->phone = $req['phoneReciever'];
             $order->email = $req['emailReciever'];
             $order->address = $req['addressReciever'].", ".$req['ward'].", ".$req['district']. ", ".$req['province'];
-            $order->method = $req['order_method'];
             $order->code_coupon = $req['code_coupon'];
         }
+        $order->method = $req['order_method'];
+        $order->delivery_method = $req['delivery_method'];
         $order->shipping_fee = $req['shipment_fee'];
         $order->status = 'unconfirmed';
         $order->created_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -1166,6 +1278,23 @@ class TuongController extends Controller
             echo "Wrong way bro";
         }else{
             $order = Order::find($id);
+            $name =[];
+            $images =[];
+            $order->cart = $order->Cart->toArray();
+            foreach($order->Cart as $cart){
+                array_push($images,$cart->Product->Library[0]->image);
+                array_push($name,$cart->Product->name);          
+            };
+            $order->image = $images;
+            $order->product = $name;
+            $order->discount = $order->code_coupon?$order->Coupon->discount: 0;
+            $order->coupon_title = $order->code_coupon?$order->Coupon->title: '';
+            echo $order;
+        }
+    }
+    public function user_orderdetail($id){
+        $order = Order::find($id);
+        if($order->id_user == Auth::user()->id_user){
             $name =[];
             $images =[];
             $order->cart = $order->Cart->toArray();

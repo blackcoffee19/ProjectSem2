@@ -63,6 +63,7 @@ Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_c
 Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
 Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
 Route::get('/ajax/modal/show-product/{id}', [TuongController::class, 'modal_product']);
+Route::get('/ajax/check-order/{id}',[TuongController::class,'user_orderdetail']);
 Route::group(['prefix' => 'manager'], function () {
     Route::get('/ajax/check-order/{id}', [TuongController::class, 'modal_order']);
     Route::get('/ajax/check-notificate/{code}', [TuongController::class, 'modal_notificate']);
@@ -102,7 +103,12 @@ Route::get('/ajax/check-phone/{phone}', [TuongController::class, 'check_phone'])
 Route::get('/ajax/add-favourite/{id}', [TuongController::class, 'add_favourite']);
 Route::get('/ajax/add-compare/{id}', [TuongController::class, 'addCompare']);
 Route::get('/ajax/compare/showcompare', [TuongController::class, 'showCompare']);
+// AJAX GET API GHTK- GHN
 Route::get('/ajax/ghtk_service/fee',[TuongController::class,'ghtk_servicefee']);
+Route::get('/ajax/ghn_service/service',[TuongController::class,'ghn_getservice']);
+Route::get('/ajax/ghn_service/fee',[TuongController::class,'gtn_servicefee']);
+Route::get('/ajax/ghtk_service/order',[TuongController::class,'ghtk_order'])->name('ghtk_order');
+
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User

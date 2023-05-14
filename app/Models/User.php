@@ -67,4 +67,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class, 'id_user', 'id_user');
     }
+    public function Resetpassword(){
+        return $this->hasMany(ResetPassword::class, 'email', 'email');
+    }
 }

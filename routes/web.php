@@ -52,7 +52,11 @@ Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup');
 Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
 Route::get('/verify/{token}', [TuongController::class, 'verifyEmail'])->name('verify');
 Route::get('/verify-send', [TuongController::class, 'send_verifyEmail'])->name('verifyEmail');
-
+Route::get('/forgot_password',[TuongController::class,'get_forgotpass'])->name('send_ressetmail');
+Route::post('/forgot_password',[TuongController::class,'send_ressetmail'])->name('send_ressetmail');
+Route::get('/reset_password/{token}',[TuongController::class,'reset_newpassword'])->name('reset_password');
+Route::post('/reset_password/create/password',[TuongController::class,'create_newpassword'])->name('create_newpassword');
+Route::get('/signup/confirm',[TuongController::class,'get_signupconfirm'])->name('signup_confirm');
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
 // Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');

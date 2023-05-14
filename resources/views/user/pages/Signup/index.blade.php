@@ -9,6 +9,11 @@
                             <img src="{{ asset('images/svg-graphics/signin.svg') }}" alt="" class="img-fluid">
                         </div>
                         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+                            @if (Session::has('message_reset'))
+                                <div class="alert alert-success">
+                                    {{Session::get('message_reset')}}
+                                </div>
+                            @endif
                             <div class="mb-lg-9 mb-5">
                                 <h1 class="mb-1 h2 fw-bold">Sign in to FreshCart</h1>
                                 <p>Welcome back to FreshCart! Enter your email to get started.</p>
@@ -35,9 +40,11 @@
                                                 Remember me
                                             </label>
                                         </div>
-                                        <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
+                                        <div> Forgot password? <a href="{{route('send_ressetmail')}}">Reset It</a></div>
                                     </div>
-                                    
+                                    <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">Sign
+                                        In</button>
+                                    </div>
                                     <div>Don’t have an account? <a href="{{ route('signup') }}"> Sign Up</a></div>
                                 </div>
                             </form>
@@ -183,14 +190,17 @@
             $('input[name=register_email]').change(function(){
                 $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
                     if(data == "existed"){
-                    $(this).addClass('is-invalid');
-                    $('#register_email').text('This email has signed.');
-                    }else{
-                    if($(this).hasClass('is-invalid')){
-                        $(this).removeClass('is-invalid');
-                    }
-                    $(this).addClass('is-valid');
-                    $('#register_email').text('');
+                        if($(this).hasClass('is-valid')){
+                            $(this).removeClass('is-valid');
+                        };
+                        $(this).addClass('is-invalid');
+                        $('#register_email').text('This email has signed.');
+                    }else {
+                        if($(this).hasClass('is-invalid')){
+                            $(this).removeClass('is-invalid');
+                        }
+                        $(this).addClass('is-valid');
+                        $('#register_email').text('');
                     }
                 });
             });

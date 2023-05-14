@@ -255,7 +255,7 @@
             $('#district').html(str);
           },
           error: function (request, status, error) {
-              console.log();(request.responseText);
+              console.log(request.responseText);
           }
         });
       });
@@ -279,7 +279,7 @@
               $('#ward').html(str);
             },
             error: function (request, status, error) {
-                console.log();(request.responseText);
+                console.log(request.responseText);
             }
           });
       });
@@ -377,16 +377,10 @@
             };
           });
         });
-        if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
-          $('#submit_order').removeAttr('disabled');
-        }else{
-          $("#submit_order").attr('disabled','disabled');
-        };
         $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
             let newdata = data.slice(0,data.length-1);
             let dataJs = jQuery.parseJSON(newdata); 
             let str2 = "";
-            console.log($('#province option:selected').val());
             dataJs['data'].forEach(service =>{
               let translate = "";
               switch(service['short_name']){
@@ -412,7 +406,7 @@
                     $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
                     $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
-                        let dataJson2 = jQuery.parseJSON(data3);
+                        let dataJson2 = jQuery.parseJSON(data3);                        
                         let deliver_method2 =  jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                         if(deliver_method2['fee']['delivery']){
                           let totall2 = parseInt($("#total").data('subtotal'))+deliver_method2['fee']['fee'];
@@ -459,6 +453,11 @@
             })
             $('#ghn_services').html(str2);
         });
+        if($('input[name="nameReciever"]').val().trim().length > 0 && $('input[name="emailReciever"]').val().trim().length >0 && $('input[name="phoneReciever"]').val().trim().length>0 && $('#ward').val() &&(($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success")|| $("#cashonDelivery").is(':checked'))){
+          $('#submit_order').removeAttr('disabled');
+        }else{
+          $("#submit_order").attr('disabled','disabled');
+        };
       });
       $("#submit_order").click(function(){
         $('#delivery_method option:selected').val($('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text());
@@ -467,7 +466,303 @@
           $('#district option:selected').val($('#district option:selected').text());
           $('#ward option:selected').val($('#ward option:selected').text());
         @endif
-      })
+      });
+      $('.user_editorder').click(function() {
+          $.get(window.location.origin + "/public/index.php/account/ajax/edit_order/" + $(this).data('idorder'),function(data) {
+            function toNonAccentVietnamese(str) {
+              str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
+              str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+              str = str.replace(/E|É|È|Ẽ|Ẹ|Ê|Ế|Ề|Ễ|Ệ/, "E");
+              str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+              str = str.replace(/I|Í|Ì|Ĩ|Ị/g, "I");
+              str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+              str = str.replace(/O|Ó|Ò|Õ|Ọ|Ô|Ố|Ồ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ỡ|Ợ/g, "O");
+              str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+              str = str.replace(/U|Ú|Ù|Ũ|Ụ|Ư|Ứ|Ừ|Ữ|Ự/g, "U");
+              str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+              str = str.replace(/Y|Ý|Ỳ|Ỹ|Ỵ/g, "Y");
+              str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+              str = str.replace(/Đ/g, "D");
+              str = str.replace(/đ/g, "d");
+              // Some system encode vietnamese combining accent as individual utf-8 characters
+              str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng 
+              str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
+              return str;
+            }   
+            let data_order = jQuery.parseJSON(data);
+            let add = data_order['address'].split(", ");
+            const checkChanged = ()=>{
+              if($("#edit_cusname").val().trim().length>0 && $("#edit_cusphone").val().trim().length>0 && $("#edit_cusemail").val().length>0 && $("#edit_ward").val().length>0 && $("#edit_province").val().length>0){
+                return true;
+              }else{
+                return false;
+              }
+            }
+            const getListProvince=()=>{
+              return new Promise((resolve, reject) => {
+                setTimeout(()=> {  
+                  $.ajax({
+                    method: "GET",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+                        xhr.setRequestHeader("Content-Type", "application/json")
+                    },
+                    url: ghn_api_province,
+                    success: function (data) {
+                      let list_province = "";
+                      let selected_province = 0;
+                      data.data.forEach(el=>{
+                        if(add[add.length-1].includes(toNonAccentVietnamese(el.ProvinceName)) || add[add.length-1].includes(el.ProvinceName)){
+                          list_province+=`<option value="${el.ProvinceID}" selected>${el.ProvinceName}</option>`;
+                          selected_province = el.ProvinceID;
+                        }else{
+                          list_province+=`<option value="${el.ProvinceID}">${el.ProvinceName}</option>`;
+                        }
+                      });
+                      $("#edit_province").html(list_province);
+                      resolve(selected_province);
+                    },
+                    error: function (request, status, error) {
+                      console.log("Error in ajax province: ");
+                        console.log(request.responseText);
+                        reject(request.responseText);
+                    }
+                  });
+                })
+              })
+            }
+            const getListDistrict=(id_province)=>{
+              return new Promise((resolve, reject) => {
+                setTimeout(()=> {  
+                  $.ajax({
+                    method: "GET",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+                        xhr.setRequestHeader("Content-Type", "application/json")
+                    },
+                    url: ghn_api_district,
+                    data: {"province_id": id_province},
+                    success: function (data) {
+                      let list_district = "";
+                      list_district+="<option value=''>-- Selected District --</option>";
+                      let seleted_district = 0;
+                      data.data.forEach(value=>{
+                        if(add[add.length-2].includes(toNonAccentVietnamese(value.DistrictName)) || add[add.length-2].includes(value.DistrictName)){
+                          list_district+=`<option value="${value.DistrictID}" selected>${value.DistrictName}</option>`;
+                          seleted_district = value.DistrictID;
+                        }else{
+                          list_district+=`<option value="${value.DistrictID}">${value.DistrictName}</option>`;
+                        }
+                      }) 
+                      $('#edit_district').html(list_district);
+                      resolve(seleted_district);
+                    },
+                    error: function (request, status, error) {
+                      console.log("Error in ajax district: ");
+                        console.log(request.responseText);
+                        reject(request.responseText);
+                    }
+                  });
+                })})
+            }
+            const getListWard =(id_district)=>{
+              return new Promise((resolve, reject) => {
+                setTimeout(()=> {  
+                  $.ajax({
+                    method: "GET",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Token', '40c06a9e-ee0f-11ed-a281-3aa62a37e0a5');
+                        xhr.setRequestHeader("Content-Type", "application/json")
+                    },
+                    url: ghn_api_ward,
+                    data: {"district_id": id_district},
+                    success: function (data) {
+                      let list_ward= "";
+                      list_ward+="<option value=''>-- Select Ward --</option>";
+                      data.data.forEach(value=>{
+                        if(add[add.length-3].includes(toNonAccentVietnamese(value.WardName)) || add[add.length-3].includes(value.WardName)){
+                          list_ward+=`<option value="${value.WardCode}" selected>${value.WardName}</option>`;
+                        }else{
+                          list_ward+=`<option value="${value.WardCode}">${value.WardName}</option>`;
+                        }
+                      }) 
+                      $('#edit_ward').html(list_ward);
+                      resolve("Success");
+                    },
+                    error: function (request, status, error) {
+                      console.log("Error in ajax ward: ");
+                        console.log(request.responseText);
+                        reject(request.responseText);
+                    }
+                  });
+                })})
+            }
+            getListProvince().then((res1)=>{
+                                return getListDistrict(res1);})
+                              .then((res2)=>{
+                                return getListWard(res2);});
+            $('#id_orderedit').val(data_order['id_order']);
+            $('#edit_cusname').val(data_order['receiver']);
+            $('#edit_cusaddr').val(add[0]);
+            $('#edit_cusphone').val(data_order['phone']);
+            $('#edit_cusemail').val(data_order['email']);
+            $('#edit_coupon').val(data_order['code_coupon']);
+            $('#name_coupon').html(data_order['name_coupon']);
+            $('#deli_method').html(data_order['delivery_method']);
+            $('#edit_servicefee').val(data_order['shipping_fee']);
+            $("#edit_payment").val(data_order['method']);
+            $('#edit_cusname, #edit_cusaddr,#edit_cusphone,#edit_cusemail').change(function(){
+                if ($('#edit_cusname').val().length > 0 && $('#edit_cusaddr').val()
+                    .length > 0 && $('#edit_cusphone').val().length > 0 && $(
+                        '#edit_cusemail').val().length > 0) {
+                    $('#submit_order').removeAttr('disabled');
+                } else {
+                    $('#submit_order').attr('disabled', 'disabled');
+                }
+            });
+            if(data_order['method'] == 'cod'){
+              $("#edit_province").change(function(){
+                $('#edit_ward').html("<option value=''>-- Select Ward --</option>");
+                getListDistrict($("#edit_province option:selected").val());
+                if(checkChanged()){
+                  $("#submit_editorder").removeAttr('disabled');
+                }else{
+                  $("#submit_editorder").attr('disabled','disabled');
+                }
+              });
+              $('#edit_district').change(function(){
+                getListWard($("#edit_district option:selected").val());
+                if(checkChanged()){
+                  $("#submit_editorder").removeAttr('disabled');
+                }else{
+                  $("#submit_editorder").attr('disabled','disabled');
+                }
+              });
+              $("#edit_ward").change(function(){
+                let logictic = data_order['delivery_method'].split(" - ");
+                if(logictic[0] == "Giao Hang Tiet Kiem"){
+                  let method ="";
+                  switch(logictic[1]){
+                    case "Road Transport":
+                      method = 'road';
+                      break;
+                    case "Air Transport":
+                      method = "fly";
+                      break;
+                    case "Xfast":
+                      method = 'xteam';
+                      break;
+                  }
+                  $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#edit_province option:selected").text()+"&district="+$("#edit_district option:selected").text()+"&method="+method,function(ghtk_data){
+                    let dataJson = jQuery.parseJSON(ghtk_data);
+                    let deliver_method = jQuery.parseJSON(dataJson[0]);
+                    if(deliver_method['fee']['delivery']){
+                      $("#edit_servicefee").parent().parent().next().removeClass('d-none');
+                      $('#edit_servicefee').parent().parent().next().next().removeClass('d-none');
+                      $("#new_servicefee").val(deliver_method['fee']['fee']+" đ");
+                    }else{
+                      $("#submit_editorder").attr('disabled','disabled');
+                      $("#error_delivery").html('Look like Giao Tiet Kiem didn\'t support this location, Try to choose another province or district or ward near you');
+                    };
+                  });
+                }else{
+                  let method ="";
+                  switch(logictic[1]){
+                    case "E-commerce delivery":
+                      method = "Chuyển phát thương mại điện tử";
+                      break;
+                    case "Traditional delivery":
+                      method = "Chuyển phát truyền thống";
+                      break;
+                    case "Saving delivery":
+                      method = "Tiết kiệm";
+                      break;
+                    default:
+                      method =logictic[1];
+                  };
+                  $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+$('#edit_district option:selected').val(),function(ghn_data){
+                    let newdata = ghn_data.slice(0,ghn_data.length-1);
+                    let dataJs = jQuery.parseJSON(newdata);
+                    if(dataJs['code']==400){
+                      $("#submit_editorder").attr('disabled','disabled');
+                      $("#error_delivery").html('Look like Giao Hang Nhanh didn\'t support this location, Try to choose another province or district or ward near you');
+                    }else if(dataJs['code']== 200){
+                      $("#error_delivery").html('');
+                      dataJs['data'].forEach(ser =>{
+                        if(ser['short_name'] == method){
+                          $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#edit_ward option:selected').val()+"&district="+$('#edit_district option:selected').val()+"&service_id="+ser['service_id']+"&weight="+data_order['weight'],function(ghn_fee){
+                            let newdata2 = ghn_fee.slice(0,ghn_fee.length-1);
+                            let dataJs2 = jQuery.parseJSON(newdata2);
+                            $("#edit_servicefee").parent().parent().next().removeClass('d-none');
+                            $('#edit_servicefee').parent().parent().next().next().removeClass('d-none');
+                            $("#new_servicefee").val(dataJs2['data']['total']+" đ");
+                          })
+                        }
+                      })
+                    }else{
+                      $("#submit_editorder").attr('disabled','disabled');
+                      $("#error_delivery").html('Something wrong. Refresh and try again.');
+                      console.log(dataJs);
+                    }
+                  });
+                }
+                if(checkChanged()){
+                  $("#submit_editorder").removeAttr('disabled');
+                }else{
+                  $("#submit_editorder").attr('disabled','disabled');
+                }
+              })
+            }else{
+              $("#edit_province").attr('disabled','disabled');
+              $('#edit_district').attr('disabled','disabled');
+              $("#edit_ward").attr('disabled','disabled');
+              $('#edit_cusaddr').attr('disabled','disabled');
+            }
+            let validatePhone = /^[0-9]{9,11}$/;
+            let validateEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
+            $('input[name=edit_cusphone]').focusout(function(e){
+                e.preventDefault();
+                if(!validatePhone.test($(this).val())){
+                  $("#submit_editorder").attr('disabled','disabled');
+                    $('#edit_valiPhone').text("Invail Phone. Try again");
+                    $(this).addClass('is-invalid');
+                }else{
+                    $(this).removeClass('is-invalid');
+                    $('#edit_valiPhone').text('');
+                }
+            });
+            $('input[name=edit_email]').focusout(function(e){
+                e.preventDefault();
+                if(!validateEmail.test($(this).val())){
+                    $('#edit_valiEmail').text("Invaild Email. Try again");
+                    $("#submit_editorder").attr('disabled','disabled');
+                    $(this).addClass('is-invalid');      
+                }else{
+                    $(this).removeClass('is-invalid');
+                    $('#edit_valiEmail').text('');
+                };
+            });
+            $("#edit_cusname, #edit_cusphone, #edit_cusemail").change(function(){
+              if(checkChanged()){
+                $("#submit_editorder").removeAttr('disabled');
+              }else{
+                $("#submit_editorder").attr('disabled','disabled');
+              }
+            });
+            $("#submit_editorder").click(function(){
+              let new_province = $("#edit_province option:selected").text();
+              let new_district = $("#edit_district option:selected").text();
+              let new_ward = $("#edit_ward option:selected").text();
+              $("#edit_province option:selected").val(new_province);
+              $("#edit_district option:selected").val(new_district);
+              $("#edit_ward option:selected").val(new_ward);
+            });
+            $("#close_editorder").click(function(){
+              $("#edit_servicefee").parent().parent().next().addClass('d-none');
+              $('#edit_servicefee').parent().parent().next().next().addClass('d-none');
+            })
+          })
+      });
       let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
       let valiPhone = /^[0-9]{9,11}$/;
       let valiPhone1 = /^\(?\+84\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?$/;
@@ -574,11 +869,11 @@
       });
       $('input[name=register_password]').change(function(){
         if(!valPass.test($(this).val())){
-              $('#register_password').text("Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
-              $('#register_submit').attr('disabled','disabled');
-          }else{
-              $('#register_password').text('');
-          };
+            $('#register_password').text("Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
+            $('#register_submit').attr('disabled','disabled');
+        }else{
+            $('#register_password').text('');
+        };
       });
       $('input[name=register_name], input[name=register_phone], input[name=register_email], input[name=register_password], input[name=accepted]').change(function(){
         if($('input[name=register_name]').val().length >0 && $('input[name=register_phone]').val().length >0 && $('input[name=register_email]').val().length> 0 && $('input[name=register_password]').val().length > 0 && $('#accepted').is(':checked')){
@@ -587,6 +882,84 @@
           $('#register_submit').attr('disabled','disabled');
         }
       });
+      $("input[name=email_resset]").change(function(){
+        if(!valiEmail.test($(this).val())){
+          $('#msg_email_resset').text("Invaild Email. Try again");
+          $('#email_resset').attr('disabled','disabled');
+          if($(this).hasClass('is-valid')){
+            $(this).removeClass('is-valid');
+          }
+          $(this).addClass('is-invalid');      
+        }else{
+          $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+            if(data == "existed"){
+              if($('input[name=email_resset]').hasClass('is-invalid')){
+                $('input[name=email_resset]').removeClass('is-invalid');
+              }
+              $('input[name=email_resset]').addClass('is-valid');
+              $('#msg_email_resset').text('');
+            }else{
+              $('#msg_email_resset').text('Email hasn\'t signed up in Freshshop');
+              if($('input[name=email_resset]').hasClass('is-valid')){
+                $('input[name=email_resset]').removeClass('is-valid')
+              }
+              $('input[name=email_resset]').addClass('is-invalid');
+            }
+          });
+        };
+      });
+      $("input[name=new_password]").change(function(){
+        if(!valPass.test($(this).val())){
+          if($(this).hasClass('is-valid')){
+            $(this).removeClass('is-valid');
+          }
+          $(this).addClass('is-invalid');
+          $('#msg_register_password').text("Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
+        }else if($("input[name=reenter_password]").val().trim().length>0 && $(this).val() != $("input[name=reenter_password]").val()){
+          if($(this).hasClass('is-valid')){
+            $(this).removeClass('is-valid');
+          }
+          $(this).addClass('is-invalid');
+          $("#error_pass").text("Re-enter Password doesn\'t match with Password");
+        }else{
+          if($(this).hasClass('is-invalid')){
+            $(this).removeClass('is-invalid');
+          }
+          $(this).addClass('is-valid');
+          if($("input[name=reenter_password]").hasClass('is-invalid')){
+            $("input[name=reenter_password]").removeClass('is-invalid');
+          }
+          $("input[name=reenter_password]").addClass('is-valid');
+          $('#msg_register_password').text('');
+          $("#error_pass").text('');
+        };
+        if($("input[name=reenter_password]").hasClass('is-valid') && $("input[name=new_password]").hasClass('is-valid') && $("input[name=reenter_password]").val() == $("input[name=new_password]").val()){
+          $("#submit_newpassword").removeAttr('disabled');
+        }else{
+          $("#submit_newpassword").attr('disabled','disabled');
+        }
+      })
+      $("input[name=reenter_password]").change(function(){
+        if($(this).val() != $("input[name=new_password]").val()){
+          if($(this).hasClass('is-valid')){
+            $(this).removeClass('is-valid');
+          }
+          $(this).addClass('is-invalid');
+          
+          $("#error_pass").text("Re-enter Password doesn\'t match with Password");
+        }else{
+          if($(this).hasClass('is-invalid')){
+            $(this).removeClass('is-invalid');
+          }
+          $(this).addClass('is-valid');
+          $("#error_pass").text('');
+        }
+        if($("input[name=reenter_password]").hasClass('is-valid') && $("input[name=new_password]").hasClass('is-valid') && $("input[name=reenter_password]").val() == $("input[name=new_password]").val()){
+          $("#submit_newpassword").removeAttr('disabled');
+        }else{
+          $("#submit_newpassword").attr('disabled','disabled');
+        }
+      })
       $(".modal_coupon").click(function(){
           $.get(window.location.origin+"/public/index.php/ajax/show_coupon/"+$(this).data('coupon'),function(data){
             let coupon_data = jQuery.parseJSON(data);

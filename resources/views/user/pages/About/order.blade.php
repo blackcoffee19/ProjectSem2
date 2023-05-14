@@ -212,34 +212,3 @@
         </section>
     </main>
 @endsection
-@section('script')
-    <script>
-        $(document).ready(function() {
-            $('.user_editorder').click(function() {
-                $.get(window.location.origin + "/ProjectSem2/public/account/ajax/edit_order/" + $(this)
-                    .data('idorder'),
-                    function(data) {
-                        let data_order = jQuery.parseJSON(data);
-                        console.log(data_order);
-                        $('#id_orderedit').val(data_order['id_order']);
-                        $('#edit_cusname').val(data_order['receiver']);
-                        $('#edit_cusaddr').val(data_order['address']);
-                        $('#edit_cusphone').val(data_order['phone']);
-                        $('#edit_cusemail').val(data_order['email']);
-                        $('#edit_coupon').val(data_order['code_coupon']);
-                        $('#name_coupon').html(data_order['name_coupon']);
-                        $('#edit_cusname, #edit_cusaddr,#edit_cusphone,#edit_cusemail').change(
-                        function() {
-                            if ($('#edit_cusname').val().length > 0 && $('#edit_cusaddr').val()
-                                .length > 0 && $('#edit_cusphone').val().length > 0 && $(
-                                    '#edit_cusemail').val().length > 0) {
-                                $('#submit_order').removeAttr('disabled');
-                            } else {
-                                $('#submit_order').attr('disabled', 'disabled');
-                            }
-                        });
-                    })
-            });
-        })
-    </script>
-@endsection

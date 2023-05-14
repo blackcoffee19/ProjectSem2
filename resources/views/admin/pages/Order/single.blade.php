@@ -85,14 +85,15 @@
                             </div>
                             <div class="mt-8">
                                 <div class="row">
-                                    <!-- address -->
                                     <div class="col-lg-3 col-md-3 col-12">
                                         <div class="mb-6">
                                             <h6>Customer Details</h6>
                                             <p class="mb-1 lh-lg">{{ $id_order->receiver }}<br>
                                                 {{ $id_order->email }}<br>
                                                 {{ $id_order->phone }}</p>
-                                            <a href="#">View Profile</a>
+                                            @if ($id_order->id_user)
+                                            <a href="{{Route('adminShowCustomers', $id_order->id_user)}}">View Profile</a>
+                                            @endif
                                         </div>
                                     </div>
                                     <!-- address -->
@@ -244,6 +245,7 @@
                                 <div class="col-md-6 mb-4 mb-lg-0">
                                     <h6>Payment Info</h6>
                                     <span>{{ $id_order->method }}</span>
+                                    <p class="text-dard">{{$id_order->delivery_method}}</p>
                                 </div>
                                 {{-- <div class="col-md-6">
                                     <h5>Notes</h5>

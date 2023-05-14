@@ -119,14 +119,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <hr class="my-10">
-                            <div>
-                                <h5 class="mb-4">Delete Account</h5>
-                                <p class="mb-2">Would you like to delete your account?</p>
-                                <p class="mb-5">This account contain 12 orders, Deleting your account will remove all the
-                                    order details associated with it.</p>
-                                <a href="#" class="btn btn-outline-danger">I want to delete my account</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

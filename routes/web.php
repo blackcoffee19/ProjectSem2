@@ -64,8 +64,6 @@ Route::get('/remove-news', [TuongController::class, 'remove_allnews'])->name('re
 Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('addComment');
 Route::get('/delete_cmt/{id}', [TuongController::class, 'deleteCmt'])->name('delete_cmt');
 Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_cmt');
-Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
-Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
 Route::get('/ajax/modal/show-product/{id}', [TuongController::class, 'modal_product']);
 Route::get('/ajax/check-order/{id}',[TuongController::class,'user_orderdetail']);
 Route::group(['prefix' => 'manager'], function () {
@@ -82,6 +80,8 @@ Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('goo
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
+    Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
+    Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
     Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('post_products_details');
     Route::get('/checkout', [TuongController::class, 'get_checkout'])->name('checkout');
     Route::post('/checkout', [TuongController::class, 'post_checkout'])->name('checkout');

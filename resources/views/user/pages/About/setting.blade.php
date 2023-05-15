@@ -135,10 +135,12 @@
             if ($('#warning_setting').hasClass('show')) {
                 $('#warning_setting').removeClass('show');
             }
+            @if(Auth::user()->admin == '0')
             if ($('#new_phone').val().length == 0) {
                 $('#new_phone').addClass('is-invalid');
                 $('#invalidPhone').html('Please Add your numberphone for your accout');
             }
+            @endif
             let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
             let valiEmail = /^[a-zA-Z0-9]{4,}@gmail\.com$/;
             let valiPhone = /^[0-9]{9,11}$/;
@@ -166,7 +168,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: window.location.origin +
-                            '/ProjectSem2/public/account/ajax/check-password',
+                            '/public/index.php/account/ajax/check-password',
                         data: {
                             'current_password': $(this).val()
                         },

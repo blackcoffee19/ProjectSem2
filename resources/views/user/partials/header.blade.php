@@ -46,7 +46,7 @@
                                             </svg>
                                             <span
                                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                                <span class="fw-bold countFav">
+                                                <span class="fw-bold ">
                                                     {{ isset($news) ? count($news) : 0 }}
                                                 </span>
                                             </span>
@@ -209,6 +209,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if (Auth::user()->admin == '0')
                                     <div class="list-inline-item me-3">
                                         <a href="{{ route('wishlist') }}" class="text-muted position-relative">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -226,7 +227,8 @@
                                                 </span>
                                             </span>
                                         </a>
-                                    </div>
+                                    </div>  
+                                    @endif
                                 @endif
                                 <div class="list-inline-item dropdown dropdown-fullwidth">
                                     @if (Auth::check())
@@ -256,12 +258,14 @@
                                                         <img src="{{asset('images/icons/warning.png')}}" width="15" height="15" class=" img-fluid rounded-circle">
                                                         @endif
                                                 </a>
+                                                @if(Auth::user()->admin == '0')
                                                 <a href="{{ route('accountaddress') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-solid fa-location-pin"></i>Address</a>
                                                 <a href="{{ route('accountpayment') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                                @endif
                                                 <a href="{{ route('signout') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="bi bi-box-arrow-in-right"></i> Sign out</a>
@@ -386,7 +390,7 @@
                                     </svg>
                                     <span
                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                        <span class="fw-bold countFav">
+                                        <span class="fw-bold">
                                             {{ isset($news) ? count($news) : 0 }}
                                         </span>
                                     </span>
@@ -541,6 +545,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (Auth::user()->admin == '0')
                             <div class="me-3">
                                 <a href="{{ route('wishlist') }}" class="text-muted position-relative">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -558,6 +563,7 @@
                                     </span>
                                 </a>
                             </div>
+                            @endif
                             
                             <div class="list-inline-item ">
                                 <a href="#!" class="text-muted dropdown-toggle user_dropdown" role="button"
@@ -590,12 +596,14 @@
                                                 <img src="{{asset('images/icons/warning.png')}}" width="15" height="15" class="img-fluid rounded-circle">
                                             @endif    
                                         </a>
+                                        @if (Auth::user()->admin == '0')
                                         <a href="{{ route('accountaddress') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-solid fa-location-pin"></i>Address</a>
                                         <a href="{{ route('accountpayment') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                        @endif
                                         <a href="{{ route('signout') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="bi bi-box-arrow-in-right"></i> Sign out</a>
@@ -719,6 +727,7 @@
                                 </svg></i>
                             </a>
                         </li>
+                        @if (Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -733,11 +742,15 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('accountorder') }}">Orders</a></li>
                                 <li><a class="dropdown-item" href="{{ route('accountsetting') }}">Settings</a></li>
+                                @if (Auth::user()->admin == '0')
                                 <li><a class="dropdown-item" href="{{ route('accountaddress') }}">Address</a></li>
                                 <li><a class="dropdown-item" href="{{ route('accountpayment') }}">Payment Method</a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
+
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{ route('privacy') }}">
                                 Privacy Policy <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -848,14 +861,14 @@
                                             $sum += $cart->price*($cart->amount/1000);
                                         };
                                     };   
-                                    $sum += $order->shipping_fee;
                                     if($order->code_coupon){
-                                        if($order->Coupon->discount >= 10){
+                                        if($order->Coupon->discount <= 100){
                                             $sum = $sum*(1 - $order->Coupon->discount/100);
                                         }else{
                                             $sum -= $order->Coupon->discount;
                                         }
                                     }
+                                    $sum += $order->shipping_fee;
                                     echo number_format($sum,0,'',' ')."đ";
                                     @endphp
                                 </div>
@@ -866,6 +879,9 @@
                                             @break
                                         @case('unconfirmed')
                                             <h5 class="badge bg-dark text-capitalize">{{$order->status}}</h5>
+                                            @break
+                                        @case('delivery')
+                                            <h5 class="badge bg-primary text-capitalize">{{$order->status}}</h5>
                                             @break
                                     @endswitch
                                 </div>
@@ -881,7 +897,12 @@
                                                 Confirm  
                                             </button>
                                             @break
-                                        @default        
+
+                                        @case('delivery')
+                                            <button type="button" class="btn btn-primary check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
+                                                Update
+                                            </button>
+                                        @break        
                                     @endswitch
                                 </div>
                             </div>

@@ -9,7 +9,7 @@
             <div class="mb-8">
               <h1 class="fw-bold mb-0">Checkout</h1>
               @if (!Auth::check())
-              <p class="mb-0">Already have an account? Click here to <a href="#!" class="text-muted" data-bs-toggle="modal"
+              <p class="mb-0">Already have an account? Click here to <a href="#!" class="text-primary" data-bs-toggle="modal"
                 data-bs-target="#userModal">Sign in</a>.</p>
               @endif
             </div>
@@ -23,7 +23,7 @@
       @endif
       
       @php
-          $shipment_fee = 16500;
+          $shipment_fee = 24200;
       @endphp
       <div>
         <form action="{{route('checkout')}}" method="post">
@@ -414,6 +414,11 @@
                       $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
+                    if(ex_fee!=0){
+                      $('#extra_ship').parent().removeClass('d-none');
+                    }else{
+                      $('#extra_ship').parent().addClass('d-none')
+                    }
                   }else{
                     $('#extra_ship').parent().addClass('d-none');
                   }
@@ -476,6 +481,11 @@
                                     $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                                   });
                                   $("#extra_ship_display").html("+ "+ex_fee2+" đ");
+                                  if(ex_fee2!=0){
+                                    $('#extra_ship').parent().removeClass('d-none');
+                                  }else{
+                                    $('#extra_ship').parent().addClass('d-none')
+                                  }
                                 }
                               };
                             })   
@@ -524,6 +534,11 @@
                       $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                     });
                     $("#extra_ship_display").html("+ "+ex_fee+" đ");
+                    if(ex_fee!=0){
+                      $('#extra_ship').parent().removeClass('d-none');
+                    }else{
+                      $('#extra_ship').parent().addClass('d-none')
+                    }
                   }else{
                     $('#extra_ship').parent().addClass('d-none');
                   }

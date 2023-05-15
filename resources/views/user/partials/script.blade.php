@@ -1,28 +1,42 @@
 <script>
     $(document).ready(function(){
+//#offcanvasRight List item in Cart
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
           $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
               $('#listCartmodal').html(data);
               $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
-              $('.btn_minus').click(function(e){
+              let idInterval1,idInterval2;
+              $('.btn_minus').mousedown(function(e){
                   e.preventDefault();
                   let current = parseInt($(this).next().val());
-                  if(current >1){
-                    current--;
-                    $(this).next().val(current);
-                  }
-                  $(this).parent().next().removeClass('d-none');
+                  idInterval1 = setInterval(() => {
+                    if(current >1){
+                      current--;
+                      $(this).next().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');  
+                  }, 100);
               });
-              $('.btn_plus').click(function(e){
+              $(".btn_minus").mouseup(function(e){
+                e.preventDefault();
+                clearInterval(idInterval1);
+              })
+              $('.btn_plus').mousedown(function(e){
                   e.preventDefault();
                   let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
                   let current = parseInt($(this).prev().val());
-                  if(max>current){
-                    current++;
-                    $(this).prev().val(current);
-                  }
-                  $(this).parent().next().removeClass('d-none');
+                  idInterval2 = setInterval(()=> {
+                    if(max>current){
+                      current++;
+                      $(this).prev().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');
+                  },100);
+              });
+              $('.btn_plus').mouseup(function(e){
+                e.preventDefault();
+                clearInterval(idInterval2);
               });
               $('input[name=quan]').on('focusout',function(e){
                 e.preventDefault();
@@ -38,6 +52,7 @@
           })
       });
       @endif
+//
       @if(Session::has('verified'))
         let toastverify = new bootstrap.Toast($('#toastVerified'))
         toastverify.show();
@@ -163,29 +178,43 @@
           $('.countCart').html(data);
         });
       });
-      $('.btn_minus').click(function(e){
+      let idInterval3,idInterval4;
+      $('.btn_minus').mousedown(function(e){
           e.preventDefault();
           let current = parseInt($(this).next().val());
-          if(current >1){
-            current--;
-            $(this).next().val(current);
-          }
+          idInterval3 = setInterval(()=>{
+            if(current >1){
+              current--;
+              $(this).next().val(current);
+            }
+          },100);
+          $(this).parent().parent().next().children().removeClass('d-none');
+      }).mouseup(function(e){
+        e.preventDefault();
+        clearInterval(idInterval3);
       });
-      $('.btn_plus').click(function(e){
+      $('.btn_plus').mousedown(function(e){
           e.preventDefault();
           let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
           let current = parseInt($(this).prev().val());
-          if(max>current){
-            current++;
-            $(this).prev().val(current);
-          }
+          idInterval4 =setInterval(()=>{
+            if(max>current){
+              current++;
+              $(this).prev().val(current);
+            }
+          },100);
+          $(this).parent().parent().next().children().removeClass('d-none');
+
+      }).mouseup(function(e){
+        e.preventDefault();
+        clearInterval(idInterval4)
       });
-      
       $('input[name=quan]').on('focusout',function(e){
           e.preventDefault();
           let validateNum =/^\d{1,10}$/;
           let currentVl = $(this).val();
           $(this).val(validateNum.test(currentVl)?currentVl:100);
+          $(this).parent().parent().next().children().removeClass('d-none');
       });
       $('input[name=cart_quant]').on('focusout',function(e){
           e.preventDefault();
@@ -212,10 +241,6 @@
       const ghn_api_service = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services";
       const ghn_fee = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
       const ghtk_api = "https://services-staging.ghtklab.com";
-      const ghtk_token = "1830630245Ca1E494982d10B95FaFFbe6bF78641";
-      const ghn_token ="40c06a9e-ee0f-11ed-a281-3aa62a37e0a5";
-      const ghn_token2 ="ea19c297-efa4-11ed-943b-f6b926345ef9";
-      const id_shop = 124157;
       $.ajax({
         method: "GET",
         beforeSend: function (xhr) {
@@ -302,7 +327,6 @@
             $(".totalPay").text((totall*0.000043).toFixed(2));
             $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
             if(deliver_method['fee']['extFees'].length>0){
-              $('#extra_ship').parent().removeClass('d-none');
               let ex_fee = 0;
               let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
               deliver_method['fee']['extFees'].forEach(el=>{
@@ -310,6 +334,11 @@
                 $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
               });
               $("#extra_ship_display").html("+ "+ex_fee+" đ");
+              if(ex_fee!=0){
+                $('#extra_ship').parent().removeClass('d-none');
+              }else{
+                $('#extra_ship').parent().addClass('d-none')
+              }
             }else{
               $('#extra_ship').parent().addClass('d-none');
             }
@@ -356,6 +385,11 @@
                         $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                       });
                       $("#extra_ship_display").html("+ "+ex_fee3+" đ");
+                      if(ex_fee3!=0){
+                        $('#extra_ship').parent().removeClass('d-none');
+                      }else{
+                        $('#extra_ship').parent().addClass('d-none')
+                      }
                     }
                   };
                 })   
@@ -363,14 +397,18 @@
               $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
                 let newdata4 = data5.slice(0,data5.length-1);
                 let dataJs4 = jQuery.parseJSON(newdata4);
-                let total_ghn =dataJs4['data']['total']+ parseInt($("#total").data('subtotal'));
-                let shipping = dataJs4['data']['total'];
-                if(shipping!=$("input[name=shipment_fee]").val()){
-                  $("#shippment_fee").html(shipping+" đ");
-                  $("#total").html(total_ghn +" đ");
+                if(dataJs4['code']==200){
+                  let total_ghn =dataJs4['data']['total']+ parseInt($("#total").data('subtotal'));
+                  let shipping = dataJs4['data']['total'];
+                  if(shipping!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(shipping+" đ");
+                    $("#total").html(total_ghn +" đ");
+                  }
+                  $(".totalPay").text((total_ghn*0.000043).toFixed(2));
+                  $("input[name=shipment_fee]").val(shipping);
+                }else{
+                  console.log(dataJs4);
                 }
-                $(".totalPay").text((total_ghn*0.000043).toFixed(2));
-                $("input[name=shipment_fee]").val(shipping);
               });
               $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
               $('#extra_ship').parent().addClass('d-none');
@@ -429,6 +467,11 @@
                               $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                             });
                             $("#extra_ship_display").html("+ "+ex_fee2+" đ");
+                            if(ex_fee2!=0){
+                              $('#extra_ship').parent().removeClass('d-none');
+                            }else{
+                              $('#extra_ship').parent().addClass('d-none')
+                            }
                           }
                         };
                       })   
@@ -982,6 +1025,7 @@
           $("#phone2").html(dataJson['phone']);
           $('#email_order2').html(dataJson['email']);
           $("#payment_method2").html(dataJson['method']);
+          $("#delivery_method2").html(dataJson['delivery_method']);
           if(dataJson['coupon']){
             $("#coupon_title2").html(dataJson['coupon_title']);
             if(dataJson['discount'] <= 100){
@@ -1180,102 +1224,108 @@
                     </div>
                   </div>
                 </div>`);
-                                    }
-                                    $('.list_mess').find('span').html(mess_data[
-                                        'unread_mess']);
-                                }
-                            });
-                            message.val('');
-                        };
-                    });
-                    $('.show_listchat').click(function() {
-                        let nextDD = $(this).next();
-                        $('.chatbox').not(nextDD).removeClass('show');
-                    })
+              }
+              $('.list_mess').find('span').html(mess_data[
+                  'unread_mess']);
+            }
+            });
+          message.val('');
+        };
+      });
+    $('.show_listchat').click(function() {
+        let nextDD = $(this).next();
+        $('.chatbox').not(nextDD).removeClass('show');
+    })
 
-                    function split(val) {
-                        return val.split(/@\s*/);
-                    }
+    function split(val) {
+        return val.split(/@\s*/);
+    }
 
-                    function extractLast(term) {
-                        return split(term).pop();
-                    }
-                    let availableTags = [];
-                    @if (isset($name_products))
-                        @foreach ($name_products as $key => $value)
-                            var object = new Object();
-                            @foreach ($value as $key2 => $value2)
-                                object['{{ $key2 }}'] = "{{ $value2 }}";
-                            @endforeach
-                            availableTags.push(object);
-                        @endforeach
-                    @endif
-                    $("input[name=send_message]").autocomplete({
-                        minLength: 0,
-                        source: function(request, response) {
-                            var results, term = request.term;
-                            var aData = $.map(availableTags, function(value, key) {
-                                return {
-                                    label: value.name,
-                                    value: value.id
-                                }
-                            });
-                            if (term.indexOf("@") >= 0) {
-                                term = extractLast(request.term);
-                                /* If they've typed anything after the "@": */
-                                if (term.length > 0) {
-                                    results = $.ui.autocomplete.filter(
-                                        aData, term);
-                                    /* Otherwise, tell them to start typing! */
-                                } else {
-                                    results = ['Start typing...'];
-                                }
+    function extractLast(term) {
+        return split(term).pop();
+    }
+    let availableTags = [];
+    @if (isset($name_products))
+        @foreach ($name_products as $key => $value)
+            var object = new Object();
+            @foreach ($value as $key2 => $value2)
+                object['{{ $key2 }}'] = "{{ $value2 }}";
+            @endforeach
+            availableTags.push(object);
+        @endforeach
+    @endif
+    $("input[name=send_message]").autocomplete({
+      minLength: 0,
+      source: function(request, response) {
+          var results, term = request.term;
+          var aData = $.map(availableTags, function(value, key) {
+              return {
+                  label: value.name,
+                  value: value.id
+              }
+          });
+          if (term.indexOf("@") >= 0) {
+              term = extractLast(request.term);
+              /* If they've typed anything after the "@": */
+              if (term.length > 0) {
+                  results = $.ui.autocomplete.filter(
+                      aData, term);
+              } else {
+                  results = ['Start typing...'];
+              }
+          }
+          response(results);
+      },
+      focus: function(event, ui) {
+          return false;
+      },
+      select: function(event, ui) {
+        let chatbox = $(this).parents('.input_message').prev();
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'content')
+            },
+            url: window.location.origin +
+                '/public/index.php/ajax-post/message',
+            data: {
+                'send_link': ui.item.value,
+                'code_group': chatbox.data('chat'),
+                'connect_user': chatbox.data('iduser')
+            },
+            success: function(data) {
+              let mess_data = jQuery.parseJSON(data);
+              if (mess_data['link']) {
+                  let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
+              <div class='row g-0'>
+                <div class='col-4'>
+                  <img src='${mess_data['image']}' class='img-fluid rounded-start' >
+                </div>
+              <div class='col-8'>
+                <div class='card-body'>
+                <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
+                <p class="card-text">View >> </p>
+              </div></div></div></a></div></div>`;
+                                    chatbox.append(share);
+                                };
+                                $('.list_mess').find('span').html(mess_data[
+                                    'unread_mess']);
                             }
-                            /* Call the callback with the results: */
-                            response(results);
-                        },
-                        focus: function(event, ui) {
-                            // $('input[name=send_message]').val(ui.item.name);
-                            // prevent value inserted on focus
-                            return false;
-                        },
-                        select: function(event, ui) {
-                            let chatbox = $(this).parents('.input_message').prev();
-                            $.ajax({
-                                method: "POST",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                },
-                                url: window.location.origin +
-                                    '/ProjectSem2/public/ajax-post/message',
-                                data: {
-                                    'send_link': ui.item.value,
-                                    'code_group': chatbox.data('chat'),
-                                    'connect_user': chatbox.data('iduser')
-                                },
-                                success: function(data) {
-                                    let mess_data = jQuery.parseJSON(data);
-                                    if (mess_data['link']) {
-                                        let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
-                  <div class='row g-0'>
-                    <div class='col-4'>
-                      <img src='${mess_data['image']}' class='img-fluid rounded-start' >
-                    </div>
-                  <div class='col-8'>
-                    <div class='card-body'>
-                    <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
-                    <p class="card-text">View >> </p>
-                  </div></div></div></a></div></div>`;
-                                        chatbox.append(share);
-                                    };
-                                    $('.list_mess').find('span').html(mess_data[
-                                        'unread_mess']);
-                                }
-                            });
-                            $("input[name=send_message]").val('');
-                            return false;
-                        }
-                    })
-                })
+                        });
+                        $("input[name=send_message]").val('');
+                        return false;
+        }
+    })
+    $("#share_fb").click(function(e){
+      e.preventDefault();
+      // console.log(window.location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, "_blank")
+    });
+    $("#share_tw").click(function(e){
+      e.preventDefault();
+      window.open(`https://twitter.com/intent/tweet?url=${window.location.href}`, "_blank")
+    })
+  })
+
 </script>

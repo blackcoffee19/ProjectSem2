@@ -56,7 +56,7 @@
                                                 <td>{{ $coupon->id_coupon }}</td>
                                                 <td>{{ $coupon->title }}</td>
                                                 <td>{{ $coupon->code }}</td>
-                                                <td>{{ number_format($coupon->discount), 0 }} đ</td>
+                                                <td>{{ $coupon->discount<=100? $coupon->discount."%" : number_format($coupon->discount,0,'',' ')." đ" }}</td>
                                                 <td>{{ $coupon->max }}</td>
                                                 <td>
                                                     @if ($coupon->status == 1)

@@ -3,19 +3,15 @@
     <main>
         <section class="mb-lg-14 mb-8 mt-8">
             <div class="container">
-                <!-- row -->
                 <div class="row">
                     <div class="col-12">
-                        <!-- card -->
                         <div class="card py-1 border-0 mb-8">
                             <div>
                                 <h1 class="fw-bold">Shop Cart</h1>
-
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- row -->
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
 
@@ -41,10 +37,9 @@
                                                             class="text-inherit">
                                                             <h6 class="mb-0">{{ $cart->Product->name }}</h6>
                                                         </a>
-                                                        <span><small class="text-muted">unit: gram</small></span>
+                                                        <span><small class="text-muted">unit: grams</small></span>
                                                         <div class="mt-2 small lh-1">
-                                                            <a href="{{ route('removeId', $cart->id_cart) }}"
-                                                                class="text-decoration-none text-inherit">
+                                                            <a href="{{ route('removeId', $cart->id_cart) }}" class="text-decoration-none text-inherit">
                                                                 <span class="me-1 align-text-bottom">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14"
                                                                         height="14" viewBox="0 0 24 24" fill="none"
@@ -66,41 +61,35 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-6 mx-auto ">
-                                                        <form method='POST' action="{{ route('cartadd', $cart->id_cart) }}"
-                                                            class="row">
+                                                        <form method='POST' action="{{ route('cartadd', $cart->id_cart) }}" class="row">
                                                             @csrf
-                                                            <input type="hidden" name="max_quan"
-                                                                value="{{ $cart->Product->quantity }}">
+                                                            <input type="hidden" name="max_quan" value="{{ $cart->Product->quantity }}">
                                                             <div class=" col-6">
                                                                 <div class="input-group input-spinner ">
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-secondary btn_minus"
-                                                                        style="border-radius: 10px 0 0 10px;"
-                                                                        data-field="quantity">
+                                                                    <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;" data-field="quantity">
                                                                         <i class="bi bi-dash-lg"></i>
                                                                     </button>
                                                                     <input type="text" name="quan"
                                                                         class="border border-secondary text-center pt-1 fs-4 text-secondary"
                                                                         style="width: 50px;" value="{{ $cart->amount }}" />
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-secondary btn_plus"
-                                                                        style="border-radius: 0 10px 10px 0;">
+                                                                    <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;">
                                                                         <i class="bi bi-plus-lg"></i>
                                                                     </button>
                                                                     <p class="ms-5 fw-bold align-self-end mb-1">g</p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 mx-auto">
-                                                                <button type="submit" class="btn btn-primary">
+                                                                <button type="submit" class="btn btn-primary d-none">
                                                                     <i class="feather-icon icon-shopping-bag "></i>Save
                                                                 </button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                                                        <span
-                                                            class="fw-bold">{{ number_format($cart->Product->sale > 0 ? $cart->Product->price * (1 - $cart->Product->sale / 100) : $cart->Product->price, 0, '', ' ') }}
-                                                            đ/kg</span>
+                                                        <span  class="fw-bold">
+                                                            {{ number_format($cart->Product->sale > 0 ? $cart->Product->price * (1 - $cart->Product->sale / 100) : $cart->Product->price, 0, '', ' ') }}
+                                                            đ/kg
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 @php
@@ -115,22 +104,18 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-3 col-md-2">
                                                         @if (isset($cart->Product))
-                                                            <a
-                                                                href="{{ route('products-details', $cart->Product->id_product) }}">
-                                                                <img src="{{ asset('images/products/' . $cart['image']) }}"
-                                                                    alt="Ecommerce" class="img-fluid">
+                                                            <a href="{{ route('products-details', $cart->Product->id_product) }}">
+                                                                <img src="{{ asset('images/products/' . $cart['image']) }}" alt="Ecommerce" class="img-fluid">
                                                             </a>
                                                         @else
                                                             <a href="{{ route('products-details', $cart['id_product']) }}">
-                                                                <img src="{{ asset('images/products/' . $cart['image']) }}"
-                                                                    alt="Ecommerce" class="img-fluid">
+                                                                <img src="{{ asset('images/products/' . $cart['image']) }}" alt="Ecommerce" class="img-fluid">
                                                             </a>
                                                         @endif
                                                     </div>
                                                     <div class="col-2 col-md-2">
                                                         @if (isset($cart->Product))
-                                                            <a href="{{ route('products-details', $cart->Product->id_product) }}"
-                                                                class="text-inherit">
+                                                            <a href="{{ route('products-details', $cart->Product->id_product) }}" class="text-inherit">
                                                                 <h6 class="mb-0">{{ $cart['name'] }}</h6>
                                                             </a>
                                                         @else
@@ -141,8 +126,7 @@
                                                         @endif
                                                         <span><small class="text-muted">unit: gram</small></span>
                                                         <div class="mt-2 small lh-1">
-                                                            <a href="{{ route('removeId', $key) }}"
-                                                                class="text-decoration-none text-inherit">
+                                                            <a href="{{ route('removeId', $key) }}" class="text-decoration-none text-inherit">
                                                                 <span class="me-1 align-text-bottom">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14"
                                                                         height="14" viewBox="0 0 24 24" fill="none"
@@ -164,26 +148,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-4 col-md-6 mx-auto">
-                                                        <form method='POST' action="{{ route('cartadd', $key) }}"
-                                                            class="row">
+                                                        <form method='POST' action="{{ route('cartadd', $key) }}" class="row">
                                                             @csrf
-                                                            <input type="hidden" name="max_quan"
-                                                                value="{{ $cart['max'] }}">
-                                                            <div class=" col-6">
+                                                            <input type="hidden" name="max_quan" value="{{ $cart['max'] }}">
+                                                            <div class="col-5 col-md-6 col-lg-5 mx-auto">
                                                                 <div class="input-group input-spinner ">
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-secondary btn_minus"
-                                                                        style="border-radius: 10px 0 0 10px;"
-                                                                        data-field="quantity">
+                                                                    <button type="button" class="btn btn-outline-secondary btn_minus" style="border-radius: 10px 0 0 10px;" data-field="quantity">
                                                                         <i class="bi bi-dash-lg"></i>
                                                                     </button>
-                                                                    <input type="text" name="quan"
-                                                                        class="border border-secondary text-center pt-1 fs-4 text-secondary"
-                                                                        style="width: 50px;"
-                                                                        value="{{ $cart['amount'] }}" />
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-secondary btn_plus"
-                                                                        style="border-radius: 0 10px 10px 0;">
+                                                                    <input type="text" name="quan" class="border border-secondary text-center pt-1 fs-4 text-secondary" style="width: 50px;" value="{{ $cart['amount'] }}" />
+                                                                    <button type="button" class="btn btn-outline-secondary btn_plus" style="border-radius: 0 10px 10px 0;">
                                                                         <i class="bi bi-plus-lg"></i>
                                                                     </button>
                                                                     <p class="ms-5 fw-bold align-self-end mb-1">g</p>
@@ -192,8 +166,8 @@
                                                                     <span class="text-danger">{{ $errors->first('cart_quant') }}</span>
                                                                 @endif
                                                             </div>
-                                                            <div class="col-3 mx-auto">
-                                                                <button type="submit" class="btn btn-primary">
+                                                            <div class="col-1 mx-auto">
+                                                                <button type="submit" class="btn btn-primary d-none">
                                                                     <i class="feather-icon icon-shopping-bag "></i>Save
                                                                 </button>
                                                             </div>
@@ -248,9 +222,10 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="me-auto">
-                                                <div>Service Fee</div>
+                                                <div>Service Fee <i class="bi bi-exclamation-circle text-muted" data-bs-toggle="tooltip"
+                                                    title="Shipping fee depends on the shipping address"></i></div>
                                             </div>
-                                            <span>16 500 đ</span>
+                                            <span>24 200 đ</span>
                                         </li>
 
                                         <li id="added_coupon"
@@ -269,7 +244,7 @@
                                                 <div class="fw-bold">Total</div>
                                             </div>
                                             <span class="fw-bold" id="total_items"
-                                                data-total="{{ $sum}}">{{ $coupon == null ? number_format($sum + 16500, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 16500, 0, '', '') : number_format(($sum + 16500) * (1 - $coupon->discount / 100), 0, '', '')) }}
+                                                data-total="{{ $sum}}">{{ $coupon == null ? number_format($sum + 24200, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 24200, 0, '', '') : number_format(($sum + 24200) * (1 - $coupon->discount / 100), 0, '', '')) }}
                                                 đ</span>
                                         </li>
                                     </ul>
@@ -278,7 +253,7 @@
                                     <a href="{{ route('checkout') }}"
                                         class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">Go
                                         to Checkout <span class="fw-bold"
-                                            id="total_cart">{{ $coupon == null ? number_format($sum + 16500, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 20000, 0, '', '') : number_format(($sum + 20000) * (1 - $coupon->discount / 100), 0, '', '')) }}
+                                            id="total_cart">{{ $coupon == null ? number_format($sum + 24200, 0, '', '') : ($coupon->freeship ? number_format($sum - $coupon->discount + 20000, 0, '', '') : number_format(($sum + 20000) * (1 - $coupon->discount / 100), 0, '', '')) }}
                                             đ</span></a>
                                 </div>
                                 <p><small>By placing your order, you agree to be bound by the Freshcart <a
@@ -312,49 +287,47 @@
         $(document).ready(function() {
             $('#checkCoupon').click(function() {
                 if ($('#giftcard').val().length > 0) {
-                    $.get(window.location.origin + "/ProjectSem2/public/ajax/add-coupon/" + $('#giftcard')
-                        .val(),
-                        function(data) {
-                            let total = parseInt($('#total_items').data('total'));
-                            let subtotal = parseInt($('#item_subtotal').data('subtotal'));
-                            if (data) {
-                                let dataJson = jQuery.parseJSON(data);
-                                if (!dataJson['error']) {
-                                    $('#added_coupon').removeClass('d-none');
-                                    $('#wrong_code').addClass('d-none');
-                                    $('#giftcard').removeClass('is-invalid')
-                                    $('#giftcard').addClass('is-valid');
-                                    $('#coupon_title').html(dataJson['title']);
-                                    if (dataJson['code'].includes('FREESHIP')) {
-                                        $('#discount').html('- ' + dataJson['discount'] + ' đ');
-                                        total -= parseFloat(dataJson['discount']);
-                                    } else {
-                                        $('#discount').html('- ' + dataJson['discount'] + '%');
-                                        total *= (1 - parseFloat(dataJson['discount']) / 100);
-                                    };
-                                    total += 16500;
-                                    $('#total_items').html(Math.floor(total) + ' đ');
-                                    $('#total_cart').html(Math.floor(total) + ' đ');
+                    $.get(window.location.origin + "/public/index.php/ajax/add-coupon/" + $('#giftcard').val(),function(data) {
+                        let total = parseInt($('#total_items').data('total'));
+                        let subtotal = parseInt($('#item_subtotal').data('subtotal'));
+                        if (data) {
+                            let dataJson = jQuery.parseJSON(data);
+                            if (!dataJson['error']) {
+                                $('#added_coupon').removeClass('d-none');
+                                $('#wrong_code').addClass('d-none');
+                                $('#giftcard').removeClass('is-invalid')
+                                $('#giftcard').addClass('is-valid');
+                                $('#coupon_title').html(dataJson['title']);
+                                if (dataJson['code'].includes('FREESHIP')) {
+                                    $('#discount').html('- ' + dataJson['discount'] + ' đ');
+                                    total -= parseFloat(dataJson['discount']);
                                 } else {
-                                    total += 16500;
-                                    $('#total_items').html(Math.floor(total) + ' đ');
-                                    $('#total_cart').html(Math.floor(total) + ' đ');
-                                    $('#added_coupon').addClass('d-none');
-                                    $('#giftcard').removeClass('is-valid');
-                                    $('#giftcard').addClass('is-invalid');
-                                    $('#wrong_code').removeClass('d-none').html(dataJson['error']);
-                                }
+                                    $('#discount').html('- ' + dataJson['discount'] + '%');
+                                    total *= (1 - parseFloat(dataJson['discount']) / 100);
+                                };
+                                total += 24200;
+                                $('#total_items').html(Math.floor(total) + ' đ');
+                                $('#total_cart').html(Math.floor(total) + ' đ');
                             } else {
-                                total += 16500;
+                                total += 24200;
                                 $('#total_items').html(Math.floor(total) + ' đ');
                                 $('#total_cart').html(Math.floor(total) + ' đ');
                                 $('#added_coupon').addClass('d-none');
                                 $('#giftcard').removeClass('is-valid');
                                 $('#giftcard').addClass('is-invalid');
-                                $('#wrong_code').removeClass('d-none').html("This code is not exited");
+                                $('#wrong_code').removeClass('d-none').html(dataJson['error']);
                             }
+                        } else {
+                            total += 24200;
+                            $('#total_items').html(Math.floor(total) + ' đ');
+                            $('#total_cart').html(Math.floor(total) + ' đ');
+                            $('#added_coupon').addClass('d-none');
+                            $('#giftcard').removeClass('is-valid');
+                            $('#giftcard').addClass('is-invalid');
+                            $('#wrong_code').removeClass('d-none').html("This code is not exited");
+                        }
 
-                        })
+                    })
                 }
             })
 

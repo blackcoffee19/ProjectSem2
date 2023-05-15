@@ -836,7 +836,7 @@ class TuongController extends Controller
             $new_session = [];
             for($i = 0; $i<count($session_cart);$i++){
                 if($i != $id){
-                    array_push($new_session,["id_product"=>$session_cart[$i]["id_product"],"amount"=>$session_cart[$i]["amount"],"per_price"=>$session_cart[$i]["per_price"],"name"=>$session_cart[$i]["name"],"max"=>$session_cart[$i]["max"],"image"=>$session_cart[$i]["image"]]);
+                    array_push($new_session,["id_product"=>$session_cart[$i]["id_product"],"amount"=>$session_cart[$i]["amount"],"per_price"=>$session_cart[$i]["per_price"],"name"=>$session_cart[$i]["name"],"max"=>$session_cart[$i]["max"],"image"=>$session_cart[$i]["image"],'sale'=>$session_cart[$i]['sale']]);
                 }
             };
             Session::put("cart",$new_session);

@@ -89,6 +89,7 @@
                             <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left:
                                     {{ number_format($product->quantity, 0, '', ' ') }} grams</button>
                             </div>
+                            @if (!Auth::check() || Auth::user()->admin == '0')
                             <form action="{{ route('post_products_details', [$product->id_product]) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
@@ -121,9 +122,8 @@
                                             <i class="bi bi-arrow-left-right"></i>
                                         </a>
                                         <a class="btn btn-light {{ Auth::check() ? 'addFav' : '' }}"
-                                            {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle='tooltip' data-bs-html='true' title='Wishlist' data-bs-idproduct=$product->id_product" }}>
-                                            <i
-                                                class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
+                                            {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle=tooltip data-bs-html=true title=Wishlist data-bs-idproduct=$product->id_product" }}>
+                                            <i class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
                                         </a>
                                         {{-- <a class="btn btn-light " href="#" data-bs-toggle="tooltip" data-bs-html="true"
                                               aria-label="Compare"><i class="bi bi-arrow-left-right"></i></a>
@@ -132,15 +132,15 @@
                                     </div>
                                 </div>
                             </form>
+                                
+                            @endif
                             <hr class="my-6">
                             <div>
                                 <table class="table table-borderless mb-0">
-
                                     <tbody>
                                         <tr>
                                             <td>Product Code:</td>
                                             <td>{{ $product->id_product }}</td>
-
                                         </tr>
                                         <tr>
                                             <td>Availability:</td>
@@ -180,12 +180,10 @@
                                     </a>
 
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#"><i
-                                                    class="bi bi-facebook me-2"></i>Facebook</a></li>
-                                        <li><a class="dropdown-item" href="#"><i
+                                        <li><a class="dropdown-item" id="share_fb"><i
+                                                    class="bi bi-facebook me-2" ></i>Facebook</a></li>
+                                        <li><a class="dropdown-item" id="share_tw"><i
                                                     class="bi bi-twitter me-2"></i>Twitter</a></li>
-                                        <li><a class="dropdown-item" href="#"><i
-                                                    class="bi bi-instagram me-2"></i>Instagram</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -469,8 +467,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="mb-10">
-                                                <div class="d-flex justify-content-between align-items-center mb-8">
+                                            <div class="mb-10" style="max-height: 600px; overflow-y: scroll; width: 100%;">
+                                                <div class="d-flex justify-content-between align-items-center mb-8" >
                                                     <div>
                                                         <h4>Reviews</h4>
                                                     </div>
@@ -516,7 +514,7 @@
                                                     </div>
                                                 @else
                                                     @foreach ($comments as $cmt)
-                                                        <div class="row border-bottom pb-6 mb-6">
+                                                        <div class="row border-bottom pb-6 mb-6 ps-4">
                                                             @if ($cmt->id_user && $cmt->User->avatar)
                                                                 <img src="{{ asset('images/avatar/' . $cmt->User->avatar) }}"
                                                                     class="rounded-circle avatar-lg col-2 p-0">

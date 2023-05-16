@@ -1181,6 +1181,8 @@
           }
         });
       });
+
+//Chat script
       $('#btn_close').click(function(){
           $('#chatbox').toggleClass('d-none');
       })
@@ -1194,10 +1196,10 @@
             url: window.location.origin+'/public/index.php/ajax/message/show',
             data: {'codegroup':$(this).data('groupcode'),'id_user':$(this).data('iduser')},
             success: function (data) {
-              let data_mess  = data.split(',');
+              let data_mess  = data.split('-/-');
               $('#messages').html(data_mess[0]);
               $('#usr_contact').html(data_mess[0]?data_mess[1]:'');
-              $('.list_mess').find('span').html(data_mess[2]);
+              
             }}
         )
       });
@@ -1225,10 +1227,9 @@
                   </div>
                 </div>`);
               }
-              $('.list_mess').find('span').html(mess_data[
-                  'unread_mess']);
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
             }
-            });
+          });
           message.val('');
         };
       });
@@ -1240,7 +1241,6 @@
     function split(val) {
         return val.split(/@\s*/);
     }
-
     function extractLast(term) {
         return split(term).pop();
     }
@@ -1259,20 +1259,20 @@
       source: function(request, response) {
           var results, term = request.term;
           var aData = $.map(availableTags, function(value, key) {
-              return {
-                  label: value.name,
-                  value: value.id
-              }
+            return {
+                label: value.name,
+                value: value.id
+            }
           });
           if (term.indexOf("@") >= 0) {
-              term = extractLast(request.term);
-              /* If they've typed anything after the "@": */
-              if (term.length > 0) {
-                  results = $.ui.autocomplete.filter(
-                      aData, term);
-              } else {
-                  results = ['Start typing...'];
-              }
+            term = extractLast(request.term);
+            /* If they've typed anything after the "@": */
+            if (term.length > 0) {
+                results = $.ui.autocomplete.filter(
+                    aData, term);
+            } else {
+                results = ['Start typing...'];
+            }
           }
           response(results);
       },
@@ -1298,28 +1298,32 @@
               let mess_data = jQuery.parseJSON(data);
               if (mess_data['link']) {
                   let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
-              <div class='row g-0'>
-                <div class='col-4'>
-                  <img src='${mess_data['image']}' class='img-fluid rounded-start' >
-                </div>
-              <div class='col-8'>
-                <div class='card-body'>
-                <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
-                <p class="card-text">View >> </p>
-              </div></div></div></a></div></div>`;
-                                    chatbox.append(share);
-                                };
-                                $('.list_mess').find('span').html(mess_data[
-                                    'unread_mess']);
-                            }
-                        });
-                        $("input[name=send_message]").val('');
-                        return false;
-        }
+                              <div class='row g-0'>
+                                <div class='col-4'>
+                                  <img src='${mess_data['image']}' class='img-fluid rounded-start' >
+                                </div>
+                              <div class='col-8'>
+                                <div class='card-body'>
+                                <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
+                                <p class="card-text">View >> </p>
+                              </div></div></div></a></div></div>`;
+                  chatbox.append(share);
+              };
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
+            }
+        });
+        $("input[name=send_message]").val('');
+        return false;
+      }
     })
+    $('.clear_chat').click(function(e){
+      e.preventDefault();
+      let code_gr = $('#messages').data('chat');
+      window.location.assign(window.location.origin+"/public/index.php/ajax/message/clear/"+code_gr);
+    })
+//SHARE PRODUCT  
     $("#share_fb").click(function(e){
       e.preventDefault();
-      // console.log(window.location.href);
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, "_blank")
     });
     $("#share_tw").click(function(e){

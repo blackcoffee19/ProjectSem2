@@ -75,6 +75,7 @@ Route::group(['prefix' => 'manager'], function () {
 });
 Route::get('/ajax/message/show', [TuongController::class, 'get_listmessage']);
 Route::post('/ajax-post/message', [TuongController::class, 'postajax_message']);
+Route::get('/ajax/message/clear/{code}',[TuongController::class ,'clear_grchat']);
 //Login Google
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);

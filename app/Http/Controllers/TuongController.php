@@ -1573,7 +1573,7 @@ class TuongController extends Controller
             'name'=> $user->name,
             'unread_mess' => $unread_mess
         ];
-        echo implode(',',$data);
+        echo implode('-/-',$data);
     }
     public function postajax_message(Request $req){
         $new_message = new Message();
@@ -1634,6 +1634,14 @@ class TuongController extends Controller
         }
         $new_message->unread_mess = $unread_mess;
         echo $new_message;
+    }
+    public function clear_grchat($code){
+        $group = Groupmessage::where('code_group','=',$code)->first();
+        foreach($group->Message as $mess){
+            $mess->delete();
+        }
+        $group->delete();
+        return redirect()->back();
     }
     public function remove_allnews(){
         if(Auth::check() && Auth::user()->admin == '0'){

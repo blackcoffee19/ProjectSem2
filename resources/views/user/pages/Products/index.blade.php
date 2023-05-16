@@ -79,7 +79,7 @@
                                     <div>
                                         <!-- select option -->
                                         <select class="form-select" id="sort" onchange="sortProductsByPrice()">
-                                            <option value="">Sort by: Featured</option>
+                                            <option value="all">Sort by: Featured</option>
                                             <option value="desc">Price: Low to High</option>
                                             <option value="asc">Price: High to Low</option>
                                         </select>
@@ -194,7 +194,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        {{-- {{$prods->links('pagination::bootstrap-5') }} --}}
+                        {{ $prods->links('user.pagination.cus_pagination') }}
                     </section>
                     {{-- end main --}}
 

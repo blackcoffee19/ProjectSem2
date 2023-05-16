@@ -793,7 +793,7 @@
                         <input type="password" class="form-control" name="password" id="modal_password"
                             placeholder="Enter Password" required="">
                     </div>
-                    <div> Forgot password? <a href="../pages/forgot-password.html">Reset It</a></div>
+                    <div> Forgot password? <a href="{{route('send_ressetmail')}}">Reset It</a></div>
                     <button type="submit" class="btn btn-primary" id="modal_signin" style="width: 100px" disabled>Sign In</button>
                 </form>
             </div>
@@ -909,9 +909,6 @@
     </div>
     <div class="offcanvas-body">
         <div>
-            <div class="alert alert-danger p-2" role="alert">
-                You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
-            </div>
             <ul class="list-group list-group-flush" id="listCartmodal">
             </ul>
             <div class="d-flex justify-content-between mt-4">

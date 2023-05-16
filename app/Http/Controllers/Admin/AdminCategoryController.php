@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TypeProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AdminCategoryController extends Controller
@@ -98,7 +99,16 @@ class AdminCategoryController extends Controller
 
     public function delete($id_type)
     {
-        TypeProduct::find($id_type)->delete();
-        return redirect()->route('adminCategories');
+        {
+            $products = Product::where('id_type', $id_type)->get();
+    
+            if ($products->count() > 0) {
+                // Trả về thông báo lỗi hoặc chuyển hướng người dùng trở lại trang trước đó.
+                return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có sản phẩm thuộc loại này.');
+            }
+    
+            TypeProduct::find($id_type)->delete();
+            return redirect()->route('adminCategories');
+        }
     }
 }

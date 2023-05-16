@@ -18,6 +18,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Address;
+use App\Models\ResetPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +27,7 @@ use App\Mail\OrderShipped;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use App\Mail\VerificationEmail;
+use App\Mail\ResetPasswordMail;
 class TuongController extends Controller
 {
     public function home_page(){
@@ -182,10 +184,13 @@ class TuongController extends Controller
                 }
                 Session::forget("cart");
             };
-            return redirect('/');
+            return redirect('/signup/confirm')->with('success_signup','Congratulation! You signed up successfully');
         }else{
             return redirect()->back()->with('error','Sign up failue. Try again');
         }
+    }
+    public function get_signupconfirm(){
+        return view('user/pages/Signup/success');
     }
     public function send_verifyEmail(){
         $user = User::find(Auth::user()->id_user);
@@ -341,13 +346,13 @@ class TuongController extends Controller
         $ward = $req['ward'];
         $service_id = intval($req['service_id']);
         $district = intval($req['district']);
-        $total_weight = 0;
-        if(Auth::check()){
+        $total_weight = isset($req['weight']) ? intval($req['weight']): 0;
+        if(Auth::check() && $total_weight ==0){
             $carts = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
             foreach($carts as $cart){
                 $total_weight+=$cart->amount;
             }
-        }else{
+        }else if($total_weight ==0){
             $carts = Session::get('cart');
             foreach($carts as $cart){
                 $total_weight+=$cart['amount'];
@@ -380,6 +385,7 @@ class TuongController extends Controller
     public function ghtk_servicefee(Request $req){
         $province = $req['province'];
         $district = $req['district'];
+        $method = $req['method'];
         $total_weight = 0;
         $subtotal=0;
         if(Auth::check()){
@@ -421,7 +427,9 @@ class TuongController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        array_push($arr_deliver,$response);
+        if($method == 'fly' || !$method){
+            array_push($arr_deliver,$response);
+        }
 
         $data2 = array(
             "pick_province" => "Hồ Chí Minh",
@@ -446,7 +454,9 @@ class TuongController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        array_push($arr_deliver,$response);
+        if($method == 'road'||!$method){
+            array_push($arr_deliver,$response);
+        };
 
         $data3 = array(
             "pick_province" => "Hồ Chí Minh",
@@ -456,7 +466,7 @@ class TuongController extends Controller
             "district" => $district,
             "weight" => $total_weight,
             "value" => $subtotal,
-            "transport" => "road",
+            "transport" => "fly",
             "deliver_option" => "xteam",
             "tags"=>[7]
         );
@@ -471,8 +481,9 @@ class TuongController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        array_push($arr_deliver,$response);
-        
+        if($method == 'xteam' || !$method){
+            array_push($arr_deliver,$response);
+        };
         echo json_encode($arr_deliver);
         // dd($data,$response);
     }
@@ -833,7 +844,6 @@ class TuongController extends Controller
         return redirect()->back();
     }
     public function clearCart(){
-        $html_list="";
         if(Auth::check()){
             $current_cart =  Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
             foreach($current_cart as $cart){
@@ -843,8 +853,6 @@ class TuongController extends Controller
             Session::forget("cart");
         }
         return redirect()->back();
-        // $html_list .= "<li class='list-group-item py-3 ps-0 border-top border-bottom'><div class='text-black-50 text-center'>Cart is emty</div></li>";
-        // echo $html_list;
     }
     public function cartadd_quan(Request $req, $id){
         $req->validate([
@@ -1108,7 +1116,6 @@ class TuongController extends Controller
                 $order->total = $sum;
             }
         }
-        // dd($orders);
         return view('user.pages.About.order',compact('orders'));
     }
     public function ajax_getOrder($id){
@@ -1118,14 +1125,23 @@ class TuongController extends Controller
         }else{
             $order->name_coupon = "NO COUPON";
         }
+        $weight = 0;
+        foreach($order->Cart as $cart){
+            $weight +=$cart->amount;
+        }
+        $order->weight = $weight;
         echo $order;
     }
     public function post_urseditorder(Request $req){
         $order = Order::find($req['id_orderedit']);
         $order->receiver = $req['edit_cusname'];
-        $order->address = $req['edit_cusaddr'];
+        if(isset($req['edit_ward']) && $req['edit_ward']!=''){
+            $order->address = $req['edit_cusaddr'].", ".$req['edit_ward'].", ".$req['edit_district'].", ".$req['edit_province'];
+        }
         $order->phone = $req['edit_cusphone'];
         $order->email = $req['edit_email'];
+        $order->shipping_fee = $req['new_servicefee'] ? intval($req['new_servicefee']): $order->shipping_fee;
+        $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
         $new = new News();
         $new->order_code =$order->order_code;
@@ -1645,5 +1661,65 @@ class TuongController extends Controller
         }else{
             echo '';
         };
+    }
+    public function get_forgotpass(){
+        $site = "send";
+        return view('user.pages.Signup.reset_password',compact('site'));
+    }
+    public function send_ressetmail(Request $req){
+        $req->validate([
+            "email_resset"=>"required|email",
+        ],[
+            "email_resset.required" =>"Email is required",
+            "email_resset.email" =>"Email is invalid",
+        ]);
+        $email = $req['email_resset'];
+        $user = User::where('email','=',$email)->first();
+
+        if(!$user){
+            return redirect()->back()->with('reset_error','Email hasn\'t signed up in Freshshop');
+        }
+        if(ResetPassword::find($email)){
+            $token_reset = ResetPassword::find($email);
+            $token_reset->updated_at =Carbon::now()->format('Y-m-d H:i:s');
+        }else{
+            $token_reset = new ResetPassword();
+            $token_reset->email = $email;
+            $token_reset->created_at = Carbon::now()->format('Y-m-d H:i:s');
+        }
+        $token_reset->token = Str::random(32);
+        $token_reset->save();
+        $mailData = [
+            'title' => 'Reset Password',
+            'url' => route('reset_password',$token_reset->token)
+        ];
+        try {
+            Mail::to($email)->send(new ResetPasswordMail($mailData));
+        } catch (\Throwable $th) {
+            dd($th);
+            return redirect()->back()->with('reset_error','Send mail to reset password unsuccessfully');
+        }
+        return redirect()->back()->with(['success'=>'Check your email to reset your password','email'=>$email]);
+    }
+    public function reset_newpassword($token = null){
+        if($token == null) {
+    		return redirect('/forgot_password')->with('reset_error', 'Something wrong! Try again');
+        }
+        $find_email = ResetPassword::where('token',$token)->first();
+        $email = $find_email->email;
+        if(!$find_email){
+            return redirect('/forgot_password')->with('verified_error', 'Invalid Login attempt');
+        }
+        $site = 'create';
+        return view('user.pages.Signup.reset_password',compact('site','email'));
+    }
+    public function create_newpassword(Request $req){
+        $user = User::where('email','=',$req['account_email'])->first();
+        $user->password = bcrypt($req['new_password']);
+        $user->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+        $user->save();
+        $find_email = ResetPassword::find($req['account_email'])->first();
+        $find_email->delete();
+        return redirect('/signin')->with('message_reset','Reset Password successfully. Now you can signin');
     }
 }

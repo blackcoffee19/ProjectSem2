@@ -119,14 +119,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <hr class="my-10">
-                            <div>
-                                <h5 class="mb-4">Delete Account</h5>
-                                <p class="mb-2">Would you like to delete your account?</p>
-                                <p class="mb-5">This account contain 12 orders, Deleting your account will remove all the
-                                    order details associated with it.</p>
-                                <a href="#" class="btn btn-outline-danger">I want to delete my account</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -295,7 +288,7 @@
             });
             $('#new_email').change(function() {
                 if (valiEmail.test($(this).val().trim())) {
-                    $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val().trim(), function(data){
+                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val().trim(), function(data){
                         if(data == "existed"){
                             $('#new_email').addClass('is-invalid');
                             $('#invalidEmail').text('This email has signed.');
@@ -322,7 +315,7 @@
                 }
             });
             $("#send_verified").click(function(){
-                $.get(window.location.origin + "/public/index.php/verify-send",function(data){
+                $.get(window.location.origin + "/ProjectSem2/public/verify-send",function(data){
                     if(data == "Mail has been sending please check your email to verified the account"){
                         $('#unverifyEmail').removeClass('text-danger');
                         $('#unverifyEmail').addClass('text-success');

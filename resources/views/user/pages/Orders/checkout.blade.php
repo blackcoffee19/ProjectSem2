@@ -396,7 +396,6 @@
               let addr = $('input[name="select_address"]:checked').parent().next().next();
               $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
-                // console.log(dataJson);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
                   let totall = parseInt($("#total").data('subtotal'))+deliver_method['fee']['fee'];
@@ -453,7 +452,7 @@
                       $('#delivery_method').change(function(){
                         if(parseInt($('#delivery_method option:selected').val()) <10){
                           $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
-                          $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+                          $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data3){
                               let dataJson2 = jQuery.parseJSON(data3);
                               let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                               if(deliver_method2['fee']['delivery']){

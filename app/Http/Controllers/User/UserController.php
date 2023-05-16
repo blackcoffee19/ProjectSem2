@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $prods = Product::all();
+        $prods = Product::paginate(12);
         $rate = Comment::all();
         $cats = TypeProduct::all();
         return view('user.pages.Products.index', compact('prods', 'rate', 'cats'));
@@ -26,45 +26,49 @@ class UserController extends Controller
     public function findByNamePro(Request $request)
     {
         $name = $request->name;
-        $prods = Product::where('name', 'like', '%' . $name . '%')->get();
+        $prods = Product::where('name', 'like', '%' . $name . '%')->paginate(12);
 
         $cats = TypeProduct::all();
         return view('user.pages.Products.index', compact('prods', 'name', 'cats'));
     }
 
     public function categoryById()
-    {
-        $prods = Product::whereIn('id_type', request('category'))->get();
-        $rate = Comment::all(); 
-        $type = TypeProduct::whereIn('id_type', request('category'))->get();
-        $cats = TypeProduct::all();
-        
-        return view('user.pages.Products.index', compact('type', 'prods', 'rate', 'cats'));
-    }
+{
+    $category = request('category');
+   
+    $prods = Product::whereIn('id_type', $category)->paginate(12);
+    $rate = Comment::all(); 
+    $type = TypeProduct::whereIn('id_type', $category)->get();
+    $cats = TypeProduct::all();
+    
+    $prods->appends(['category' => $category]); // Gắn thêm thông tin về category vào đối tượng phân trang
+    
+    return view('user.pages.Products.index', compact('type', 'prods', 'rate', 'cats'));
+}
 
-    public function searchPrice(Request $request)
-    {
-        $form = $request->form;
-        $to = $request->to;
-        $type = (array)$request->type;
-        $cats = TypeProduct::all();
-        
-       
-        $allProds = Product::whereIn('id_type', $type)->get(); 
-        
+public function searchPrice(Request $request)
+{
+    $form = $request->form;
+    $to = $request->to;
+    $type = (array)$request->type;
+    $cats = TypeProduct::all();
 
-        $prods = $allProds->filter(function ($product) use ($form, $to) {
-            if ($product->sale > 0) {
-                $price = $product->price * (1 - $product->sale / 100);
-            } else {
-                $price = $product->price;
-            }
+    $prods = Product::whereIn('id_type', $type)
+    ->where(function ($query) use ($form, $to) {
+        $query->where('sale', '>', 0)
+            ->whereRaw('price * (1 - sale / 100) >= ?', [$form])
+            ->whereRaw('price * (1 - sale / 100) <= ?', [$to]);
+    })
+    ->orWhere(function ($query) use ($form, $to) {
+        $query->where('sale', 0)
+            ->whereBetween('price', [$form, $to]);
+    })
+    ->paginate(12);
 
-            return $price >= $form && $price <= $to;
-        });
+$prods->appends(['form' => $form, 'to' => $to, 'type' => $type]); // Gắn thêm thông tin tìm kiếm vào đối tượng phân trang
 
-        return view('user.pages.Products.index', compact('prods', 'cats'));
-    }
+return view('user.pages.Products.index', compact('prods', 'cats'));
+}
 
     public function sendMail(Request $request)
     {

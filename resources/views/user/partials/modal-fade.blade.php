@@ -181,7 +181,7 @@
       <div class="toast-body" style="height: 150px; padding:30px 20px">
         <div class="row">
           <div class="col-2 mb-3 mx-auto">
-            <i class="bi bi-box2-heart"  style="color: #2ec27e; font-size: 2.3rem"></i>
+            <img src="{{asset('images/svg-graphics/order_delivered.svg')}}" height="70" alt="">
           </div>
           <h5 class="text-center text-capitalize" style="font-family: 'Quicksand', sans-serif;" id="order_message">Order successully!</h5>
         </div>
@@ -204,52 +204,108 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
     <div class="modal-content" style="overflow: scroll">
       <div class="modal-header">
-        <h1 class="modal-title fs-5">Edit Order</h1>
+        <h1 class="modal-title fs-5">Edit Delivery</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{route('user_editorder')}}" method="post">
+      <form action="{{route('user_editorder')}}" id="edit_order" method="post">
           @csrf
           <div class="modal-body">
               <div class="row">
                   <div class="col-12 row mt-3">
-                      <input type="hidden" name="id_orderedit" id="id_orderedit">
-                      <div class="mb-3 row">
-                          <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusname">Reciver Name</label>
-                          <div class="col-lg-8 col-md-9">
-                              <input type="text" name="edit_cusname" id="edit_cusname" class="form-control" required>
-                          </div>
+                    <input type="hidden" name="id_orderedit" id="id_orderedit">
+                    <div class="mb-3 row">
+                        <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusname">Reciver Name</label>
+                        <div class="col-lg-8 col-md-9">
+                            <input type="text" name="edit_cusname" id="edit_cusname" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label class=" col-lg-4 col-md-3 col-form-label" for="edit_province">Province</label>
+                      <div class="col-lg-8 col-md-9">
+                          <select name="edit_province" id="edit_province" class="form-select" required>
+                          </select>
                       </div>
-                      <div class="mb-3 row">
-                          <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusaddr">Address</label>
-                          <div class="col-lg-8 col-md-9">
-                              <input type="text" name="edit_cusaddr" id="edit_cusaddr" class="form-control" required>
-                          </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label class=" col-lg-4 col-md-3 col-form-label" for="edit_district">District</label>
+                      <div class="col-lg-8 col-md-9">
+                          <select name="edit_district" id="edit_district" class="form-select" required>
+                          </select>
                       </div>
-                      <div class="mb-3 row">
-                          <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusphone">Phone</label>
-                          <div class="col-lg-8 col-md-9">
-                              <input type="text" name="edit_cusphone" id="edit_cusphone" class="form-control" required>
-                          </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label class=" col-lg-4 col-md-3 col-form-label" for="edit_ward">Ward</label>
+                      <div class="col-lg-8 col-md-9">
+                          <select name="edit_ward" id="edit_ward" class="form-select" required>
+                          </select>
                       </div>
-                      <div class="mb-3 row">
-                          <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusemail">Email</label>
-                          <div class="col-lg-8 col-md-9">
-                              <input type="email" name="edit_email" id="edit_cusemail" class="form-control" required>
-                          </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusaddr">Address</label>
+                        <div class="col-lg-8 col-md-9">
+                            <input type="text" name="edit_cusaddr" id="edit_cusaddr" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-lg-4 col-md-3 col-form-label" for="edit_cusphone">Phone</label>
+                        <div class="col-lg-8 col-md-9">
+                            <input type="text" name="edit_cusphone" id="edit_cusphone" class="form-control" required>
+                            <span id="edit_valiPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class=" col-lg-4 col-md-3 col-form-label" for="edit_cusemail">Email</label>
+                        <div class="col-lg-8 col-md-9">
+                            <input type="email" name="edit_email" id="edit_cusemail" class="form-control" required>
+                            <span id="edit_valiEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <div class="col-lg-4 col-md-6">
+                        <label for="edit_coupon">Coupon
+                        <span id="name_coupon" class="ms-4"></span>
+                        </label>
                       </div>
-                      <div class="mb-3 row">
-                          <label for="edit_coupon" class="col-form-label col-lg-4 col-md-3">Coupon</label>
-                          <div class="col-lg-8 col-md-9">
-                              <p id="name_coupon"></p>
-                              <input type="text" class="form-control" name="edit_coupon" id="edit_coupon" disabled >
-                          </div>
+                      <div class="col-lg-4 col-md-6">
+                          <input type="text" class="form-control" name="edit_coupon" id="edit_coupon" disabled >
                       </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="edit_payment" class="col-lg-4 col-md-6">Payment Method</label>
+                      <div  class="col-lg-4 col-md-6">
+                        <input type="text" class="form-control" name="edit_payment" id="edit_payment" disabled>
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <div class="col-12 my-2">
+                        <p>Delivery Method: <span class="text-dark fs-5" id="deli_method"></span>
+                        <br><span class="text-danger">You can not change delivery method but service fee could be change if you changed Address</span>
+                        </p>
+                      </div>
+                      <label class="col-form-label col-lg-4 col-md-3">Service fee</label>
+                      <div class="col-lg-3 col-md-4">
+                        <div class=" input-group">
+                          <input type="text" class="form-control" name="edit_servicefee" id="edit_servicefee" disabled >
+                          <label class="input-group-text" for="edit_servicefee" >đ</label>
+                        </div>
+                      </div>
+                      <div class="col-1 d-none">
+                          <i class="bi bi-forward fs-3"></i>
+                      </div>
+                      <div class="col-lg-3 col-md-4 d-none">
+                        <div class=" input-group">
+                          <input type="text" class="form-control text-danger fw-bold" name="new_servicefee" id="new_servicefee" readonly >
+                          <label class="input-group-text" for="new_servicefee" >đ</label>
+                        </div>
+                      </div>
+                      <span class="text-danger" id="error_delivery"></span>
+                    </div>
                   </div>
               </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" id="submit_order" class="btn btn-primary" disabled>Change</button>
+              <button type="button" id="close_editorder"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" id="submit_editorder" class="btn btn-primary" disabled>Save Change</button>
           </div>
       </form>
     </div>

@@ -53,6 +53,11 @@
                         <!-- card body -->
                         <div class="card-body p-0">
                             <!-- table -->
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                             <div class="table-responsive ">
                                 <table
                                     class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">

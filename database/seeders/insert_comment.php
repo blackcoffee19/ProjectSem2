@@ -207,8 +207,10 @@ class insert_comment extends Seeder
             ["id_product"=>7,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/01/2023 00:00:00')],
             ["id_product"=>15,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>2,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','08/01/2023 00:00:00')],
             //USR5_21
-            ["id_product"=>5,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/01/2023 00:00:00')],
+            ["id_product"=>5,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>2,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/01/2023 00:00:00')],
             ["id_product"=>17,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>3,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/01/2023 00:00:00')],
+            ["id_product"=>25,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>1,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/01/2023 00:00:00')],
+            ["id_product"=>28,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/01/2023 00:00:00')],
             //USR5_22
             ["id_product"=>18,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/02/2023 00:00:00')],
             ["id_product"=>19,'id_user'=>5,'verified'=>true,'context'=>"Delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','10/02/2023 00:00:00')],
@@ -281,6 +283,8 @@ class insert_comment extends Seeder
             //USR6_19
             ["id_product"=>13,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>1,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
             ["id_product"=>23,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>2,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
+            ["id_product"=>22,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
+            ["id_product"=>24,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','15/02/2023 00:00:00')],
             //USR6_21
             ["id_product"=>17,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>4,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/03/2023 00:00:00')],
             ["id_product"=>5,'id_user'=>6,'verified'=>true,'context'=>"Delicious",'rating'=>2,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/03/2023 00:00:00')],
@@ -364,6 +368,8 @@ class insert_comment extends Seeder
             ["id_product"=>24,'phone'=>'0132232423','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','14/01/2023 00:00:00')],
             //GUT_32
             ["id_product"=>27,'phone'=>'01813157869','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/01/2023 00:00:00')],
+            ["id_product"=>24,'phone'=>'01813157869','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/01/2023 00:00:00')],
+            ["id_product"=>29,'phone'=>'01813157869','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','28/01/2023 00:00:00')],
             //GUT_35
             ["id_product"=>6,'phone'=>'013223242333','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/02/2023 00:00:00')],
             ["id_product"=>8,'phone'=>'013223242333','name'=>'Guest','verified'=>true,'rating'=>5,'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s','21/02/2023 00:00:00')],

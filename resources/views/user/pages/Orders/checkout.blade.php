@@ -53,7 +53,6 @@
                                     <div class="card card-body p-6 " style="height: 240px">
                                       <div class="form-check mb-4">
                                         <input class="form-check-input" type="radio" name="select_address" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
-                                        <input class="form-check-input" type="radio" name="select_address" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
                                         <label class="form-check-label text-dark" >
                                           Reciver : {{$add->receiver}}
                                         </label>

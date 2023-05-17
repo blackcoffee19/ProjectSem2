@@ -53,6 +53,7 @@
                                     <div class="card card-body p-6 " style="height: 240px">
                                       <div class="form-check mb-4">
                                         <input class="form-check-input" type="radio" name="select_address" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
+                                        <input class="form-check-input" type="radio" name="select_address" data-address="{{$add->id_address}}" {{$add->default ? "checked":''}} value="{{$add->id_address}}">
                                         <label class="form-check-label text-dark" >
                                           Reciver : {{$add->receiver}}
                                         </label>
@@ -390,11 +391,11 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(this).data('idadd'));
+                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(this).data('idadd'));
             });
             @if(Auth::check())
               let addr = $('input[name="select_address"]:checked').parent().next().next();
-              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -514,7 +515,7 @@
             @endif
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
-              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -562,7 +563,7 @@
             });
             $("#paypal_btn").click(function(){
               @if(Auth::check())
-                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                $.get(window.location.origin+"/ProjectSem2/public/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
                   let dataAddress = jQuery.parseJSON(data);
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);

@@ -75,6 +75,9 @@ class TuongController extends Controller
         $newAdd->district_id = intval($req['district_id']);
         $newAdd->ward_id = intval($req['ward_id']);
         $newAdd->province_id = intval($req['province_id']);
+        $newAdd->district_id = intval($req['district_id']);
+        $newAdd->ward_id = intval($req['ward_id']);
+        $newAdd->province_id = intval($req['province_id']);
         if(isset($req['saveAddress'])){
             $defautlAddress = Address::where('id_user','=',Auth::user()->id_user)->where('default','=',true)->first();
             if($defautlAddress){

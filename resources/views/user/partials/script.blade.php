@@ -21,6 +21,7 @@
               $(".btn_minus").mouseup(function(e){
                 e.preventDefault();
                 clearInterval(idInterval1);
+                clearInterval(idInterval2);
               })
               $('.btn_plus').mousedown(function(e){
                   e.preventDefault();
@@ -36,6 +37,7 @@
               });
               $('.btn_plus').mouseup(function(e){
                 e.preventDefault();
+                clearInterval(idInterval1);
                 clearInterval(idInterval2);
               });
               $('input[name=quan]').on('focusout',function(e){

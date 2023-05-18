@@ -22,7 +22,7 @@ class insert_user extends Seeder
             ['name' => 'User 3', 'email' => 'guest3@gmail.com',"email_verified"=>true,'avatar' => 'avatar-3.jpg', 'phone' => '0120000003', 'password' => Hash::make(123456), 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '31/01/2022 00:00:00')],
             ['name' => 'User 4', 'email' => 'guest4@gmail.com',"email_verified"=>true,'avatar' => 'avatar-4.jpg', 'phone' => '0120000004', 'password' => Hash::make(123456), 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '01/02/2022 00:00:00')],
             ['name' => 'User 5', 'email' => 'guest5@gmail.com',"email_verified"=>true,'avatar' => 'avatar-5.jpg', 'phone' => '0120000005', 'password' => Hash::make(123456), 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '01/03/2022 00:00:00')],
-            ['name' => 'Cat Tuong', 'email' => 'cattuongw2000@gmail.com',"email_verified"=>true, 'avatar' => 'user_0_meme-2.jpg', 'phone' => '0919941037', 'password' => Hash::make(123456), 'admin' => '1', 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '23/11/2022 00:00:00')],
+            ['name' => 'Cat Tuong', 'email' => 'cattuongw2000@gmail.com',"email_verified"=>false, 'avatar' => 'user_0_meme-2.jpg', 'phone' => '0919941037', 'password' => Hash::make(123456), 'admin' => '1', 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '23/11/2022 00:00:00')],
             ['name' => 'host', 'email' => 'host@gmail.com',"email_verified"=>true, 'password' => Hash::make(123456), 'admin' => '2', 'created_at' => Carbon::createFromFormat('d/m/Y H:i:s', '23/01/2022 00:00:00')]
         ];
         try {

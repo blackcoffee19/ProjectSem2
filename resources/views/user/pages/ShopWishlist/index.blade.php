@@ -74,7 +74,7 @@
                                     <tfoot>
                                       <tr>
                                         <td colspan="5">
-                                          <input type="submit" class="btn btn-outline-danger" name="removeFav" value="Remove Selected Pets">
+                                          <input type="submit" class="btn btn-outline-danger" name="removeFav" value="Remove All Selected">
                                         </td>
                                         <td colspan="1">
                                           <input type="submit" class="btn btn-primary" name="addToCart" value="Buy now" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Caution: You need select which Pet you want before go to order side ">

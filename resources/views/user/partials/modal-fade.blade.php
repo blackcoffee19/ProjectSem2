@@ -36,7 +36,7 @@
                   Left: <span id="quantityModal"></span>grams
                 </button> 
               </div>
-              <form action="{{route('products-details')}}" method="post" class="row">
+              <form action="{{route('post_products_details')}}" method="post" class="row">
                 @csrf
                 <input type="hidden" name="id_pro">
                 <input type="hidden" name="max_quan" >
@@ -166,10 +166,10 @@
 </div>
 <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastFeedback" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='1500'>
-      <div class="toast-body" style=" padding:10px">
+      <div class="toast-body" style=" height: 200px; padding:30px 20px">
         <div class="row">
-          <div class="col-2 mb-2 mx-auto">
-            <i class="fa-regular fa-ballot-check" style="color: #2ec27e; font-size: 2.3rem"></i>
+          <div class="mb-3 col-6 mx-auto">
+            <img src="{{asset('images/svg-graphics/for_review.svg')}}" height="100" alt="">
           </div>
           <h4 class="text-center text-uppercase" style="font-family: 'Quicksand', sans-serif;">{{Session::has('feedback_mess')?Session::get('feedback_mess'):''}}</h4>
         </div>
@@ -178,10 +178,10 @@
 </div>
 <div class="toast-container position-fixed h-100 p-3 top-100 start-50 translate-middle">
   <div role="alert"  id="toastOrder" style="box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="true" data-bs-delay='2500'>
-      <div class="toast-body" style="height: 150px; padding:30px 20px">
+      <div class="toast-body" style="height: 200px; padding:30px 20px">
         <div class="row">
-          <div class="col-2 mb-3 mx-auto">
-            <img src="{{asset('images/svg-graphics/order_delivered.svg')}}" height="70" alt="">
+          <div class="mb-3 col-6 mx-auto">
+            <img src="{{asset('images/svg-graphics/order_delivered.svg')}}" height="100" alt="">
           </div>
           <h5 class="text-center text-capitalize" style="font-family: 'Quicksand', sans-serif;" id="order_message">Order successully!</h5>
         </div>
@@ -508,6 +508,7 @@
             <p>Email: <span id="email_order2"></span></p>
             <p>Instruction: <small id="instruction2"></small></p>
             <p>Payment Method: <span id="payment_method2"></span></p>
+            <p>Delivery Method: <span id="delivery_method2"></span></p>
             <p>Coupon: <span id="coupon_title2"></span></p>
             <input type="hidden" name="id_notificate">
             <p class="col-form-label col-4">Status: <span id="status_order2" class="fs-5 fw-bold"></span></p>
@@ -667,6 +668,7 @@
             <div class="col-5 mx-auto">
               <p>Instruction: {{$check_orders[$i]->instruction}}</p>
               <p>Payment Method: {{$check_orders[$i]->method}}</p>
+              <p>Delivery Method: {{$check_orders[$i]->delivery_method}}</p>
               <h4>Status: <span class="text-danger fs-4">{{$check_orders[$i]->status}}</span></h4>
             </div>
           </div>

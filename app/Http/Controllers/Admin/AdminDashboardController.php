@@ -60,18 +60,14 @@ class AdminDashboardController extends Controller
             count(Order::where('status','=','transaction failed')->get()),
             count(Order::where('status','=','unconfirmed')->orWhere('status','=','delivery')->get()),
         ];
-        $hot_product = DB::table('cart')->select(array('id_product',DB::raw('COUNT(*) AS number')))->join('order', function ($join) {
-            $join->on('order.order_code', '=', 'cart.order_code')
-                 ->whereIn('order.status', ['finished','delivery']);
-        })
-        ->whereYear('cart.created_at', 2023)->groupBy('cart.id_product')->orderBy('number','desc')->limit(5)->get();
+        $order_currentYear = Order::select('order_code')->whereYear('updated_at',intval(date('Y')))->where('status','=','finished')->get()->toArray();
+        $hot_product = Cart::select('id_product',DB::raw('COUNT(*) AS number'))->whereIn('order_code',$order_currentYear)->groupBy('cart.id_product')->orderBy('number','desc')->limit(5)->get();
         foreach($hot_product as $x){
             $product_x = Product::find($x->id_product);
             $x->name_product = $product_x->name;
             $x->image = count($product_x->Library)>0?"<img src='images/products/".$product_x->Library[0]->image."'/>":"<img src='images/category/".$product_x->TypeProduct->image."'>";
             $x->route = route('products-details', $x->id_product);
         };
-        // dd($hot_product);
         return view('admin.Dashboard',compact('recent_orders','income','expense','order_y','sale_pro','users','customer','year','arr_order','hot_product'));
     }
     public function get_orderdetail($code){

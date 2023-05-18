@@ -164,6 +164,14 @@ class AdminProductController extends Controller
 
     public function delete($id_product)
     {
+        if (Cart::where('id_product', $id_product)->exists() && 
+            Order::where('id_user', Cart::where('id_product', $id_product)->value('id_user'))
+                ->where('status', '<>', 'finished')
+                ->exists()
+            ) {
+                return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có sản phẩm thuộc loại này và order chưa hoàn thành.');
+            }
+
         if(count(Cart::where('order_code','<>',null)->where('id_product','=',$id_product)->get())>0){
             $product = Product::findOrFail($id_product);
             $product->status = false;

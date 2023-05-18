@@ -135,10 +135,12 @@
             if ($('#warning_setting').hasClass('show')) {
                 $('#warning_setting').removeClass('show');
             }
+            @if(Auth::user()->admin == '0')
             if ($('#new_phone').val().length == 0) {
                 $('#new_phone').addClass('is-invalid');
                 $('#invalidPhone').html('Please Add your numberphone for your accout');
             }
+            @endif
             let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
             let valiEmail = /^[a-zA-Z0-9]{4,}@gmail\.com$/;
             let valiPhone = /^[0-9]{9,11}$/;
@@ -166,7 +168,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: window.location.origin +
-                            '/ProjectSem2/public/account/ajax/check-password',
+                            '/public/index.php/account/ajax/check-password',
                         data: {
                             'current_password': $(this).val()
                         },
@@ -288,7 +290,7 @@
             });
             $('#new_email').change(function() {
                 if (valiEmail.test($(this).val().trim())) {
-                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val().trim(), function(data){
+                    $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val().trim(), function(data){
                         if(data == "existed"){
                             $('#new_email').addClass('is-invalid');
                             $('#invalidEmail').text('This email has signed.');
@@ -315,7 +317,7 @@
                 }
             });
             $("#send_verified").click(function(){
-                $.get(window.location.origin + "/ProjectSem2/public/verify-send",function(data){
+                $.get(window.location.origin + "/public/index.php/verify-send",function(data){
                     if(data == "Mail has been sending please check your email to verified the account"){
                         $('#unverifyEmail').removeClass('text-danger');
                         $('#unverifyEmail').addClass('text-success');

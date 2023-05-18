@@ -1,28 +1,42 @@
 <script>
     $(document).ready(function(){
+//#offcanvasRight List item in Cart
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
-          $.get(window.location.origin+"/ProjectSem2/public/ajax/cart/listcart",function(data){
+          $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
               $('#listCartmodal').html(data);
               $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
-              $('.btn_minus').click(function(e){
+              let idInterval1,idInterval2;
+              $('.btn_minus').mousedown(function(e){
                   e.preventDefault();
                   let current = parseInt($(this).next().val());
-                  if(current >1){
-                    current--;
-                    $(this).next().val(current);
-                  }
-                  $(this).parent().next().removeClass('d-none');
+                  idInterval1 = setInterval(() => {
+                    if(current >1){
+                      current--;
+                      $(this).next().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');  
+                  }, 100);
               });
-              $('.btn_plus').click(function(e){
+              $(".btn_minus").mouseup(function(e){
+                e.preventDefault();
+                clearInterval(idInterval1);
+              })
+              $('.btn_plus').mousedown(function(e){
                   e.preventDefault();
                   let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
                   let current = parseInt($(this).prev().val());
-                  if(max>current){
-                    current++;
-                    $(this).prev().val(current);
-                  }
-                  $(this).parent().next().removeClass('d-none');
+                  idInterval2 = setInterval(()=> {
+                    if(max>current){
+                      current++;
+                      $(this).prev().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');
+                  },100);
+              });
+              $('.btn_plus').mouseup(function(e){
+                e.preventDefault();
+                clearInterval(idInterval2);
               });
               $('input[name=quan]').on('focusout',function(e){
                 e.preventDefault();
@@ -38,6 +52,7 @@
           })
       });
       @endif
+//
       @if(Session::has('verified'))
         let toastverify = new bootstrap.Toast($('#toastVerified'))
         toastverify.show();
@@ -57,7 +72,7 @@
           $(this).val(validateNum.test(currentVl)?currentVl:value);
       }
       $('.btn_modal').click(function(){
-          $.get(window.location.origin+"/ProjectSem2/public/ajax/modal/show-product/"+$(this).data('product'),function(data){
+          $.get(window.location.origin+"/public/index.php/ajax/modal/show-product/"+$(this).data('product'),function(data){
             let dataProduct = jQuery.parseJSON(data);
             let listImage = "";
             let slider_product = "";
@@ -118,7 +133,7 @@
               if($('#btn-compare').hasClass('d-none')){
                 $('#btn-compare').removeClass('d-none');
               }
-              $.get(window.location.origin+"/ProjectSem2/public/ajax/add-compare/"+dataProduct['id_product'],function(data){
+              $.get(window.location.origin+"/public/index.php/ajax/add-compare/"+dataProduct['id_product'],function(data){
                 $('#messCompare').html(data);  
               })
               const toast = new bootstrap.Toast($('#toastCompare'))
@@ -130,20 +145,20 @@
         if($('#btn-compare').hasClass('d-none')){
           $('#btn-compare').removeClass('d-none');
         }
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
+        $.get(window.location.origin+"/public/index.php/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
           $('#messCompare').html(data);  
         })
         const toast = new bootstrap.Toast($('#toastCompare'))
         toast.show();
       });
       $('#show_compare').click(function(){
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/compare/showcompare",function(data){
+        $.get(window.location.origin+"/public/index.php/ajax/compare/showcompare",function(data){
           $('#compare_detail').html(data);  
         })
       });
       $('.addFav').click(function(){
           $(this).children().toggleClass('bi-heart').toggleClass('bi-heart-fill text-danger');
-        $.get(window.location.origin+'/ProjectSem2/public/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
+        $.get(window.location.origin+'/public/index.php/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
           $('.countFav').html(data);
         })
       });
@@ -159,33 +174,47 @@
         let toastorder = new bootstrap.Toast($('#toastWarning'))
         toastorder.show();
         @endif
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/add-cart/"+$(this).data('bsId'),function(data){
+        $.get(window.location.origin+"/public/index.php/ajax/add-cart/"+$(this).data('bsId'),function(data){
           $('.countCart').html(data);
         });
       });
-      $('.btn_minus').click(function(e){
+      let idInterval3,idInterval4;
+      $('.btn_minus').mousedown(function(e){
           e.preventDefault();
           let current = parseInt($(this).next().val());
-          if(current >1){
-            current--;
-            $(this).next().val(current);
-          }
+          idInterval3 = setInterval(()=>{
+            if(current >1){
+              current--;
+              $(this).next().val(current);
+            }
+          },100);
+          $(this).parent().parent().next().children().removeClass('d-none');
+      }).mouseup(function(e){
+        e.preventDefault();
+        clearInterval(idInterval3);
       });
-      $('.btn_plus').click(function(e){
+      $('.btn_plus').mousedown(function(e){
           e.preventDefault();
           let max = parseInt($('#quantityModal').text())?parseInt($('#quantityModal').text()): parseInt($(this).parent().parent().prev().val());
           let current = parseInt($(this).prev().val());
-          if(max>current){
-            current++;
-            $(this).prev().val(current);
-          }
+          idInterval4 =setInterval(()=>{
+            if(max>current){
+              current++;
+              $(this).prev().val(current);
+            }
+          },100);
+          $(this).parent().parent().next().children().removeClass('d-none');
+
+      }).mouseup(function(e){
+        e.preventDefault();
+        clearInterval(idInterval4)
       });
-      
       $('input[name=quan]').on('focusout',function(e){
           e.preventDefault();
           let validateNum =/^\d{1,10}$/;
           let currentVl = $(this).val();
           $(this).val(validateNum.test(currentVl)?currentVl:100);
+          $(this).parent().parent().next().children().removeClass('d-none');
       });
       $('input[name=cart_quant]').on('focusout',function(e){
           e.preventDefault();
@@ -201,7 +230,7 @@
         }
       })
       $('.remove_add').click(function(){
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/remove_address/"+$(this).data('idadd'),function(data){
+        $.get(window.location.origin+"/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
           $("#listAddress").html(data);
         });
       })
@@ -212,10 +241,6 @@
       const ghn_api_service = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services";
       const ghn_fee = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
       const ghtk_api = "https://services-staging.ghtklab.com";
-      const ghtk_token = "1830630245Ca1E494982d10B95FaFFbe6bF78641";
-      const ghn_token ="40c06a9e-ee0f-11ed-a281-3aa62a37e0a5";
-      const ghn_token2 ="ea19c297-efa4-11ed-943b-f6b926345ef9";
-      const id_shop = 124157;
       $.ajax({
         method: "GET",
         beforeSend: function (xhr) {
@@ -289,7 +314,7 @@
           $("input[name=ward_id]").val($('#ward option:selected').val());
           $("input[name=province_id]").val($("#province option:selected").val());
         @endif
-        $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
+        $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
           let dataJson = jQuery.parseJSON(data6);
           let check = 0;
           let deliver_method = jQuery.parseJSON(dataJson[1]);
@@ -302,7 +327,6 @@
             $(".totalPay").text((totall*0.000043).toFixed(2));
             $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
             if(deliver_method['fee']['extFees'].length>0){
-              $('#extra_ship').parent().removeClass('d-none');
               let ex_fee = 0;
               let transtalate2 = {"Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"};
               deliver_method['fee']['extFees'].forEach(el=>{
@@ -310,6 +334,11 @@
                 $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
               });
               $("#extra_ship_display").html("+ "+ex_fee+" đ");
+              if(ex_fee!=0){
+                $('#extra_ship').parent().removeClass('d-none');
+              }else{
+                $('#extra_ship').parent().addClass('d-none')
+              }
             }else{
               $('#extra_ship').parent().addClass('d-none');
             }
@@ -332,7 +361,7 @@
             if(parseInt($('#delivery_method option:selected').val()) <10){
               $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
-              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data1){
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data1){
                   let dataJson3 = jQuery.parseJSON(data1);
                   let deliver_method4 = jQuery.parseJSON(dataJson3[$('#delivery_method option:selected').val()]);
                   if(deliver_method4['fee']['delivery']){
@@ -356,28 +385,37 @@
                         $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                       });
                       $("#extra_ship_display").html("+ "+ex_fee3+" đ");
+                      if(ex_fee3!=0){
+                        $('#extra_ship').parent().removeClass('d-none');
+                      }else{
+                        $('#extra_ship').parent().addClass('d-none')
+                      }
                     }
                   };
                 })   
             }else{
-              $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
+              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
                 let newdata4 = data5.slice(0,data5.length-1);
                 let dataJs4 = jQuery.parseJSON(newdata4);
-                let total_ghn =dataJs4['data']['total']+ parseInt($("#total").data('subtotal'));
-                let shipping = dataJs4['data']['total'];
-                if(shipping!=$("input[name=shipment_fee]").val()){
-                  $("#shippment_fee").html(shipping+" đ");
-                  $("#total").html(total_ghn +" đ");
+                if(dataJs4['code']==200){
+                  let total_ghn =dataJs4['data']['total']+ parseInt($("#total").data('subtotal'));
+                  let shipping = dataJs4['data']['total'];
+                  if(shipping!=$("input[name=shipment_fee]").val()){
+                    $("#shippment_fee").html(shipping+" đ");
+                    $("#total").html(total_ghn +" đ");
+                  }
+                  $(".totalPay").text((total_ghn*0.000043).toFixed(2));
+                  $("input[name=shipment_fee]").val(shipping);
+                }else{
+                  console.log(dataJs4);
                 }
-                $(".totalPay").text((total_ghn*0.000043).toFixed(2));
-                $("input[name=shipment_fee]").val(shipping);
               });
               $("#img_logictic").attr('src',"{{asset('images/icons/GHN2.png')}}");
               $('#extra_ship').parent().addClass('d-none');
             };
           });
         });
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
+        $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
             let newdata = data.slice(0,data.length-1);
             let dataJs = jQuery.parseJSON(newdata); 
             let str2 = "";
@@ -397,7 +435,7 @@
                         translate =service['short_name'];
                     };
               str2+=`<option value='${service['service_id']}'>${translate}</option>`;
-              $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
+              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
                 let newdata2 = data2.slice(0,data2.length-1);
                 let dataJs2 = jQuery.parseJSON(newdata2);
                 //Change method
@@ -405,7 +443,7 @@
                   if(parseInt($('#delivery_method option:selected').val()) <10){
                     $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
-                    $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+                    $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
                         let dataJson2 = jQuery.parseJSON(data3);                        
                         let deliver_method2 =  jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                         if(deliver_method2['fee']['delivery']){
@@ -429,11 +467,16 @@
                               $('#extra_ship').html(`<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`);
                             });
                             $("#extra_ship_display").html("+ "+ex_fee2+" đ");
+                            if(ex_fee2!=0){
+                              $('#extra_ship').parent().removeClass('d-none');
+                            }else{
+                              $('#extra_ship').parent().addClass('d-none')
+                            }
                           }
                         };
                       })   
                   }else{
-                    $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data4){
+                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data4){
                       let newdata3 = data4.slice(0,data4.length-1);
                       let dataJs3 = jQuery.parseJSON(newdata3);
                       let total_ghn =dataJs3['data']['total']+ parseInt($("#total").data('subtotal'));
@@ -468,7 +511,7 @@
         @endif
       });
       $('.user_editorder').click(function() {
-          $.get(window.location.origin + "/ProjectSem2/public/account/ajax/edit_order/" + $(this).data('idorder'),function(data) {
+          $.get(window.location.origin + "/public/index.php/account/ajax/edit_order/" + $(this).data('idorder'),function(data) {
             function toNonAccentVietnamese(str) {
               str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
               str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -653,7 +696,7 @@
                       method = 'xteam';
                       break;
                   }
-                  $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#edit_province option:selected").text()+"&district="+$("#edit_district option:selected").text()+"&method="+method,function(ghtk_data){
+                  $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+$("#edit_province option:selected").text()+"&district="+$("#edit_district option:selected").text()+"&method="+method,function(ghtk_data){
                     let dataJson = jQuery.parseJSON(ghtk_data);
                     let deliver_method = jQuery.parseJSON(dataJson[0]);
                     if(deliver_method['fee']['delivery']){
@@ -680,7 +723,7 @@
                     default:
                       method =logictic[1];
                   };
-                  $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+$('#edit_district option:selected').val(),function(ghn_data){
+                  $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+$('#edit_district option:selected').val(),function(ghn_data){
                     let newdata = ghn_data.slice(0,ghn_data.length-1);
                     let dataJs = jQuery.parseJSON(newdata);
                     if(dataJs['code']==400){
@@ -690,7 +733,7 @@
                       $("#error_delivery").html('');
                       dataJs['data'].forEach(ser =>{
                         if(ser['short_name'] == method){
-                          $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#edit_ward option:selected').val()+"&district="+$('#edit_district option:selected').val()+"&service_id="+ser['service_id']+"&weight="+data_order['weight'],function(ghn_fee){
+                          $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+$('#edit_ward option:selected').val()+"&district="+$('#edit_district option:selected').val()+"&service_id="+ser['service_id']+"&weight="+data_order['weight'],function(ghn_fee){
                             let newdata2 = ghn_fee.slice(0,ghn_fee.length-1);
                             let dataJs2 = jQuery.parseJSON(newdata2);
                             $("#edit_servicefee").parent().parent().next().removeClass('d-none');
@@ -833,7 +876,7 @@
           }
           $(this).addClass('is-invalid');      
         }else{
-          $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
+          $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
             if(data == "existed"){
               $('input[name=register_email]').addClass('is-invalid');
               $('#register_email').text('This email has signed. Choose another one or signin');
@@ -891,7 +934,7 @@
           }
           $(this).addClass('is-invalid');      
         }else{
-          $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
+          $.get(window.location.origin + '/public/index.php/ajax/check-email/'+$(this).val(), function(data){
             if(data == "existed"){
               if($('input[name=email_resset]').hasClass('is-invalid')){
                 $('input[name=email_resset]').removeClass('is-invalid');
@@ -961,7 +1004,7 @@
         }
       })
       $(".modal_coupon").click(function(){
-          $.get(window.location.origin+"/ProjectSem2/public/ajax/show_coupon/"+$(this).data('coupon'),function(data){
+          $.get(window.location.origin+"/public/index.php/ajax/show_coupon/"+$(this).data('coupon'),function(data){
             let coupon_data = jQuery.parseJSON(data);
             $('#coupon_title_modal').html(coupon_data['title']);
             $('#max_coupon').html(coupon_data['max']);
@@ -973,7 +1016,7 @@
           })
       })
       $(".manager_notificate").click(function(){
-        $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
+        $.get(window.location.origin+"/public/index.php/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
           let dataJson = jQuery.parseJSON(data);
           $('input[name=id_notificate]').val(dataJson['news']);
           $("#receiver2").html(dataJson['receiver']);
@@ -982,6 +1025,7 @@
           $("#phone2").html(dataJson['phone']);
           $('#email_order2').html(dataJson['email']);
           $("#payment_method2").html(dataJson['method']);
+          $("#delivery_method2").html(dataJson['delivery_method']);
           if(dataJson['coupon']){
             $("#coupon_title2").html(dataJson['coupon_title']);
             if(dataJson['discount'] <= 100){
@@ -1010,7 +1054,7 @@
         })
       })
       $('.check_order').click(function(){
-        $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-order/"+$(this).data('order'),function(data){
+        $.get(window.location.origin+"/public/index.php/manager/ajax/check-order/"+$(this).data('order'),function(data){
           let dataJson = jQuery.parseJSON(data);
           $('input[name=id_order]').val(dataJson['id_order']);
           $("#receiver").html(dataJson['receiver']);
@@ -1067,8 +1111,8 @@
         })
       })
       $('.check_order2').click(function(){
-        console.log(window.location.origin+"/ProjectSem2/public/ajax/check-order/"+$(this).data('order'));
-        $.get(window.location.origin+"/ProjectSem2/public/ajax/check-order/"+$(this).data('order'),function(data){
+        console.log(window.location.origin+"/public/index.php/ajax/check-order/"+$(this).data('order'));
+        $.get(window.location.origin+"/public/index.php/ajax/check-order/"+$(this).data('order'),function(data){
           let dataJson = jQuery.parseJSON(data);
           console.log(dataJson);
           $('input[name=id_order2]').val(dataJson['id_order']);
@@ -1115,7 +1159,7 @@
         $.ajax({
           method: "POST",
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          url: window.location.origin+'/ProjectSem2/public/ajax/denied-order',
+          url: window.location.origin+'/public/index.php/ajax/denied-order',
           data: {'id_order':$(this).data('order')},
           success: function (data) {
             if(data == 0){
@@ -1128,7 +1172,7 @@
         $.ajax({
           method: "POST",
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          url: window.location.origin+'/ProjectSem2/public/ajax/accept-order',
+          url: window.location.origin+'/public/index.php/ajax/accept-order',
           data: {'id_order':$(this).data('order')},
           success: function (data) {
             if(data == 0){
@@ -1137,6 +1181,8 @@
           }
         });
       });
+
+//Chat script
       $('#btn_close').click(function(){
           $('#chatbox').toggleClass('d-none');
       })
@@ -1147,13 +1193,13 @@
         $.ajax(
             {method: "GET",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/ProjectSem2/public/ajax/message/show',
+            url: window.location.origin+'/public/index.php/ajax/message/show',
             data: {'codegroup':$(this).data('groupcode'),'id_user':$(this).data('iduser')},
             success: function (data) {
-              let data_mess  = data.split(',');
+              let data_mess  = data.split('-/-');
               $('#messages').html(data_mess[0]);
               $('#usr_contact').html(data_mess[0]?data_mess[1]:'');
-              $('.list_mess').find('span').html(data_mess[2]);
+              
             }}
         )
       });
@@ -1169,7 +1215,7 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: window.location.origin+'/ProjectSem2/public/ajax-post/message',
+            url: window.location.origin+'/public/index.php/ajax-post/message',
             data: {'send_message':message.val(),'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
             success: function (data) {
               let mess_data = jQuery.parseJSON(data);
@@ -1180,102 +1226,110 @@
                     </div>
                   </div>
                 </div>`);
-                                    }
-                                    $('.list_mess').find('span').html(mess_data[
-                                        'unread_mess']);
-                                }
-                            });
-                            message.val('');
-                        };
-                    });
-                    $('.show_listchat').click(function() {
-                        let nextDD = $(this).next();
-                        $('.chatbox').not(nextDD).removeClass('show');
-                    })
+              }
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
+            }
+          });
+          message.val('');
+        };
+      });
+    $('.show_listchat').click(function() {
+        let nextDD = $(this).next();
+        $('.chatbox').not(nextDD).removeClass('show');
+    })
 
-                    function split(val) {
-                        return val.split(/@\s*/);
-                    }
+    function split(val) {
+        return val.split(/@\s*/);
+    }
+    function extractLast(term) {
+        return split(term).pop();
+    }
+    let availableTags = [];
+    @if (isset($name_products))
+        @foreach ($name_products as $key => $value)
+            var object = new Object();
+            @foreach ($value as $key2 => $value2)
+                object['{{ $key2 }}'] = "{{ $value2 }}";
+            @endforeach
+            availableTags.push(object);
+        @endforeach
+    @endif
+    $("input[name=send_message]").autocomplete({
+      minLength: 0,
+      source: function(request, response) {
+          var results, term = request.term;
+          var aData = $.map(availableTags, function(value, key) {
+            return {
+                label: value.name,
+                value: value.id
+            }
+          });
+          if (term.indexOf("@") >= 0) {
+            term = extractLast(request.term);
+            /* If they've typed anything after the "@": */
+            if (term.length > 0) {
+                results = $.ui.autocomplete.filter(
+                    aData, term);
+            } else {
+                results = ['Start typing...'];
+            }
+          }
+          response(results);
+      },
+      focus: function(event, ui) {
+          return false;
+      },
+      select: function(event, ui) {
+        let chatbox = $(this).parents('.input_message').prev();
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'content')
+            },
+            url: window.location.origin +
+                '/public/index.php/ajax-post/message',
+            data: {
+                'send_link': ui.item.value,
+                'code_group': chatbox.data('chat'),
+                'connect_user': chatbox.data('iduser')
+            },
+            success: function(data) {
+              let mess_data = jQuery.parseJSON(data);
+              if (mess_data['link']) {
+                  let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
+                              <div class='row g-0'>
+                                <div class='col-4'>
+                                  <img src='${mess_data['image']}' class='img-fluid rounded-start' >
+                                </div>
+                              <div class='col-8'>
+                                <div class='card-body'>
+                                <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
+                                <p class="card-text">View >> </p>
+                              </div></div></div></a></div></div>`;
+                  chatbox.append(share);
+              };
+              $('.list_mess').find('span').html(mess_data['unread_mess']);
+            }
+        });
+        $("input[name=send_message]").val('');
+        return false;
+      }
+    })
+    $('.clear_chat').click(function(e){
+      e.preventDefault();
+      let code_gr = $('#messages').data('chat');
+      window.location.assign(window.location.origin+"/public/index.php/ajax/message/clear/"+code_gr);
+    })
+//SHARE PRODUCT  
+    $("#share_fb").click(function(e){
+      e.preventDefault();
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, "_blank")
+    });
+    $("#share_tw").click(function(e){
+      e.preventDefault();
+      window.open(`https://twitter.com/intent/tweet?url=${window.location.href}`, "_blank")
+    })
+  })
 
-                    function extractLast(term) {
-                        return split(term).pop();
-                    }
-                    let availableTags = [];
-                    @if (isset($name_products))
-                        @foreach ($name_products as $key => $value)
-                            var object = new Object();
-                            @foreach ($value as $key2 => $value2)
-                                object['{{ $key2 }}'] = "{{ $value2 }}";
-                            @endforeach
-                            availableTags.push(object);
-                        @endforeach
-                    @endif
-                    $("input[name=send_message]").autocomplete({
-                        minLength: 0,
-                        source: function(request, response) {
-                            var results, term = request.term;
-                            var aData = $.map(availableTags, function(value, key) {
-                                return {
-                                    label: value.name,
-                                    value: value.id
-                                }
-                            });
-                            if (term.indexOf("@") >= 0) {
-                                term = extractLast(request.term);
-                                /* If they've typed anything after the "@": */
-                                if (term.length > 0) {
-                                    results = $.ui.autocomplete.filter(
-                                        aData, term);
-                                    /* Otherwise, tell them to start typing! */
-                                } else {
-                                    results = ['Start typing...'];
-                                }
-                            }
-                            /* Call the callback with the results: */
-                            response(results);
-                        },
-                        focus: function(event, ui) {
-                            // $('input[name=send_message]').val(ui.item.name);
-                            // prevent value inserted on focus
-                            return false;
-                        },
-                        select: function(event, ui) {
-                            let chatbox = $(this).parents('.input_message').prev();
-                            $.ajax({
-                                method: "POST",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                },
-                                url: window.location.origin +
-                                    '/ProjectSem2/public/ajax-post/message',
-                                data: {
-                                    'send_link': ui.item.value,
-                                    'code_group': chatbox.data('chat'),
-                                    'connect_user': chatbox.data('iduser')
-                                },
-                                success: function(data) {
-                                    let mess_data = jQuery.parseJSON(data);
-                                    if (mess_data['link']) {
-                                        let share = `<div class='row mb-4 mx-3'><div class='col-2 '></div><div class="col-10  rounded-1 border py-1 px-2 "><div class='card my-3'><a href='${mess_data['share_link']}'>
-                  <div class='row g-0'>
-                    <div class='col-4'>
-                      <img src='${mess_data['image']}' class='img-fluid rounded-start' >
-                    </div>
-                  <div class='col-8'>
-                    <div class='card-body'>
-                    <h5 class='card-title text-uppercase'>${mess_data['name_product']}</h5>
-                    <p class="card-text">View >> </p>
-                  </div></div></div></a></div></div>`;
-                                        chatbox.append(share);
-                                    };
-                                    $('.list_mess').find('span').html(mess_data[
-                                        'unread_mess']);
-                                }
-                            });
-                            $("input[name=send_message]").val('');
-                            return false;
-                        }
-                    })
-                })
 </script>

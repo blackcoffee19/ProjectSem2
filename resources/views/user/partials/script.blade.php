@@ -1,8 +1,10 @@
 <script>
     $(document).ready(function(){
 //#offcanvasRight List item in Cart
+//#offcanvasRight List item in Cart
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
+          $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
           $.get(window.location.origin+"/public/index.php/ajax/cart/listcart",function(data){
               $('#listCartmodal').html(data);
               $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
@@ -10,6 +12,13 @@
               $('.btn_minus').mousedown(function(e){
                   e.preventDefault();
                   let current = parseInt($(this).next().val());
+                  idInterval1 = setInterval(() => {
+                    if(current >1){
+                      current--;
+                      $(this).next().val(current);
+                    }
+                    $(this).parent().next().removeClass('d-none');  
+                  }, 100);
                   idInterval1 = setInterval(() => {
                     if(current >1){
                       current--;

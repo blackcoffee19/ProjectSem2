@@ -97,17 +97,17 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-5 mx-auto">
-                                        <label class="form-label" for="new_password">New Password</label>
-                                        <input type="password" class="form-control" name="new_password" id="new_password"
-                                            placeholder="**********" {{ !Auth::user()->password ? '' : 'disabled' }}>
-                                        <span id="invalidPass"></span>
-                                    </div>
-                                    <div class="mb-3 col-5 mx-auto">
                                         <label class="form-label" for="current_password">Current Password</label>
                                         <input type="password" class="form-control" name="current_password"
                                             id="current_password" placeholder="**********"
                                             {{ !Auth::user()->password ? '' : 'disabled' }}>
                                         <span id="checkPass"></span>
+                                    </div>
+                                    <div class="mb-3 col-5 mx-auto">
+                                        <label class="form-label" for="new_password">New Password</label>
+                                        <input type="password" class="form-control" name="new_password" id="new_password"
+                                            placeholder="**********" {{ !Auth::user()->password ? '' : 'disabled' }}>
+                                        <span id="invalidPass"></span>
                                     </div>
                                     <div class="col-12">
                                         @if (Auth::user()->password)
@@ -141,7 +141,11 @@
                 $('#invalidPhone').html('Please Add your numberphone for your accout');
             }
             @endif
+<<<<<<< HEAD
             let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
+=======
+            let valPass = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
+>>>>>>> origin/Quan
             let valiEmail = /^[a-zA-Z0-9]{4,}@gmail\.com$/;
             let valiPhone = /^[0-9]{9,11}$/;
             if ($('input[name=changePass]').is(':checked')) {
@@ -223,12 +227,12 @@
                         $(this).removeClass('is-invalid');
                     };
                     $('#invalidPass').html('');
-                    $('#changePassword').removeAttr('disabled');
+                    if($('input[name="current_password"]').val().trim().length>0){
+                        $('#changePassword').removeAttr('disabled');
+                    }
                 } else {
                     $(this).addClass('is-invalid');
-                    $('#invalidPass').html(
-                        'Password must contains at least 1 number, 1 normal character and min length 8 characters'
-                    ).addClass('text-danger');
+                    $('#invalidPass').html('Password must contains at least 1 number, 1 normal character and min length 8 characters').addClass('text-danger');
                     $('#changePassword').attr('disabled', 'disabled');
                 };
             });
@@ -258,7 +262,7 @@
             });
             $('#new_phone').change(function() {
                 if (valiPhone.test($(this).val().trim())) {
-                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/' + $(this).val(),
+                    $.get(window.location.origin + '/public/index.php/ajax/check-phone/' + $(this).val(),
                         function(data) {
                             if (data == "existed") {
                                 if ($('#new_phone').hasClass('is-valid')) {

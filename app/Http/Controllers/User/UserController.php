@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $prods = Product::paginate(12);
+        $prods = Product::where('status','=','1')->paginate(12);
         $rate = Comment::all();
         $cats = TypeProduct::all();
         return view('user.pages.Products.index', compact('prods', 'rate', 'cats'));

@@ -10,7 +10,6 @@
               <h1 class="fw-bold mb-0">Checkout</h1>
               @if (!Auth::check())
               <p class="mb-0">Already have an account? Click here to <a href="#!" class="text-primary" data-bs-toggle="modal"
-              <p class="mb-0">Already have an account? Click here to <a href="#!" class="text-primary" data-bs-toggle="modal"
                 data-bs-target="#userModal">Sign in</a>.</p>
               @endif
             </div>

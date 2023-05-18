@@ -951,7 +951,7 @@
           });
         };
       });
-      $("input[name=new_password]").change(function(){
+      $("input[name=new_password2]").change(function(){
         if(!valPass.test($(this).val())){
           if($(this).hasClass('is-valid')){
             $(this).removeClass('is-valid');
@@ -983,7 +983,7 @@
         }
       })
       $("input[name=reenter_password]").change(function(){
-        if($(this).val() != $("input[name=new_password]").val()){
+        if($(this).val() != $("input[name=new_password2]").val()){
           if($(this).hasClass('is-valid')){
             $(this).removeClass('is-valid');
           }
@@ -997,7 +997,7 @@
           $(this).addClass('is-valid');
           $("#error_pass").text('');
         }
-        if($("input[name=reenter_password]").hasClass('is-valid') && $("input[name=new_password]").hasClass('is-valid') && $("input[name=reenter_password]").val() == $("input[name=new_password]").val()){
+        if($("input[name=reenter_password]").hasClass('is-valid') && $("input[name=new_password2]").hasClass('is-valid') && $("input[name=reenter_password]").val() == $("input[name=new_password2]").val()){
           $("#submit_newpassword").removeAttr('disabled');
         }else{
           $("#submit_newpassword").attr('disabled','disabled');

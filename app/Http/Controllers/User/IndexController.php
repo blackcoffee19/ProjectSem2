@@ -36,7 +36,7 @@ class IndexController extends Controller
 
     public function categoryById($id_type)
     {
-        $prods = Product::where('id_type', $id_type)->get();
+        $prods = Product::where('id_type', $id_type)->paginate(12);
         $rate = Comment::all(); 
         $type = TypeProduct::find($id_type);
         $cats = TypeProduct::all();

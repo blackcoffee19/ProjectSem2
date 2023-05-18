@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Library;
 use App\Models\News;
 use App\Models\Cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -164,20 +165,11 @@ class AdminProductController extends Controller
 
     public function delete($id_product)
     {
-        if (Cart::where('id_product', $id_product)->exists() && 
-            Order::where('id_user', Cart::where('id_product', $id_product)->value('id_user'))
-                ->where('status', '<>', 'finished')
-                ->exists()
-            ) {
-                return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có sản phẩm thuộc loại này và order chưa hoàn thành.');
-            }
+       
 
-        if(count(Cart::where('order_code','<>',null)->where('id_product','=',$id_product)->get())>0){
-            $product = Product::findOrFail($id_product);
-            $product->status = false;
-            $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
-            $product->save();
-        }else{
+        if(count(Cart::where('order_code','<>',null)->where('id_product','=',$id_product)->get())==0){
+
+
             $images = Library::where('id_product', $id_product)->pluck('image');
     
             // Xoá tất cả các thông tin của sản phẩm trong bảng thư viện
@@ -194,7 +186,8 @@ class AdminProductController extends Controller
                     unlink($image_path);
                 }
             }
-            // Lấy tất cả các ảnh của sản phẩm trong bảng thư viện
+        }else{
+            return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có order chưa hoàn thành.');
         }
 
         return redirect()->route('adminProduct');

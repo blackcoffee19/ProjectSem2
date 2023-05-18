@@ -187,7 +187,7 @@ class AdminProductController extends Controller
                 }
             }
         }else{
-            return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có order chưa hoàn thành.');
+            return redirect()->back()->with('error', 'This product type cannot be deleted because it has already been ordered.');
         }
 
         return redirect()->route('adminProduct');

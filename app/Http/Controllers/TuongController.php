@@ -1723,7 +1723,7 @@ class TuongController extends Controller
     }
     public function create_newpassword(Request $req){
         $user = User::where('email','=',$req['account_email'])->first();
-        $user->password = bcrypt($req['new_password']);
+        $user->password = bcrypt($req['new_password2']);
         $user->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $user->save();
         $find_email = ResetPassword::find($req['account_email'])->first();

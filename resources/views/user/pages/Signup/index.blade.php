@@ -248,6 +248,13 @@
             }else{
                 $('#register_password').text('');
             };
+            $("#passwordToggler").click(function(){
+                if($('input[name=register_password]').attr('type')=='password'){
+                    $('input[name=register_password]').attr('type','text');
+                }else{
+                    $('input[name=register_password]').attr('type','password');
+                }
+            })
         })
     </script>
 @endsection

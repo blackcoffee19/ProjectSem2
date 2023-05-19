@@ -124,5 +124,16 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('name_products',$arr);
         });
+        if(Session::has("cart")){
+            $new_cart = [];
+            foreach(Session::get("cart") as $key => $value){
+                $check_product = Product::find($value["id_product"]);
+                if($check_product->status){
+                    $new = ["id_product"=>$value["id_product"],"amount"=>$value["amount"],"per_price"=>$check_product->price,"name"=>$check_product->name,"max"=>$check_product->quantity,"image"=>$check_product->Library[0]->image,'sale'=>$check_product->sale];
+                    array_push($new_cart,$new);
+                }
+            };
+            Session::put("cart",$new_cart);
+        }
     }
 }

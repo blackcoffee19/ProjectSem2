@@ -117,14 +117,14 @@
 
                             <ul class="list-unstyled px-2 py-3">
                                 <li>
-                                    <a class="dropdown-item" href="#!"> Home </a>
+                                    <a class="dropdown-item" href="{{route('index')}}"> Home </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#!"> Profile </a>
+                                    <a class="dropdown-item" href="{{ route('accountsetting') }}"> Profile </a>
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="#!"> Settings </a>
+                                    <a class="dropdown-item" href="{{ route('accountsetting') }}"> Settings </a>
                                 </li>
                             </ul>
                             <div class="border-top px-5 py-3">

@@ -156,7 +156,6 @@
 
             </section>
         @endif
-
     </main>
 @endsection
 @section('script')

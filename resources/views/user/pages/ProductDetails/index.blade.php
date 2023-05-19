@@ -89,7 +89,7 @@
                             <div class="mb-5"><button type="button" class="btn btn-outline-secondary">Left:
                                     {{ number_format($product->quantity, 0, '', ' ') }} grams</button>
                             </div>
-                            @if (!Auth::check() || Auth::user()->admin == '0')
+                            @if (!Auth::check() || Auth::user()->admin == '0' || $product->status)
                             <form action="{{ route('post_products_details', [$product->id_product]) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
@@ -125,10 +125,6 @@
                                             {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle=tooltip data-bs-html=true title=Wishlist data-bs-idproduct=$product->id_product" }}>
                                             <i class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
                                         </a>
-                                        {{-- <a class="btn btn-light " href="#" data-bs-toggle="tooltip" data-bs-html="true"
-                                              aria-label="Compare"><i class="bi bi-arrow-left-right"></i></a>
-                                          <a class="btn btn-light " href="{{ Route('wishlist') }}" data-bs-toggle="tooltip"
-                                              data-bs-html="true" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a> --}}
                                     </div>
                                 </div>
                             </form>
@@ -145,7 +141,7 @@
                                         <tr>
                                             <td>Availability:</td>
                                             <td>
-                                                @if ($product->quantity > 0)
+                                                @if ($product->quantity > 0 && $product->status)
                                                     {{ number_format($product->quantity, 0) }} grams
                                                 @else
                                                     <span class="fs-5 text-danger fw-bold">Sold out</span>
@@ -551,9 +547,7 @@
 
                                                                 <div class="collapse"
                                                                     id="collapseEdit{{ $cmt->id_comment }}">
-                                                                    <form
-                                                                        action="{{ route('edit_cmt', $cmt->id_comment) }}"
-                                                                        method="post">
+                                                                    <form action="{{ route('edit_cmt', $cmt->id_comment) }}" method="post">
                                                                         @csrf
                                                                         @if ($cmt->rating != null && $cmt->verified)
                                                                             <div class="form-check form-check-inline mb-3">
@@ -615,15 +609,16 @@
                                                                             <textarea name="content_cmt" rows="3" class="form-control content_fb">{{ $cmt->context }}</textarea>
                                                                         </div>
                                                                         <div class="mb-3 row">
+                                                                            <div class="col-6"></div>
                                                                             <button type="button"
-                                                                                class="btn btn-secondary col-4 btn-cancel"
+                                                                                class="btn btn-secondary col-2 btn-cancel"
                                                                                 data-bs-target="#collapseEdit{{ $cmt->id_comment }}"
                                                                                 data-bs-toggle="collapse"
                                                                                 aria-expanded="false"
                                                                                 aria-controls="collapseEdit{{ $cmt->id_comment }}">Cancel</button>
                                                                             <div class="col-1"></div>
                                                                             <button
-                                                                                class="btn btn-primary col-4 btn_submit_edit "
+                                                                                class="btn btn-primary col-3 btn_submit_edit "
                                                                                 type="submit" disabled>Save
                                                                                 Change</button>
                                                                         </div>
@@ -636,7 +631,7 @@
                                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                                     <i class="fa-solid fa-ellipsis fa-xl"></i>
                                                                 </a>
-                                                                @if (Auth::check() && $cmt->id_user == Auth::user()->id_user)
+                                                                @if (Auth::check() && $cmt->id_user == Auth::user()->id_user && $cmt->rating == null)
                                                                     <ul class="dropdown-menu">
                                                                         <li><a class="dropdown-item edit_btn"
                                                                                 href="#collapseEdit{{ $cmt->id_comment }}"
@@ -651,14 +646,6 @@
                                                                     </ul>
                                                                 @endif
                                                             </div>
-                                                            @if (Auth::check() && $cmt->id_user != Auth::user()->id_user)
-                                                                <div class="d-flex justify-content-end  mt-4 col-12">
-                                                                    <a href="#" class="text-muted">
-                                                                        <i class="bi bi-hand-thumbs-up me-2"></i>Like</a>
-                                                                    <a href="#" class="text-muted ms-4">
-                                                                        <i class="bi bi-flag me-2"></i>Report abuse</a>
-                                                                </div>
-                                                            @endif
                                                         </div>
                                                     @endforeach
                                                 @endif

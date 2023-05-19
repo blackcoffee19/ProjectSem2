@@ -37,7 +37,7 @@ class GoogleAuthController extends Controller
                 $new_user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
                 $new_user->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $new_user->save();
-                if (Session::has("cart")) {
+                if (Session::has("cart")  && Auth::user()->admin == '0') {
                     $cart_session = Session::get("cart");
                     $user = User::where('google_id', '=', $google_user->getId())->first();
                     foreach ($cart_session as $key => $value) {

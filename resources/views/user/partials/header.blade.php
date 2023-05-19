@@ -262,9 +262,7 @@
                                                 <a href="{{ route('accountaddress') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-solid fa-location-pin"></i>Address</a>
-                                                <a href="{{ route('accountpayment') }}"
-                                                    class="list-group-item list-group-item-action"><i
-                                                        class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                                
                                                 @endif
                                                 <a href="{{ route('signout') }}"
                                                     class="list-group-item list-group-item-action"><i
@@ -600,9 +598,7 @@
                                         <a href="{{ route('accountaddress') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-solid fa-location-pin"></i>Address</a>
-                                        <a href="{{ route('accountpayment') }}"
-                                            class="list-group-item list-group-item-action"><i
-                                                class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                       
                                         @endif
                                         <a href="{{ route('signout') }}"
                                             class="list-group-item list-group-item-action"><i
@@ -744,7 +740,6 @@
                                 <li><a class="dropdown-item" href="{{ route('accountsetting') }}">Settings</a></li>
                                 @if (Auth::user()->admin == '0')
                                 <li><a class="dropdown-item" href="{{ route('accountaddress') }}">Address</a></li>
-                                <li><a class="dropdown-item" href="{{ route('accountpayment') }}">Payment Method</a>
                                 </li>
                                 @endif
                             </ul>

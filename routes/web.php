@@ -123,7 +123,6 @@ Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
     Route::get('/list_address', [TuongController::class, 'get_address'])->name('accountaddress');
     Route::get('/remove_address/{id}', [TuongController::class, 'remove_address'])->name('removeAdd');
     Route::get('/default-address/{id}', [TuongController::class, 'setdefault_address'])->name('setdefault_address');
-    Route::get('/payment', [TuongController::class, 'get_payment'])->name('accountpayment');
     Route::get('/feedback/{code}', [TuongController::class, 'get_feedback'])->name('feedback');
     Route::post('/feedback/{code}', [TuongController::class, 'post_feedback'])->name('feedback');
     Route::post('/edit-profie', [TuongController::class, 'post_editprofie'])->name('edit_profie');

@@ -16,13 +16,6 @@
                                 <h2 class="display-5 fw-bold mt-4" style="color:{{ $slide->title_color }}">{{ $slide->title }}
                                 </h2>
                                 <p class="lead" style="color:{{ $slide->content_color }}">{{ $slide->content }}</p>
-                                {{-- <a href="@if ($slide->link != null && $slide->attr != null) {{ $slide->link . '/' . $slide->attr }}
-                                    @elseif ($slide->link != null && $slide->attr == null)
-                                    {{ $slide->link }} @endif"
-                                    class="btn mt-3"
-                                    style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
-                                    <i class="feather-icon icon-arrow-right ms-1"></i>
-                                </a> --}}
                                 <a href="{{route($slide->link ,$slide->attr)}}"class="btn mt-3"
                                     style="background-color: {{ $slide->btn_bg_color }}; color:{{ $slide->btn_color }}">{{ $slide->btn_content }}
                                     <i class="feather-icon icon-arrow-right ms-1"></i></a>
@@ -66,7 +59,6 @@
                 </div>
             </div>
         </section>
-        <!-- Category Section End-->
         <section>
             <div class="container">
                 <div class="row">
@@ -83,12 +75,13 @@
                                             <p class="mb-4" style="color:{{ $banner->content_color }}">
                                                 {{ $banner->content }}
                                             </p>
-                                            <a href="
+                                            {{-- <a href="
                                             @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
                                             @elseif ($banner->link != null && $banner->attr == null)
                                             {{ $banner->link }} @endif
-                                            "
-                                                class="btn"
+                                            " --}}
+                                            <a href="{{route($banner->link?$banner->link:'index', $banner->attr)}}"
+                                            class="btn"
                                                 style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
                                             </a>
                                         </div>

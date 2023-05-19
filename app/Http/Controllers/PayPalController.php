@@ -180,6 +180,7 @@ public function successTransaction(Request $request)
             Session::forget('select_add');
             Session::forget('shipfee');
             Session::forget('code_coupon');
+            Session::forget('coupon');
             return redirect()
                 ->route('accountorder')
                 ->with('paypal_success', true);

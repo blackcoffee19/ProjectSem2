@@ -41,9 +41,9 @@ class TuongController extends Controller
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->where('status','=',true)->inRandomOrder()->limit(3)->get();
         $banners = Banner::all();
         $sliders = Slide::all();
-        // dd($check_orders);
         return view('user.index',compact('products','product_hot','banners','check_orders','cats','sliders'));
     }
+    
     public function get_signUp(){
         $site= "Signup";
         return view('user.pages.Signup.index',compact('site'));
@@ -228,7 +228,7 @@ class TuongController extends Controller
     public function post_signIn(Request $req){
         $arr_vali = ["email"=>$req["email"],"password"=>$req["password"]];
         if(Auth::attempt($arr_vali)){
-            if(Session::has("cart")){
+            if(Session::has("cart") && Auth::user()->admin == '0'){
                 $cart_session = Session::get("cart");
                 foreach($cart_session as $key => $value){
                     $foundPro = Auth::user()->Cart->where('id_product','=',$value["id_product"])->where('order_code','=',null)->first();
@@ -255,7 +255,6 @@ class TuongController extends Controller
                 }
                 Session::forget("cart");
             };
-
             return redirect('/');
         }else{
             return redirect()->back()->with(["error"=>"Sign in failue. Password or username incorrect"]);
@@ -550,6 +549,7 @@ class TuongController extends Controller
         $order->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $order->save();
         Session::forget("cart");
+        Session::forget('coupon');
         return redirect('/')->with('order_mess',"Order Successfully, plz wait for Admin Confirm");
     }
     public function admin_cate(){
@@ -799,7 +799,7 @@ class TuongController extends Controller
                             <input type='hidden' name='_token' >
                             <input type='hidden' name='max_quan' value='".$cart['max']."'>
                             <div class='col-6 d-flex flex-column justify-content-center align-items-center'>
-                                <div class='input-group input-spinner input-group-sm'>
+                                <div class='input-group input-spinner input-group-sm' data-amount=".$cart["amount"].">
                                     <button type='button' class='btn btn_minus' style='border-radius: 10px 0 0 10px;'  data-field='quantity'>
                                         <i class='bi bi-dash-lg'></i>
                                     </button>
@@ -1041,7 +1041,6 @@ class TuongController extends Controller
         }
         echo $coupon2;
     }
-
     public function get_wishlist(){
         $favourites = Auth::user()->Favourite;
         return view('user.pages.ShopWishlist.index',compact('favourites'));
@@ -1057,23 +1056,25 @@ class TuongController extends Controller
         }else{
             foreach($req->checkFav as $id){
                 $fav = Favourite::find($id);
-                $item = Auth::user()->Cart->where('order_code','=',null)->where('id_product','=',intval($fav->id_product))->first();
-                if($item ){
-                    $item->amount = $item->Product->quantity >($item->amount +100)?$item->amount +100 : ($item->Product->quantity > $item->amount?$item->Product->quantity: $item->amount);
-                    $item->price = $fav->Product->price;
-                    $item->sale = $fav->Product->sale;
-                    $item->updated_at= Carbon::now()->format('Y-m-d H:i:s');
-                    $item->save();
-                }else{
-                    $new_cart = new Cart();
-                    $new_cart->order_code = null;
-                    $new_cart->id_user= Auth::user()->id_user;
-                    $new_cart->id_product = $fav->id_product;
-                    $new_cart->price = $fav->Product->price; 
-                    $new_cart->sale =  $fav->Product->sale; 
-                    $new_cart->amount= $fav->Product->quantity > 100 ? 100 : $fav->Product->quantity;
-                    $new_cart->created_at=Carbon::now()->format('Y-m-d H:i:s');
-                    $new_cart->save();
+                if($fav->Product->status){
+                    $item = Auth::user()->Cart->where('order_code','=',null)->where('id_product','=',intval($fav->id_product))->first();
+                    if($item ){
+                        $item->amount = $item->Product->quantity >($item->amount +100)?$item->amount +100 : ($item->Product->quantity > $item->amount?$item->Product->quantity: $item->amount);
+                        $item->price = $fav->Product->price;
+                        $item->sale = $fav->Product->sale;
+                        $item->updated_at= Carbon::now()->format('Y-m-d H:i:s');
+                        $item->save();
+                    }else{
+                        $new_cart = new Cart();
+                        $new_cart->order_code = null;
+                        $new_cart->id_user= Auth::user()->id_user;
+                        $new_cart->id_product = $fav->id_product;
+                        $new_cart->price = $fav->Product->price; 
+                        $new_cart->sale =  $fav->Product->sale; 
+                        $new_cart->amount= $fav->Product->quantity > 100 ? 100 : $fav->Product->quantity;
+                        $new_cart->created_at=Carbon::now()->format('Y-m-d H:i:s');
+                        $new_cart->save();
+                    }
                 }
             }
             return redirect('/order');
@@ -1267,9 +1268,6 @@ class TuongController extends Controller
         $address->default = true;
         $address->save();
         return redirect()->back()->with('message','Change Default Address successfully');
-    }
-    public function get_payment(){
-        return view('user.pages.About.payment');
     }
     public function get_feedback($code){
         $order = Order::where('order_code','=',$code)->first();
@@ -1664,6 +1662,7 @@ class TuongController extends Controller
     }
     public function model_coupon($code){
         $coupon = Coupon::where('code','=',$code)->where('status',true)->first();
+        $coupon->used = count(Order::where('id_user','=',Auth::user()->id_user)->where('code_coupon','=',$code)->get());
         if($coupon){
             echo $coupon;
         }else{

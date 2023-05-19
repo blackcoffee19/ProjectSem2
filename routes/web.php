@@ -16,7 +16,7 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
 use App\Http\Middleware\ManagerLogin;
-
+use App\Http\Middleware\UpdateCart;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
@@ -44,11 +44,11 @@ Route::get('/product.findByNamePro', [App\Http\Controllers\User\UserController::
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
 // Route::get('/user.pages.Products.index/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
 
-Route::get('/', [TuongController::class, 'home_page'])->name('index');
+Route::get('/', [TuongController::class, 'home_page'])->name('index')->middleware('UpdateCart');
 Route::get('/cate_pr', [TuongController::class, 'admin_cate'])->name('productList');
-Route::get('/signin', [TuongController::class, "get_signIn"])->name('signin');
+Route::get('/signin', [TuongController::class, "get_signIn"])->name('signin')->middleware('UpdateCart');
 Route::post('/signin', [TuongController::class, "post_signIn"])->name('signin');
-Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup');
+Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup')->middleware('UpdateCart');
 Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
 Route::get('/verify/{token}', [TuongController::class, 'verifyEmail'])->name('verify');
 Route::get('/verify-send', [TuongController::class, 'send_verifyEmail'])->name('verifyEmail');
@@ -80,7 +80,7 @@ Route::get('/ajax/message/clear/{code}',[TuongController::class ,'clear_grchat']
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
-Route::group(['prefix' => '/', 'middleware' => 'ManageLogin'], function () {
+Route::group(['prefix' => '/', 'middleware' => ['ManageLogin','UpdateCart']], function () {
     Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
     Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
     Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('post_products_details');
@@ -117,7 +117,7 @@ Route::get('/ajax/ghtk_service/order',[TuongController::class,'ghtk_order'])->na
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User
-Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
+Route::group(['prefix' => 'account', 'middleware' => ['UserLogin','UpdateCart']], function () {
     Route::get('/order', [TuongController::class, 'get_orderhistory'])->name('accountorder');
     Route::get('/setting', [TuongController::class, 'get_accountsetting'])->name('accountsetting');
     Route::get('/list_address', [TuongController::class, 'get_address'])->name('accountaddress');
@@ -136,10 +136,10 @@ Route::group(['prefix' => 'account', 'middleware' => 'UserLogin'], function () {
 // =============== START ROUTE USER =============== //
 
 Route::controller(IndexController::class)->group(function () {
-    Route::get('/category',                     'allProduct')->name('allProduct');
-    Route::get('/products/{id?}',               'product_detail')->name('products-details');
-    Route::get('/PrivacyPolicy',                'privacy')->name('privacy');
-    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory');
+    Route::get('/category',                     'allProduct')->name('allProduct')->middleware('UpdateCart');;
+    Route::get('/products/{id?}',               'product_detail')->name('products-details')->middleware('UpdateCart');;
+    Route::get('/PrivacyPolicy',                'privacy')->name('privacy')->middleware('UpdateCart');;
+    Route::get('/category/{type}',              'categoryById')->name('userShowProductCatagory')->middleware('UpdateCart');;
 });
 
 

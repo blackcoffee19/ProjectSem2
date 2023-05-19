@@ -590,7 +590,6 @@ class TuongController extends Controller
                 $cart->price = $price;
                 $cart->sale =  $product->sale;
                 $cart->amount = $amount;
-                $cart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $cart->save();
             }
         }else if(Session::has("cart")){
@@ -639,7 +638,6 @@ class TuongController extends Controller
                 $cart->sale = $product->sale;
                 $cart->id_product = $id;
                 $cart->amount = $product->quantity < 100 ? $product->quantity:100;
-                $cart->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $cart->save();
             };
             $num = count(Auth::user()->Cart->where('order_code','=',null))+ 1;

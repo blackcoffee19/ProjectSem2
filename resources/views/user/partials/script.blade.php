@@ -669,6 +669,10 @@
                 }
             });
             if(data_order['method'] == 'cod'){
+              $("#edit_province").removeAttr('disabled');
+              $("#edit_district").removeAttr('disabled');
+              $("#edit_ward").removeAttr('disabled');
+              $("#edit_cusaddr").removeAttr('disabled');
               $("#edit_province").change(function(){
                 $('#edit_ward').html("<option value=''>-- Select Ward --</option>");
                 getListDistrict($("#edit_province option:selected").val());

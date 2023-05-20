@@ -40,8 +40,8 @@
                           data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
                           <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
                         </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                          data-bs-target="#addAddressModal">Add a new address </a>
+                        {{-- <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#addAddressModal">Add a new address </a> --}}
                       </div>
                       <div id="flush-collapseOne" class="accordion-collapse collapse show"
                       data-bs-parent="#accordionFlushExample">
@@ -69,8 +69,11 @@
                                     </div>
                                   </div>
                               @endforeach
-                            @else
                             @endif
+                            <button class="btn btn-outline-primary col-lg-3 col-4 mx-auto" type="button" data-bs-toggle="modal"
+                            data-bs-target="#addAddressModal" aria-expanded="true" aria-controls="flush-collapseOne">
+                              <i class="bi bi-building-add" style="font-size: 4rem"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -317,6 +320,20 @@
                       </div>
 
                     </div>
+                    @if (Session::has('coupon'))
+                    <div class="d-flex align-items-center justify-content-between mb-2 ">
+                      <div>
+                        Coupon {{$coupon->title}}<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Coupon"></i>
+                      </div>
+                      <div class="fw-bold" >
+                        @if ($coupon->freeship)
+                        <span class="text-danger"> - {{number_format($coupon->discount,0,'',' ')}} đ</span>
+                        @else    
+                        <span class="text-danger"> -{{$coupon->discount}}%</span>
+                        @endif
+                      </div>
+                    </div>
+                    @endif
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
                         Service Fee <i class="bi bi-exclamation-circle text-muted" data-bs-toggle="tooltip"
@@ -337,20 +354,7 @@
                       </div>
                       <div id="extra_ship"></div>
                     </div>
-                    @if (Session::has('coupon'))
-                    <div class="d-flex align-items-center justify-content-between mb-2 ">
-                      <div>
-                        Coupon {{$coupon->title}}<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Coupon"></i>
-                      </div>
-                      <div class="fw-bold" >
-                        @if ($coupon->freeship)
-                        <span class="text-danger"> - {{number_format($coupon->discount,0,'',' ')}} đ</span>
-                        @else    
-                        <span class="text-danger"> -{{$coupon->discount}}%</span>
-                        @endif
-                      </div>
-                    </div>
-                    @endif
+                    
                   </li>
                   <!-- list group item -->
                   <li class="list-group-item px-4 py-3">

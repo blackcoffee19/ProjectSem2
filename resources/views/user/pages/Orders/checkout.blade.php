@@ -390,11 +390,11 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(this).data('idadd'));
+                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(this).data('idadd'));
             });
             @if(Auth::check())
               let addr = $('input[name="select_address"]:checked').parent().next().next();
-              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -450,7 +450,12 @@
                         translate = service['short_name'];
                     };
                     str+=`<option value='${service['service_id']}'>${translate}</option>`;
+<<<<<<< HEAD
                     $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
+=======
+                    
+                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
+>>>>>>> origin/Tuong
                       let newdata2 = data2.slice(0,data2.length-1);
                       let dataJs2 = jQuery.parseJSON(newdata2);
                       //Change method
@@ -493,7 +498,7 @@
                           $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
                             let newdata3 = data3.slice(0,data3.length-1);
                             let dataJs6 = jQuery.parseJSON(newdata3);
-                            
+                            // console.log(dataJs6);
                             let shipping =dataJs6['data']['total'];
                             let total_ghn  = dataJs6['data']['total']+parseInt($("#total").data('subtotal'));
                             if(shipping!=$("input[name=shipment_fee]").val()){
@@ -514,7 +519,7 @@
             @endif
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
-              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -562,7 +567,7 @@
             });
             $("#paypal_btn").click(function(){
               @if(Auth::check())
-                $.get(window.location.origin+"/ProjectSem2/public/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
                   let dataAddress = jQuery.parseJSON(data);
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);

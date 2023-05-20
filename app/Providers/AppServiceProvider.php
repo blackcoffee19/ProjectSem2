@@ -124,5 +124,6 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('name_products',$arr);
         });
+        
     }
 }

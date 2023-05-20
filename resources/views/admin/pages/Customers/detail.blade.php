@@ -61,7 +61,14 @@
                             {{ $id_user->email }}
                         </label>
                     </div>
-
+                    <div  class="card-body p-6 fs-2 row">
+                        <label for=""  class="col-5"><strong>Verified email</strong></label>
+                            @if ( $id_user->email_verified)
+                            <p class="col-2 alert alert-success">Verified</p>
+                            @else
+                            <p class="col-3 alert alert-danger">Unverified</p>
+                            @endif
+                    </div>
                     <div class="card-body p-6 fs-2">
                         <label style="width: 200px;">
                             <strong>Select:</strong>

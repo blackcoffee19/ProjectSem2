@@ -194,7 +194,7 @@
 <nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
     <div class="navbar-vertical">
         <div class="px-4 py-5 d-flex justify-content-between align-items-center">
-            <a href="./index.html" class="navbar-brand">
+            <a href="{{route('index')}}" class="navbar-brand">
                 <img src="{{ asset('images/logo/freshcart-logo.svg') }}" alt="" />
             </a>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -202,7 +202,7 @@
         <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
             <ul class="navbar-nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="./dashboard/index.html">
+                    <a class="nav-link active" href="{{ Route('dashboard') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <i class="bi bi-house"></i></span>
@@ -214,7 +214,7 @@
                     <span class="nav-label">Store Managements</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./dashboard/products.html">
+                    <a class="nav-link" href="{{ Route('adminProduct') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-cart"></i></span>
                             <span class="nav-link-text">Products</span>
@@ -222,7 +222,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./dashboard/categories.html">
+                    <a class="nav-link" href="{{ Route('adminCategories') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <i class="bi bi-list-task"></i></span>
@@ -231,39 +231,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
+                    <a class="nav-link" href="{{ Route('adminOrder') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-bag"></i></span>
                             <span class="nav-link-text">Orders</span>
                         </div>
                     </a>
-                    <div id="navOrders" class="collapse" data-bs-parent="#sideNavbar">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="./dashboard/order-list.html">
-                                    List
-                                </a>
-                            </li>
-                            <!-- Nav item -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="./dashboard/order-single.html">
-                                    Single
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="./dashboard/vendor-grid.html">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-shop"></i></span>
                             <span class="nav-link-text">Sellers / Vendors</span>
                         </div>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="./dashboard/customers.html">
+                    <a class="nav-link" href="{{ Route('adminCustomers') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <i class="bi bi-people"></i></span>
@@ -272,7 +256,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./dashboard/reviews.html">
+                    <a class="nav-link" href="{{ Route('adminReviews') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-star"></i></span>
                             <span class="nav-link-text">Reviews</span>

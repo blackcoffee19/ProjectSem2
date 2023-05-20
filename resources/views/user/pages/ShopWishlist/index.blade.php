@@ -65,7 +65,7 @@
                                                     @if ($fav->Product->quantity>0  && $fav->Product->status == true)
                                                         <div class="btn btn-primary btn-sm"><a  class="addToCart " style="color: #ffffff" data-bs-id="{{$fav->id_product}}" >Add to Cart</a></div>
                                                     @else
-                                                        <div class="btn btn-dark btn-sm"><a>Contact us</a></div>
+                                                        <div class="btn btn-dark btn-sm"><a href="{{route('user.pages.Contact.index')}}">Contact us</a></div>
                                                     @endif
                                                 </td>
                                             </tr>

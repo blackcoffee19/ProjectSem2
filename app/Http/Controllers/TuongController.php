@@ -320,7 +320,7 @@ class TuongController extends Controller
                     $check = false;
                 }
             };
-            if($check){
+            if($check && count($address)>0){
                 $address[0]->default = true;
                 $address[0]->save();
             }

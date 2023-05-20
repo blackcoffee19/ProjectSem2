@@ -302,7 +302,7 @@
                                         @foreach ($recent_orders as $order)
                                             <tr>
                                                 <td>#{{ $order->order_code }}</td>
-                                                <td>{{ $order->id_user ? $order->User->name : 'GUEST' }}</td>
+                                                <td>{{ $order->id_user || isset($order->User->name) ? $order->User->name : 'GUEST' }}</td>
                                                 <td>{{ date_format($order->created_at, 'j F Y') }}</td>
                                                 <td>{{ number_format($order->total, 0, '', ' ') }} đ</td>
                                                 <td>

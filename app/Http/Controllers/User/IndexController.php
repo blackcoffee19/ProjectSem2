@@ -50,6 +50,9 @@ class IndexController extends Controller
             return redirect('/not_found')->with("error","Product Not Found");
         }else{
             $product = Product::find($id);
+            if(!$product){
+                return redirect('/not-found');
+            }
             $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
                 ->take(5)
                 ->get();

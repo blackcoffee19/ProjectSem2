@@ -47,11 +47,7 @@
                                     <label for="new_password" class="form-label">
                                         Create new password
                                     </label>
-<<<<<<< HEAD
-                                    <input type="password" name="new_password" id="new_password" class="form-control my-2" placeholder="New Password" required>
-=======
                                     <input type="password" name="new_password2" id="new_password2" class="form-control my-2" placeholder="New Password" required>
->>>>>>> origin/Quan
                                     <span id="msg_register_password" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">

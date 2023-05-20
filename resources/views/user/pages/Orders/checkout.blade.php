@@ -58,7 +58,7 @@
                                         </label>
                                       </div>
                                       <p class="text-muted">{{$add->email}}</p>
-                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-districtid="{{$add->district_id}}" data_wardid="{{$add->ward_id}}" data-province="{{$add->province}}">
+                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-districtid="{{$add->district_id}}" data-wardid="{{$add->ward_id}}" data-province="{{$add->province}}">
                                         {{$add->address .", ".$add->ward.", ".$add->district}}<br>
                                         {{$add->province}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
@@ -430,7 +430,7 @@
                 }
                 $("#ghtk_service").html(str1);
               });
-              $.get(window.location.origin+"/public/index.php/ajax/ghn_service/service?district="+addr.data('districtid'),function(data){
+              $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+addr.data('districtid'),function(data){
                   let newdata = data.slice(0,data.length-1);
                   let dataJs = jQuery.parseJSON(newdata); 
                   let str = "";
@@ -450,14 +450,14 @@
                         translate = service['short_name'];
                     };
                     str+=`<option value='${service['service_id']}'>${translate}</option>`;
-                    $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
+                    $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
                       let newdata2 = data2.slice(0,data2.length-1);
                       let dataJs2 = jQuery.parseJSON(newdata2);
                       //Change method
                       $('#delivery_method').change(function(){
                         if(parseInt($('#delivery_method option:selected').val()) <10){
                           $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
-                          $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data3){
+                          $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data3){
                               let dataJson2 = jQuery.parseJSON(data3);
                               let deliver_method2 = jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                               if(deliver_method2['fee']['delivery']){
@@ -490,7 +490,7 @@
                               };
                             })   
                         }else{
-                          $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
+                          $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
                             let newdata3 = data3.slice(0,data3.length-1);
                             let dataJs6 = jQuery.parseJSON(newdata3);
                             
@@ -575,7 +575,7 @@
                   $('#email_pay').html(dataAddress['email']);
                   $("#confirm_paypal").click(function(){
                     let delivery_met= $('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text();
-                    window.location.assign(window.location.origin+'/public/index.php/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&delivery_method="+delivery_met+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
+                    window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?select_address='+$('input[name=select_address]:checked').val()+"&delivery_method="+delivery_met+"&instruction="+$("#DeliveryInstructions").val()+"&shipfee="+$('input[name=shipment_fee]').val()+"&coupon="+$('input[name=code_coupon]').val());
                   });
                 })
               @else
@@ -635,7 +635,7 @@
             })
             $("#confirm_paypal").click(function(){
               let delivery = $('#delivery_method option:selected').parent().attr('label')+" - "+$('#delivery_method option:selected').text();
-                window.location.assign(window.location.origin+'/public/index.php/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&delivery_method="+delivery+"&shipfee="+$('input[name=shipment_fee]').val());
+                window.location.assign(window.location.origin+'/ProjectSem2/public/process-transaction?name='+$('input[name=nameReciever]').val()+"&phone="+$('input[name=phoneReciever]').val()+"&email="+$('input[name=emailReciever]').val()+"&province="+$('#province option:selected').val()+"&district="+$('#district option:selected').val()+"&ward="+$('#ward option:selected').val()+"&address="+$('input[name=addressReciever]').val()+"&instruction="+$("#DeliveryInstructions").val()+"&delivery_method="+delivery+"&shipfee="+$('input[name=shipment_fee]').val());
             })
         })
     </script>

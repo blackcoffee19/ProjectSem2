@@ -176,7 +176,11 @@
                 }
                 $('input[name=register_email]').addClass('is-invalid');      
             }else if($('input[name=register_email]').val().length > 0){
+<<<<<<< HEAD
                 $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
+=======
+                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
+>>>>>>> origin/Quan
                     if(data == "existed"){
                     $('input[name=register_email]').addClass('is-invalid');
                     $('#register_email').text('This email has signed. Choose another one or signin');
@@ -190,7 +194,11 @@
                 });
             };
             $('input[name=register_email]').change(function(){
+<<<<<<< HEAD
                 $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
+=======
+                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+>>>>>>> origin/Quan
                     if(data == "existed"){
                         if($(this).hasClass('is-valid')){
                             $(this).removeClass('is-valid');
@@ -214,7 +222,11 @@
                 }
                 $('input[name=register_phone]').addClass('is-invalid');      
             }else if($('input[name=register_phone]').val().length >0){
+<<<<<<< HEAD
                 $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
+=======
+                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
+>>>>>>> origin/Quan
                 if(data == "existed"){
                     $('input[name=register_phone]').addClass('is-invalid');
                     $('#register_phone').text('This phone has used by another account.');
@@ -228,7 +240,11 @@
                 });
             };
             $('input[name=register_phone]').change(function(){
+<<<<<<< HEAD
                 $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$(this).val(), function(data){
+=======
+                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
+>>>>>>> origin/Quan
                     if(data == "existed"){
                         if($('input[name=register_phone]').hasClass('is-valid')){
                             $('input[name=register_phone]').removeClass('is-valid');

@@ -42,7 +42,7 @@
                                 <div class="col-xl-2 col-md-4 col-12">
                                     <form action="{{ Route('category.findByName') }}" class="d-flex" role="search">
                                         <select class="form-select" name="status" onchange="this.form.submit()">
-                                            <option value="">Status</option>
+                                            <option value="all">Status</option>
                                             <option value="Active">Active</option>
                                             <option value="Disabled">Disabled</option>
                                         </select>

@@ -3,7 +3,11 @@
 //#offcanvasRight List item in Cart
       @if(!Auth::check() || Auth::user()->admin != "2")
       $('.btn_showcart').click(function(){
+<<<<<<< HEAD
           $.get(window.location.origin+"/ProjectSem2/public/ajax/cart/listcart",function(data){
+=======
+          $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/cart/listcart",function(data){
+>>>>>>> origin/Quan
               $('#listCartmodal').html(data);
               $('input[name=_token]').val($('meta[name="csrf-token"]').attr('content'));
               let idInterval1,idInterval2;
@@ -77,7 +81,11 @@
           $(this).val(validateNum.test(currentVl)?currentVl:value);
       }
       $('.btn_modal').click(function(){
+<<<<<<< HEAD
           $.get(window.location.origin+"/ProjectSem2/public/ajax/modal/show-product/"+$(this).data('product'),function(data){
+=======
+          $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/modal/show-product/"+$(this).data('product'),function(data){
+>>>>>>> origin/Quan
             let dataProduct = jQuery.parseJSON(data);
             let listImage = "";
             let slider_product = "";
@@ -138,7 +146,11 @@
               if($('#btn-compare').hasClass('d-none')){
                 $('#btn-compare').removeClass('d-none');
               }
+<<<<<<< HEAD
               $.get(window.location.origin+"/ProjectSem2/public/ajax/add-compare/"+dataProduct['id_product'],function(data){
+=======
+              $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/add-compare/"+dataProduct['id_product'],function(data){
+>>>>>>> origin/Quan
                 $('#messCompare').html(data);  
               })
               const toast = new bootstrap.Toast($('#toastCompare'))
@@ -150,20 +162,32 @@
         if($('#btn-compare').hasClass('d-none')){
           $('#btn-compare').removeClass('d-none');
         }
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/add-compare/"+$(this).data('bsProduct'),function(data){
+>>>>>>> origin/Quan
           $('#messCompare').html(data);  
         })
         const toast = new bootstrap.Toast($('#toastCompare'))
         toast.show();
       });
       $('#show_compare').click(function(){
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/ajax/compare/showcompare",function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/compare/showcompare",function(data){
+>>>>>>> origin/Quan
           $('#compare_detail').html(data);  
         })
       });
       $('.addFav').click(function(){
           $(this).children().toggleClass('bi-heart').toggleClass('bi-heart-fill text-danger');
+<<<<<<< HEAD
         $.get(window.location.origin+'/ProjectSem2/public/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
+=======
+        $.get(window.location.origin+'/ProjectSem2/public/index.php/ajax/add-favourite/'+$(this).data('bsIdproduct'),function(data){
+>>>>>>> origin/Quan
           $('.countFav').html(data);
         })
       });
@@ -179,7 +203,11 @@
         let toastorder = new bootstrap.Toast($('#toastWarning'))
         toastorder.show();
         @endif
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/ajax/add-cart/"+$(this).data('bsId'),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/add-cart/"+$(this).data('bsId'),function(data){
+>>>>>>> origin/Quan
           $('.countCart').html(data);
         });
       });
@@ -235,7 +263,11 @@
         }
       })
       $('.remove_add').click(function(){
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/ajax/remove_address/"+$(this).data('idadd'),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/remove_address/"+$(this).data('idadd'),function(data){
+>>>>>>> origin/Quan
           $("#listAddress").html(data);
         });
       })
@@ -319,7 +351,11 @@
           $("input[name=ward_id]").val($('#ward option:selected').val());
           $("input[name=province_id]").val($("#province option:selected").val());
         @endif
+<<<<<<< HEAD
         $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
+=======
+        $.get(window.location.origin+'/ProjectSem2/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data6){
+>>>>>>> origin/Quan
           let dataJson = jQuery.parseJSON(data6);
           let check = 0;
           let deliver_method = jQuery.parseJSON(dataJson[1]);
@@ -366,7 +402,11 @@
             if(parseInt($('#delivery_method option:selected').val()) <10){
               $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
+<<<<<<< HEAD
               $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data1){
+=======
+              $.get(window.location.origin+'/ProjectSem2/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data1){
+>>>>>>> origin/Quan
                   let dataJson3 = jQuery.parseJSON(data1);
                   let deliver_method4 = jQuery.parseJSON(dataJson3[$('#delivery_method option:selected').val()]);
                   if(deliver_method4['fee']['delivery']){
@@ -399,7 +439,11 @@
                   };
                 })   
             }else{
+<<<<<<< HEAD
               $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
+=======
+              $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data5){
+>>>>>>> origin/Quan
                 let newdata4 = data5.slice(0,data5.length-1);
                 let dataJs4 = jQuery.parseJSON(newdata4);
                 if(dataJs4['code']==200){
@@ -420,7 +464,11 @@
             };
           });
         });
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/service?district="+$('#district option:selected').val(),function(data){
+>>>>>>> origin/Quan
             let newdata = data.slice(0,data.length-1);
             let dataJs = jQuery.parseJSON(newdata); 
             let str2 = "";
@@ -440,7 +488,11 @@
                         translate =service['short_name'];
                     };
               str2+=`<option value='${service['service_id']}'>${translate}</option>`;
+<<<<<<< HEAD
               $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
+=======
+              $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+service['service_id'],function(data2){
+>>>>>>> origin/Quan
                 let newdata2 = data2.slice(0,data2.length-1);
                 let dataJs2 = jQuery.parseJSON(newdata2);
                 //Change method
@@ -448,7 +500,11 @@
                   if(parseInt($('#delivery_method option:selected').val()) <10){
                     $("#img_logictic").attr('src',"{{asset('images/icons/ghtk.png')}}");
 
+<<<<<<< HEAD
                     $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+=======
+                    $.get(window.location.origin+'/ProjectSem2/public/index.php/ajax/ghtk_service/fee?province='+$("#province option:selected").text()+"&district="+$("#district option:selected").text(),function(data3){
+>>>>>>> origin/Quan
                         let dataJson2 = jQuery.parseJSON(data3);                        
                         let deliver_method2 =  jQuery.parseJSON(dataJson2[$('#delivery_method option:selected').val()]);
                         if(deliver_method2['fee']['delivery']){
@@ -481,7 +537,11 @@
                         };
                       })   
                   }else{
+<<<<<<< HEAD
                     $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data4){
+=======
+                    $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/fee?ward="+$('#ward option:selected').val()+"&district="+$('#district option:selected').val()+"&service_id="+$('#delivery_method option:selected').val(),function(data4){
+>>>>>>> origin/Quan
                       let newdata3 = data4.slice(0,data4.length-1);
                       let dataJs3 = jQuery.parseJSON(newdata3);
                       let total_ghn =dataJs3['data']['total']+ parseInt($("#total").data('subtotal'));
@@ -516,7 +576,11 @@
         @endif
       });
       $('.user_editorder').click(function() {
+<<<<<<< HEAD
           $.get(window.location.origin + "/ProjectSem2/public/account/ajax/edit_order/" + $(this).data('idorder'),function(data) {
+=======
+          $.get(window.location.origin + "/ProjectSem2/public/index.php/account/ajax/edit_order/" + $(this).data('idorder'),function(data) {
+>>>>>>> origin/Quan
             function toNonAccentVietnamese(str) {
               str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
               str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -705,7 +769,11 @@
                       method = 'xteam';
                       break;
                   }
+<<<<<<< HEAD
                   $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+$("#edit_province option:selected").text()+"&district="+$("#edit_district option:selected").text()+"&method="+method,function(ghtk_data){
+=======
+                  $.get(window.location.origin+'/ProjectSem2/public/index.php/ajax/ghtk_service/fee?province='+$("#edit_province option:selected").text()+"&district="+$("#edit_district option:selected").text()+"&method="+method,function(ghtk_data){
+>>>>>>> origin/Quan
                     let dataJson = jQuery.parseJSON(ghtk_data);
                     let deliver_method = jQuery.parseJSON(dataJson[0]);
                     if(deliver_method['fee']['delivery']){
@@ -732,7 +800,11 @@
                     default:
                       method =logictic[1];
                   };
+<<<<<<< HEAD
                   $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/service?district="+$('#edit_district option:selected').val(),function(ghn_data){
+=======
+                  $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/service?district="+$('#edit_district option:selected').val(),function(ghn_data){
+>>>>>>> origin/Quan
                     let newdata = ghn_data.slice(0,ghn_data.length-1);
                     let dataJs = jQuery.parseJSON(newdata);
                     if(dataJs['code']==400){
@@ -742,7 +814,11 @@
                       $("#error_delivery").html('');
                       dataJs['data'].forEach(ser =>{
                         if(ser['short_name'] == method){
+<<<<<<< HEAD
                           $.get(window.location.origin+"/ProjectSem2/public/ajax/ghn_service/fee?ward="+$('#edit_ward option:selected').val()+"&district="+$('#edit_district option:selected').val()+"&service_id="+ser['service_id']+"&weight="+data_order['weight'],function(ghn_fee){
+=======
+                          $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/ghn_service/fee?ward="+$('#edit_ward option:selected').val()+"&district="+$('#edit_district option:selected').val()+"&service_id="+ser['service_id']+"&weight="+data_order['weight'],function(ghn_fee){
+>>>>>>> origin/Quan
                             let newdata2 = ghn_fee.slice(0,ghn_fee.length-1);
                             let dataJs2 = jQuery.parseJSON(newdata2);
                             $("#edit_servicefee").parent().parent().next().removeClass('d-none');
@@ -885,7 +961,11 @@
           }
           $(this).addClass('is-invalid');      
         }else{
+<<<<<<< HEAD
           $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
+=======
+          $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+>>>>>>> origin/Quan
             if(data == "existed"){
               $('input[name=register_email]').addClass('is-invalid');
               $('#register_email').text('This email has signed. Choose another one or signin');
@@ -943,7 +1023,11 @@
           }
           $(this).addClass('is-invalid');      
         }else{
+<<<<<<< HEAD
           $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
+=======
+          $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$(this).val(), function(data){
+>>>>>>> origin/Quan
             if(data == "existed"){
               if($('input[name=email_resset]').hasClass('is-invalid')){
                 $('input[name=email_resset]').removeClass('is-invalid');
@@ -1013,7 +1097,11 @@
         }
       })
       $(".modal_coupon").click(function(){
+<<<<<<< HEAD
           $.get(window.location.origin+"/ProjectSem2/public/ajax/show_coupon/"+$(this).data('coupon'),function(data){
+=======
+          $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/show_coupon/"+$(this).data('coupon'),function(data){
+>>>>>>> origin/Quan
             let coupon_data = jQuery.parseJSON(data);
             $('#coupon_title_modal').html(coupon_data['title']);
             $('#max_coupon').html(coupon_data['max']);
@@ -1026,7 +1114,11 @@
           })
       })
       $(".manager_notificate").click(function(){
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/manager/ajax/check-notificate/"+$(this).data('order'),function(data){
+>>>>>>> origin/Quan
           let dataJson = jQuery.parseJSON(data);
           $('input[name=id_notificate]').val(dataJson['news']);
           $("#receiver2").html(dataJson['receiver']);
@@ -1064,7 +1156,11 @@
         })
       })
       $('.check_order').click(function(){
+<<<<<<< HEAD
         $.get(window.location.origin+"/ProjectSem2/public/manager/ajax/check-order/"+$(this).data('order'),function(data){
+=======
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/manager/ajax/check-order/"+$(this).data('order'),function(data){
+>>>>>>> origin/Quan
           let dataJson = jQuery.parseJSON(data);
           $('input[name=id_order]').val(dataJson['id_order']);
           $("#receiver").html(dataJson['receiver']);
@@ -1121,8 +1217,13 @@
         })
       })
       $('.check_order2').click(function(){
+<<<<<<< HEAD
         console.log(window.location.origin+"/ProjectSem2/public/ajax/check-order/"+$(this).data('order'));
         $.get(window.location.origin+"/ProjectSem2/public/ajax/check-order/"+$(this).data('order'),function(data){
+=======
+        console.log(window.location.origin+"/ProjectSem2/public/index.php/ajax/check-order/"+$(this).data('order'));
+        $.get(window.location.origin+"/ProjectSem2/public/index.php/ajax/check-order/"+$(this).data('order'),function(data){
+>>>>>>> origin/Quan
           let dataJson = jQuery.parseJSON(data);
           console.log(dataJson);
           $('input[name=id_order2]').val(dataJson['id_order']);
@@ -1169,7 +1270,11 @@
         $.ajax({
           method: "POST",
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+<<<<<<< HEAD
           url: window.location.origin+'/ProjectSem2/public/ajax/denied-order',
+=======
+          url: window.location.origin+'/ProjectSem2/public/index.php/ajax/denied-order',
+>>>>>>> origin/Quan
           data: {'id_order':$(this).data('order')},
           success: function (data) {
             if(data == 0){
@@ -1182,7 +1287,11 @@
         $.ajax({
           method: "POST",
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+<<<<<<< HEAD
           url: window.location.origin+'/ProjectSem2/public/ajax/accept-order',
+=======
+          url: window.location.origin+'/ProjectSem2/public/index.php/ajax/accept-order',
+>>>>>>> origin/Quan
           data: {'id_order':$(this).data('order')},
           success: function (data) {
             if(data == 0){
@@ -1203,7 +1312,11 @@
         $.ajax(
             {method: "GET",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+<<<<<<< HEAD
             url: window.location.origin+'/ProjectSem2/public/ajax/message/show',
+=======
+            url: window.location.origin+'/ProjectSem2/public/index.php/ajax/message/show',
+>>>>>>> origin/Quan
             data: {'codegroup':$(this).data('groupcode'),'id_user':$(this).data('iduser')},
             success: function (data) {
               let data_mess  = data.split('-/-');
@@ -1225,7 +1338,11 @@
           $.ajax({
             method: "POST",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+<<<<<<< HEAD
             url: window.location.origin+'/ProjectSem2/public/ajax-post/message',
+=======
+            url: window.location.origin+'/ProjectSem2/public/index.php/ajax-post/message',
+>>>>>>> origin/Quan
             data: {'send_message':message.val(),'code_group':chatbox.data('chat'),'connect_user':chatbox.data('iduser')},
             success: function (data) {
               let mess_data = jQuery.parseJSON(data);
@@ -1298,7 +1415,11 @@
                     'content')
             },
             url: window.location.origin +
+<<<<<<< HEAD
                 '/ProjectSem2/public/ajax-post/message',
+=======
+                '/ProjectSem2/public/index.php/ajax-post/message',
+>>>>>>> origin/Quan
             data: {
                 'send_link': ui.item.value,
                 'code_group': chatbox.data('chat'),
@@ -1329,7 +1450,11 @@
     $('.clear_chat').click(function(e){
       e.preventDefault();
       let code_gr = $('#messages').data('chat');
+<<<<<<< HEAD
       window.location.assign(window.location.origin+"/ProjectSem2/public/ajax/message/clear/"+code_gr);
+=======
+      window.location.assign(window.location.origin+"/ProjectSem2/public/index.php/ajax/message/clear/"+code_gr);
+>>>>>>> origin/Quan
     })
 //SHARE PRODUCT  
     $("#share_fb").click(function(e){

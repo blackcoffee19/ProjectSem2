@@ -353,7 +353,11 @@
     <script>
         $(document).ready(function() {
             $("#select_year").change(function() {
+<<<<<<< HEAD
                 window.location.assign(window.location.origin + "/ProjectSem2/public/admin/dashboard?y=" +
+=======
+                window.location.assign(window.location.origin + "/ProjectSem2/public/index.php/admin/dashboard?y=" +
+>>>>>>> origin/Quan
                     $(this).val());
             })
         })

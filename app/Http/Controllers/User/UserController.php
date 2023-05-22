@@ -33,42 +33,44 @@ class UserController extends Controller
     }
 
     public function categoryById()
-{
-    $category = request('category');
+    {
+        $category = request('category');
+    
+        $prods = Product::whereIn('id_type', $category)->paginate(12);
+        $rate = Comment::all(); 
+        $type = TypeProduct::whereIn('id_type', $category)->get();
+        $cats = TypeProduct::all();
+        
+        $prods->appends(['category' => $category]); // Gắn thêm thông tin về category vào đối tượng phân trang
+        
+        return view('user.pages.Products.index', compact('type', 'prods', 'rate', 'cats'));
+    }
+
    
-    $prods = Product::whereIn('id_type', $category)->paginate(12);
-    $rate = Comment::all(); 
-    $type = TypeProduct::whereIn('id_type', $category)->get();
-    $cats = TypeProduct::all();
-    
-    $prods->appends(['category' => $category]); // Gắn thêm thông tin về category vào đối tượng phân trang
-    
-    return view('user.pages.Products.index', compact('type', 'prods', 'rate', 'cats'));
-}
 
-public function searchPrice(Request $request)
-{
-    $form = $request->form;
-    $to = $request->to;
-    $type = (array)$request->type;
-    $cats = TypeProduct::all();
+    public function searchPrice(Request $request)
+    {
+        $form = $request->form;
+        $to = $request->to;
+        $type = (array)$request->type;
+        $cats = TypeProduct::all();
 
-    $prods = Product::whereIn('id_type', $type)
-    ->where(function ($query) use ($form, $to) {
-        $query->where('sale', '>', 0)
-            ->whereRaw('price * (1 - sale / 100) >= ?', [$form])
-            ->whereRaw('price * (1 - sale / 100) <= ?', [$to]);
-    })
-    ->orWhere(function ($query) use ($form, $to) {
-        $query->where('sale', 0)
-            ->whereBetween('price', [$form, $to]);
-    })
-    ->paginate(12);
+        $prods = Product::whereIn('id_type', $type)
+        ->where(function ($query) use ($form, $to) {
+            $query->where('sale', '>', 0)
+                ->whereRaw('price * (1 - sale / 100) >= ?', [$form])
+                ->whereRaw('price * (1 - sale / 100) <= ?', [$to]);
+        })
+        ->orWhere(function ($query) use ($form, $to) {
+            $query->where('sale', 0)
+                ->whereBetween('price', [$form, $to]);
+        })
+        ->paginate(12);
 
-$prods->appends(['form' => $form, 'to' => $to, 'type' => $type]); // Gắn thêm thông tin tìm kiếm vào đối tượng phân trang
+    $prods->appends(['form' => $form, 'to' => $to, 'type' => $type]); // Gắn thêm thông tin tìm kiếm vào đối tượng phân trang
 
-return view('user.pages.Products.index', compact('prods', 'cats'));
-}
+    return view('user.pages.Products.index', compact('prods', 'cats'));
+    }
 
     public function sendMail(Request $request)
     {

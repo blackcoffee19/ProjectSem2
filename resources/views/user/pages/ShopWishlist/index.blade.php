@@ -40,7 +40,7 @@
                                             <tr>
                                                 <td class="align-middle">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="{{$fav->id_fa}}" id="checkFav" name="checkFav[]">
+                                                        <input class="form-check-input checkFav" type="checkbox" value="{{$fav->id_fa}}" name="checkFav[]">
                                                     </div>
                                                 </td>
                                                 <td class="align-middle">
@@ -74,7 +74,7 @@
                                     <tfoot>
                                       <tr>
                                         <td colspan="5">
-                                          <input type="submit" class="btn btn-outline-danger" name="removeFav" value="Remove All Selected">
+                                          <input type="submit" class="btn btn-outline-danger" name="removeFav" value="Remove All Selected" disabled>
                                         </td>
                                         <td colspan="1">
                                           <input type="submit" class="btn btn-primary" name="addToCart" value="Buy now" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Caution: You need select which Pet you want before go to order side ">
@@ -91,4 +91,28 @@
             </div>
         </section>
     </main>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+            $('.checkFav').each(function() {
+                if($(this).is(':checked')){
+                    $('input[name=removeFav]').removeAttr('disabled');
+                }
+            });
+            $('.checkFav').click(function(){
+                let check = true;
+                $('.checkFav').each(function() {
+                    if($(this).is(':checked')){
+                        check = false;
+                    }
+                }); 
+                if(check){
+                    $('input[name=removeFav]').attr('disabled','disabled');
+                }else{
+                    $('input[name=removeFav]').removeAttr('disabled');
+                }
+            });
+        })
+    </script>
 @endsection

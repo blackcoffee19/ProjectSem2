@@ -723,7 +723,7 @@
                                 </svg></i>
                             </a>
                         </li>
-                        @if (Auth::check())
+                        {{-- @if (Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -745,7 +745,7 @@
                             </ul>
                         </li>
 
-                        @endif
+                        @endif --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{ route('privacy') }}">
                                 Privacy Policy <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

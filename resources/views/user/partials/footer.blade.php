@@ -115,7 +115,7 @@
         <div class="border-top py-4">
             <div class="row align-items-center">
                 <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshShop eCommerce. All rights
-                        reserved. Powered by <a href="#">FreshShop</a>.</span></div>
+                        reserved. Powered by <a href="{{route('index')}}">FreshShop</a>.</span></div>
                 <div class="col-md-6">
                     <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
                         <li class="list-inline-item text-muted">Follow us on</li>

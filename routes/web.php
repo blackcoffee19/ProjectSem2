@@ -12,7 +12,7 @@ use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserAccountController;
 use App\Http\Controllers\PayPalController;
-
+use App\Http\Controllers\User\UserSignController;
 use App\Http\Middleware\AdminLogin;
 use App\Http\Middleware\UserLogin;
 use App\Http\Middleware\ManagerLogin;
@@ -45,18 +45,18 @@ Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name
 
 Route::get('/', [TuongController::class, 'home_page'])->name('index')->middleware('UpdateCart');
 Route::get('/cate_pr', [TuongController::class, 'admin_cate'])->name('productList');
-Route::get('/signin', [TuongController::class, "get_signIn"])->name('signin')->middleware('UpdateCart');
-Route::post('/signin', [TuongController::class, "post_signIn"])->name('signin');
-Route::get('/signup', [TuongController::class, "get_signUp"])->name('signup')->middleware('UpdateCart');
-Route::post('/signup', [TuongController::class, "post_signUp"])->name('signup');
-Route::get('/verify/{token}', [TuongController::class, 'verifyEmail'])->name('verify');
-Route::get('/verify-send', [TuongController::class, 'send_verifyEmail'])->name('verifyEmail');
-Route::get('/forgot_password',[TuongController::class,'get_forgotpass'])->name('send_ressetmail');
-Route::post('/forgot_password',[TuongController::class,'send_ressetmail'])->name('send_ressetmail');
-Route::get('/reset_password/{token}',[TuongController::class,'reset_newpassword'])->name('reset_password');
-Route::post('/reset_password/create/password',[TuongController::class,'create_newpassword'])->name('create_newpassword');
-Route::get('/signup/confirm',[TuongController::class,'get_signupconfirm'])->name('signup_confirm');
-Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
+Route::get('/signin', [UserSignController::class, "get_signIn"])->name('signin')->middleware('UpdateCart');
+Route::post('/signin', [UserSignController::class, "post_signIn"])->name('signin');
+Route::get('/signup', [UserSignController::class, "get_signUp"])->name('signup')->middleware('UpdateCart');
+Route::post('/signup', [UserSignController::class, "post_signUp"])->name('signup');
+Route::get('/verify/{token}', [UserSignController::class, 'verifyEmail'])->name('verify');
+Route::get('/verify-send', [UserSignController::class, 'send_verifyEmail'])->name('verifyEmail');
+Route::get('/forgot_password',[UserSignController::class,'get_forgotpass'])->name('send_ressetmail');
+Route::post('/forgot_password',[UserSignController::class,'send_ressetmail'])->name('send_ressetmail');
+Route::get('/reset_password/{token}',[UserSignController::class,'reset_newpassword'])->name('reset_password');
+Route::post('/reset_password/create/password',[UserSignController::class,'create_newpassword'])->name('create_newpassword');
+Route::get('/signup/confirm',[UserSignController::class,'get_signupconfirm'])->name('signup_confirm');
+Route::get('/signout', [UserSignController::class, 'signOut'])->name('signout');
 
 Route::get('/remove-news', [TuongController::class, 'remove_allnews'])->name('remove-allnews');
 Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('addComment');

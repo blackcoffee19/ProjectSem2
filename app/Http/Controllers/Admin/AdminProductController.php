@@ -31,9 +31,10 @@ class AdminProductController extends Controller
         $status_sl = $request->status_sl;
         $prods = Product::when($type_product, function ($query, $type_product) {
             return $query->where('id_type', '=',$type_product);})->when($name, function ($query, $name) {
-                return $query->where('name','LIKE', '%'.$name.'%');})->when($status_sl, function($query,$status_sl){
-                    return $query->orderBy('status',$status_sl);
+                return $query->where('name','LIKE', '%'.$name.'%');})->when($status_sl, function($query,$status_sl) {
+                    return $query->where('status',$status_sl);
                 })->paginate(10);
+             
         $types = TypeProduct::all();
         return view('admin.pages.Products.index', compact('prods', 'types','type_product','status_sl'));
     }

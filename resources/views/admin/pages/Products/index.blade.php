@@ -39,9 +39,15 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-2 col-md-2 col-12">
+                                        <?php
+                                        $status_sl = isset($_GET['status_sl']) ? $_GET['status_sl'] : ''; // Lấy giá trị từ URL
+                                    
+                                        // Mã HTML
+                                        ?>
                                         <select class="form-select" name="status_sl" id="status_sl" onchange="this.form.submit()">
-                                            <option value="desc" {{isset($status_sl) && $status_sl == 'desc'?"selected":''}}>Active</option>
-                                            <option value="asc" {{isset($status_sl) && $status_sl == 'asc'?"selected":''}}>Deactivate</option>
+                                            <option value="">Status</option>
+                                            <option value="1" <?php echo $status_sl == '1' ? "selected" : ''; ?>>Active</option>
+                                            <option value="Deactivate" <?php echo $status_sl == 'Deactivate' ? "selected" : ''; ?>>Deactivate</option>
                                         </select>
                                     </div>
                                     <div class="col-xl-2 col-md-4 col-12">
@@ -145,7 +151,7 @@
                                 </table>
                             </div>
                             <div class="p-5">
-                                {{ $prods->links('user.pagination.cus_pagination') }}
+                                {{ $prods->appends(['status_sl' => $status_sl])->links('user.pagination.cus_pagination') }}
                             </div>
                         </div>
                     </div>

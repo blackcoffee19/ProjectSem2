@@ -40,8 +40,8 @@
                           data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
                           <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
                         </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                          data-bs-target="#addAddressModal">Add a new address </a>
+                        {{-- <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                          data-bs-target="#addAddressModal">Add a new address </a> --}}
                       </div>
                       <div id="flush-collapseOne" class="accordion-collapse collapse show"
                       data-bs-parent="#accordionFlushExample">
@@ -58,7 +58,7 @@
                                         </label>
                                       </div>
                                       <p class="text-muted">{{$add->email}}</p>
-                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-districtid="{{$add->district_id}}" data_wardid="{{$add->ward_id}}" data-province="{{$add->province}}">
+                                      <address style="height: 90px" data-ward="{{$add->ward}}" data-district="{{$add->district}}" data-districtid="{{$add->district_id}}" data-wardid="{{$add->ward_id}}" data-province="{{$add->province}}">
                                         {{$add->address .", ".$add->ward.", ".$add->district}}<br>
                                         {{$add->province}}<br>
                                         <abbr title="Phone">P: {{$add->phone}}</abbr></address>
@@ -69,8 +69,11 @@
                                     </div>
                                   </div>
                               @endforeach
-                            @else
                             @endif
+                            <button class="btn btn-outline-primary col-lg-3 col-4 mx-auto" type="button" data-bs-toggle="modal"
+                            data-bs-target="#addAddressModal" aria-expanded="true" aria-controls="flush-collapseOne">
+                              <i class="bi bi-building-add" style="font-size: 4rem"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -317,6 +320,20 @@
                       </div>
 
                     </div>
+                    @if (Session::has('coupon'))
+                    <div class="d-flex align-items-center justify-content-between mb-2 ">
+                      <div>
+                        Coupon {{$coupon->title}}<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Coupon"></i>
+                      </div>
+                      <div class="fw-bold" >
+                        @if ($coupon->freeship)
+                        <span class="text-danger"> - {{number_format($coupon->discount,0,'',' ')}} đ</span>
+                        @else    
+                        <span class="text-danger"> -{{$coupon->discount}}%</span>
+                        @endif
+                      </div>
+                    </div>
+                    @endif
                     <div class="d-flex align-items-center justify-content-between mb-2 ">
                       <div>
                         Service Fee <i class="bi bi-exclamation-circle text-muted" data-bs-toggle="tooltip"
@@ -337,20 +354,7 @@
                       </div>
                       <div id="extra_ship"></div>
                     </div>
-                    @if (Session::has('coupon'))
-                    <div class="d-flex align-items-center justify-content-between mb-2 ">
-                      <div>
-                        Coupon {{$coupon->title}}<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Coupon"></i>
-                      </div>
-                      <div class="fw-bold" >
-                        @if ($coupon->freeship)
-                        <span class="text-danger"> - {{number_format($coupon->discount,0,'',' ')}} đ</span>
-                        @else    
-                        <span class="text-danger"> -{{$coupon->discount}}%</span>
-                        @endif
-                      </div>
-                    </div>
-                    @endif
+                    
                   </li>
                   <!-- list group item -->
                   <li class="list-group-item px-4 py-3">
@@ -390,11 +394,11 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(this).data('idadd'));
+                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(this).data('idadd'));
             });
             @if(Auth::check())
               let addr = $('input[name="select_address"]:checked').parent().next().next();
-              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -450,6 +454,7 @@
                         translate = service['short_name'];
                     };
                     str+=`<option value='${service['service_id']}'>${translate}</option>`;
+                    
                     $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+service['service_id'],function(data2){
                       let newdata2 = data2.slice(0,data2.length-1);
                       let dataJs2 = jQuery.parseJSON(newdata2);
@@ -493,7 +498,7 @@
                           $.get(window.location.origin+"/public/index.php/ajax/ghn_service/fee?ward="+addr.data('wardid')+"&district="+addr.data('districtid')+"&service_id="+$('#delivery_method option:selected').val(),function(data3){
                             let newdata3 = data3.slice(0,data3.length-1);
                             let dataJs6 = jQuery.parseJSON(newdata3);
-                            
+                            // console.log(dataJs6);
                             let shipping =dataJs6['data']['total'];
                             let total_ghn  = dataJs6['data']['total']+parseInt($("#total").data('subtotal'));
                             if(shipping!=$("input[name=shipment_fee]").val()){
@@ -514,7 +519,7 @@
             @endif
             $('input[name="select_address"]').change(function(){
               addr =  $(this).parent().next().next();
-              $.get(window.location.origin+'/ProjectSem2/public/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
+              $.get(window.location.origin+'/public/index.php/ajax/ghtk_service/fee?province='+addr.data('province')+"&district="+addr.data('district'),function(data){
                 let dataJson = jQuery.parseJSON(data);
                 let deliver_method = jQuery.parseJSON(dataJson[1]);
                 if(deliver_method['fee']['delivery']){
@@ -562,7 +567,7 @@
             });
             $("#paypal_btn").click(function(){
               @if(Auth::check())
-                $.get(window.location.origin+"/ProjectSem2/public/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
+                $.get(window.location.origin+"/public/index.php/ajax/get-address/"+$('input[name=select_address]:checked').data('address'), function(data){
                   let dataAddress = jQuery.parseJSON(data);
                   $('#intruct_pay').html($("#DeliveryInstructions").val());
                   $('#address_pay').html(dataAddress['address']);

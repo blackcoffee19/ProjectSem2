@@ -101,16 +101,18 @@
                                                 @if (Auth::user()->admin != '2')
                                                     <td class="align-middle border-top-0">
                                                         @if ($order->status == 'unconfirmed' || $order->status == 'confirmed')
-                                                            <a href="" data-bs-toggle='modal' class='user_editorder'
+                                                            <a href="" data-bs-toggle='modal' class='user_editorder btn btn-outline-primary me-3'
                                                                 data-bs-target='#editOrder'
                                                                 data-idorder='{{ $order->id_order }}'
-                                                                style="font-size: 1.2rem"><i
+                                                                style="font-size: 1.2rem" ><i
                                                                     class="bi bi-pencil-square"></i></a>
+                                                            @if ($order->method == 'cod')
                                                             <a href="{{ route('cancelorder', $order->id_order) }}"
                                                                 onclick="return confirm('You really want cancel this order?')"
-                                                                style="font-size: 1.2rem"><i
+                                                                style="font-size: 1.2rem" class="btn btn-outline-danger"><i
                                                                     class="bi bi-slash-circle text-danger"></i>
                                                             </a>
+                                                            @endif
                                                         @endif
                                                     </td>
                                                 @else

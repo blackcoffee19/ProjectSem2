@@ -12,10 +12,6 @@
                         <i class="fa-solid fa-location-pin me-5"></i>Address</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('accountpayment')}}" >
-                        <i class="fa-regular fa-credit-card me-5"></i>Payment Method</a>
-                </li>      
             @else
             <li class="nav-item">
                 <a class="nav-link " aria-current="page" href="{{ route('allorder') }}">

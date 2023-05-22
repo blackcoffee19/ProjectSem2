@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row g-4 py-4">
             <div class="col-12 col-md-12 col-lg-4">
-                <h6 class="mb-4">Categories</h6>
+                <h5 class="mb-4">Categories</h5>
                 <div class="row">
                     <div class="col-6">
                         <!-- list -->
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Vegetable</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Fruit</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Meat</a></li>
+                            <li class="nav-item mb-2">Vegetable</li>
+                            <li class="nav-item mb-2">Fruit</li>
+                            <li class="nav-item mb-2">Meat</li>
                         </ul>
                     </div>
                 </div>
@@ -17,56 +17,56 @@
             <div class="col-12 col-md-12 col-lg-8">
                 <div class="row g-4">
                     <div class="col-6 col-sm-6 col-md-3">
-                        <h6 class="mb-4">Get to know us</h6>
+                        <h5 class="mb-4">Get to know us</h5>
                         <!-- list -->
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Company</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">About</a></li>
-                            <li class="nav-item mb-2"><a href="#1" class="nav-link">Blog</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Help Center</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Our Value</a></li>
+                            <li class="nav-item mb-2">Company</li>
+                            <li class="nav-item mb-2">About</li>
+                            <li class="nav-item mb-2">Blog</li>
+                            <li class="nav-item mb-2">Help Center</li>
+                            <li class="nav-item mb-2">Our Value</li>
                         </ul>
                     </div>
                     <div class="col-6 col-sm-6 col-md-3">
-                        <h6 class="mb-4">For Consumers</h6>
+                        <h5 class="mb-4">For Consumers</h5>
                         <ul class="nav flex-column">
                             <!-- list -->
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Payments</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Shipping</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Product Returns</a>
+                            <li class="nav-item mb-2">Payments</li>
+                            <li class="nav-item mb-2">Shipping</li>
+                            <li class="nav-item mb-2">Product Returns
                             </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">FAQ</a></li>
+                            <li class="nav-item mb-2">FAQ</li>
                             <li class="nav-item mb-2"><a href="./pages/shop-checkout.html" class="nav-link">Shop
                                     Checkout</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-sm-6 col-md-3">
-                        <h6 class="mb-4">Become a Shopper</h6>
+                        <h5 class="mb-4">Become a Shopper</h5>
                         <ul class="nav flex-column">
                             <!-- list -->
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Shopper
-                                    Opportunities</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Become a Shopper</a>
+                            <li class="nav-item mb-2">Shopper
+                                    Opportunities</li>
+                            <li class="nav-item mb-2">Become a Shopper
                             </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Earnings</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Ideas & Guides</a>
+                            <li class="nav-item mb-2">Earnings</li>
+                            <li class="nav-item mb-2">Ideas & Guides
                             </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">New Retailers</a>
+                            <li class="nav-item mb-2">New Retailers
                             </li>
                         </ul>
                     </div>
                     <div class="col-6 col-sm-6 col-md-3">
-                        <h6 class="mb-4">Freshcart programs</h6>
+                        <h5 class="mb-4">Freshcart programs</h5>
                         <ul class="nav flex-column">
                             <!-- list -->
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Freshcart
-                                    programs</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Gift Cards</a></li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Promos & Coupons</a>
+                            <li class="nav-item mb-2">Freshcart
+                                    programs</li>
+                            <li class="nav-item mb-2">Gift Cards</li>
+                            <li class="nav-item mb-2">Promos & Coupons
                             </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Freshcart Ads</a>
+                            <li class="nav-item mb-2">Freshcart Ads
                             </li>
-                            <li class="nav-item mb-2"><a href="#!" class="nav-link">Careers</a></li>
+                            <li class="nav-item mb-2">Careers</li>
                         </ul>
                     </div>
                 </div>

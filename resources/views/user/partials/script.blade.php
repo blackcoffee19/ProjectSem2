@@ -21,6 +21,7 @@
               $(".btn_minus").mouseup(function(e){
                 e.preventDefault();
                 clearInterval(idInterval1);
+                clearInterval(idInterval2);
               })
               $('.btn_plus').mousedown(function(e){
                   e.preventDefault();
@@ -36,6 +37,7 @@
               });
               $('.btn_plus').mouseup(function(e){
                 e.preventDefault();
+                clearInterval(idInterval1);
                 clearInterval(idInterval2);
               });
               $('input[name=quan]').on('focusout',function(e){
@@ -43,10 +45,13 @@
                 let validateNum =/^\d{1,10}$/;
                 let currentVl = $(this).val();
                 $(this).val(validateNum.test(currentVl)?currentVl:100);
+                console.log(currentVl);
+                console.log($(this).val() == parseInt($(this).parent().data('amount')));
+                console.log(parseInt($(this).parent().data('amount')));
                 if(parseInt($(this).parent().data('amount')) != $(this).val()){
-                  $('#modal_save').removeClass('d-none');
+                  $(this).parent().next().removeClass('d-none');
                 }else{
-                  $('#modal_save').addClass('d-none');
+                  $(this).parent().next().addClass('d-none');
                 }
               });
           })
@@ -664,6 +669,10 @@
                 }
             });
             if(data_order['method'] == 'cod'){
+              $("#edit_province").removeAttr('disabled');
+              $("#edit_district").removeAttr('disabled');
+              $("#edit_ward").removeAttr('disabled');
+              $("#edit_cusaddr").removeAttr('disabled');
               $("#edit_province").change(function(){
                 $('#edit_ward').html("<option value=''>-- Select Ward --</option>");
                 getListDistrict($("#edit_province option:selected").val());
@@ -1009,6 +1018,7 @@
             $('#coupon_title_modal').html(coupon_data['title']);
             $('#max_coupon').html(coupon_data['max']);
             $('#code_coupon_modal').val(coupon_data['code']);
+            $("#user_used").html(coupon_data['used']);
             $("#coupon_clipboard").click(function(){
               navigator.clipboard.writeText($('#code_coupon_modal').val());
               $('#coupon_clipboard').html("<i class='bi bi-clipboard-check-fill'></i>");

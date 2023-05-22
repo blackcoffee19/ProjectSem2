@@ -741,7 +741,8 @@
       </div>
       <div class="modal-body d-flex flex-column justify-content-center align-items-center">
         <h1 id="coupon_title_modal"></h1>
-        <p class="fs-3">Maximum used: <span class="text-danger fs-3" id="max_coupon"></span></p>
+        <p class="fs-4">Maximum used: <span class="text-danger fs-3" id="max_coupon"></span></p>
+        <p class="fs-5">You have used <span class="text-danger"  id="user_used"></span> times</p>
         <div class="input-group my-3 w-50">
           <input type="text" class="form-control" id="code_coupon_modal" disabled>
           <button class="input-group-text fs-4" id="coupon_clipboard"><i class="bi bi-clipboard"></i>

@@ -60,7 +60,6 @@ class AdminProductController extends Controller
         $product->id_type = $request->id_type;
         $product->quantity = $request->quantity;
         $product->description = $request->description;
-        // $product->original_price = $request->original_price;
         $product->price = $request->price;
         $product->sale = $request->sale;
         $product->created_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -116,11 +115,16 @@ class AdminProductController extends Controller
         $product->id_type = $request->id_type;
         $product->quantity = $request->quantity;
         $product->description = $request->description;
-        // $product->original_price = $request->original_price;
         $product->price = $request->price;
         $product->sale = $request->sale;
         if(!isset($request->status)){
             $product->status = false;
+            $carts = Cart::where('order_code','=',null)->where("id_product",'=',$id_product)->get();
+            foreach($carts as $cart){
+                $cart->delete();
+            }
+        }else{
+            $product->status = true;
         }
         $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $product->save();
@@ -187,7 +191,7 @@ class AdminProductController extends Controller
                 }
             }
         }else{
-            return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có order chưa hoàn thành.');
+            return redirect()->back()->with('error', 'This product type cannot be deleted because it has already been ordered.');
         }
 
         return redirect()->route('adminProduct');

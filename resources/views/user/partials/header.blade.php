@@ -262,9 +262,7 @@
                                                 <a href="{{ route('accountaddress') }}"
                                                     class="list-group-item list-group-item-action"><i
                                                         class="fa-solid fa-location-pin"></i>Address</a>
-                                                <a href="{{ route('accountpayment') }}"
-                                                    class="list-group-item list-group-item-action"><i
-                                                        class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                                
                                                 @endif
                                                 <a href="{{ route('signout') }}"
                                                     class="list-group-item list-group-item-action"><i
@@ -600,9 +598,7 @@
                                         <a href="{{ route('accountaddress') }}"
                                             class="list-group-item list-group-item-action"><i
                                                 class="fa-solid fa-location-pin"></i>Address</a>
-                                        <a href="{{ route('accountpayment') }}"
-                                            class="list-group-item list-group-item-action"><i
-                                                class="fa-regular fa-credit-card"></i>Payment Method</a>
+                                       
                                         @endif
                                         <a href="{{ route('signout') }}"
                                             class="list-group-item list-group-item-action"><i
@@ -727,7 +723,7 @@
                                 </svg></i>
                             </a>
                         </li>
-                        @if (Auth::check())
+                        {{-- @if (Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -744,13 +740,12 @@
                                 <li><a class="dropdown-item" href="{{ route('accountsetting') }}">Settings</a></li>
                                 @if (Auth::user()->admin == '0')
                                 <li><a class="dropdown-item" href="{{ route('accountaddress') }}">Address</a></li>
-                                <li><a class="dropdown-item" href="{{ route('accountpayment') }}">Payment Method</a>
                                 </li>
                                 @endif
                             </ul>
                         </li>
 
-                        @endif
+                        @endif --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{ route('privacy') }}">
                                 Privacy Policy <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -839,7 +834,7 @@
                         <li class='list-group-item py-3 ps-0 border-top border-bottom'>
                             <div class='row align-items-center'>
                                 <div class='col-1'>
-                                    @if ($order->id_user && $order->User->avatar)
+                                    @if ($order->id_user && isset($order->User->avatar))
                                         <img src="{{asset('images/avatar/'.$order->User->avatar)}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
                                     @else
                                         <img src="{{asset('images/avatar/user.png')}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
@@ -889,7 +884,7 @@
                                     @switch($order->status)
                                         @case('confirmed')
                                             <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
-                                                Delivery          
+                                                Update          
                                             </button>
                                             @break
                                         @case('unconfirmed')

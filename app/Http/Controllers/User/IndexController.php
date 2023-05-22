@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\TypeProduct;
 use App\Models\Product;
 use App\Models\Comment;
-
+use Illuminate\Database\Query\Builder;
 // use Database\Seeders\banner;
 // use App\Models\Comment;
 
@@ -50,10 +50,13 @@ class IndexController extends Controller
             return redirect('/not_found')->with("error","Product Not Found");
         }else{
             $product = Product::find($id);
+            if(!$product){
+                return redirect('/not-found');
+            }
             $related_products = Product::where('id_type', $product->id_type)->where('id_product', '<>', $id)
                 ->take(5)
                 ->get();
-            $comments = Comment::where('id_product', '=', $id)->get();
+            $comments = Comment::where('id_product', '=', $id)->orderBy('updated_at','desc')->get();
             return view('user.pages.ProductDetails.index', compact('product', 'related_products', 'comments'));
         }
     }

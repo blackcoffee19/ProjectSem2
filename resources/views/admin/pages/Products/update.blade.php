@@ -60,8 +60,8 @@
                                                     <label for="name"
                                                         class="col-md-4 col-form-label text-md-right">Status</label>
                                                     <div class="form-check form-switch mb-4 col-md-6 " >
-                                                        <input class="form-check-input ms-5" type="checkbox" role="switch" id="flexSwitchStock" name="status" checked>
-                                                        <label class="form-check-label ms-3" for="flexSwitchStock">Active</label>
+                                                        <input class="form-check-input ms-5" type="checkbox" role="switch" id="flexSwitchStock" name="status" {{$id_product->status ? "checked":''}}>
+                                                        <label class="form-check-label ms-3" for="flexSwitchStock">{{$id_product->status ? "Active":"Deactive"}}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row mt-3">

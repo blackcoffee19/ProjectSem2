@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\News;
+use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
 
@@ -41,14 +42,16 @@ class GoogleAuthController extends Controller
                     $cart_session = Session::get("cart");
                     $user = User::where('google_id', '=', $google_user->getId())->first();
                     foreach ($cart_session as $key => $value) {
-                        $addToUserCart = new Cart();
-                        $addToUserCart->id_user = $user->id_user;
-                        $addToUserCart->id_product = $value["id_product"];
-                        $addToUserCart->amount = $value["amount"];
-                        $addToUserCart->price = $value['per_price'];
-                        $addToUserCart->sale = $value['sale'];
-                        $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
-                        $addToUserCart->save();
+                        $product_ck = Product::find(intval($value["id_product"]));
+                        if($product_ck && $product_ck->status){
+                            $addToUserCart = new Cart();
+                            $addToUserCart->id_user = $user->id_user;
+                            $addToUserCart->id_product = $value["id_product"];
+                            $addToUserCart->amount = $value["amount"];
+                            $addToUserCart->price = $product_ck->price;
+                            $addToUserCart->sale = $product_ck->sale;
+                            $addToUserCart->save();
+                        } 
                     }
                     Session::forget("cart");
                 };
@@ -74,7 +77,8 @@ class GoogleAuthController extends Controller
                     $cart_session = Session::get("cart");
                     foreach ($cart_session as $key => $value) {
                         $foundPro = $user->Cart->where('id_product', '=', $value["id_product"])->first();
-                        if ($foundPro != null) {
+                        $product = Product::find(intval($value["id_product"]));
+                        if ($foundPro != null && $product && $product->status) {
                             if (($foundPro->amount + $value["amount"]) >= $value['max']) {
                                 $foundPro->amount = $user->Cart->where('id_product', '=', $value["id_product"])->first()->Product->quantity;
                             } else {
@@ -83,14 +87,13 @@ class GoogleAuthController extends Controller
                             $foundPro->price = $value['per_price'];
                             $foundPro->sale = $value['sale'];
                             $foundPro->save();
-                        } else {
+                        } else{
                             $addToUserCart = new Cart();
                             $addToUserCart->id_user = $user->id_user;
                             $addToUserCart->id_product = $value["id_product"];
                             $addToUserCart->amount = $value["amount"];
-                            $addToUserCart->price = $value['per_price'];
-                            $addToUserCart->sale = $value['sale'];
-                            $addToUserCart->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                            $addToUserCart->price = $product->price;
+                            $addToUserCart->sale = $product->sale;
                             $addToUserCart->save();
                         }
                     }

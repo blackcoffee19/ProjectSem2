@@ -36,6 +36,7 @@ class TuongController extends Controller
         }else{
             $check_orders = null;
         }
+        // $check_orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
         $cats = TypeProduct::all();
         $products = Product::where('quantity','>',0)->where('status','=',true)->inRandomOrder()->limit(10)->get();
         $product_hot = Product::where('quantity','>',0)->where('sale','>',0)->where('status','=',true)->inRandomOrder()->limit(3)->get();
@@ -146,27 +147,27 @@ class TuongController extends Controller
             'url' => route('verify',$new_user->email_verification_token)
         ];
         Mail::to($new_user->email)->send(new VerificationEmail($mailData));
-        $orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
-        $num=0;
-        foreach($orders as $order){
-            $cr_order_code = "USR".$new_user->id_user."_".$num;
-            foreach($order->Cart as $cart){
-                $cart->order_code = $cr_order_code;
-                $cart->id_user = $new_user->id_user;
-                $cart->save();
-            }
-            $order->order_code = $cr_order_code;
-            $order->id_user = $new_user->id_user;
-            $order->save();
-            $num++;
-        }
-        $comment = Comment::where('phone','=',$req["register_phone"])->where('name','=','Guest')->get();
-        foreach($comment as $cmt){
-            $cmt->name=null;
-            $cmt->id_user = $new_user->id_user;
-            $cmt->phone = null;
-            $cmt->save();
-        }
+        // $orders = Order::where('id_user','=',null)->where('phone','=',$new_user->phone)->get();
+        // $num=0;
+        // foreach($orders as $order){
+        //     $cr_order_code = "USR".$new_user->id_user."_".$num;
+        //     foreach($order->Cart as $cart){
+        //         $cart->order_code = $cr_order_code;
+        //         $cart->id_user = $new_user->id_user;
+        //         $cart->save();
+        //     }
+        //     $order->order_code = $cr_order_code;
+        //     $order->id_user = $new_user->id_user;
+        //     $order->save();
+        //     $num++;
+        // }
+        // $comment = Comment::where('phone','=',$req["register_phone"])->where('name','=','Guest')->get();
+        // foreach($comment as $cmt){
+        //     $cmt->name=null;
+        //     $cmt->id_user = $new_user->id_user;
+        //     $cmt->phone = null;
+        //     $cmt->save();
+        // }
         $vali = ["email"=>$new_user->email,"password"=>$req["register_password"]];
         if(Auth::attempt($vali)){
             if(Session::has("cart")){
@@ -313,6 +314,16 @@ class TuongController extends Controller
         if(Auth::check()){
             $cart = Cart::where('id_user','=',Auth::user()->id_user)->where('order_code','=',null)->get();
             $address = Auth::user()->Address->sortByDesc('default');
+            $check = true;
+            foreach($address as $add){
+                if($add->default){
+                    $check = false;
+                }
+            };
+            if($check && count($address)>0){
+                $address[0]->default = true;
+                $address[0]->save();
+            }
         }else{
             $cart = Session::get('cart');
             $address = null;
@@ -1631,7 +1642,10 @@ class TuongController extends Controller
         $new_message->unread_mess = $unread_mess;
         echo $new_message;
     }
-    public function clear_grchat($code){
+    public function clear_grchat($code =null){
+        if(!$code){
+            return redirect()->back();
+        }
         $group = Groupmessage::where('code_group','=',$code)->first();
         foreach($group->Message as $mess){
             $mess->delete();

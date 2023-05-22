@@ -127,6 +127,9 @@
                                     </div>
                                 </div>
                             </form>
+                            <div class="mt-3">
+                               <p>Already have account? <a href="{{route('signin')}}">Sign in</a></p> 
+                            </div>
                             <div class="mt-4 mb-2">
                                 <a class="h4 fw-normal text-decoration-none text-center" href="{{ route('google-auth') }}"
                                     style="vertical-align: middle;font-family: 'Montserrat', sans-serif;">

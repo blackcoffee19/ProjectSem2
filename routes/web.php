@@ -42,7 +42,6 @@ Route::get('/search', [App\Http\Controllers\User\UserController::class, 'searchP
 Route::get('/searchproduct', [App\Http\Controllers\User\UserController::class, 'categoryById'])->name('ShowProductCatagory');
 Route::get('/product.findByNamePro', [App\Http\Controllers\User\UserController::class, 'findByNamePro'])->name('product.findByNamePro');
 Route::get('/user.pages.Products.index', [UserController::class, 'index'])->name('user.pages.Products.index');
-// Route::get('/user.pages.Products.index/{breed_name?}', [UserController::class, "productList"])->name('user.pages.Products.index');
 
 Route::get('/', [TuongController::class, 'home_page'])->name('index')->middleware('UpdateCart');
 Route::get('/cate_pr', [TuongController::class, 'admin_cate'])->name('productList');
@@ -59,7 +58,6 @@ Route::post('/reset_password/create/password',[TuongController::class,'create_ne
 Route::get('/signup/confirm',[TuongController::class,'get_signupconfirm'])->name('signup_confirm');
 Route::get('/signout', [TuongController::class, 'signOut'])->name('signout');
 
-// Route::get('/products-details/{id}', [TuongController::class,'product_detail'])->name('products-details');
 Route::get('/remove-news', [TuongController::class, 'remove_allnews'])->name('remove-allnews');
 Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('addComment');
 Route::get('/delete_cmt/{id}', [TuongController::class, 'deleteCmt'])->name('delete_cmt');
@@ -75,7 +73,7 @@ Route::group(['prefix' => 'manager'], function () {
 });
 Route::get('/ajax/message/show', [TuongController::class, 'get_listmessage']);
 Route::post('/ajax-post/message', [TuongController::class, 'postajax_message']);
-Route::get('/ajax/message/clear/{code}',[TuongController::class ,'clear_grchat']);
+Route::get('/ajax/message/clear/{code?}',[TuongController::class ,'clear_grchat']);
 //Login Google
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);

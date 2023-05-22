@@ -834,7 +834,7 @@
                         <li class='list-group-item py-3 ps-0 border-top border-bottom'>
                             <div class='row align-items-center'>
                                 <div class='col-1'>
-                                    @if ($order->id_user && $order->User->avatar)
+                                    @if ($order->id_user && isset($order->User->avatar))
                                         <img src="{{asset('images/avatar/'.$order->User->avatar)}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
                                     @else
                                         <img src="{{asset('images/avatar/user.png')}}" alt="" width="40" height="40" class="img-fluid rounded-circle">
@@ -884,7 +884,7 @@
                                     @switch($order->status)
                                         @case('confirmed')
                                             <button type="button" class="btn btn-danger check_order" data-bs-toggle="modal" data-bs-target="#viewModalOrder" data-order="{{$order->id_order}}" >
-                                                Delivery          
+                                                Update          
                                             </button>
                                             @break
                                         @case('unconfirmed')

@@ -260,7 +260,7 @@
                                                                         {{ Session::has('paypal_success')
                                                                             ? Session::get('paypal_success')
                                                                             : 'You will be redirected to PayPal website to complete your purchase
-                                                                                                            securely.' }}
+                                                                                                                                                                                    securely.' }}
                                                                     </p>
                                                                     <button type="button" for="paypal"
                                                                         class="btn btn-primary" data-bs-toggle="modal"
@@ -280,7 +280,8 @@
                                                             data-bs-target="#flush-collapseThree" aria-expanded="false"
                                                             aria-controls="flush-collapseThree">Prev</a>
                                                         <button type="submit" class="btn btn-primary ms-2 col-3"
-                                                            id="submit_order" {{ !Auth::check() ? 'disabled' : '' }}>Finish
+                                                            id="submit_order"
+                                                            {{ !Auth::check() ? 'disabled' : '' }}>Finish
                                                             Order</button>
                                                     </div>
                                                 </div>
@@ -479,12 +480,12 @@
     <script>
         $(document).ready(function() {
             $('.remove_add').click(function() {
-                window.location.assign(window.location.origin + '/public/index.php/remove_address/' + $(
+                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(
                     this).data('idadd'));
             });
             @if (Auth::check())
                 let addr = $('input[name="select_address"]:checked').parent().next().next();
-                $.get(window.location.origin + '/public/index.php/ajax/ghtk_service/fee?province=' + addr.data(
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr.data(
                     'province') + "&district=" + addr.data('district'), function(data) {
                     let dataJson = jQuery.parseJSON(data);
                     let deliver_method = jQuery.parseJSON(dataJson[1]);
@@ -506,7 +507,7 @@
                                 ex_fee += el['amount'];
                                 $('#extra_ship').html(
                                     `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                    );
+                                );
                             });
                             $("#extra_ship_display").html("+ " + ex_fee + " đ");
                             if (ex_fee != 0) {
@@ -546,13 +547,12 @@
                                 translate = service['short_name'];
                         };
                         str += `<option value='${service['service_id']}'>${translate}</option>`;
+
                         $.get(window.location.origin +
-                            "/public/index.php/ajax/ghn_service/fee?ward=" + addr.data(
-                            'wardid') + "&district=" + addr.data('districtid') +
+                            "/ProjectSem2/public/ajax/ghn_service/fee?ward=" + addr.data(
+                                'wardid') + "&district=" + addr.data('districtid') +
                             "&service_id=" + service['service_id'],
                             function(data2) {
-                                >>>
-                                >>> > origin / Tuong
                                 let newdata2 = data2.slice(0, data2.length - 1);
                                 let dataJs2 = jQuery.parseJSON(newdata2);
                                 //Change method
@@ -571,7 +571,7 @@
                                                 let deliver_method2 = jQuery
                                                     .parseJSON(dataJson2[$(
                                                         '#delivery_method option:selected'
-                                                        ).val()]);
+                                                    ).val()]);
                                                 if (deliver_method2['fee'][
                                                         'delivery'
                                                     ]) {
@@ -579,11 +579,13 @@
                                                             "#total").data(
                                                             'subtotal')) +
                                                         deliver_method2['fee'][
-                                                            'fee'];
+                                                            'fee'
+                                                        ];
                                                     if (deliver_method2['fee'][
-                                                            'fee'] != $(
+                                                            'fee'
+                                                        ] != $(
                                                             "input[name=shipment_fee]"
-                                                            ).val()) {
+                                                        ).val()) {
                                                         $("#shippment_fee").html(
                                                             deliver_method2[
                                                                 'fee'][
@@ -593,7 +595,7 @@
                                                             " đ");
                                                     }
                                                     $(".totalPay").text((totall2 *
-                                                            0.000043).toFixed(
+                                                        0.000043).toFixed(
                                                         2));
                                                     $("input[name=shipment_fee]")
                                                         .val(deliver_method2['fee'][
@@ -620,11 +622,11 @@
                                                         ].forEach(el => {
                                                             ex_fee2 += el[
                                                                 'amount'
-                                                                ];
+                                                            ];
                                                             $('#extra_ship')
                                                                 .html(
                                                                     `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                                                    );
+                                                                );
                                                         });
                                                         $("#extra_ship_display")
                                                             .html("+ " + ex_fee2 +
@@ -636,8 +638,8 @@
                                                                     'd-none');
                                                         } else {
                                                             $('#extra_ship')
-                                                            .parent().addClass(
-                                                                'd-none')
+                                                                .parent().addClass(
+                                                                    'd-none')
                                                         }
                                                     }
                                                 };
@@ -688,7 +690,7 @@
             @endif
             $('input[name="select_address"]').change(function() {
                 addr = $(this).parent().next().next();
-                $.get(window.location.origin + '/public/index.php/ajax/ghtk_service/fee?province=' + addr
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr
                     .data('province') + "&district=" + addr.data('district'),
                     function(data) {
                         let dataJson = jQuery.parseJSON(data);
@@ -713,7 +715,7 @@
                                     ex_fee += el['amount'];
                                     $('#extra_ship').html(
                                         `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                        );
+                                    );
                                 });
                                 $("#extra_ship_display").html("+ " + ex_fee + " đ");
                                 if (ex_fee != 0) {
@@ -735,7 +737,7 @@
                     });
             });
             $(".totalPay").text(((parseInt($('#total').data('total')) + parseInt($("input[name=shipment_fee]")
-            .val())) * 0.000043).toFixed(2));
+                .val())) * 0.000043).toFixed(2));
             $("input[name=order_method]").change(function() {
                 if (($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success") || $(
                         "#cashonDelivery").is(':checked')) {
@@ -746,7 +748,7 @@
             });
             $("#paypal_btn").click(function() {
                 @if (Auth::check())
-                    $.get(window.location.origin + "/public/index.php/ajax/get-address/" + $(
+                    $.get(window.location.origin + "/ProjectSem2/public/ajax/get-address/" + $(
                         'input[name=select_address]:checked').data('address'), function(data) {
                         let dataAddress = jQuery.parseJSON(data);
                         $('#intruct_pay').html($("#DeliveryInstructions").val());
@@ -761,8 +763,8 @@
                         $('#email_pay').html(dataAddress['email']);
                         $("#confirm_paypal").click(function() {
                             let delivery_met = $('#delivery_method option:selected')
-                            .parent().attr('label') + " - " + $(
-                                '#delivery_method option:selected').text();
+                                .parent().attr('label') + " - " + $(
+                                    '#delivery_method option:selected').text();
                             window.location.assign(window.location.origin +
                                 '/ProjectSem2/public/process-transaction?select_address=' +
                                 $('input[name=select_address]:checked').val() +
@@ -842,7 +844,7 @@
                         'input[name=emailReciever]').val() + "&province=" + $(
                         '#province option:selected').val() + "&district=" + $(
                         '#district option:selected').val() + "&ward=" + $('#ward option:selected')
-                .val() + "&address=" + $('input[name=addressReciever]').val() + "&instruction=" + $(
+                    .val() + "&address=" + $('input[name=addressReciever]').val() + "&instruction=" + $(
                         "#DeliveryInstructions").val() + "&delivery_method=" + delivery + "&shipfee=" +
                     $('input[name=shipment_fee]').val());
             })

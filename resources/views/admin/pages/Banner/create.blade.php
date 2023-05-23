@@ -27,95 +27,57 @@
                 </div>
             </div>
             <!-- row -->
-            <form action="{{ route('adminUpdateBanners', $id_banner) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('adminStoreBanners') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <div class="row ">
                     <div class="col-xl-12 col-12 mb-5">
                         <!-- card -->
                         <div class="card h-100 card-lg">
                             <!-- card body -->
                             <div class="card h-100 card-lg p-6">
-                                <div class="card-body"> {{-- {{ Route('updateBanner', $id_banner->id) }} --}}
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-6">
                                             <div>
-                                                @if ($id_banner->type == 1)
-                                                    <div class="py-10 px-8 rounded"
-                                                        style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center;"
-                                                        id="img-previewone">
-                                                        <div>
-                                                            <h3 class="fw-bold mb-1" id="title1"
-                                                                style="color:{{ $id_banner->title_color }}">
-                                                                {{ $id_banner->title }}
-                                                            </h3>
-                                                            <p class="mb-4" id="content1"
-                                                                style="color:{{ $id_banner->content_color }}">
-                                                                {{ $id_banner->content }}</p>
-                                                            <a href="#!" class="btn"
-                                                                style="background-color: {{ $id_banner->btn_bg_color }};color:{{ $id_banner->btn_color }};"
-                                                                id="button1">{{ $id_banner->btn_content }}</a>
-                                                        </div>
+                                                <div class="py-10 px-8 rounded"
+                                                    style="background:url({{ asset('/images/banner/slide_sample.jpg') }})no-repeat; background-size: cover; background-position: center;"
+                                                    id="img-previewone">
+                                                    <div>
+                                                        <h3 class="fw-bold mb-1" id="title1" style="color:blue">
+                                                            Lorem ipsum dolor sit
+                                                        </h3>
+                                                        <p class="mb-4" id="content1" style="color:white">
+                                                            Lorem ipsum dolor sit 10%
+                                                        </p>
+                                                        <a href="#!" class="btn"
+                                                            style="background-color: red;color:white;" id="button1">Click
+                                                            now</a>
                                                     </div>
-                                                    <div class="py-10 px-8 rounded"
-                                                        style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center; display: none;"
-                                                        id="img-previewtwo">
-                                                        <div>
-                                                            <h3 class="fw-bold mb-1" id="title2"
-                                                                style="color:{{ $id_banner->title_color }}">
-                                                                {{ $id_banner->title }}
-                                                            </h3>
-                                                            <p class="mb-4" id="content2"
-                                                                style="color:{{ $id_banner->content_color }}">
-                                                                {{ $id_banner->content }}</p>
-                                                            <a href="#!" class="btn"
-                                                                style="background-color: {{ $id_banner->btn_bg_color }};color:{{ $id_banner->btn_color }};"
-                                                                id="button2">{{ $id_banner->btn_content }}</a>
-                                                        </div>
+                                                </div>
+                                                <div class="py-10 px-8 rounded"
+                                                    style="background:url({{ asset('/images/banner/slide_sample.jpg') }})no-repeat; background-size: cover; background-position: center; display: none;"
+                                                    id="img-previewtwo">
+                                                    <div>
+                                                        <h3 class="fw-bold mb-1" id="title2" style="color:red">
+                                                            Lorem ipsum dolor sit
+                                                        </h3>
+                                                        <p class="mb-4" id="content2" style="color:red">
+                                                            Lorem ipsum dolor sit 10%</p>
+                                                        <a href="#!" class="btn"
+                                                            style="background-color:red;color:white;" id="button2">Click
+                                                            now</a>
                                                     </div>
-                                                    <br>
-                                                    <span style="color:red">* Vui lòng chọn ảnh có kích thước 781 x
-                                                        300 px</span>
-                                                @else
-                                                    <div class="rounded"
-                                                        style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center; height: 526px; width: 376px; padding-top: 150px; padding-left: 30px; "
-                                                        id="img-previewone">
-                                                        <div>
-                                                            <h3 class="fw-bold mb-1" id="title1"
-                                                                style="color:{{ $id_banner->title_color }}">
-                                                                {{ $id_banner->title }}
-                                                            </h3>
-                                                            <p class="mb-4" id="content1"
-                                                                style="color:{{ $id_banner->content_color }}">
-                                                                {{ $id_banner->content }}</p>
-                                                            <a class="btn "
-                                                                style="background-color: {{ $id_banner->btn_bg_color }};color:{{ $id_banner->btn_color }}; margin-top: 160px;"
-                                                                id="button1">{{ $id_banner->btn_content }}<i
-                                                                    class="feather-icon icon-arrow-right ms-1"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="rounded"
-                                                        style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center; display: none; height: 526px; width: 376px; padding-top: 50px; padding-left: 30px; "
-                                                        id="img-previewtwo">
-                                                        <div>
-                                                            <h3 class="fw-bold mb-1" id="title2">{{ $id_banner->title }}
-                                                            </h3>
-                                                            <p class="mb-4" id="content2">{{ $id_banner->content }}</p>
-                                                            <a href="#!" class="btn"
-                                                                style="background-color: {{ $id_banner->btn_bg_color }};color:{{ $id_banner->btn_color }}; margin-top: 160px;"
-                                                                id="button2">{{ $id_banner->btn_content }}</a>
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                    <span style="color:red">* Vui lòng chọn ảnh có kích thước 526 x
-                                                        376 px</span>
-                                                @endif
+                                                </div>
+                                                <br>
+                                                <span style="color:red">* Vui lòng chọn ảnh có kích thước 781 x
+                                                    300 px</span>
+
                                                 <br>
                                                 <br>
                                                 <div class="d-grid gap-2">
                                                     <input type="file" id="form5Example3" name="photo"
                                                         onchange="document.getElementById('img-previewone').style.display = 'none'; document.getElementById('img-previewtwo').style.display = 'block'; document.getElementById('img-previewtwo').style.backgroundImage = 'url(' + window.URL.createObjectURL(this.files[0]) + ')';"
-                                                        class="form-control">
+                                                        class="form-control" required>
                                                 </div>
                                                 <br>
                                                 <div class="row">
@@ -124,14 +86,14 @@
                                                             <h4 class="form-label" id="productSKU">Status</h4><br>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" id="inlineRadio1" value="1" checked>
+                                                                    name="status" id="inlineRadio1" value="1">
                                                                 <label class="form-check-label"
                                                                     for="inlineRadio1">Active</label>
                                                             </div>
                                                             <!-- input -->
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" id="inlineRadio2" value="0">
+                                                                    name="status" id="inlineRadio2" value="0" checked>
                                                                 <label class="form-check-label"
                                                                     for="inlineRadio2">Disabled</label>
                                                             </div>
@@ -142,8 +104,7 @@
                                                             <h4 class="form-label" id="productSKU">Type</h4><br>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="type" id="inlineRadio3" value="1"
-                                                                    checked>
+                                                                    name="type" id="inlineRadio3" value="1" checked>
                                                                 <label class="form-check-label"
                                                                     for="inlineRadio1">Horizontal</label>
                                                             </div>
@@ -164,45 +125,44 @@
                                                 <h3>Title</h3>
                                                 <div class="col-6">
                                                     <input type="text" class="form-control"
-                                                        value="{{ $id_banner->title }}" id="textTitle"
+                                                        value="Lorem ipsum dolor sit" id="textTitle"
                                                         oninput="changeText()" name="title">
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
                                                         id="colorTitle" oninput="changeColor()" name="title_color"
-                                                        value="{{ $id_banner->title_color }}">
+                                                        value="Lorem ipsum dolor sit">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                                 <h3>Content</h3>
                                                 <div class="col-6">
-                                                    <textarea type="text" class="form-control"id="textContent" oninput="changeText()" name="content">{{ $id_banner->content }}</textarea>
+                                                    <textarea type="text" class="form-control"id="textContent" oninput="changeText()" name="content">Lorem ipsum dolor sit 10%</textarea>
                                                 </div>
                                                 <div class="col-6">
                                                     <input type="color" class="form-control form-control-color"
                                                         id="colorContent" oninput="changeColor()" name="content_color"
-                                                        value="{{ $id_banner->content_color }}">
+                                                        value="Lorem ipsum dolor sit 10%">
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                                 <h3>Button</h3>
                                                 <div class="col-6">
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $id_banner->btn_content }}" id="textButton"
-                                                        oninput="changeText()" name="btn_content">
+                                                    <input type="text" class="form-control" value="click now"
+                                                        id="textButton" oninput="changeText()" name="btn_content">
                                                 </div>
                                                 <div class="col-6">
                                                     <div style="float:left;">
                                                         <input type="color" class="form-control form-control-color"
                                                             id="colorBackgroundButton" oninput="changeColor()"
-                                                            name="btn_bg_color" value="{{ $id_banner->btn_bg_color }}">
+                                                            name="btn_bg_color" value="click now" color="red">
                                                     </div>
                                                     <div>
                                                         <input type="color" class="form-control form-control-color"
                                                             id="colorButton" oninput="changeColor()" name="btn_color"
-                                                            value="{{ $id_banner->btn_color }}">
+                                                            value="click now">
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +170,10 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <h3>Link</h3>
-                                                    <select name="link" class="form-control" id="link-select">
-                                                        <option value="{{ $id_banner->link }}"
-                                                            {{ $id_banner->link == $id_banner->id_banner ? 'selected' : '' }}>
-                                                            {{ $id_banner->link }}
+                                                    <select name="link" class="form-control" required
+                                                        id="link-select">
+                                                        <option value="">
+                                                            --Select--
                                                         </option>
                                                         <option value="">Home</option>
                                                         <option value="user.pages.Products.index">All Product</option>
@@ -371,7 +331,6 @@
                                                         });
                                                         attrBox.style.display = "block";
                                                     } else {
-
                                                         attrBox.style.display = "none";
                                                     }
                                                 });

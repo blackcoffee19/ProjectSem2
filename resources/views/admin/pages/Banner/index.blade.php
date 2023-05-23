@@ -4,17 +4,22 @@
         <div class="container">
             <div class="row mb-8">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Banners</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Banners</li>
-                            </ol>
-                        </nav>
-
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <!-- pageheader -->
+                        <div>
+                            <h2>Banners</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- button -->
+                        <div>
+                            <a href="{{ Route('adminAddBanners') }}" class="btn btn-primary">Add New Banner</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,6 +40,8 @@
                                             <th>Images</th>
                                             <th>Title</th>
                                             <th>Content</th>
+                                            <th>Status</th>
+                                            <th>Type</th>
                                             <th>Created At</th>
                                             <th></th>
                                         </tr>
@@ -51,6 +58,21 @@
                                                         href="{{ Route('adminShowBanners', $banner->id_banner) }}">{{ $banner->title }}</a>
                                                 </td>
                                                 <td>{{ $banner->content }}</td>
+                                                <td>
+                                                    @if ($banner->status == 1)
+                                                        <span class="btn bg-light-primary text-dark-primary">Active</span>
+                                                    @else
+                                                        <span class="btn bg-light-danger text-dark-danger">Disabled</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($banner->type == 1)
+                                                        <span
+                                                            class="btn bg-light-primary text-dark-primary">Horizontal</span>
+                                                    @else
+                                                        <span class="btn bg-light-danger text-dark-danger">Vertical</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $banner->updated_at }}</td>
                                                 <td>
                                                     <div class="dropdown">
@@ -69,6 +91,18 @@
                                                                 <a class="dropdown-item"
                                                                     href="{{ Route('adminEditBanners', $banner->id_banner) }}">
                                                                     <i class="bi bi-pencil-square me-3"></i>Edit</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <form
+                                                                    action="{{ Route('adminDeleteBanners', $banner->id_banner) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">
+                                                                        <i class="bi bi-trash me-3"></i>Delete
+                                                                    </button>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </div>

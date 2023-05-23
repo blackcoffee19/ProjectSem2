@@ -51,11 +51,11 @@ Route::get('/signup', [UserSignController::class, "get_signUp"])->name('signup')
 Route::post('/signup', [UserSignController::class, "post_signUp"])->name('signup');
 Route::get('/verify/{token}', [UserSignController::class, 'verifyEmail'])->name('verify');
 Route::get('/verify-send', [UserSignController::class, 'send_verifyEmail'])->name('verifyEmail');
-Route::get('/forgot_password',[UserSignController::class,'get_forgotpass'])->name('send_ressetmail');
-Route::post('/forgot_password',[UserSignController::class,'send_ressetmail'])->name('send_ressetmail');
-Route::get('/reset_password/{token}',[UserSignController::class,'reset_newpassword'])->name('reset_password');
-Route::post('/reset_password/create/password',[UserSignController::class,'create_newpassword'])->name('create_newpassword');
-Route::get('/signup/confirm',[UserSignController::class,'get_signupconfirm'])->name('signup_confirm');
+Route::get('/forgot_password', [UserSignController::class, 'get_forgotpass'])->name('send_ressetmail');
+Route::post('/forgot_password', [UserSignController::class, 'send_ressetmail'])->name('send_ressetmail');
+Route::get('/reset_password/{token}', [UserSignController::class, 'reset_newpassword'])->name('reset_password');
+Route::post('/reset_password/create/password', [UserSignController::class, 'create_newpassword'])->name('create_newpassword');
+Route::get('/signup/confirm', [UserSignController::class, 'get_signupconfirm'])->name('signup_confirm');
 Route::get('/signout', [UserSignController::class, 'signOut'])->name('signout');
 
 Route::get('/remove-news', [TuongController::class, 'remove_allnews'])->name('remove-allnews');
@@ -63,7 +63,7 @@ Route::post('/post-comment', [TuongController::class, 'post_comment'])->name('ad
 Route::get('/delete_cmt/{id}', [TuongController::class, 'deleteCmt'])->name('delete_cmt');
 Route::post('/edit_cmt/{id}', [TuongController::class, 'editCmt'])->name('edit_cmt');
 Route::get('/ajax/modal/show-product/{id}', [TuongController::class, 'modal_product']);
-Route::get('/ajax/check-order/{id}',[TuongController::class,'user_orderdetail']);
+Route::get('/ajax/check-order/{id}', [TuongController::class, 'user_orderdetail']);
 Route::group(['prefix' => 'manager'], function () {
     Route::get('/ajax/check-order/{id}', [TuongController::class, 'modal_order']);
     Route::get('/ajax/check-notificate/{code}', [TuongController::class, 'modal_notificate']);
@@ -73,12 +73,12 @@ Route::group(['prefix' => 'manager'], function () {
 });
 Route::get('/ajax/message/show', [TuongController::class, 'get_listmessage']);
 Route::post('/ajax-post/message', [TuongController::class, 'postajax_message']);
-Route::get('/ajax/message/clear/{code?}',[TuongController::class ,'clear_grchat']);
+Route::get('/ajax/message/clear/{code?}', [TuongController::class, 'clear_grchat']);
 //Login Google
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callbackGoogle']);
 
-Route::group(['prefix' => '/', 'middleware' => ['ManageLogin','UpdateCart']], function () {
+Route::group(['prefix' => '/', 'middleware' => ['ManageLogin', 'UpdateCart']], function () {
     Route::get('/shop-wishlist', [TuongController::class, 'get_wishlist'])->name('wishlist');
     Route::post('/shop-wishlist', [TuongController::class, 'post_wishlist'])->name('wishlist');
     Route::post('/products-details/{id?}', [TuongController::class, 'addToCart'])->name('post_products_details');
@@ -107,15 +107,15 @@ Route::get('/ajax/add-favourite/{id}', [TuongController::class, 'add_favourite']
 Route::get('/ajax/add-compare/{id}', [TuongController::class, 'addCompare']);
 Route::get('/ajax/compare/showcompare', [TuongController::class, 'showCompare']);
 // AJAX GET API GHTK- GHN
-Route::get('/ajax/ghtk_service/fee',[TuongController::class,'ghtk_servicefee']);
-Route::get('/ajax/ghn_service/service',[TuongController::class,'ghn_getservice']);
-Route::get('/ajax/ghn_service/fee',[TuongController::class,'gtn_servicefee']);
-Route::get('/ajax/ghtk_service/order',[TuongController::class,'ghtk_order'])->name('ghtk_order');
+Route::get('/ajax/ghtk_service/fee', [TuongController::class, 'ghtk_servicefee']);
+Route::get('/ajax/ghn_service/service', [TuongController::class, 'ghn_getservice']);
+Route::get('/ajax/ghn_service/fee', [TuongController::class, 'gtn_servicefee']);
+Route::get('/ajax/ghtk_service/order', [TuongController::class, 'ghtk_order'])->name('ghtk_order');
 
 Route::get('/delcompare/{id}', [TuongController::class, 'delCompare'])->name('delCmp');
 Route::get('/removeCmp', [TuongController::class, 'removeCompare'])->name('removeCmp');
 //UserLogin to get profie User
-Route::group(['prefix' => 'account', 'middleware' => ['UserLogin','UpdateCart']], function () {
+Route::group(['prefix' => 'account', 'middleware' => ['UserLogin', 'UpdateCart']], function () {
     Route::get('/order', [TuongController::class, 'get_orderhistory'])->name('accountorder');
     Route::get('/setting', [TuongController::class, 'get_accountsetting'])->name('accountsetting');
     Route::get('/list_address', [TuongController::class, 'get_address'])->name('accountaddress');
@@ -209,9 +209,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 
     Route::controller(AdminBannerController::class)->group(function () {
         Route::get('/banners',                        'index')->name('adminBanners');
+        Route::get('/banners/create',                'create')->name('adminAddBanners');
+        Route::post('/banners/store',                'store')->name('adminStoreBanners');
         Route::get('/banners/detail/{id_banner}',     'show')->name('adminShowBanners');
         Route::get('/banners/edit/{id_banner}',       'edit')->name('adminEditBanners');
         Route::put('/banners/update/{id_banner}',     'update')->name('adminUpdateBanners');
+        Route::delete('/banners/delete/{id_banner}',  'delete')->name('adminDeleteBanners');
     });
 
     Route::controller(AdminSlideController::class)->group(function () {

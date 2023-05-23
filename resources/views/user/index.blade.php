@@ -65,8 +65,8 @@
             <div class="container">
                 <div class="row">
                     @foreach ($banners as $banner)
-                        @if ($banner->id_banner == 1 || $banner->id_banner == 2)
-                            <div class="col-12 col-md-6 mb-3 mb-lg-0">
+                        @if ($banner->status == 1 && $banner->type == 1)
+                            <div class="col-12 col-md-6 mb-3 mb-lg-0 mt-5">
                                 <div>
                                     <div class="py-10 px-8 rounded"
                                         style="background:url({{ asset('/images/banner/' . $banner->image) }})no-repeat; background-size: cover; background-position: center;">
@@ -211,25 +211,30 @@
                 </div>
                 <div class="table-responsive-xl pb-6">
                     <div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
-                        <div class="col">
-                            <div class="px-xl-8 rounded"
-                                style="background:url({{ asset('images/banner/' . $banners[2]->image) }})no-repeat; background-size: cover; height: 515px; padding-top: 168px; padding-left: 30px;">
-                                <div class="d-flex flex-column justify-content-start flex-wrap h-75 align-items-baseline">
-                                    <h3 class="fw-bold " style="color:{{ $banners[2]->title_color }}">
-                                        {{ $banners[2]->title }}
-                                    </h3>
-                                    <p style="color:{{ $banners[2]->content_color }}">{{ $banners[2]->content }}</p>
-                                    <a href="
+                        @foreach ($banners as $banner)
+                            @if ($banner->status == 1 && $banner->type == 2)
+                                <div class="col">
+                                    <div class="px-xl-8 rounded"
+                                        style="background:url({{ asset('images/banner/' . $banner->image) }})no-repeat; background-size: cover; height: 542px; padding-top: 310px; padding-left: 30px;">
+                                        <div
+                                            class="d-flex flex-column justify-content-start flex-wrap h-75 align-items-baseline">
+                                            <h3 class="fw-bold " style="color:{{ $banner->title_color }}">
+                                                {{ $banner->title }}
+                                            </h3>
+                                            <p style="color:{{ $banner->content_color }}">{{ $banner->content }}</p>
+                                            <a href="
                                             @if ($banner->link != null && $banner->attr != null) {{ $banner->link . '/' . $banner->attr }}
                                             @elseif ($banner->link != null && $banner->attr == null)
                                             {{ $banner->link }} @endif
                                             "
-                                        class="btn"
-                                        style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
-                                    </a>
+                                                class="btn"
+                                                style="background-color: {{ $banner->btn_bg_color }}; color:{{ $banner->btn_color }};">{{ $banner->btn_content }}
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                         @foreach ($product_hot as $product)
                             <div class="col">
                                 <div class="card card-product">

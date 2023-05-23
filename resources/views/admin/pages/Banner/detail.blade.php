@@ -35,7 +35,7 @@
                             <div class="row">
                                 <div class="col-12 col-md-12 mb-6 mb-lg-3">
                                     <div>
-                                        @if ($id_banner->id_banner == 1 || $id_banner->id_banner == 2)
+                                        @if ($id_banner->type == 1)
                                             <div class="px-10 rounded"
                                                 style="background:url({{ asset('/images/banner/' . $id_banner->image) }})no-repeat; background-size: cover; background-position: center; height:400px; padding: 100px">
                                                 <div>

@@ -24,7 +24,7 @@ class insert_news extends Seeder
             ["order_code"=>'GUT_43','send_admin'=>true,"title"=>"Order Transaction Failed","link"=>"GUT_43",'created_at'=>Carbon::createFromFormat('d/m/Y H:i:s',  '29/04/2023 00:00:00')],
             ["title"=>"New Product",'link'=>"products-details","attr"=>"30",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
             ["title"=>"We have a gift for you",'link'=>"show_coupon","attr"=>"MAYBE",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
-
+            ["title"=>"We have a gift for you",'link'=>"show_coupon","attr"=>"NEWMEM",'created_at'=>Carbon::now()->format('Y-m-d H:i:s')],
         ];
         try {
             foreach ($news as $new) {

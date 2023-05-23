@@ -11,7 +11,7 @@
                         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
                             @if (Session::has('message_reset'))
                                 <div class="alert alert-success">
-                                    {{Session::get('message_reset')}}
+                                    {{ Session::get('message_reset') }}
                                 </div>
                             @endif
                             <div class="mb-lg-9 mb-5">
@@ -40,10 +40,10 @@
                                                 Remember me
                                             </label>
                                         </div>
-                                        <div> Forgot password? <a href="{{route('send_ressetmail')}}">Reset It</a></div>
+                                        <div> Forgot password? <a href="{{ route('send_ressetmail') }}">Reset It</a></div>
                                     </div>
                                     <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">Sign
-                                        In</button>
+                                            In</button>
                                     </div>
                                     <div>Don’t have an account? <a href="{{ route('signup') }}"> Sign Up</a></div>
                                 </div>
@@ -90,10 +90,12 @@
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="Full name"  aria-label="Full name" name="register_name" required>
+                                        <input type="text" class="form-control" placeholder="Full name"
+                                            aria-label="Full name" name="register_name" required>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="Phone number" aria-label="Phone number" name="register_phone" required>
+                                        <input type="text" class="form-control" placeholder="Phone number"
+                                            aria-label="Phone number" name="register_phone" required>
                                         <span id="register_phone" class="text-danger"></span>
                                     </div>
                                     <div class="col-12">
@@ -119,7 +121,7 @@
                                         <input class="form-check-input" type="checkbox" name="accepted" id="accepted">
                                         <label class="form-check-label" for="accepted">By continuing, you agree to our
                                             <a href="#!"> Terms of Service</a> &
-                                            <a href="{{route('privacy')}}">Privacy Policy</a></label>
+                                            <a href="{{ route('privacy') }}">Privacy Policy</a></label>
                                     </div>
                                     <div class="col-12 d-grid">
                                         <button type="submit" class="btn btn-primary" id="register_submit"
@@ -128,10 +130,11 @@
                                 </div>
                             </form>
                             <div class="mt-3">
-                               <p>Already have account? <a href="{{route('signin')}}">Sign in</a></p> 
+                                <p>Already have account? <a href="{{ route('signin') }}">Sign in</a></p>
                             </div>
                             <div class="mt-4 mb-2">
-                                <a class="h4 fw-normal text-decoration-none text-center" href="{{ route('google-auth') }}"
+                                <a class="h4 fw-normal text-decoration-none text-center"
+                                    href="{{ route('google-auth') }}"
                                     style="vertical-align: middle;font-family: 'Montserrat', sans-serif;">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="me-1" height="30"
                                         viewBox="0 0 24 24" width="30">
@@ -163,114 +166,106 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             let valPass = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
             let valiPhone = /^[0-9]{9,11}$/;
             let valiPhone2 = /^\(?\+84\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?$/;
             let valiEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
-            if($('input[name=register_email]').val().length > 0 &&!valiEmail.test($('input[name=register_email]').val())){
+            if ($('input[name=register_email]').val().length > 0 && !valiEmail.test($('input[name=register_email]')
+                    .val())) {
                 $('#register_email').text("Invaild Email. Try again");
-                $('#register_submit').attr('disabled','disabled');
-                if($('input[name=register_email]').hasClass('is-valid')){
+                $('#register_submit').attr('disabled', 'disabled');
+                if ($('input[name=register_email]').hasClass('is-valid')) {
                     $('input[name=register_email]').removeClass('is-valid');
                 }
-                $('input[name=register_email]').addClass('is-invalid');      
-            }else if($('input[name=register_email]').val().length > 0){
-<<<<<<< HEAD
-                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
-=======
-                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$('input[name=register_email]').val(), function(data){
->>>>>>> origin/Quan
-                    if(data == "existed"){
-                    $('input[name=register_email]').addClass('is-invalid');
-                    $('#register_email').text('This email has signed. Choose another one or signin');
-                    }else{
-                    if($('input[name=register_email]').hasClass('is-invalid')){
-                        $('input[name=register_email]').removeClass('is-invalid');
-                    }
-                    $('input[name=register_email]').addClass('is-valid');
-                    $('#register_email').text('');
-                    }
-                });
-            };
-            $('input[name=register_email]').change(function(){
-<<<<<<< HEAD
-                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val(), function(data){
-=======
-                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$(this).val(), function(data){
->>>>>>> origin/Quan
-                    if(data == "existed"){
-                        if($(this).hasClass('is-valid')){
-                            $(this).removeClass('is-valid');
-                        };
-                        $(this).addClass('is-invalid');
-                        $('#register_email').text('This email has signed.');
-                    }else {
-                        if($(this).hasClass('is-invalid')){
-                            $(this).removeClass('is-invalid');
+                $('input[name=register_email]').addClass('is-invalid');
+            } else if ($('input[name=register_email]').val().length > 0) {
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/' + $(
+                    'input[name=register_email]').val(), function(data) {
+                    if (data == "existed") {
+                        $('input[name=register_email]').addClass('is-invalid');
+                        $('#register_email').text('This email has signed. Choose another one or signin');
+                    } else {
+                        if ($('input[name=register_email]').hasClass('is-invalid')) {
+                            $('input[name=register_email]').removeClass('is-invalid');
                         }
-                        $(this).addClass('is-valid');
+                        $('input[name=register_email]').addClass('is-valid');
                         $('#register_email').text('');
                     }
                 });
-            });
-            if($('input[name=register_phone]').val().length > 0 && !valiPhone.test($('input[name=register_phone]').val())){
-                $('#register_phone').text("Invaild Phone. Try again");
-                $('#register_submit').attr('disabled','disabled');
-                if($('input[name=register_phone]').hasClass('is-valid')){
-                $('input[name=register_phone]').removeClass('is-valid');
-                }
-                $('input[name=register_phone]').addClass('is-invalid');      
-            }else if($('input[name=register_phone]').val().length >0){
-<<<<<<< HEAD
-                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
-=======
-                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-phone/'+$('input[name=register_phone]').val(), function(data){
->>>>>>> origin/Quan
-                if(data == "existed"){
-                    $('input[name=register_phone]').addClass('is-invalid');
-                    $('#register_phone').text('This phone has used by another account.');
-                }else{
-                    if($('input[name=register_phone]').hasClass('is-invalid')){
-                    $('input[name=register_phone]').removeClass('is-invalid');
-                    }
-                    $('input[name=register_phone]').addClass('is-valid');
-                    $('#register_phone').text('');
-                }
-                });
             };
-            $('input[name=register_phone]').change(function(){
-<<<<<<< HEAD
-                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/'+$(this).val(), function(data){
-=======
-                $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-phone/'+$(this).val(), function(data){
->>>>>>> origin/Quan
-                    if(data == "existed"){
-                        if($('input[name=register_phone]').hasClass('is-valid')){
-                            $('input[name=register_phone]').removeClass('is-valid');
+            $('input[name=register_email]').change(function() {
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/' + $(this).val(),
+                    function(data) {
+                        if (data == "existed") {
+                            if ($(this).hasClass('is-valid')) {
+                                $(this).removeClass('is-valid');
+                            };
+                            $(this).addClass('is-invalid');
+                            $('#register_email').text('This email has signed.');
+                        } else {
+                            if ($(this).hasClass('is-invalid')) {
+                                $(this).removeClass('is-invalid');
+                            }
+                            $(this).addClass('is-valid');
+                            $('#register_email').text('');
                         }
+                    });
+            });
+            if ($('input[name=register_phone]').val().length > 0 && !valiPhone.test($('input[name=register_phone]')
+                    .val())) {
+                $('#register_phone').text("Invaild Phone. Try again");
+                $('#register_submit').attr('disabled', 'disabled');
+                if ($('input[name=register_phone]').hasClass('is-valid')) {
+                    $('input[name=register_phone]').removeClass('is-valid');
+                }
+                $('input[name=register_phone]').addClass('is-invalid');
+            } else if ($('input[name=register_phone]').val().length > 0) {
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/' + $(
+                    'input[name=register_phone]').val(), function(data) {
+                    if (data == "existed") {
                         $('input[name=register_phone]').addClass('is-invalid');
                         $('#register_phone').text('This phone has used by another account.');
-                    }else{
-                        if($('input[name=register_phone]').hasClass('is-invalid')){
+                    } else {
+                        if ($('input[name=register_phone]').hasClass('is-invalid')) {
                             $('input[name=register_phone]').removeClass('is-invalid');
                         }
                         $('input[name=register_phone]').addClass('is-valid');
                         $('#register_phone').text('');
                     }
                 });
+            };
+            $('input[name=register_phone]').change(function() {
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/' + $(this).val(),
+                    function(data) {
+                        if (data == "existed") {
+                            if ($('input[name=register_phone]').hasClass('is-valid')) {
+                                $('input[name=register_phone]').removeClass('is-valid');
+                            }
+                            $('input[name=register_phone]').addClass('is-invalid');
+                            $('#register_phone').text('This phone has used by another account.');
+                        } else {
+                            if ($('input[name=register_phone]').hasClass('is-invalid')) {
+                                $('input[name=register_phone]').removeClass('is-invalid');
+                            }
+                            $('input[name=register_phone]').addClass('is-valid');
+                            $('#register_phone').text('');
+                        }
+                    });
             })
-            if($('input[name=register_password]').val().length > 0 && !valPass.test($('input[name=register_password]').val())){
-                $('#register_password').text("Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
-                $('#register_submit').attr('disabled','disabled');
-            }else{
+            if ($('input[name=register_password]').val().length > 0 && !valPass.test($(
+                    'input[name=register_password]').val())) {
+                $('#register_password').text(
+                    "Password is invalid. >= 8 characters, at least 1 normal, at least 1 number)");
+                $('#register_submit').attr('disabled', 'disabled');
+            } else {
                 $('#register_password').text('');
             };
-            $("#passwordToggler").click(function(){
-                if($('input[name=register_password]').attr('type')=='password'){
-                    $('input[name=register_password]').attr('type','text');
-                }else{
-                    $('input[name=register_password]').attr('type','password');
+            $("#passwordToggler").click(function() {
+                if ($('input[name=register_password]').attr('type') == 'password') {
+                    $('input[name=register_password]').attr('type', 'text');
+                } else {
+                    $('input[name=register_password]').attr('type', 'password');
                 }
             })
         })

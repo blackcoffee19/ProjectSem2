@@ -39,7 +39,8 @@
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="mb-2 fw-bold fs-2">{{ number_format($income[count($income) - 1], 0, '', ' ') }} VND
+                                <h1 class="mb-2 fw-bold fs-2">{{ number_format($income[count($income) - 1], 0, '', ' ') }}
+                                    VND
                                 </h1>
                                 <span>Monthly revenue</span><br>
                             </div>
@@ -111,7 +112,8 @@
                                             {{ isset($year) ? (intval($year) == 2023 ? 'selected' : '') : 'selected' }}>2023
                                         </option>
                                         <option value="2022"
-                                            {{ isset($year) ? (intval($year) == 2022 ? 'selected' : '') : '' }}>2022</option>
+                                            {{ isset($year) ? (intval($year) == 2022 ? 'selected' : '') : '' }}>2022
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -302,7 +304,8 @@
                                         @foreach ($recent_orders as $order)
                                             <tr>
                                                 <td>#{{ $order->order_code }}</td>
-                                                <td>{{ $order->id_user || isset($order->User->name) ? $order->User->name : 'GUEST' }}</td>
+                                                <td>{{ $order->id_user || isset($order->User->name) ? $order->User->name : 'GUEST' }}
+                                                </td>
                                                 <td>{{ date_format($order->created_at, 'j F Y') }}</td>
                                                 <td>{{ number_format($order->total, 0, '', ' ') }} đ</td>
                                                 <td>
@@ -353,11 +356,7 @@
     <script>
         $(document).ready(function() {
             $("#select_year").change(function() {
-<<<<<<< HEAD
                 window.location.assign(window.location.origin + "/ProjectSem2/public/admin/dashboard?y=" +
-=======
-                window.location.assign(window.location.origin + "/ProjectSem2/public/index.php/admin/dashboard?y=" +
->>>>>>> origin/Quan
                     $(this).val());
             })
         })

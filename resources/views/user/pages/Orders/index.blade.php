@@ -287,11 +287,7 @@
         $(document).ready(function() {
             $('#checkCoupon').click(function() {
                 if ($('#giftcard').val().length > 0) {
-<<<<<<< HEAD
                     $.get(window.location.origin + "/ProjectSem2/public/ajax/add-coupon/" + $('#giftcard').val(),function(data) {
-=======
-                    $.get(window.location.origin + "/ProjectSem2/public/index.php/ajax/add-coupon/" + $('#giftcard').val(),function(data) {
->>>>>>> origin/Quan
                         let total = parseInt($('#total_items').data('total'));
                         let subtotal = parseInt($('#item_subtotal').data('subtotal'));
                         if (data) {

@@ -56,14 +56,16 @@
                                             <div class="mb-3">
                                                 <label class="form-label" for="new_email">Email</label>
                                                 @if (Auth::user()->email_verified)
-                                                    <input type="email" class="form-control " name="new_email" id="new_email"
-                                                        value="{{ Auth::user()->email }}">
+                                                    <input type="email" class="form-control " name="new_email"
+                                                        id="new_email" value="{{ Auth::user()->email }}">
                                                     <span class="text-danger" id="invalidEmail"></span>
                                                 @else
-                                                    <input type="email" class="form-control is-invalid" name="new_email" id="new_email"
-                                                        value="{{ Auth::user()->email }}">
-                                                    <span class="text-danger" id="unverifyEmail">Email need to verified</span>
-                                                    <button type="button" class="btn btn-warning my-2 mx-5" id="send_verified">Send Verified Mail</button>
+                                                    <input type="email" class="form-control is-invalid" name="new_email"
+                                                        id="new_email" value="{{ Auth::user()->email }}">
+                                                    <span class="text-danger" id="unverifyEmail">Email need to
+                                                        verified</span>
+                                                    <button type="button" class="btn btn-warning my-2 mx-5"
+                                                        id="send_verified">Send Verified Mail</button>
                                                     <span class="text-danger" id="invalidEmail"></span>
                                                 @endif
                                             </div>
@@ -105,8 +107,9 @@
                                     </div>
                                     <div class="mb-3 col-5 mx-auto">
                                         <label class="form-label" for="new_password">New Password</label>
-                                        <input type="password" class="form-control" name="new_password" id="new_password"
-                                            placeholder="**********" {{ !Auth::user()->password ? '' : 'disabled' }}>
+                                        <input type="password" class="form-control" name="new_password"
+                                            id="new_password" placeholder="**********"
+                                            {{ !Auth::user()->password ? '' : 'disabled' }}>
                                         <span id="invalidPass"></span>
                                     </div>
                                     <div class="col-12">
@@ -119,7 +122,7 @@
                                     </div>
                                 </form>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -135,11 +138,11 @@
             if ($('#warning_setting').hasClass('show')) {
                 $('#warning_setting').removeClass('show');
             }
-            @if(Auth::user()->admin == '0')
-            if ($('#new_phone').val().length == 0) {
-                $('#new_phone').addClass('is-invalid');
-                $('#invalidPhone').html('Please Add your numberphone for your accout');
-            }
+            @if (Auth::user()->admin == '0')
+                if ($('#new_phone').val().length == 0) {
+                    $('#new_phone').addClass('is-invalid');
+                    $('#invalidPhone').html('Please Add your numberphone for your accout');
+                }
             @endif
             let valPass = /^(?=.*\d)(?=.*[a-z]).{6,}$/;
             let valiEmail = /^[a-zA-Z0-9]{4,}@gmail\.com$/;
@@ -168,11 +171,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: window.location.origin +
-<<<<<<< HEAD
                             '/ProjectSem2/public/account/ajax/check-password',
-=======
-                            '/ProjectSem2/public/index.php/account/ajax/check-password',
->>>>>>> origin/Quan
                         data: {
                             'current_password': $(this).val()
                         },
@@ -227,12 +226,14 @@
                         $(this).removeClass('is-invalid');
                     };
                     $('#invalidPass').html('');
-                    if($('input[name="current_password"]').val().trim().length>0){
+                    if ($('input[name="current_password"]').val().trim().length > 0) {
                         $('#changePassword').removeAttr('disabled');
                     }
                 } else {
                     $(this).addClass('is-invalid');
-                    $('#invalidPass').html('Password must contains at least 1 number, 1 normal character and min length 8 characters').addClass('text-danger');
+                    $('#invalidPass').html(
+                        'Password must contains at least 1 number, 1 normal character and min length 8 characters'
+                        ).addClass('text-danger');
                     $('#changePassword').attr('disabled', 'disabled');
                 };
             });
@@ -262,11 +263,7 @@
             });
             $('#new_phone').change(function() {
                 if (valiPhone.test($(this).val().trim())) {
-<<<<<<< HEAD
                     $.get(window.location.origin + '/ProjectSem2/public/ajax/check-phone/' + $(this).val(),
-=======
-                    $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-phone/' + $(this).val(),
->>>>>>> origin/Quan
                         function(data) {
                             if (data == "existed") {
                                 if ($('#new_phone').hasClass('is-valid')) {
@@ -298,24 +295,22 @@
             });
             $('#new_email').change(function() {
                 if (valiEmail.test($(this).val().trim())) {
-<<<<<<< HEAD
-                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/'+$(this).val().trim(), function(data){
-=======
-                    $.get(window.location.origin + '/ProjectSem2/public/index.php/ajax/check-email/'+$(this).val().trim(), function(data){
->>>>>>> origin/Quan
-                        if(data == "existed"){
-                            $('#new_email').addClass('is-invalid');
-                            $('#invalidEmail').text('This email has signed.');
-                            $('#changeProfie').attr('disabled', 'disabled');
-                        }else{
-                            if($('#new_email').hasClass('is-invalid')){
-                                $('#new_email').removeClass('is-invalid');
+                    $.get(window.location.origin + '/ProjectSem2/public/ajax/check-email/' + $(this).val()
+                        .trim(),
+                        function(data) {
+                            if (data == "existed") {
+                                $('#new_email').addClass('is-invalid');
+                                $('#invalidEmail').text('This email has signed.');
+                                $('#changeProfie').attr('disabled', 'disabled');
+                            } else {
+                                if ($('#new_email').hasClass('is-invalid')) {
+                                    $('#new_email').removeClass('is-invalid');
+                                }
+                                $('#changeProfie').removeAttr('disabled');
+                                $('#new_email').addClass('is-valid');
+                                $('#invalidEmail').text('');
                             }
-                            $('#changeProfie').removeAttr('disabled');
-                            $('#new_email').addClass('is-valid');
-                            $('#invalidEmail').text('');
-                        }
-                    });
+                        });
                     $("#unverifyEmail").addClass('d-none');
                     $("#send_verified").addClass('d-none');
                 } else if ($(this).val().trim().length == 0) {
@@ -328,16 +323,13 @@
                     $(this).addClass('is-invalid');
                 }
             });
-            $("#send_verified").click(function(){
-<<<<<<< HEAD
-                $.get(window.location.origin + "/ProjectSem2/public/verify-send",function(data){
-=======
-                $.get(window.location.origin + "/ProjectSem2/public/index.php/verify-send",function(data){
->>>>>>> origin/Quan
-                    if(data == "Mail has been sending please check your email to verified the account"){
+            $("#send_verified").click(function() {
+                $.get(window.location.origin + "/ProjectSem2/public/verify-send", function(data) {
+                    if (data ==
+                        "Mail has been sending please check your email to verified the account") {
                         $('#unverifyEmail').removeClass('text-danger');
                         $('#unverifyEmail').addClass('text-success');
-                        $("#send_verified").attr('disabled','disabled');
+                        $("#send_verified").attr('disabled', 'disabled');
                     }
                     $('#unverifyEmail').html(data);
                 })

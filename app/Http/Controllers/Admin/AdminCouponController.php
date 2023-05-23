@@ -38,7 +38,7 @@ class AdminCouponController extends Controller
         // Validate input
         $request->validate([
             'discount' => 'required|numeric|min:1',
-            'max' => 'required|numeric|min:1',
+            'max' => 'required|numeric|min:1|max:100',
         ], [
             'discount.min' => 'Discount phải lớn hơn 0 và không được âm',
             'max.min' => 'Max phải lớn hơn 0 và không được âm',

@@ -44,6 +44,11 @@ class AdminCategoryController extends Controller
     {
         $item = $request->all();
 
+        $check = count(TypeProduct::where('type', '=', $request['type'])->get());
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'Category exited');
+        }
+
         if ($request->hasFile('photo')) { // kiểm tra xem có file hình tồn tại chưa
             $file = $request->file('photo');
             $ext = $file->getClientOriginalExtension();
@@ -74,6 +79,10 @@ class AdminCategoryController extends Controller
     public function update(Request $request, $id_type)
     {
         $cats = TypeProduct::findOrFail($id_type);
+        $check = count(TypeProduct::where('type', '=', $request['type'])->get());
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'Category exited');
+        }
         $cats->type = $request->input('type');
         $cats->created_at = $request->input('created_at');
         $cats->status = $request->input('status');
@@ -98,15 +107,14 @@ class AdminCategoryController extends Controller
     }
 
     public function delete($id_type)
-    {
-        {
+    { {
             $products = Product::where('id_type', $id_type)->get();
-    
+
             if ($products->count() > 0) {
                 // Trả về thông báo lỗi hoặc chuyển hướng người dùng trở lại trang trước đó.
                 return redirect()->back()->with('error', 'Không thể xóa loại sản phẩm này vì có sản phẩm thuộc loại này.');
             }
-    
+
             TypeProduct::find($id_type)->delete();
             return redirect()->route('adminCategories');
         }

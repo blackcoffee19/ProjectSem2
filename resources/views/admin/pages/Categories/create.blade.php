@@ -25,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
             <form action="{{ Route('adminStoreCategories') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-6 shadow border-0 row">

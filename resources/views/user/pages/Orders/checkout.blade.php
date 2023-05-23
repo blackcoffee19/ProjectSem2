@@ -260,7 +260,7 @@
                                                                         {{ Session::has('paypal_success')
                                                                             ? Session::get('paypal_success')
                                                                             : 'You will be redirected to PayPal website to complete your purchase
-                                                                                                                                                                                                                                                                                                                                                                                                            securely.' }}
+                                                                                                                                                                                    securely.' }}
                                                                     </p>
                                                                     <button type="button" for="paypal"
                                                                         class="btn btn-primary" data-bs-toggle="modal"
@@ -479,929 +479,375 @@
 @section('script')
     <script>
         $(document).ready(function() {
-                    $('.remove_add').click(function() {
-                        window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(
-                            this).data('idadd'));
-                    });
-                    @if (Auth::check())
-                        let addr = $('input[name="select_address"]:checked').parent().next().next();
-                        $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr.data(
-                            'province') + "&district=" + addr.data('district'), function(data) {
-                            let dataJson = jQuery.parseJSON(data);
-                            let deliver_method = jQuery.parseJSON(dataJson[1]);
-                            if (deliver_method['fee']['delivery']) {
-                                let totall = parseInt($("#total").data('subtotal')) + deliver_method['fee']['fee'];
-                                if (deliver_method['fee']['fee'] != $("input[name=shipment_fee]").val()) {
-                                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only'] + " đ");
-                                    $("#total").html(totall + " đ");
-                                }
-                                $(".totalPay").text((totall * 0.000043).toFixed(2));
-                                $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
-                                if (deliver_method['fee']['extFees'].length > 0) {
-                                    $('#extra_ship').parent().removeClass('d-none');
-                                    let ex_fee = 0;
-                                    let transtalate2 = {
-                                        "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
-                                    };
-                                    deliver_method['fee']['extFees'].forEach(el => {
-                                        ex_fee += el['amount'];
-                                        $('#extra_ship').html(
-                                            `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                        );
-                                    });
-                                    $("#extra_ship_display").html("+ " + ex_fee + " đ");
-                                    if (ex_fee != 0) {
-                                        $('#extra_ship').parent().removeClass('d-none');
-                                    } else {
-                                        $('#extra_ship').parent().addClass('d-none')
-                                    }
-                                } else {
-                                    $('#extra_ship').parent().addClass('d-none');
-                                }
+            $('.remove_add').click(function() {
+                window.location.assign(window.location.origin + '/ProjectSem2/public/remove_address/' + $(
+                    this).data('idadd'));
+            });
+            @if (Auth::check())
+                let addr = $('input[name="select_address"]:checked').parent().next().next();
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr.data(
+                    'province') + "&district=" + addr.data('district'), function(data) {
+                    let dataJson = jQuery.parseJSON(data);
+                    let deliver_method = jQuery.parseJSON(dataJson[1]);
+                    if (deliver_method['fee']['delivery']) {
+                        let totall = parseInt($("#total").data('subtotal')) + deliver_method['fee']['fee'];
+                        if (deliver_method['fee']['fee'] != $("input[name=shipment_fee]").val()) {
+                            $("#shippment_fee").html(deliver_method['fee']['ship_fee_only'] + " đ");
+                            $("#total").html(totall + " đ");
+                        }
+                        $(".totalPay").text((totall * 0.000043).toFixed(2));
+                        $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                        if (deliver_method['fee']['extFees'].length > 0) {
+                            $('#extra_ship').parent().removeClass('d-none');
+                            let ex_fee = 0;
+                            let transtalate2 = {
+                                "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
                             };
-                            let str1 = "";
-                            for (let i = 0; i < dataJson.length; i++) {
-                                let name = ["Air Transport", "Road Transport", "Xfast"]
-                                str1 += `<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;
+                            deliver_method['fee']['extFees'].forEach(el => {
+                                ex_fee += el['amount'];
+                                $('#extra_ship').html(
+                                    `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
+                                );
+                            });
+                            $("#extra_ship_display").html("+ " + ex_fee + " đ");
+                            if (ex_fee != 0) {
+                                $('#extra_ship').parent().removeClass('d-none');
+                            } else {
+                                $('#extra_ship').parent().addClass('d-none')
                             }
-                            $("#ghtk_service").html(str1);
-                        });
-                        $.get(window.location.origin + "/ProjectSem2/public/ajax/ghn_service/service?district=" + addr.data(
-                            'districtid'), function(data) {
-                            let newdata = data.slice(0, data.length - 1);
-                            let dataJs = jQuery.parseJSON(newdata);
-                            let str = "";
-                            dataJs['data'].forEach(service => {
-                                let translate = "";
-                                switch (service['short_name']) {
-                                    case "Chuyển phát thương mại điện tử":
-                                        translate = "E-commerce delivery";
-                                        break;
-                                    case "Chuyển phát truyền thống":
-                                        translate = "Traditional delivery";
-                                        break;
-                                    case "Tiết kiệm":
-                                        translate = "Saving delivery";
-                                        break;
-                                    default:
-                                        translate = service['short_name'];
-                                };
-                                str += `<option value='${service['service_id']}'>${translate}</option>`;
+                        } else {
+                            $('#extra_ship').parent().addClass('d-none');
+                        }
+                    };
+                    let str1 = "";
+                    for (let i = 0; i < dataJson.length; i++) {
+                        let name = ["Air Transport", "Road Transport", "Xfast"]
+                        str1 += `<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;
+                    }
+                    $("#ghtk_service").html(str1);
+                });
+                $.get(window.location.origin + "/ProjectSem2/public/ajax/ghn_service/service?district=" + addr.data(
+                    'districtid'), function(data) {
+                    let newdata = data.slice(0, data.length - 1);
+                    let dataJs = jQuery.parseJSON(newdata);
+                    let str = "";
+                    dataJs['data'].forEach(service => {
+                        let translate = "";
+                        switch (service['short_name']) {
+                            case "Chuyển phát thương mại điện tử":
+                                translate = "E-commerce delivery";
+                                break;
+                            case "Chuyển phát truyền thống":
+                                translate = "Traditional delivery";
+                                break;
+                            case "Tiết kiệm":
+                                translate = "Saving delivery";
+                                break;
+                            default:
+                                translate = service['short_name'];
+                        };
+                        str += `<option value='${service['service_id']}'>${translate}</option>`;
 
-                                $.get(window.location.origin +
-                                    "/ProjectSem2/public/ajax/ghn_service/fee?ward=" + addr.data(
-                                        'wardid') + "&district=" + addr.data('districtid') +
-                                    "&service_id=" + service['service_id'],
-                                    function(data2) {
-                                        let newdata2 = data2.slice(0, data2.length - 1);
-                                        let dataJs2 = jQuery.parseJSON(newdata2);
-                                        //Change method
-                                        $('#delivery_method').change(function() {
-                                            if (parseInt($('#delivery_method option:selected')
-                                                    .val()) < 10) {
-                                                $("#img_logictic").attr('src',
-                                                    "{{ asset('images/icons/ghtk.png') }}");
-                                                $.get(window.location.origin +
-                                                    '/ProjectSem2/public/ajax/ghtk_service/fee?province=' +
-                                                    addr.data('province') + "&district=" +
-                                                    addr.data('district'),
-                                                    function(data3) {
-                                                        let dataJson2 = jQuery.parseJSON(
-                                                            data3);
-                                                        let deliver_method2 = jQuery
-                                                            .parseJSON(dataJson2[$(
-                                                                '#delivery_method option:selected'
-                                                            ).val()]);
-                                                        if (deliver_method2['fee'][
-                                                                'delivery'
-                                                            ]) {
-                                                            let totall2 = parseInt($(
-                                                                    "#total").data(
-                                                                    'subtotal')) +
-                                                                deliver_method2['fee'][
-                                                                    'fee'
-                                                                ];
-                                                            if (deliver_method2['fee'][
-                                                                    'fee'
-                                                                ] != $(
-                                                                    "input[name=shipment_fee]"
-                                                                ).val()) {
-                                                                $("#shippment_fee").html(
-                                                                    deliver_method2[
-                                                                        'fee'][
-                                                                        'ship_fee_only'
-                                                                    ] + " đ");
-                                                                $("#total").html(totall2 +
-                                                                    " đ");
-                                                            }
-                                                            $(".totalPay").text((totall2 *
-                                                                0.000043).toFixed(
-                                                                2));
-                                                            $("input[name=shipment_fee]")
-                                                                .val(deliver_method2['fee'][
-                                                                    'fee'
-                                                                ]);
-                                                            if (parseInt($(
-                                                                        '#delivery_method')
-                                                                    .val()) == 2) {
-                                                                $('#extra_ship').parent()
-                                                                    .addClass('d-none');
-                                                            } else {
-                                                                $('#extra_ship').parent()
-                                                                    .removeClass('d-none');
-                                                            }
-                                                            if (deliver_method2['fee'][
-                                                                    'extFees'
-                                                                ].length > 0) {
-                                                                let transtalate2 = {
-                                                                    "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
-                                                                };
-                                                                let ex_fee2 = 0;
-                                                                deliver_method2['fee'][
-                                                                    'extFees'
-                                                                ].forEach(el => {
-                                                                    ex_fee2 += el[
-                                                                        'amount'
-                                                                    ];
-                                                                    $('#extra_ship')
-                                                                        .html(
-                                                                            `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                                                        );
-                                                                });
-                                                                $("#extra_ship_display")
-                                                                    .html("+ " + ex_fee2 +
-                                                                        " đ");
-                                                                if (ex_fee2 != 0) {
-                                                                    $('#extra_ship')
-                                                                        .parent()
-                                                                        .removeClass(
-                                                                            'd-none');
-                                                                } else {
-                                                                    $('#extra_ship')
-                                                                        .parent().addClass(
-                                                                            'd-none')
-                                                                }
-                                                            }
-                                                        };
-                                                    })
-                                            } else {
-                                                $.get(window.location.origin +
-                                                    "/ProjectSem2/public/ajax/ghn_service/fee?ward=" +
-                                                    addr.data('wardid') + "&district=" +
-                                                    addr.data('districtid') +
-                                                    "&service_id=" + $(
-                                                        '#delivery_method option:selected')
-                                                    .val(),
-                                                    function(data3) {
-                                                        let newdata3 = data3.slice(0, data3
-                                                            .length - 1);
-                                                        let dataJs6 = jQuery.parseJSON(
-                                                            newdata3);
-                                                        // console.log(dataJs6);
-                                                        let shipping = dataJs6['data'][
-                                                            'total'
+                        $.get(window.location.origin +
+                            "/ProjectSem2/public/ajax/ghn_service/fee?ward=" + addr.data(
+                                'wardid') + "&district=" + addr.data('districtid') +
+                            "&service_id=" + service['service_id'],
+                            function(data2) {
+                                let newdata2 = data2.slice(0, data2.length - 1);
+                                let dataJs2 = jQuery.parseJSON(newdata2);
+                                //Change method
+                                $('#delivery_method').change(function() {
+                                    if (parseInt($('#delivery_method option:selected')
+                                            .val()) < 10) {
+                                        $("#img_logictic").attr('src',
+                                            "{{ asset('images/icons/ghtk.png') }}");
+                                        $.get(window.location.origin +
+                                            '/ProjectSem2/public/ajax/ghtk_service/fee?province=' +
+                                            addr.data('province') + "&district=" +
+                                            addr.data('district'),
+                                            function(data3) {
+                                                let dataJson2 = jQuery.parseJSON(
+                                                    data3);
+                                                let deliver_method2 = jQuery
+                                                    .parseJSON(dataJson2[$(
+                                                        '#delivery_method option:selected'
+                                                    ).val()]);
+                                                if (deliver_method2['fee'][
+                                                        'delivery'
+                                                    ]) {
+                                                    let totall2 = parseInt($(
+                                                            "#total").data(
+                                                            'subtotal')) +
+                                                        deliver_method2['fee'][
+                                                            'fee'
                                                         ];
-                                                        let total_ghn = dataJs6['data'][
-                                                            'total'
-                                                        ] + parseInt($("#total").data(
-                                                            'subtotal'));
-                                                        if (shipping != $(
-                                                                "input[name=shipment_fee]")
-                                                            .val()) {
-                                                            $("#shippment_fee").html(
-                                                                shipping + " đ");
-                                                            $("#total").html(total_ghn +
-                                                                " đ");
-                                                        }
-                                                        $(".totalPay").text((total_ghn *
-                                                            0.000043).toFixed(2));
-                                                        $("input[name=shipment_fee]").val(
-                                                            shipping);
-                                                    });
-                                                $("#img_logictic").attr('src',
-                                                    "{{ asset('images/icons/GHN2.png') }}");
-                                                $('#extra_ship').parent().addClass('d-none');
-                                            };
-                                        });
-                                    })
-                            })
-                            $('#ghn_services').html(str);
-                        });
-                    @endif
-                    $('input[name="select_address"]').change(function() {
-                                addr = $(this).parent().next().next();
-                                $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr
-                                        .data('province') + "&district=" + addr.data('district'),
-                                        function(data) {
-                                            let dataJson = jQuery.parseJSON(data);
-                                            let deliver_method = jQuery.parseJSON(dataJson[1]);
-                                            if (deliver_method['fee']['delivery']) {
-                                                let totall = parseInt($("#total").data('subtotal')) + deliver_method['fee'][
-                                                    'fee'
-                                                ];
-                                                if (deliver_method['fee']['fee'] != $("input[name=shipment_fee]").val()) {
-                                                    $("#shippment_fee").html(deliver_method['fee']['ship_fee_only'] + " đ");
-                                                    $("#total").html(totall + " đ");
-                                                }
-                                                $(".totalPay").text((totall * 0.000043).toFixed(2));
-                                                $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
-                                                if (deliver_method['fee']['extFees'].length > 0) {
-                                                    $('#extra_ship').parent().removeClass('d-none');
-                                                    let ex_fee = 0;
-                                                    let transtalate2 = {
-                                                        "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
-                                                    };
-                                                    deliver_method['fee']['extFees'].forEach(el => {
-                                                        ex_fee += el['amount'];
-                                                        $('#extra_ship').html(
-                                                            `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                                        );
-                                                    });
-                                                    $("#extra_ship_display").html("+ " + ex_fee + " đ");
-                                                    if (ex_fee != 0) {
-                                                        $('#extra_ship').parent().removeClass('d-none');
-                                                    } else {
-                                                        $('#extra_ship').parent().addClass('d-none')
+                                                    if (deliver_method2['fee'][
+                                                            'fee'
+                                                        ] != $(
+                                                            "input[name=shipment_fee]"
+                                                        ).val()) {
+                                                        $("#shippment_fee").html(
+                                                            deliver_method2[
+                                                                'fee'][
+                                                                'ship_fee_only'
+                                                            ] + " đ");
+                                                        $("#total").html(totall2 +
+                                                            " đ");
                                                     }
-                                                } else {
-                                                    $('#extra_ship').parent().addClass('d-none');
+                                                    $(".totalPay").text((totall2 *
+                                                        0.000043).toFixed(
+                                                        2));
+                                                    $("input[name=shipment_fee]")
+                                                        .val(deliver_method2['fee'][
+                                                            'fee'
+                                                        ]);
+                                                    if (parseInt($(
+                                                                '#delivery_method')
+                                                            .val()) == 2) {
+                                                        $('#extra_ship').parent()
+                                                            .addClass('d-none');
+                                                    } else {
+                                                        $('#extra_ship').parent()
+                                                            .removeClass('d-none');
+                                                    }
+                                                    if (deliver_method2['fee'][
+                                                            'extFees'
+                                                        ].length > 0) {
+                                                        let transtalate2 = {
+                                                            "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
+                                                        };
+                                                        let ex_fee2 = 0;
+                                                        deliver_method2['fee'][
+                                                            'extFees'
+                                                        ].forEach(el => {
+                                                            ex_fee2 += el[
+                                                                'amount'
+                                                            ];
+                                                            $('#extra_ship')
+                                                                .html(
+                                                                    `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
+                                                                );
+                                                        });
+                                                        $("#extra_ship_display")
+                                                            .html("+ " + ex_fee2 +
+                                                                " đ");
+                                                        if (ex_fee2 != 0) {
+                                                            $('#extra_ship')
+                                                                .parent()
+                                                                .removeClass(
+                                                                    'd-none');
+                                                        } else {
+                                                            $('#extra_ship')
+                                                                .parent().addClass(
+                                                                    'd-none')
+                                                        }
+                                                    }
+                                                };
+                                            })
+                                    } else {
+                                        $.get(window.location.origin +
+                                            "/ProjectSem2/public/ajax/ghn_service/fee?ward=" +
+                                            addr.data('wardid') + "&district=" +
+                                            addr.data('districtid') +
+                                            "&service_id=" + $(
+                                                '#delivery_method option:selected')
+                                            .val(),
+                                            function(data3) {
+                                                let newdata3 = data3.slice(0, data3
+                                                    .length - 1);
+                                                let dataJs6 = jQuery.parseJSON(
+                                                    newdata3);
+                                                // console.log(dataJs6);
+                                                let shipping = dataJs6['data'][
+                                                    'total'
+                                                ];
+                                                let total_ghn = dataJs6['data'][
+                                                    'total'
+                                                ] + parseInt($("#total").data(
+                                                    'subtotal'));
+                                                if (shipping != $(
+                                                        "input[name=shipment_fee]")
+                                                    .val()) {
+                                                    $("#shippment_fee").html(
+                                                        shipping + " đ");
+                                                    $("#total").html(total_ghn +
+                                                        " đ");
                                                 }
-                                            };
-                                            let str1 = "";
-                                            for (let i = 0; i < dataJson.length; i++) {
-                                                var method = jQuery.parseJSON(dataJson[i]);
-                                                let name = ["Air Transport", "Road Transport", "Xfast"]
-                                                str1 += `<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;
-                                            }
-                                            $("#ghtk_service").html(str1);
-                                            $('input[name="select_address"]').change(function() {
-                                                        addr = $(this).parent().next().next();
-                                                        $.get(window.location.origin +
-                                                                '/ProjectSem2/public/index.php/ajax/ghtk_service/fee?province=' +
-                                                                addr.data('province') + "&district=" + addr.data(
-                                                                    'district'),
-                                                                function(data) {
-                                                                    let dataJson = jQuery.parseJSON(data);
-                                                                    let deliver_method = jQuery.parseJSON(dataJson[1]);
-                                                                    if (deliver_method['fee']['delivery']) {
-                                                                        let totall = parseInt($("#total").data(
-                                                                            'subtotal')) + deliver_method['fee']['fee'];
-                                                                        if (deliver_method['fee']['fee'] != $(
-                                                                                "input[name=shipment_fee]").val()) {
-                                                                            $("#shippment_fee").html(deliver_method['fee'][
-                                                                                'ship_fee_only'
-                                                                            ] + " đ");
-                                                                            $("#total").html(totall + " đ");
-                                                                        }
-                                                                        $(".totalPay").text((totall * 0.000043).toFixed(2));
-                                                                        $("input[name=shipment_fee]").val(deliver_method[
-                                                                            'fee']['fee']);
-                                                                        if (deliver_method['fee']['extFees'].length > 0) {
-                                                                            $('#extra_ship').parent().removeClass('d-none');
-                                                                            let ex_fee = 0;
-                                                                            let transtalate2 = {
-                                                                                "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
-                                                                            };
-                                                                            deliver_method['fee']['extFees'].forEach(el => {
-                                                                                ex_fee += el['amount'];
-                                                                                $('#extra_ship').html(
-                                                                                    `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
-                                                                                );
-                                                                            });
-                                                                        });
-                                                                    $(".totalPay").text(((parseInt($('#total').data(
-                                                                        'total')) + parseInt($(
-                                                                            "input[name=shipment_fee]")
-                                                                        .val())) * 0.000043).toFixed(2));
-                                                                    $("input[name=order_method]").change(function() {
-                                                                        if (($('#paypal').is(':checked') && $(
-                                                                                '#paypal_btn').data(
-                                                                                'success') == "success") || $(
-                                                                                "#cashonDelivery").is(':checked')) {
-                                                                            $('#submit_order').removeAttr(
-                                                                                'disabled');
-                                                                        } else {
-                                                                            $('#submit_order').attr('disabled',
-                                                                                'disabled');
-                                                                        }
-                                                                    });
-                                                                    $("#paypal_btn").click(function() {
-                                                                                @if (Auth::check())
-                                                                                    $.get(window.location.origin +
-                                                                                        "/ProjectSem2/public/ajax/get-address/" +
-                                                                                        $(
-                                                                                            'input[name=select_address]:checked'
-                                                                                        ).data('address'),
-                                                                                        function(data) {
-                                                                                            let dataAddress = jQuery
-                                                                                                .parseJSON(data);
-                                                                                            $('#intruct_pay').html($(
-                                                                                                "#DeliveryInstructions"
-                                                                                            ).val());
-                                                                                            $('#address_pay').html(
-                                                                                                dataAddress[
-                                                                                                    'address']);
-                                                                                            $("#ward_pay").html(
-                                                                                                dataAddress['ward']);
-                                                                                            $("#delivery_by").html($(
-                                                                                                    '#delivery_method option:selected'
-                                                                                                ).parent().attr(
-                                                                                                    'label') +
-                                                                                                " - " + $(
-                                                                                                    '#delivery_method option:selected'
-                                                                                                ).text());
-                                                                                            $('#district_pay').html(
-                                                                                                dataAddress[
-                                                                                                    'district']);
-                                                                                            $("#province_pay").html(
-                                                                                                dataAddress[
-                                                                                                    'province']);
-                                                                                            $('#name_pay').html(
-                                                                                                dataAddress[
-                                                                                                    'receiver']);
-                                                                                            $('#phone_pay').html(
-                                                                                                dataAddress['phone']
-                                                                                            );
-                                                                                            $('#email_pay').html(
-                                                                                                dataAddress['email']
-                                                                                            );
-                                                                                            $("#confirm_paypal").click(
-                                                                                                function() {
-                                                                                                    let delivery_met =
-                                                                                                        $(
-                                                                                                            '#delivery_method option:selected'
-                                                                                                        )
-                                                                                                        .parent()
-                                                                                                        .attr(
-                                                                                                            'label'
-                                                                                                        ) +
-                                                                                                        " - " + $(
-                                                                                                            '#delivery_method option:selected'
-                                                                                                        )
-                                                                                                        .text();
-                                                                                                    window.location
-                                                                                                        .assign(
-                                                                                                            window
-                                                                                                            .location
-                                                                                                            .origin +
-                                                                                                            '/ProjectSem2/public/process-transaction?select_address=' +
-                                                                                                            $(
-                                                                                                                'input[name=select_address]:checked'
-                                                                                                            )
-                                                                                                            .val() +
-                                                                                                            "&delivery_method=" +
-                                                                                                            delivery_met +
-                                                                                                            "&instruction=" +
-                                                                                                            $(
-                                                                                                                "#DeliveryInstructions"
-                                                                                                            )
-                                                                                                            .val() +
-                                                                                                            "&shipfee=" +
-                                                                                                            $(
-                                                                                                                'input[name=shipment_fee]'
-                                                                                                            )
-                                                                                                            .val() +
-                                                                                                            "&coupon=" +
-                                                                                                            $(
-                                                                                                                'input[name=code_coupon]'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                });
-                                                                                        })
-                                                                                @else
-                                                                                    if ($('input[name=nameReciever]').val()
-                                                                                        .trim().length == 0) {
-                                                                                        $('#name_pay').html(
-                                                                                            "You forgot input receiver name"
-                                                                                        );
-                                                                                        $('#name_pay').addClass(
-                                                                                            'text-danger');
-                                                                                        $("#confirm_paypal").attr(
-                                                                                            "disabled", "disabled");
-                                                                                    } else {
-                                                                                        $('#name_pay').removeClass(
-                                                                                            'text-danger');
-                                                                                        $('#name_pay').html($(
-                                                                                            'input[name=nameReciever]'
-                                                                                        ).val());
-                                                                                    }
-                                                                                    if ($('input[name=phoneReciever]').val()
-                                                                                        .trim().length == 0) {
-                                                                                        $('#phone_pay').html(
-                                                                                            "You forgot input receiver's phone nummber"
-                                                                                        );
-                                                                                        $('#phone_pay').addClass(
-                                                                                            'text-danger'); ===
-                                                                                        ===
-                                                                                        =
-                                                                                        $(".totalPay").text(((parseInt($(
-                                                                                                    '#total')
-                                                                                                .data('total')
-                                                                                            ) + parseInt($(
-                                                                                                "input[name=shipment_fee]"
-                                                                                            ).val())) *
-                                                                                            0.000043).toFixed(2));
-                                                                                        $("input[name=order_method]")
-                                                                                            .change(function() {
-                                                                                                if (($('#paypal').is(
-                                                                                                            ':checked'
-                                                                                                        ) && $(
-                                                                                                            '#paypal_btn'
-                                                                                                        ).data(
-                                                                                                            'success'
-                                                                                                        ) ==
-                                                                                                        "success") || $(
-                                                                                                        "#cashonDelivery"
-                                                                                                    ).is(
-                                                                                                        ':checked')) {
-                                                                                                    $('#submit_order')
-                                                                                                        .removeAttr(
-                                                                                                            'disabled');
-                                                                                                } else {
-                                                                                                    $('#submit_order')
-                                                                                                        .attr(
-                                                                                                            'disabled',
-                                                                                                            'disabled');
-                                                                                                }
-                                                                                            });
-                                                                                        $("#paypal_btn").click(function() {
-                                                                                            @if (Auth::check())
-                                                                                                $.get(window
-                                                                                                    .location
-                                                                                                    .origin +
-                                                                                                    "/ProjectSem2/public/index.php/ajax/get-address/" +
-                                                                                                    $(
-                                                                                                        'input[name=select_address]:checked'
-                                                                                                    )
-                                                                                                    .data(
-                                                                                                        'address'
-                                                                                                    ),
-                                                                                                    function(
-                                                                                                        data) {
-                                                                                                        let dataAddress =
-                                                                                                            jQuery
-                                                                                                            .parseJSON(
-                                                                                                                data
-                                                                                                            );
-                                                                                                        $('#intruct_pay')
-                                                                                                            .html(
-                                                                                                                $(
-                                                                                                                    "#DeliveryInstructions"
-                                                                                                                )
-                                                                                                                .val()
-                                                                                                            );
-                                                                                                        $('#address_pay')
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'address'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $("#ward_pay")
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'ward'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $("#delivery_by")
-                                                                                                            .html(
-                                                                                                                $(
-                                                                                                                    '#delivery_method option:selected'
-                                                                                                                )
-                                                                                                                .parent()
-                                                                                                                .attr(
-                                                                                                                    'label'
-                                                                                                                ) +
-                                                                                                                " - " +
-                                                                                                                $(
-                                                                                                                    '#delivery_method option:selected'
-                                                                                                                )
-                                                                                                                .text()
-                                                                                                            );
-                                                                                                        $('#district_pay')
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'district'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $("#province_pay")
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'province'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $('#name_pay')
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'receiver'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $('#phone_pay')
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'phone'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $('#email_pay')
-                                                                                                            .html(
-                                                                                                                dataAddress[
-                                                                                                                    'email'
-                                                                                                                ]
-                                                                                                            );
-                                                                                                        $("#confirm_paypal")
-                                                                                                            .click(
-                                                                                                                function() {
-                                                                                                                    let delivery_met =
-                                                                                                                        $(
-                                                                                                                            '#delivery_method option:selected'
-                                                                                                                        )
-                                                                                                                        .parent()
-                                                                                                                        .attr(
-                                                                                                                            'label'
-                                                                                                                        ) +
-                                                                                                                        " - " +
-                                                                                                                        $(
-                                                                                                                            '#delivery_method option:selected'
-                                                                                                                        )
-                                                                                                                        .text();
-                                                                                                                    window
-                                                                                                                        .location
-                                                                                                                        .assign(
-                                                                                                                            window
-                                                                                                                            .location
-                                                                                                                            .origin +
-                                                                                                                            '/ProjectSem2/public/index.php/process-transaction?select_address=' +
-                                                                                                                            $(
-                                                                                                                                'input[name=select_address]:checked'
-                                                                                                                            )
-                                                                                                                            .val() +
-                                                                                                                            "&delivery_method=" +
-                                                                                                                            delivery_met +
-                                                                                                                            "&instruction=" +
-                                                                                                                            $(
-                                                                                                                                "#DeliveryInstructions"
-                                                                                                                            )
-                                                                                                                            .val() +
-                                                                                                                            "&shipfee=" +
-                                                                                                                            $(
-                                                                                                                                'input[name=shipment_fee]'
-                                                                                                                            )
-                                                                                                                            .val() +
-                                                                                                                            "&coupon=" +
-                                                                                                                            $(
-                                                                                                                                'input[name=code_coupon]'
-                                                                                                                            )
-                                                                                                                            .val()
-                                                                                                                        );
-                                                                                                                }
-                                                                                                            );
-                                                                                                    })
-                                                                                            @else
-                                                                                                if ($(
-                                                                                                        'input[name=nameReciever]'
-                                                                                                    )
-                                                                                                    .val().trim()
-                                                                                                    .length == 0) {
-                                                                                                    $('#name_pay')
-                                                                                                        .html(
-                                                                                                            "You forgot input receiver name"
-                                                                                                        );
-                                                                                                    $('#name_pay')
-                                                                                                        .addClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $("#confirm_paypal")
-                                                                                                        .attr(
-                                                                                                            "disabled",
-                                                                                                            "disabled"
-                                                                                                        );
-                                                                                                } else {
-                                                                                                    $('#name_pay')
-                                                                                                        .removeClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $('#name_pay')
-                                                                                                        .html($(
-                                                                                                                'input[name=nameReciever]'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                }
-                                                                                                if ($(
-                                                                                                        'input[name=phoneReciever]'
-                                                                                                    )
-                                                                                                    .val().trim()
-                                                                                                    .length == 0) {
-                                                                                                    $('#phone_pay')
-                                                                                                        .html(
-                                                                                                            "You forgot input receiver's phone nummber"
-                                                                                                        );
-                                                                                                    $('#phone_pay')
-                                                                                                        .addClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                } else {
-                                                                                                    $('#phone_pay')
-                                                                                                        .removeClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $('#phone_pay')
-                                                                                                        .html($(
-                                                                                                                'input[name=phoneReciever]'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                }
-                                                                                                if ($(
-                                                                                                        'input[name=emailReciever]'
-                                                                                                    )
-                                                                                                    .val().trim()
-                                                                                                    .length == 0) {
-                                                                                                    $('#email_pay')
-                                                                                                        .html(
-                                                                                                            "You forgot input email for us"
-                                                                                                        );
-                                                                                                    $('#email_pay')
-                                                                                                        .addClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $("#confirm_paypal")
-                                                                                                        .attr(
-                                                                                                            "disabled",
-                                                                                                            "disabled"
-                                                                                                        );
-                                                                                                } else {
-                                                                                                    $('#email_pay')
-                                                                                                        .removeClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $('#email_pay')
-                                                                                                        .html($(
-                                                                                                                'input[name=emailReciever]'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                }
-                                                                                                $('#intruct_pay')
-                                                                                                    .html($(
-                                                                                                            "#DeliveryInstructions"
-                                                                                                        )
-                                                                                                        .val());
-                                                                                                $("#address_pay")
-                                                                                                    .html($(
-                                                                                                            'input[name=addressReciever]'
-                                                                                                        )
-                                                                                                        .val());
-                                                                                                let checkAddr =
-                                                                                                    false;
-                                                                                                $('#province option:selected')
-                                                                                                    .val($(
-                                                                                                            '#province option:selected'
-                                                                                                        )
-                                                                                                        .text());
-                                                                                                $('#district option:selected')
-                                                                                                    .val($(
-                                                                                                            '#district option:selected'
-                                                                                                        )
-                                                                                                        .text());
-                                                                                                $("#delivery_by")
-                                                                                                    .html($(
-                                                                                                            '#delivery_method option:selected'
-                                                                                                        )
-                                                                                                        .parent()
-                                                                                                        .attr(
-                                                                                                            'label'
-                                                                                                        ) +
-                                                                                                        " - " + $(
-                                                                                                            '#delivery_method option:selected'
-                                                                                                        ).text()
-                                                                                                    );
-                                                                                                $('#ward option:selected')
-                                                                                                    .val($(
-                                                                                                            '#ward option:selected'
-                                                                                                        )
-                                                                                                        .text());
-                                                                                                if ($(
-                                                                                                        '#ward option:selected'
-                                                                                                    )
-                                                                                                    .val() ==
-                                                                                                    null ||
-                                                                                                    $(
-                                                                                                        '#district option:selected'
-                                                                                                    )
-                                                                                                    .val() ==
-                                                                                                    null ||
-                                                                                                    $(
-                                                                                                        '#province option:selected'
-                                                                                                    )
-                                                                                                    .val() ==
-                                                                                                    null ||
-                                                                                                    ($('#ward option:selected')
-                                                                                                        .val()
-                                                                                                        .includes(
-                                                                                                            "Choose"
-                                                                                                        ) || !
-                                                                                                        isNaN($(
-                                                                                                                '#ward option:selected'
-                                                                                                            )
-                                                                                                            .val())
-                                                                                                    ) ||
-                                                                                                    ($('#district option:selected')
-                                                                                                        .val()
-                                                                                                        .includes(
-                                                                                                            'Choose'
-                                                                                                        ) || !
-                                                                                                        isNaN($(
-                                                                                                                '#district option:selected'
-                                                                                                            )
-                                                                                                            .val())
-                                                                                                    ) ||
-                                                                                                    ($('#province option:selected')
-                                                                                                        .val()
-                                                                                                        .includes(
-                                                                                                            "Choose"
-                                                                                                        ) || !
-                                                                                                        isNaN($(
-                                                                                                                '#province option:selected'
-                                                                                                            )
-                                                                                                            .val()))
-                                                                                                ) {
-                                                                                                    $("#ward_pay")
-                                                                                                        .html(
-                                                                                                            "You need to select Address for Delivery"
-                                                                                                        );
-                                                                                                    $("#ward_pay")
-                                                                                                        .addClass(
-                                                                                                            "text-danger"
-                                                                                                        );
-                                                                                                    $("#confirm_paypal")
-                                                                                                        .attr(
-                                                                                                            "disabled",
-                                                                                                            "disabled"
-                                                                                                        );
-                                                                                                } else {
+                                                $(".totalPay").text((total_ghn *
+                                                    0.000043).toFixed(2));
+                                                $("input[name=shipment_fee]").val(
+                                                    shipping);
+                                            });
+                                        $("#img_logictic").attr('src',
+                                            "{{ asset('images/icons/GHN2.png') }}");
+                                        $('#extra_ship').parent().addClass('d-none');
+                                    };
+                                });
+                            })
+                    })
+                    $('#ghn_services').html(str);
+                });
+            @endif
+            $('input[name="select_address"]').change(function() {
+                addr = $(this).parent().next().next();
+                $.get(window.location.origin + '/ProjectSem2/public/ajax/ghtk_service/fee?province=' + addr
+                    .data('province') + "&district=" + addr.data('district'),
+                    function(data) {
+                        let dataJson = jQuery.parseJSON(data);
+                        let deliver_method = jQuery.parseJSON(dataJson[1]);
+                        if (deliver_method['fee']['delivery']) {
+                            let totall = parseInt($("#total").data('subtotal')) + deliver_method['fee'][
+                                'fee'
+                            ];
+                            if (deliver_method['fee']['fee'] != $("input[name=shipment_fee]").val()) {
+                                $("#shippment_fee").html(deliver_method['fee']['ship_fee_only'] + " đ");
+                                $("#total").html(totall + " đ");
+                            }
+                            $(".totalPay").text((totall * 0.000043).toFixed(2));
+                            $("input[name=shipment_fee]").val(deliver_method['fee']['fee']);
+                            if (deliver_method['fee']['extFees'].length > 0) {
+                                $('#extra_ship').parent().removeClass('d-none');
+                                let ex_fee = 0;
+                                let transtalate2 = {
+                                    "Phụ phí hàng nông sản/thực phẩm khô": "Surcharge for agricultural products/dry food"
+                                };
+                                deliver_method['fee']['extFees'].forEach(el => {
+                                    ex_fee += el['amount'];
+                                    $('#extra_ship').html(
+                                        `<div class='ms-3 text-muted'>${transtalate2[el['title']]}</div>`
+                                    );
+                                });
+                                $("#extra_ship_display").html("+ " + ex_fee + " đ");
+                                if (ex_fee != 0) {
+                                    $('#extra_ship').parent().removeClass('d-none');
+                                } else {
+                                    $('#extra_ship').parent().addClass('d-none')
+                                }
+                            } else {
+                                $('#extra_ship').parent().addClass('d-none');
+                            }
+                        };
+                        let str1 = "";
+                        for (let i = 0; i < dataJson.length; i++) {
+                            var method = jQuery.parseJSON(dataJson[i]);
+                            let name = ["Air Transport", "Road Transport", "Xfast"]
+                            str1 += `<option value='${i}' ${i==1?'selected':''}>${name[i]}</option>`;
+                        }
+                        $("#ghtk_service").html(str1);
+                    });
+            });
+            $(".totalPay").text(((parseInt($('#total').data('total')) + parseInt($("input[name=shipment_fee]")
+                .val())) * 0.000043).toFixed(2));
+            $("input[name=order_method]").change(function() {
+                if (($('#paypal').is(':checked') && $('#paypal_btn').data('success') == "success") || $(
+                        "#cashonDelivery").is(':checked')) {
+                    $('#submit_order').removeAttr('disabled');
+                } else {
+                    $('#submit_order').attr('disabled', 'disabled');
+                }
+            });
+            $("#paypal_btn").click(function() {
+                @if (Auth::check())
+                    $.get(window.location.origin + "/ProjectSem2/public/ajax/get-address/" + $(
+                        'input[name=select_address]:checked').data('address'), function(data) {
+                        let dataAddress = jQuery.parseJSON(data);
+                        $('#intruct_pay').html($("#DeliveryInstructions").val());
+                        $('#address_pay').html(dataAddress['address']);
+                        $("#ward_pay").html(dataAddress['ward']);
+                        $("#delivery_by").html($('#delivery_method option:selected').parent().attr(
+                            'label') + " - " + $('#delivery_method option:selected').text());
+                        $('#district_pay').html(dataAddress['district']);
+                        $("#province_pay").html(dataAddress['province']);
+                        $('#name_pay').html(dataAddress['receiver']);
+                        $('#phone_pay').html(dataAddress['phone']);
+                        $('#email_pay').html(dataAddress['email']);
+                        $("#confirm_paypal").click(function() {
+                            let delivery_met = $('#delivery_method option:selected')
+                                .parent().attr('label') + " - " + $(
+                                    '#delivery_method option:selected').text();
+                            window.location.assign(window.location.origin +
+                                '/ProjectSem2/public/process-transaction?select_address=' +
+                                $('input[name=select_address]:checked').val() +
+                                "&delivery_method=" + delivery_met + "&instruction=" +
+                                $("#DeliveryInstructions").val() + "&shipfee=" + $(
+                                    'input[name=shipment_fee]').val() + "&coupon=" + $(
+                                    'input[name=code_coupon]').val());
+                        });
+                    })
+                @else
+                    if ($('input[name=nameReciever]').val().trim().length == 0) {
+                        $('#name_pay').html("You forgot input receiver name");
+                        $('#name_pay').addClass('text-danger');
+                        $("#confirm_paypal").attr("disabled", "disabled");
+                    } else {
+                        $('#name_pay').removeClass('text-danger');
+                        $('#name_pay').html($('input[name=nameReciever]').val());
+                    }
+                    if ($('input[name=phoneReciever]').val().trim().length == 0) {
+                        $('#phone_pay').html("You forgot input receiver's phone nummber");
+                        $('#phone_pay').addClass('text-danger');
 
-                                                                                                    $("#ward_pay")
-                                                                                                        .removeClass(
-                                                                                                            'text-danger'
-                                                                                                        );
-                                                                                                    $("#ward_pay")
-                                                                                                        .html($(
-                                                                                                                '#ward option:selected'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                    $('#district_pay')
-                                                                                                        .html($(
-                                                                                                                '#district option:selected'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                    $("#province_pay")
-                                                                                                        .html($(
-                                                                                                                '#province option:selected'
-                                                                                                            )
-                                                                                                            .val());
-                                                                                                    checkAddr =
-                                                                                                        true;
-                                                                                                }
-                                                                                                if ($(
-                                                                                                        'input[name=nameReciever]'
-                                                                                                    )
-                                                                                                    .val().trim()
-                                                                                                    .length > 0 &&
-                                                                                                    $(
-                                                                                                        'input[name=phoneReciever]'
-                                                                                                    ).val()
-                                                                                                    .trim().length >
-                                                                                                    0 && $(
-                                                                                                        'input[name=emailReciever]'
-                                                                                                    ).val()
-                                                                                                    .trim().length >
-                                                                                                    0 && checkAddr
-                                                                                                ) {
-                                                                                                    $("#confirm_paypal")
-                                                                                                        .removeAttr(
-                                                                                                            'disabled'
-                                                                                                        );
-                                                                                                }
-                                                                                            @endif
-                                                                                        })
-                                                                                        $("#confirm_paypal").click(
-                                                                                            function() {
-                                                                                                let delivery = $(
-                                                                                                        '#delivery_method option:selected'
-                                                                                                    ).parent().attr(
-                                                                                                        'label') +
-                                                                                                    " - " + $(
-                                                                                                        '#delivery_method option:selected'
-                                                                                                    ).text();
-                                                                                                window.location.assign(
-                                                                                                    window.location
-                                                                                                    .origin +
-                                                                                                    '/ProjectSem2/public/process-transaction?name=' +
-                                                                                                    $(
-                                                                                                        'input[name=nameReciever]'
-                                                                                                    )
-                                                                                                    .val() +
-                                                                                                    "&phone=" + $(
-                                                                                                        'input[name=phoneReciever]'
-                                                                                                    ).val() +
-                                                                                                    "&email=" + $(
-                                                                                                        'input[name=emailReciever]'
-                                                                                                    ).val() +
-                                                                                                    "&province=" +
-                                                                                                    $(
-                                                                                                        '#province option:selected'
-                                                                                                    ).val() +
-                                                                                                    "&district=" +
-                                                                                                    $(
-                                                                                                        '#district option:selected'
-                                                                                                    ).val() +
-                                                                                                    "&ward=" + $(
-                                                                                                        '#ward option:selected'
-                                                                                                    )
-                                                                                                    .val() +
-                                                                                                    "&address=" + $(
-                                                                                                        'input[name=addressReciever]'
-                                                                                                    ).val() +
-                                                                                                    "&instruction=" +
-                                                                                                    $(
-                                                                                                        "#DeliveryInstructions"
-                                                                                                    ).val() +
-                                                                                                    "&delivery_method=" +
-                                                                                                    delivery +
-                                                                                                    "&shipfee=" +
-                                                                                                    $(
-                                                                                                        'input[name=shipment_fee]'
-                                                                                                    )
-                                                                                                    .val()); ===
-                                                                                                ===
-                                                                                                =
-                                                                                                $("#confirm_paypal")
-                                                                                                    .click(function() {
-                                                                                                        let delivery =
-                                                                                                            $(
-                                                                                                                '#delivery_method option:selected'
-                                                                                                            )
-                                                                                                            .parent()
-                                                                                                            .attr(
-                                                                                                                'label'
-                                                                                                            ) +
-                                                                                                            " - " +
-                                                                                                            $(
-                                                                                                                '#delivery_method option:selected'
-                                                                                                            )
-                                                                                                            .text();
-                                                                                                        window
-                                                                                                            .location
-                                                                                                            .assign(
-                                                                                                                window
-                                                                                                                .location
-                                                                                                                .origin +
-                                                                                                                '/ProjectSem2/public/index.php/process-transaction?name=' +
-                                                                                                                $(
-                                                                                                                    'input[name=nameReciever]'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&phone=" +
-                                                                                                                $(
-                                                                                                                    'input[name=phoneReciever]'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&email=" +
-                                                                                                                $(
-                                                                                                                    'input[name=emailReciever]'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&province=" +
-                                                                                                                $(
-                                                                                                                    '#province option:selected'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&district=" +
-                                                                                                                $(
-                                                                                                                    '#district option:selected'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&ward=" +
-                                                                                                                $(
-                                                                                                                    '#ward option:selected'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&address=" +
-                                                                                                                $(
-                                                                                                                    'input[name=addressReciever]'
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&instruction=" +
-                                                                                                                $(
-                                                                                                                    "#DeliveryInstructions"
-                                                                                                                )
-                                                                                                                .val() +
-                                                                                                                "&delivery_method=" +
-                                                                                                                delivery +
-                                                                                                                "&shipfee=" +
-                                                                                                                $(
-                                                                                                                    'input[name=shipment_fee]'
-                                                                                                                )
-                                                                                                                .val()
-                                                                                                            );
-                                                                                                    })
-                                                                                            })
+                    } else {
+                        $('#phone_pay').removeClass('text-danger');
+                        $('#phone_pay').html($('input[name=phoneReciever]').val());
+                    }
+                    if ($('input[name=emailReciever]').val().trim().length == 0) {
+                        $('#email_pay').html("You forgot input email for us");
+                        $('#email_pay').addClass('text-danger');
+                        $("#confirm_paypal").attr("disabled", "disabled");
+                    } else {
+                        $('#email_pay').removeClass('text-danger');
+                        $('#email_pay').html($('input[name=emailReciever]').val());
+                    }
+                    $('#intruct_pay').html($("#DeliveryInstructions").val());
+                    $("#address_pay").html($('input[name=addressReciever]').val());
+                    let checkAddr = false;
+                    $('#province option:selected').val($('#province option:selected').text());
+                    $('#district option:selected').val($('#district option:selected').text());
+                    $("#delivery_by").html($('#delivery_method option:selected').parent().attr('label') +
+                        " - " + $('#delivery_method option:selected').text());
+                    $('#ward option:selected').val($('#ward option:selected').text());
+                    if ($('#ward option:selected').val() == null ||
+                        $('#district option:selected').val() == null ||
+                        $('#province option:selected').val() == null ||
+                        ($('#ward option:selected').val().includes("Choose") || !isNaN($(
+                            '#ward option:selected').val())) ||
+                        ($('#district option:selected').val().includes('Choose') || !isNaN($(
+                            '#district option:selected').val())) ||
+                        ($('#province option:selected').val().includes("Choose") || !isNaN($(
+                            '#province option:selected').val()))
+                    ) {
+                        $("#ward_pay").html("You need to select Address for Delivery");
+                        $("#ward_pay").addClass("text-danger");
+                        $("#confirm_paypal").attr("disabled", "disabled");
+                    } else {
+
+                        $("#ward_pay").removeClass('text-danger');
+                        $("#ward_pay").html($('#ward option:selected').val());
+                        $('#district_pay').html($('#district option:selected').val());
+                        $("#province_pay").html($('#province option:selected').val());
+                        checkAddr = true;
+                    }
+                    if ($('input[name=nameReciever]').val().trim().length > 0 && $(
+                            'input[name=phoneReciever]').val().trim().length > 0 && $(
+                            'input[name=emailReciever]').val().trim().length > 0 && checkAddr) {
+                        $("#confirm_paypal").removeAttr('disabled');
+                    }
+                @endif
+            })
+            $("#confirm_paypal").click(function() {
+                let delivery = $('#delivery_method option:selected').parent().attr('label') + " - " + $(
+                    '#delivery_method option:selected').text();
+                window.location.assign(window.location.origin +
+                    '/ProjectSem2/public/process-transaction?name=' + $('input[name=nameReciever]')
+                    .val() + "&phone=" + $('input[name=phoneReciever]').val() + "&email=" + $(
+                        'input[name=emailReciever]').val() + "&province=" + $(
+                        '#province option:selected').val() + "&district=" + $(
+                        '#district option:selected').val() + "&ward=" + $('#ward option:selected')
+                    .val() + "&address=" + $('input[name=addressReciever]').val() + "&instruction=" + $(
+                        "#DeliveryInstructions").val() + "&delivery_method=" + delivery + "&shipfee=" +
+                    $('input[name=shipment_fee]').val());
+            })
+        })
     </script>
 @endsection

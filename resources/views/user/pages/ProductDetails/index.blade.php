@@ -8,7 +8,7 @@
                     <div class="col-5 ">
                         <div class="slide_wrapper">
                             <div class="slider_product product">
-                                @if (count($product->Library)>0)
+                                @if (count($product->Library) > 0)
                                     @foreach ($product->Library as $lib)
                                         <div class="zoom slider_item" onmousemove="zoom(event)"
                                             style="background-image: url({{ asset('images/products/' . $lib->image) }}">
@@ -16,24 +16,25 @@
                                         </div>
                                     @endforeach
                                 @else
-                                <div class="zoom slider_item" onmousemove="zoom(event)"
-                                style="background-image: url({{ asset('images/category/' . $product->TypeProduct->image) }}">
-                                <img src="{{ asset('images/category/' . $product->TypeProduct->image) }}" class="img-fluid">
-                            </div>
+                                    <div class="zoom slider_item" onmousemove="zoom(event)"
+                                        style="background-image: url({{ asset('images/category/' . $product->TypeProduct->image) }}">
+                                        <img src="{{ asset('images/category/' . $product->TypeProduct->image) }}"
+                                            class="img-fluid">
+                                    </div>
                                 @endif
                             </div>
                         </div>
                         <div class="product-tools ">
-                            @if (count($product->Library)>0)
-                            <div class="thumbnails slider_nav row g-3" id="productThumbnails">
-                                @foreach ($product->Library as $lib)
-                                    <div class="col-3">
-                                        <div class="thumbnails-img">
-                                            <img src="{{ asset('images/products/' . $lib->image) }}">
+                            @if (count($product->Library) > 0)
+                                <div class="thumbnails slider_nav row g-3" id="productThumbnails">
+                                    @foreach ($product->Library as $lib)
+                                        <div class="col-3">
+                                            <div class="thumbnails-img">
+                                                <img src="{{ asset('images/products/' . $lib->image) }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -90,45 +91,45 @@
                                     {{ number_format($product->quantity, 0, '', ' ') }} grams</button>
                             </div>
                             @if (!Auth::check() || Auth::user()->admin == '0' || $product->status)
-                            <form action="{{ route('post_products_details', [$product->id_product]) }}" method="post">
-                                @csrf
-                                <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
-                                <input type="hidden" name="max_quan" value="{{ $product->quantity }}">
-                                <div>
-                                    <div class="d-flex flex-row  ">
-                                        <button type="button" class="btn btn-outline-secondary btn_minus"
-                                            style="border-radius: 10px 0 0 10px;">
-                                            <i class="bi bi-dash-lg"></i>
-                                        </button>
-                                        <input type="text" name="quan"
-                                            class="border border-secondary text-center pt-1 fs-4 text-secondary"
-                                            style="width: 50px;" value="100" />
-                                        <button type="button" class="btn btn-outline-secondary btn_plus"
-                                            style="border-radius: 0 10px 10px 0;">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </button>
+                                <form action="{{ route('post_products_details', [$product->id_product]) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id_pro" value="{{ $product->id_product }}">
+                                    <input type="hidden" name="max_quan" value="{{ $product->quantity }}">
+                                    <div>
+                                        <div class="d-flex flex-row  ">
+                                            <button type="button" class="btn btn-outline-secondary btn_minus"
+                                                style="border-radius: 10px 0 0 10px;">
+                                                <i class="bi bi-dash-lg"></i>
+                                            </button>
+                                            <input type="text" name="quan"
+                                                class="border border-secondary text-center pt-1 fs-4 text-secondary"
+                                                style="width: 50px;" value="100" />
+                                            <button type="button" class="btn btn-outline-secondary btn_plus"
+                                                style="border-radius: 0 10px 10px 0;">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mt-3 row justify-content-start g-2 align-items-center ">
-                                    <div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid ">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="feather-icon icon-shopping-bag me-2"></i>Add to cart
-                                        </button>
+                                    <div class="mt-3 row justify-content-start g-2 align-items-center ">
+                                        <div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid ">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="feather-icon icon-shopping-bag me-2"></i>Add to cart
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4 col-4 mx-auto">
+                                            <a class="btn btn-light compare_product" data-bs-toggle="tooltip"
+                                                data-bs-html="true" title="Compare"
+                                                data-bs-product="{{ $product->id_product }}">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </a>
+                                            <a class="btn btn-light {{ Auth::check() ? 'addFav' : '' }}"
+                                                {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle=tooltip data-bs-html=true title=Wishlist data-bs-idproduct=$product->id_product" }}>
+                                                <i
+                                                    class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 col-4 mx-auto">
-                                        <a class="btn btn-light compare_product" data-bs-toggle="tooltip"
-                                            data-bs-html="true" title="Compare"
-                                            data-bs-product="{{ $product->id_product }}">
-                                            <i class="bi bi-arrow-left-right"></i>
-                                        </a>
-                                        <a class="btn btn-light {{ Auth::check() ? 'addFav' : '' }}"
-                                            {{ !Auth::check() ? 'data-bs-toggle=modal data-bs-target=#userModal href=#!' : "data-bs-toggle=tooltip data-bs-html=true title=Wishlist data-bs-idproduct=$product->id_product" }}>
-                                            <i class="bi {{ Auth::check() ? (count(Auth::user()->Favourite->where('id_product', '=', $product->id_product)) > 0 ? 'bi-heart-fill text-danger' : 'bi-heart') : 'bi-heart' }}"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
-                                
+                                </form>
                             @endif
                             <hr class="my-6">
                             <div>
@@ -177,7 +178,7 @@
 
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" id="share_fb"><i
-                                                    class="bi bi-facebook me-2" ></i>Facebook</a></li>
+                                                    class="bi bi-facebook me-2"></i>Facebook</a></li>
                                         <li><a class="dropdown-item" id="share_tw"><i
                                                     class="bi bi-twitter me-2"></i>Twitter</a></li>
                                     </ul>
@@ -311,7 +312,7 @@
                                                                 </div>
                                                             </div>
                                                             <span
-                                                                class="text-muted ms-3">{{number_format((count($product->Comment->where('rating','=',5))/count($product->Comment->where('rating','!=',null)))*100,0,'','')}}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 5)) / count($product->Comment->where('rating', '!=', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -328,7 +329,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',4))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 4)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -345,7 +346,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',3))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 3)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -362,7 +363,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',2))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 2)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="text-nowrap me-3 text-muted">
@@ -379,7 +380,7 @@
                                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                                 </div>
                                                             </div><span
-                                                                class="text-muted ms-3">{{number_format(((count($product->Comment->where('rating','=',1))/count($product->Comment->where('rating','<>',null)))*100),0,'','')}}%</span>
+                                                                class="text-muted ms-3">{{ number_format((count($product->Comment->where('rating', '=', 1)) / count($product->Comment->where('rating', '<>', null))) * 100, 0, '', '') }}%</span>
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center mb-2">
@@ -463,9 +464,10 @@
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="mb-10" style="max-height: 600px; overflow-y: scroll; width: 100%;">
-                                                <div class="d-flex justify-content-between align-items-center mb-8" >
-                                                    <div>
+                                            <div class="mb-10"
+                                                style="max-height: 600px; overflow-y: scroll; width: 100%;">
+                                                <div class="d-flex justify-content-between align-items-center mb-8">
+                                                    {{-- <div>
                                                         <h4>Reviews</h4>
                                                     </div>
                                                     <div>
@@ -475,7 +477,7 @@
                                                             <option value="2">Two</option>
                                                             <option value="3">Three</option>
                                                         </select>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 @if (Auth::check())
                                                     <div class="row mb-3 w-100">
@@ -547,7 +549,9 @@
 
                                                                 <div class="collapse"
                                                                     id="collapseEdit{{ $cmt->id_comment }}">
-                                                                    <form action="{{ route('edit_cmt', $cmt->id_comment) }}" method="post">
+                                                                    <form
+                                                                        action="{{ route('edit_cmt', $cmt->id_comment) }}"
+                                                                        method="post">
                                                                         @csrf
                                                                         @if ($cmt->rating != null && $cmt->verified)
                                                                             <div class="form-check form-check-inline mb-3">
@@ -681,10 +685,12 @@
                                             @endif
                                         </div>
                                         <a href="{{ route('products-details', $re_product->id_product) }}">
-                                            @if (count($re_product->Library)>0)
-                                            <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                            @if (count($re_product->Library) > 0)
+                                                <img src="{{ asset('images/products/' . $re_product->Library[0]->image) }}"
+                                                    alt="{{ $product->name }}" class="mb-3 img-fluid">
                                             @else
-                                            <img src="{{ asset('images/category/' . $re_product->TypeProduct->image) }}" alt="{{ $product->name }}" class="mb-3 img-fluid">
+                                                <img src="{{ asset('images/category/' . $re_product->TypeProduct->image) }}"
+                                                    alt="{{ $product->name }}" class="mb-3 img-fluid">
                                             @endif
                                         </a>
                                         <div class="card-product-action">

@@ -21,15 +21,18 @@
                 background-color: #0aad0a;
                 color: white;
             }
-            .searchProduct{
+
+            .searchProduct {
                 position: relative;
                 margin-top: 30px;
             }
-            .inputProduct{
+
+            .inputProduct {
                 position: relative;
                 margin-top: 15px;
             }
-            .formProduct{
+
+            .formProduct {
                 position: relative;
                 padding: 5px 10px 0px 0px;
             }
@@ -71,7 +74,7 @@
 
                             <!-- icon -->
                             <div class="d-md-flex justify-content-between align-items-center">
-         
+
 
                                 <div class="d-flex mt-2 mt-lg-0">
 
@@ -94,12 +97,13 @@
 
                         <!-- row -->
                         <div class="row g-4 row-cols-xl-4 row-cols-lg-2 row-cols-2 row-cols-md-3 mt-2">
-                           
-                                @foreach($prods as $pro)
-                            <!-- col -->
-                            
-                                <div class=" filterDiv {{$pro->id_type}} col" data-price="{{$pro->price}}" >
-                                    
+
+                            @foreach ($prods as $pro)
+                                <!-- col -->
+
+                                <div class="filterDiv {{ $pro->id_type }} col"
+                                    data-price="{{ $pro->sale > 0 ? $pro->price * (1 - $pro->sale / 100) : $pro->price }}">
+
                                     <!-- card -->
                                     <div class="card card-product">
                                         <div class="card-body">
@@ -136,11 +140,11 @@
                                                 </div>
 
                                             </div>
-                                            
+
                                             <div class="text-small mb-1"><a href="#!"
                                                     class="text-decoration-none text-muted"><small>{{ $pro->TypeProduct->type }}</small></a>
                                             </div>
-                                            
+
                                             <h2 class="fs-6">
                                                 <a href="{{ route('products-details', $pro->id_product) }}"
                                                     class="text-inherit text-decoration-none">{{ $pro->name }}</a>
@@ -203,8 +207,6 @@
     </main>
 
     <script>
-        
-
         //sắp xếp theo giá
         function sortProductsByPrice() {
             const productDivs = document.querySelectorAll('.filterDiv');

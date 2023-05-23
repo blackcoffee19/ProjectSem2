@@ -1730,7 +1730,14 @@ class TuongController extends Controller
                     ->orWhere('id_user', '=', null);
             })->get();
             foreach ($news as $new) {
-                if ($new->link != 'feedback') {
+                if ($new->link == 'show_coupon') {
+                    $find_cp = Coupon::where("code", '=', $new->attr)->first();
+                    $user_use = count(Order::where('id_user', '=', Auth::user()->id_user)->where('code_coupon', '=', $new->attr)->where('status', '<>', 'cancel')->get());
+                    if ($user_use == $find_cp->max) {
+                        $new->delete();
+                    }
+                }
+                if ($new->link != 'feedback' && $new->link != 'show_coupon') {
                     $new->delete();
                 }
             };
@@ -1745,7 +1752,7 @@ class TuongController extends Controller
     public function model_coupon($code)
     {
         $coupon = Coupon::where('code', '=', $code)->where('status', true)->first();
-        $coupon->used = count(Order::where('id_user', '=', Auth::user()->id_user)->where('code_coupon', '=', $code)->get());
+        $coupon->used = count(Order::where('id_user', '=', Auth::user()->id_user)->where('code_coupon', '=', $code)->where('status', '<>', 'cancel')->get());
         if ($coupon) {
             echo $coupon;
         } else {

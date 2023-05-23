@@ -21,7 +21,7 @@ class AdminProductController extends Controller
         $prods = Product::paginate(10);
         $types = TypeProduct::all();
         $pagination = true;
-        return view('admin.pages.Products.index', compact('prods', 'types','pagination'));
+        return view('admin.pages.Products.index', compact('prods', 'types', 'pagination'));
     }
 
     public function findByNameP(Request $request)
@@ -30,13 +30,15 @@ class AdminProductController extends Controller
         $type_product = $request->type_product;
         $status_sl = $request->status_sl;
         $prods = Product::when($type_product, function ($query, $type_product) {
-            return $query->where('id_type', '=',$type_product);})->when($name, function ($query, $name) {
-                return $query->where('name','LIKE', '%'.$name.'%');})->when($status_sl, function($query,$status_sl) {
-                    return $query->where('status',$status_sl);
-                })->paginate(10);
-             
+            return $query->where('id_type', '=', $type_product);
+        })->when($name, function ($query, $name) {
+            return $query->where('name', 'LIKE', '%' . $name . '%');
+        })->when($status_sl, function ($query, $status_sl) {
+            return $query->where('status', $status_sl);
+        })->paginate(10);
+
         $types = TypeProduct::all();
-        return view('admin.pages.Products.index', compact('prods', 'types','type_product','status_sl'));
+        return view('admin.pages.Products.index', compact('prods', 'types', 'type_product', 'status_sl'));
     }
 
     public function create()
@@ -44,20 +46,26 @@ class AdminProductController extends Controller
         $types = TypeProduct::all();
         return view('admin.pages.Products.create', compact('types'));
     }
-    public function check_name(Request $req){
-        $product = Product::where('name','=',$req['name'])->first();
+    public function check_name(Request $req)
+    {
+        $product = Product::where('name', '=', $req['name'])->first();
         $id = null;
-        if($product){
+        if ($product) {
             $id = $product->id_product;
-            echo route('adminShowProduct',$id);
-        }else{
+            echo route('adminShowProduct', $id);
+        } else {
             echo $id;
         }
     }
     public function store(Request $request)
     {
         $product = new Product();
+
         $product->name = $request->name;
+        $check = count(Product::where('name', '=', $request['name'])->get());
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'Product exited');
+        }
         $product->id_type = $request->id_type;
         $product->quantity = $request->quantity;
         $product->description = $request->description;
@@ -69,14 +77,14 @@ class AdminProductController extends Controller
         $expense = new Expense();
         $expense->id_product = $productId;
         $expense->costs =  $request->original_price;
-        $expense->quantity =$request->quantity;
+        $expense->quantity = $request->quantity;
         $expense->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $expense->save();
         $news_pro = new News();
         $news_pro->title = "New Product";
         $news_pro->link = "products-details";
         $news_pro->attr = $productId;
-        $news_pro->created_at=Carbon::now()->format('Y-m-d H:i:s');
+        $news_pro->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $news_pro->save();
         if ($request->hasFile('photos')) {
             $images = $request->file('photos');
@@ -111,32 +119,36 @@ class AdminProductController extends Controller
     {
         $import_pro = 0;
         $product = Product::findOrFail($id_product);
-        $import_pro = intval($request->quantity)- $product->quantity; 
+        $import_pro = intval($request->quantity) - $product->quantity;
         $product->name = $request->name;
+        $check = count(Product::where('name', '=', $request['name'])->get());
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'Product exited');
+        }
         $product->id_type = $request->id_type;
         $product->quantity = $request->quantity;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->sale = $request->sale;
-        if(!isset($request->status)){
+        if (!isset($request->status)) {
             $product->status = false;
-            $carts = Cart::where('order_code','=',null)->where("id_product",'=',$id_product)->get();
-            foreach($carts as $cart){
+            $carts = Cart::where('order_code', '=', null)->where("id_product", '=', $id_product)->get();
+            foreach ($carts as $cart) {
                 $cart->delete();
             }
-        }else{
+        } else {
             $product->status = true;
         }
         $product->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $product->save();
-        if(isset($request->remove_image)){
-            for($i =0;$i<count($product->Library);$i++ ){
-                if(in_array($i,$request->remove_image)){
+        if (isset($request->remove_image)) {
+            for ($i = 0; $i < count($product->Library); $i++) {
+                if (in_array($i, $request->remove_image)) {
                     $product->Library[$i]->delete();
                 }
             }
         }
-        if($import_pro  >0){
+        if ($import_pro  > 0) {
             $new_expense = new Expense();
             $new_expense->id_product = $id_product;
             $new_expense->costs = $request->original_price;
@@ -147,17 +159,17 @@ class AdminProductController extends Controller
         $productId = $product->id_product;
         if ($request->hasFile('photos')) {
             $images = $request->file('photos');
-            foreach ($images as $key=> $image) {
+            foreach ($images as $key => $image) {
                 $imageName = $image->getClientOriginalName();
                 $image->move(public_path('images/products'), $imageName);
-                if(count($product->Library) > $key ){
-                    for($i =0; $i<count($product->Library);$i++){
-                        if($i == $key){
+                if (count($product->Library) > $key) {
+                    for ($i = 0; $i < count($product->Library); $i++) {
+                        if ($i == $key) {
                             $product->Library[$i]->image = $imageName;
                             $product->Library[$i]->save();
                         }
                     }
-                }else{
+                } else {
                     $img = new Library();
                     $img->id_product = $productId;
                     $img->image = $imageName;
@@ -170,20 +182,20 @@ class AdminProductController extends Controller
 
     public function delete($id_product)
     {
-       
 
-        if(count(Cart::where('order_code','<>',null)->where('id_product','=',$id_product)->get())==0){
+
+        if (count(Cart::where('order_code', '<>', null)->where('id_product', '=', $id_product)->get()) == 0) {
 
 
             $images = Library::where('id_product', $id_product)->pluck('image');
-    
+
             // Xoá tất cả các thông tin của sản phẩm trong bảng thư viện
             Library::where('id_product', $id_product)->delete();
-    
+
             // Xoá thông tin của sản phẩm trong bảng sản phẩm
             $product = Product::findOrFail($id_product);
             $product->delete();
-    
+
             // Xoá tất cả các ảnh trong thư mục images/products
             foreach ($images as $image) {
                 $image_path = public_path('images/products/' . $image);
@@ -191,7 +203,7 @@ class AdminProductController extends Controller
                     unlink($image_path);
                 }
             }
-        }else{
+        } else {
             return redirect()->back()->with('error', 'This product type cannot be deleted because it has already been ordered.');
         }
 

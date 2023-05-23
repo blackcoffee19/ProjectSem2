@@ -31,6 +31,9 @@
                     </div>
                 </div>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
             <!-- row -->
             <div class="row">
                 <div class="col-12">
@@ -186,11 +189,11 @@
                                                     <div class="col-md-6">
                                                         <input type="file" id="form5Example1" name="photos[]" multiple
                                                             onchange="previewImages()">
-                                                            <input type="file" id="form5Example2" name="photos[]" multiple
+                                                        <input type="file" id="form5Example2" name="photos[]" multiple
                                                             onchange="previewImages()">
-                                                            <input type="file" id="form5Example3" name="photos[]" multiple
+                                                        <input type="file" id="form5Example3" name="photos[]" multiple
                                                             onchange="previewImages()">
-                                                            <input type="file" id="form5Example4" name="photos[]" multiple
+                                                        <input type="file" id="form5Example4" name="photos[]" multiple
                                                             onchange="previewImages()">
                                                         <div id="image-preview"></div>
                                                     </div>
@@ -214,41 +217,42 @@
 
                         <script>
                             function previewImages() {
-                            var preview = $('#image-preview');
-                            preview.empty();
-                            var files = $('#form5Example1').add('#form5Example2').add('#form5Example3').add('#form5Example4').map(function() {
-                                return this.files;
-                            }).get().reduce(function(prev, curr) {
-                                return prev.concat(Array.from(curr));
-                            }, []);
-                            if (files.length === 0) {
-                                return;
-                            }
-                            var promises = [];
+                                var preview = $('#image-preview');
+                                preview.empty();
+                                var files = $('#form5Example1').add('#form5Example2').add('#form5Example3').add('#form5Example4').map(
+                            function() {
+                                    return this.files;
+                                }).get().reduce(function(prev, curr) {
+                                    return prev.concat(Array.from(curr));
+                                }, []);
+                                if (files.length === 0) {
+                                    return;
+                                }
+                                var promises = [];
 
-                            for (var i = 0; i < files.length; i++) {
-                                var file = files[i];
-                                var reader = new FileReader();
-                                promises.push(new Promise(function(resolve, reject) {
-                                    reader.onload = function(event) {
-                                        var img = $('<img>').attr('src', event.target.result).attr('style',
-                                            'width:100px;height:100px;');
-                                        preview.append(img);
-                                        resolve();
-                                    };
-                                    reader.onerror = function(event) {
-                                        reject(event.target.error);
-                                    };
-                                    reader.readAsDataURL(file);
-                                }));
-                            }
+                                for (var i = 0; i < files.length; i++) {
+                                    var file = files[i];
+                                    var reader = new FileReader();
+                                    promises.push(new Promise(function(resolve, reject) {
+                                        reader.onload = function(event) {
+                                            var img = $('<img>').attr('src', event.target.result).attr('style',
+                                                'width:100px;height:100px;');
+                                            preview.append(img);
+                                            resolve();
+                                        };
+                                        reader.onerror = function(event) {
+                                            reject(event.target.error);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }));
+                                }
 
-                            Promise.all(promises).then(function() {
-                                console.log('All images loaded');
-                            }).catch(function(error) {
-                                console.log(error);
-                            });
-                        }
+                                Promise.all(promises).then(function() {
+                                    console.log('All images loaded');
+                                }).catch(function(error) {
+                                    console.log(error);
+                                });
+                            }
                         </script>
 
 
@@ -278,7 +282,8 @@
             }
             $("input[name='name']").change(function(e) {
                 e.preventDefault();
-                $.get(window.location.origin + "/ProjectSem2/public/admin/ajax/check-product?name=" + $(this)
+                $.get(window.location.origin + "/ProjectSem2/public/admin/ajax/check-product?name=" + $(
+                        this)
                     .val().trim(),
                     function(data) {
                         if (data) {

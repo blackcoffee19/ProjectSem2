@@ -48,6 +48,7 @@
                         <div class="card-body p-6 ">
                             <h4 class="form-label">Phone</h4>
                             <input type="text" name="phone" class="form-control">
+                            <span class="text-danger" id="valiPhone"></span>
                         </div>
 
 
@@ -55,6 +56,7 @@
                             <h4 class="form-label">Email</h4>
                             <input type="email" name="email" class="form-control " placeholder="....@gmail.com"
                                 required>
+                                <span class="text-danger" id="valiEmail"></span>
                         </div>
                         <div class="card-body p-6 ">
                             <h4 class="form-label">Password</h4>
@@ -74,7 +76,7 @@
 
                     </div>
                     <div class="card-body p-6 ">
-                        <button type="submit" class="btn btn-primary" style="width: 100%">Create</button>
+                        <button type="submit" class="btn btn-primary" id="submit_createcus" style="width: 100%">Create</button>
                     </div>
                 </div>
         </div>
@@ -82,4 +84,33 @@
 
         </div>
     </main>
+@endsection
+@section('admin-script')
+    <script>
+        $(document).ready(function(){
+            let validatePhone = /^[0-9]{9,11}$/;
+            let validateEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$/;
+            $("input[name=phone]").change(function(e){
+                e.preventDefault();
+                if(!validatePhone.test($(this).val())){
+                  $("#submit_createcus").attr('disabled','disabled');
+                    $('#valiPhone').text("Invail Phone. Try again");
+                    $(this).addClass('is-invalid');
+                }else{
+                    $(this).removeClass('is-invalid');
+                    $('#valiPhone').text('');
+                }
+            })
+            $("input[name=email]").change(function(e){
+                if(!validateEmail.test($(this).val())){
+                    $('#valiEmail').text("Invaild Email. Try again");
+                    $("#submit_createcus").attr('disabled','disabled');
+                    $(this).addClass('is-invalid');      
+                }else{
+                    $(this).removeClass('is-invalid');
+                    $('#submit_createcus').text('');
+                };
+            })
+        })
+    </script>
 @endsection

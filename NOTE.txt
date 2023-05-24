@@ -1,0 +1,62 @@
+1. Cart - giỏ hàng
+
+Có 3 cách thêm 1 sản phẩm vào giỏ hàng
+    1 Thêm nhanh 100grams sản phẩm bằng nút xanh hình xe đẩy trong nhưng trang có hiển thị danh sách sản phẩm như trang chủ, categories
+    2 Thêm sản phẩm vào giỏ hàng bằng modal products, khách hàng có thể chọn số lượng mình muốn và nhấn Add to cart
+    3 Thêm sản phẩm trong trang hiện thị chi tiết sản phẩm , khách hàng chọn số lượng và Nhấn Add To Cart để thêm sản phẩm vào giỏ hàng
+Thêm Hoặc giảm  số lượng cho các sản phẩm đã tồn tại trong giỏ hàng bằng qua các danh sách giỏ hàng
+Nếu số lượng sản phẩm khách hàng chọn lớn hơn số lượng tối đa của sản phẩm , sản phẩm được thêm vào với số lượng bằng số lượng tối đa
+
+Khách hàng có thể xóa, sản phẩm có tồn tại trong giỏ hàng.
+Khách hàng có thể xóa toàn bộ sản phẩm khỏi giỏ hàng hiện tại của mình bằng nhấn nút ClearCart
+Hoặc khách hàng có thể đi đến trong hiện danh sách giỏ hàng, nhập Voucher, Coupon cho đơn hàng
+
+Chỉ khách hàng là memmber, đã sign in mới có thể thêm Coupon
+
+2. Sau khi kiểm tra danh sách sản phẩm trong giỏ hàng, khách hàng sẽ nhấn nut Buy Now để bắt đầu nhập thông tin giao hàng và hoàn thành đơn hàng
+
+    Đối với khách hàng chưa đăng nhập:
+        + Khách hàng điền thông tin mới có thể hoàn thành đơn hàng: địa chỉ giao hàng, người nhận, số điện thoại đặt hàng và địa chỉ email để khi Freshshop xác nhận và đã gửi cho đơn 
+        vị vận chuyển, thông tin đơn hàng sẽ gửi đến cho khách hàng qua mail, khách hàng có thể thêm ghi chú cho đơn hàng
+        + Phí ship sẽ được tính sau khi khách hàng chọn đầy đủ tỉnh thành xã, cho đơn hàng
+        + Khách hàng có thể chọn đơn vị vận chuyển và phương thức vận chuyển cho đơn hàng
+        + Khách hàng có thể chọn 1 trong 2 phương thức thanh toán: Thanh toán trực tiếp online bằng Paypal, hoặc phương thức Cash On Delivery (thanh toán sau khi nhận hàng)
+
+    Nếu sau khi khách hàng đặt hàng thành công, khách hàng bắt đầu đăng nhập hoặc đăng ký với số điện thoại đăng ký bằng đúng số điện thoại đặt hàng, kh vẫn đc quản lý, xem thông tin chỉnh sửa đơn hàng đó
+
+    Đối kh đã đăng nhập trước khi đặt hàng, có khách 1 chút là người dùng nhập thông tin giao hàng và thông tin đó có thể được lưu lại để lần sau kh có thể chọn thông tin giao hàng nhanh chóng,
+
+    Khách hàng có thể chỉnh sửa thông tin hoặc hủy cho nhưngx đơn hàng chưa xác nhận hoặc đã dc xác nhận nhưng chưa chưa vận chuyển, các tt như địa chỉ giao hàng, tên, sdt người nhận trong trang Order của Account, phí ship mới sẽ được tính nếu khách hàng thay đổi đc giao hàng, tuy nhiên đvvc và ptvc ko thể thay đổi, Coupon cũng ko thể thêm hay đổi
+    Đối với đơn hàng đã thanh toán bằng Paypal, khách hàng không được thay đổi địa chỉ giao hàng hay hủy đơn hàng
+
+    Mangager là người sẽ cập nhật trạng thái cho đơn hàng
+    1 đh có 5 tt: unconfirm, confirm, cancel , delivery, finished, transaction fail
+
+    Manager cập nhập trạng thái đơn hàng theo từng giai đoạn: đh unconfirm => confirm or delivery,
+    Delivery => finished or tf
+
+Sau khi đơn hàng giao thành công, đối với đh của khách hàng chưa đăng nhập, đánh giá Sản phẩm sẽ tự tạo với đánh giá 5 sao, với kh đã đăng nhập, một notification dẫn đến trang feedback sẽ được gửi đến cho khách hàng, khách hàng tạo comment đánh giá và đánh giá sao cho từng sản phẩm trong trang feedback này.
+
+3. Comment & Rank sản phẩm đánh giá của sản phẩm sẽ được tính dựa theo lượt đánh giá của các khách hàng đã mua sản phẩm đó
+Comment có lượi đánh giá sẽ không được sửa lại
+
+4 Voucher, mã khuyến mãi sẽ đc admin tạo vào giới hạn lượt dùng cho mỗi khách hàng
+Người dùng nhận mã trong trang notification Modal coupon hiện thị mã của coupon và thông tin như lượt dùng của mã
+Đối với đh đã bị hủy nhưng có mã coupon, lượt dùng mã coupon đó sẽ không được tính
+
+5 Compare sản phẩm, khách hàng có thể thêm, xóa ds sản phẩm trong ds so sánh, tối đa của danh sách so sánh là 3 sản phẩm 1 lượt
+
+6 Message
+Khách hàng đã đăng nhập có thể chat nhanh với admin, hoặc manager,
+Khách hàng hoặc admin manager , có thể thêm đường link đến sản phẩm trong message, bằng cách nhập @ và tên sản phẩm
+
+Khi 1 tin nhắn được 1 admin  hoặc manager trả lời, tin nhắn chờ đó sẽ không hiện thị với tài khoản admin hoặc manager khác
+Admin, manager có thể đóng các tin nhắn không phải tin nhắn chờ
+Tin nhắn chờ là tin nhắn nhanh, chưa được reply của khách hàng
+
+7 Wishlist 
+Khách hàng có thể lưu sản phẩm mình yêu thích để tiện cho các lần order tiếp theo bằng cách thêm sản phẩm vào wishlist, 
+Trong trang wishlist sẽ lưu cả những sản phẩm Sold out hoặc sản phẩm không còn bán, nếu khách hàng muốn mua hay hỏi về sản phẩm đó có thể nhấp vào Contact để mail về freshshop, khách hàng có thể thêm 1 hoặc nhiều sản phẩm từ wishlist vào giỏ hàng
+Sau khi order danh sách sản phẩm trong giỏ hàng hiện tại sẽ không còn nhưng danh sách wishlist vẫn tồn tại để khách hàng dễ tìm lại các sp yêu thích của mình
+
+

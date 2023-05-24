@@ -37,13 +37,17 @@ class AdminCategoryController extends Controller
 
     public function create()
     {
+        
         return view('admin.pages.Categories.create');
     }
 
     public function store(Request $request)
     {
         $item = $request->all();
-
+        $check = count(TypeProduct::where('type','=',$request['type'])->get());
+        if($check >0){
+            return redirect()->back()->with('error','Category exited');
+        }
         if ($request->hasFile('photo')) { // kiểm tra xem có file hình tồn tại chưa
             $file = $request->file('photo');
             $ext = $file->getClientOriginalExtension();
@@ -74,6 +78,10 @@ class AdminCategoryController extends Controller
     public function update(Request $request, $id_type)
     {
         $cats = TypeProduct::findOrFail($id_type);
+        $check = count(TypeProduct::where('type','=',$request['type'])->get());
+        if($check >0){
+            return redirect()->back()->with('error','Category exited');
+        }
         $cats->type = $request->input('type');
         $cats->created_at = $request->input('created_at');
         $cats->status = $request->input('status');

@@ -203,11 +203,9 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row pb-5">
-                            <div class="col-auto mx-auto">
+                        
                                 {{ $orders->links('user.pagination.cus_pagination') }}
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

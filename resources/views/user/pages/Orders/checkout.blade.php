@@ -40,11 +40,8 @@
                           data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
                           <i class="feather-icon icon-map-pin me-2 text-muted"></i>Add delivery address
                         </a>
-                        {{-- <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                          data-bs-target="#addAddressModal">Add a new address </a> --}}
                       </div>
-                      <div id="flush-collapseOne" class="accordion-collapse collapse show"
-                      data-bs-parent="#accordionFlushExample">
+                      <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
                         <div class="mt-5">
                           <div class="row" id="listAddress">
                             @if (count($address)>0)

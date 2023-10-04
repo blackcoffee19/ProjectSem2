@@ -83,8 +83,8 @@
                         </div>
                         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
                             <div class="mb-lg-9 mb-5">
-                                <h1 class="mb-1 h2 fw-bold">Get Start Shopping</h1>
-                                <p>Welcome to FreshCart! Enter your email to get started.</p>
+                                <h1 class="mb-1 h2 fw-bold">Sign up</h1>
+                                <p>Welcome to FreshCart! Let's sign to be our member.</p>
                             </div>
                             <form class="{{ route('signup') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -105,6 +105,15 @@
                                         <div class="password-field position-relative">
                                             <input type="password" id="fakePassword" placeholder="Enter Password"
                                                 class="form-control" name="register_password" required>
+                                            <span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
+                                        </div>
+                                        <span id="register_password" class="text-danger">
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="password-field position-relative">
+                                            <input type="password"  placeholder="Re-Enter Password"
+                                                class="form-control" name="re-register_password" required>
                                             <span><i id="passwordToggler"class="bi bi-eye-slash"></i></span>
                                         </div>
                                         <span id="register_password" class="text-danger">

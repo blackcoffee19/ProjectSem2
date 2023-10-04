@@ -301,38 +301,38 @@
                                     </div>
                                 @endif
                                 @if(!Auth::check() || Auth::user()->admin == '0')
-                                        <div class="list-inline-item">
+                                <div class="list-inline-item">
 
-                                            <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
-                                                role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
-                                                aria-controls="offcanvasRight">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-shopping-bag">
-                                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                                    <line x1="3" y1="6" x2="21" y2="6">
-                                                    </line>
-                                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                                </svg>
-                                                <span
-                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                                    @if (Auth::check())
-                                                        <span class="fw-bold countCart">
-                                                            {{ count(Auth::user()->Cart->where('order_code', '=', null)) }}
-                                                        </span>
-                                                    @endif
-                                                    @if (Session::has('cart'))
-                                                        <span class="fw-bold countCart">{{ count(Session::get('cart')) }}
-                                                        </span>
-                                                    @endif
-                                                    @if (!Auth::check() && !Session::has('cart'))
-                                                        <span class="fw-bold countCart">0</span>
-                                                    @endif
+                                    <a class="text-muted position-relative btn_showcart" href="#offcanvasExample"
+                                        role="button" data-bs-target="#offcanvasRight" data-bs-toggle="offcanvas"
+                                        aria-controls="offcanvasRight">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-shopping-bag">
+                                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                            <line x1="3" y1="6" x2="21" y2="6">
+                                            </line>
+                                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                        </svg>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                            @if (Auth::check())
+                                                <span class="fw-bold countCart">
+                                                    {{ count(Auth::user()->Cart->where('order_code', '=', null)) }}
                                                 </span>
-                                            </a>
-                                        </div>
-                                        @endif
+                                            @endif
+                                            @if (Session::has('cart'))
+                                                <span class="fw-bold countCart">{{ count(Session::get('cart')) }}
+                                                </span>
+                                            @endif
+                                            @if (!Auth::check() && !Session::has('cart'))
+                                                <span class="fw-bold countCart">0</span>
+                                            @endif
+                                        </span>
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                             <!-- Button -->
                             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"

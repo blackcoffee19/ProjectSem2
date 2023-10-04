@@ -1,3 +1,7 @@
+systemctl start httpd && systemctl start mysql
+php artisan migrate
+php artisan db:seed
+
 1. Cart - giỏ hàng
 
 Có 3 cách thêm 1 sản phẩm vào giỏ hàng
@@ -16,7 +20,7 @@ Chỉ khách hàng là memmber, đã sign in mới có thể thêm Coupon
 2. Sau khi kiểm tra danh sách sản phẩm trong giỏ hàng, khách hàng sẽ nhấn nut Buy Now để bắt đầu nhập thông tin giao hàng và hoàn thành đơn hàng
 
     Đối với khách hàng chưa đăng nhập:
-        + Khách hàng điền thông tin mới có thể hoàn thành đơn hàng: địa chỉ giao hàng, người nhận, số điện thoại đặt hàng và địa chỉ email để khi Freshshop xác nhận và đã gửi cho đơn 
+        + Khách hàng điền thông tin mới có thể hoàn thành đơn hàng: địa chỉ giao hàng, người nhận, số điện thoại đặt hàng và địa chỉ email để khi Freshshop xác nhận và đã gửi cho đơn
         vị vận chuyển, thông tin đơn hàng sẽ gửi đến cho khách hàng qua mail, khách hàng có thể thêm ghi chú cho đơn hàng
         + Phí ship sẽ được tính sau khi khách hàng chọn đầy đủ tỉnh thành xã, cho đơn hàng
         + Khách hàng có thể chọn đơn vị vận chuyển và phương thức vận chuyển cho đơn hàng
@@ -54,8 +58,8 @@ Khi 1 tin nhắn được 1 admin  hoặc manager trả lời, tin nhắn chờ 
 Admin, manager có thể đóng các tin nhắn không phải tin nhắn chờ
 Tin nhắn chờ là tin nhắn nhanh, chưa được reply của khách hàng
 
-7 Wishlist 
-Khách hàng có thể lưu sản phẩm mình yêu thích để tiện cho các lần order tiếp theo bằng cách thêm sản phẩm vào wishlist, 
+7 Wishlist
+Khách hàng có thể lưu sản phẩm mình yêu thích để tiện cho các lần order tiếp theo bằng cách thêm sản phẩm vào wishlist,
 Trong trang wishlist sẽ lưu cả những sản phẩm Sold out hoặc sản phẩm không còn bán, nếu khách hàng muốn mua hay hỏi về sản phẩm đó có thể nhấp vào Contact để mail về freshshop, khách hàng có thể thêm 1 hoặc nhiều sản phẩm từ wishlist vào giỏ hàng
 Sau khi order danh sách sản phẩm trong giỏ hàng hiện tại sẽ không còn nhưng danh sách wishlist vẫn tồn tại để khách hàng dễ tìm lại các sp yêu thích của mình
 

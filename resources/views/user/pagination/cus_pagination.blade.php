@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="pagination py-3 pagination-cus col-6 mx-auto">
+        <div class="pagination py-3 pagination-cus col-8 mx-auto">
             @if ($paginator->hasPages())
                 <ul class="list-unstyled p-0 m-0">
                     @if ($paginator->onFirstPage())
